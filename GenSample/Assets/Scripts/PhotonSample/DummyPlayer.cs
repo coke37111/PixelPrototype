@@ -7,29 +7,39 @@ using UnityEngine;
 public class DummyPlayer : MonoBehaviour
 {
     private Player _player;
+    private PhotonView _photonView;
 
+    public PhotonView PhotonView
+    {
+        get
+        {
+            if (_photonView == null)
+                _photonView = GetComponent<PhotonView>();
+            return _photonView;
+        }
+    }
     public Player Player 
     { 
         get => _player; 
         set
         {
             _player = value;
-            _photonView.ViewID = _player.ActorNumber;
+            PhotonView.ViewID = _player.ActorNumber;
         }
     }
-    private PhotonView _photonView;
+    
     public const float _moveSpeed = 100.0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        _photonView = GetComponent<PhotonView>();        
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_photonView.AmOwner == false)
+        if (PhotonView.AmOwner == false)
             return;
 
         Vector3 delta = Vector3.zero;
