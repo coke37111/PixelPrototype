@@ -12,9 +12,9 @@ public class DummyPlayer : MonoBehaviour
     public PhotonView PhotonView
     {
         get
-        {
+        {            
             if (_photonView == null)
-                _photonView = GetComponent<PhotonView>();
+                _photonView = gameObject.AddComponent<PhotonView>();
             return _photonView;
         }
     }
