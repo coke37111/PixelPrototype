@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DummyPlayer : MonoBehaviour
+public class DummyPlayer : MonoBehaviour, IPunInstantiateMagicCallback
 {
     private Player _player;
     private PhotonView _photonView;
@@ -14,7 +14,8 @@ public class DummyPlayer : MonoBehaviour
         get
         {            
             if (_photonView == null)
-                _photonView = gameObject.AddComponent<PhotonView>();
+                _photonView = gameObject.GetComponent<PhotonView>();
+            
             return _photonView;
         }
     }
@@ -24,7 +25,7 @@ public class DummyPlayer : MonoBehaviour
         set
         {
             _player = value;
-            PhotonView.ViewID = _player.ActorNumber;
+            //PhotonView.ViewID = _player.ActorNumber;
         }
     }
     
@@ -55,4 +56,9 @@ public class DummyPlayer : MonoBehaviour
         transform.position += delta;
     }
 
+    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    {        
+        info.photonView.transform.SetParent(GameObject.FindObjectOfType<Canvas>().transform);
+        info.photonView.transform.localPosition = Vector3.zero;
+    }
 }
