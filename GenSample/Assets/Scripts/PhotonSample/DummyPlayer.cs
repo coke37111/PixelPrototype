@@ -39,7 +39,7 @@ public class DummyPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PhotonView.AmOwner == false)
+        if (PhotonView.Owner != PhotonNetwork.LocalPlayer)
             return;
 
         Vector3 delta = Vector3.zero;
