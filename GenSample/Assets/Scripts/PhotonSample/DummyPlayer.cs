@@ -6,15 +6,24 @@ using UnityEngine;
 
 public class DummyPlayer : MonoBehaviour
 {
-    public Player Player { get; set; }
+    private Player _player;
+
+    public Player Player 
+    { 
+        get => _player; 
+        set
+        {
+            _player = value;
+            _photonView.ViewID = Player.ActorNumber;
+        }
+    }
     private PhotonView _photonView;
     public const float _moveSpeed = 100.0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        _photonView = GetComponent<PhotonView>();
-        _photonView.ViewID = Player.ActorNumber;
+        _photonView = GetComponent<PhotonView>();        
     }
 
     // Update is called once per frame
