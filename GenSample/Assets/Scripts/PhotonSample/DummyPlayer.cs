@@ -14,6 +14,7 @@ public class DummyPlayer : MonoBehaviour
     void Start()
     {
         _photonView = GetComponent<PhotonView>();
+        _photonView.ViewID = Player.ActorNumber;
     }
 
     // Update is called once per frame
