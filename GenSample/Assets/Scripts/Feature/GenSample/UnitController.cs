@@ -17,6 +17,9 @@ namespace Assets.Scripts.Feature.GenSample
                 if(Physics.Raycast(ray, out hit, 10000f))
                 {
                     targetPos = hit.point;
+                    
+                    isLeftDir = targetPos.x <= transform.position.x;
+                    SetDir();
                 }
             }
 
