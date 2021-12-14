@@ -14,7 +14,7 @@ public class DummyPlayer : MonoBehaviour
         set
         {
             _player = value;
-            _photonView.ViewID = Player.ActorNumber;
+            _photonView.ViewID = _player.ActorNumber;
         }
     }
     private PhotonView _photonView;
