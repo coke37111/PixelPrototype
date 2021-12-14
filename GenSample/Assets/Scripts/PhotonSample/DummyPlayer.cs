@@ -36,6 +36,9 @@ public class DummyPlayer : MonoBehaviour, IPunInstantiateMagicCallback
     {        
         info.photonView.transform.SetParent(GameObject.FindObjectOfType<Canvas>().transform);
         info.photonView.transform.localPosition = Vector3.zero;
-        GetComponent<Image>().color = (Color)info.photonView.InstantiationData[0];
+        var r = (float)info.photonView.InstantiationData[0];
+        var g = (float)info.photonView.InstantiationData[1];
+        var b = (float)info.photonView.InstantiationData[2];
+        GetComponent<Image>().color = new Color(r, g, b);
     }
 }
