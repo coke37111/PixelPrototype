@@ -21,13 +21,23 @@ namespace Assets.Scripts.Feature.GenSample
         private Vector3 spawnPos;
         private Vector3 targetPos;
 
-        public SpriteRenderer srHead;
-        public SpriteRenderer srBody;
+        public SpriteRenderer srHair2;
+        public SpriteRenderer srSkin;
+        public SpriteRenderer srHair1;
+        public SpriteRenderer srCos;
+        public SpriteRenderer srHat;
+        public SpriteRenderer srWpShild;
+        public SpriteRenderer srWp;
 
         public void Init()
         {
-            srHead.sprite = SetSprite("Image/Unit/Head");
-            srBody.sprite = SetSprite("Image/Unit/Body");
+            srHair2.sprite = SetSprite("Image/Unit/human_m/imgs/hair2");
+            srSkin.sprite = SetSprite("Image/Unit/human_m/imgs/skin");
+            srHair1.sprite = SetSprite("Image/Unit/human_m/imgs/hair1");
+            srCos.sprite = SetSprite("Image/Unit/human_m/imgs/cos");
+            srHat.sprite = SetSprite("Image/Unit/human_m/imgs/hat");
+            srWpShild.sprite = SetSprite("Image/Unit/human_m/imgs/wp_shild");
+            srWp.sprite = SetSprite("Image/Unit/human_m/imgs/wp_1");
 
             unitState = UNIT_STATE.IDLE;
             curIdleTime = GetIdleTime();
@@ -44,7 +54,7 @@ namespace Assets.Scripts.Feature.GenSample
                     {
                         if (idleDelay >= curIdleTime)
                         {
-                            targetPos = transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f);
+                            targetPos = transform.position + new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f, 1f));
                             unitState = UNIT_STATE.MOVE;
 
                             idleDelay = 0f;
@@ -103,9 +113,9 @@ namespace Assets.Scripts.Feature.GenSample
             return resultSprite;
         }
 
-        public void ResetSpawnPos(float posX, float posY)
+        public void ResetSpawnPos(float posX, float posZ)
         {
-            spawnPos = new Vector3(posX, posY, 0f);
+            spawnPos = new Vector3(posX, 0f, posZ);
             transform.position = spawnPos;
 
             unitState = UNIT_STATE.IDLE;
@@ -122,8 +132,13 @@ namespace Assets.Scripts.Feature.GenSample
 
         public void SetDir()
         {
-            srHead.flipX = !isLeftDir;
-            srBody.flipX = !isLeftDir;
+            srHair2.flipX = !isLeftDir;
+            srSkin.flipX = !isLeftDir;
+            srHair1.flipX = !isLeftDir;
+            srCos.flipX = !isLeftDir;
+            srHat.flipX = !isLeftDir;
+            srWpShild.flipX = !isLeftDir;
+            srWp.flipX = !isLeftDir;
         }
     }
 }

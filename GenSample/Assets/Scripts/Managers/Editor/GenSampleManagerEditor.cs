@@ -17,14 +17,14 @@ namespace Assets.Scripts.Managers
             Handles.color = Color.red;
             
             Handles.DrawLines(new Vector3[]{
-                new Vector3(-spawnArea.x, -spawnArea.y),
-                new Vector3(-spawnArea.x, spawnArea.y),
-                new Vector3(-spawnArea.x, spawnArea.y),
-                new Vector3(spawnArea.x, spawnArea.y),
-                new Vector3(spawnArea.x, spawnArea.y),
-                new Vector3(spawnArea.x, -spawnArea.y),
-                new Vector3(spawnArea.x, -spawnArea.y),
-                new Vector3(-spawnArea.x, -spawnArea.y),
+                new Vector3(-spawnArea.x, 0f, -spawnArea.y),
+                new Vector3(-spawnArea.x, 0f, spawnArea.y),
+                new Vector3(-spawnArea.x, 0f, spawnArea.y),
+                new Vector3(spawnArea.x, 0f, spawnArea.y),
+                new Vector3(spawnArea.x, 0f, spawnArea.y),
+                new Vector3(spawnArea.x, 0f, -spawnArea.y),
+                new Vector3(spawnArea.x, 0f, -spawnArea.y),
+                new Vector3(-spawnArea.x, 0f, -spawnArea.y),
             });
 
             Handles.color = Color.cyan;

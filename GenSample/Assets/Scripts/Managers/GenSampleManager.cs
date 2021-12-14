@@ -14,7 +14,7 @@ namespace Assets.Scripts.Managers
         public int unitGenCount = 1;
 
         private Vector2 spawnAreaX; // min, max
-        private Vector2 spawnAreaY; // min, max
+        private Vector2 spawnAreaZ; // min, max
         [Range(0f, 1f)]
         public float spawnRange;
 
@@ -28,7 +28,7 @@ namespace Assets.Scripts.Managers
             Log.Print(spawnArea);
 
             spawnAreaX = new Vector2(-spawnArea.x, spawnArea.x);
-            spawnAreaY = new Vector2(-spawnArea.y, spawnArea.y);
+            spawnAreaZ = new Vector2(-spawnArea.y, spawnArea.y);
 
             DestroyAllMob();
             GenerateMob();
@@ -117,9 +117,9 @@ namespace Assets.Scripts.Managers
             foreach (Unit unit in unitList)
             {
                 float spawnX = Random.Range(spawnAreaX.x, spawnAreaX.y);
-                float spawnY = Random.Range(spawnAreaY.x, spawnAreaY.y);
+                float spawnZ = Random.Range(spawnAreaZ.x, spawnAreaZ.y);
 
-                unit.ResetSpawnPos(spawnX, spawnY);
+                unit.ResetSpawnPos(spawnX, spawnZ);
             }
         }
     }
