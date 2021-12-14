@@ -3,41 +3,17 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DummyPlayer : MonoBehaviour, IPunInstantiateMagicCallback
 {
-    private Player _player;
-    private PhotonView _photonView;
-
     public PhotonView PhotonView
     {
-        get
-        {            
-            if (_photonView == null)
-                _photonView = gameObject.GetComponent<PhotonView>();
-            
-            return _photonView;
-        }
+        get => gameObject.GetComponent<PhotonView>();
     }
-    public Player Player 
-    { 
-        get => _player; 
-        set
-        {
-            _player = value;
-            //PhotonView.ViewID = _player.ActorNumber;
-        }
-    }
-    
+
     public const float _moveSpeed = 100.0f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (PhotonView.Owner != PhotonNetwork.LocalPlayer)
@@ -60,5 +36,6 @@ public class DummyPlayer : MonoBehaviour, IPunInstantiateMagicCallback
     {        
         info.photonView.transform.SetParent(GameObject.FindObjectOfType<Canvas>().transform);
         info.photonView.transform.localPosition = Vector3.zero;
+        GetComponent<Image>().color = (Color)info.photonView.InstantiationData[0];
     }
 }
