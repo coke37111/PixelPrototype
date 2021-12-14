@@ -19,7 +19,7 @@ namespace Assets.Scripts.Feature.GenSample
 
         protected bool isLeftDir;
         private Vector3 spawnPos;
-        private Vector3 targetPos;
+        protected Vector3 targetPos;
 
         public SpriteRenderer srHair2;
         public SpriteRenderer srSkin;

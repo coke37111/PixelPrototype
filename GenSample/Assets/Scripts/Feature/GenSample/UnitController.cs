@@ -1,38 +1,28 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Util;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.Feature.GenSample
 {
     public class UnitController : Unit
     {
-        public float speed = 1f;
+        public float speed = 1f;        
 
         protected override void Update()
         {
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                transform.Translate(Vector3.left * speed * Time.deltaTime, Space.World);
-                
-                isLeftDir = true;
-                SetDir();
+            if (Input.GetMouseButtonUp(1))
+            {                
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if(Physics.Raycast(ray, out hit, 10000f))
+                {
+                    targetPos = hit.point;
+                }
             }
 
-            if (Input.GetKey(KeyCode.RightArrow))
+            if(Vector3.Distance(transform.position, targetPos) > .1f)
             {
-                transform.Translate(Vector3.right * speed * Time.deltaTime, Space.World);
-
-                isLeftDir = false;
-                SetDir();
-            }
-            
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.World);
-            }
-            
-            if (Input.GetKey(KeyCode.DownArrow))
-            {
-                transform.Translate(Vector3.back * speed * Time.deltaTime, Space.World);
+                transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetPos.x, 0f, targetPos.z), Time.deltaTime * speed);
             }
         }
     }
