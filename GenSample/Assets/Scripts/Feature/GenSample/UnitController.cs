@@ -58,7 +58,7 @@ namespace Assets.Scripts.Feature.GenSample
 
             if (Input.GetKeyDown(KeyCode.Space) && canJump)
             {
-                RaiseEvent(EventCodeType.Jump);
+                RaiseEvent(EventCodeType.Jump, new object[] { photonView.ViewID });
             }
             
             if (Vector3.Distance(transform.position, targetPos) > .1f)
@@ -98,6 +98,11 @@ namespace Assets.Scripts.Feature.GenSample
 
         public void OnEvent(EventData photonEvent)
         {
+            object[] data = (object[])photonEvent.CustomData;
+            int senderViewId = (int)data[0];
+            if (photonView.ViewID != senderViewId)
+                return;
+
             EventCodeType eventCodeType = (EventCodeType)photonEvent.Code;
 
             switch (eventCodeType)
