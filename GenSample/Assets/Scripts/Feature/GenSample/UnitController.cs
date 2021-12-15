@@ -58,7 +58,7 @@ namespace Assets.Scripts.Feature.GenSample
 
             if (Input.GetKeyDown(KeyCode.Space) && canJump)
             {
-                RaiseEvent(EventCodeType.Jump, new object[] { photonView.ViewID });
+                RaiseEvent(EventCodeType.Jump);
             }
             
             if (Vector3.Distance(transform.position, targetPos) > .1f)
@@ -79,11 +79,14 @@ namespace Assets.Scripts.Feature.GenSample
             }
         }
 
-        private void RaiseEvent(EventCodeType eventCodeType, object[] content = null)
+        private void RaiseEvent(EventCodeType eventCodeType, params object[] objs)
         {
+            List<object> content = new List<object>() { photonView.ViewID };
+            content.AddRange(objs);
+
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             SendOptions sendOptions = new SendOptions { Reliability = true };
-            PhotonNetwork.RaiseEvent((byte)eventCodeType, content, raiseEventOptions, sendOptions);
+            PhotonNetwork.RaiseEvent((byte)eventCodeType, content.ToArray(), raiseEventOptions, sendOptions);
         }
 
         public void OnPhotonInstantiate(PhotonMessageInfo info)
@@ -99,21 +102,24 @@ namespace Assets.Scripts.Feature.GenSample
         public void OnEvent(EventData photonEvent)
         {
             object[] data = (object[])photonEvent.CustomData;
-            int senderViewId = (int)data[0];
-            if (photonView.ViewID != senderViewId)
-                return;
-
-            EventCodeType eventCodeType = (EventCodeType)photonEvent.Code;
-
-            switch (eventCodeType)
+            if(data != null)
             {
-                case EventCodeType.Jump:
-                    {
-                        canJump = false;
-                        GetComponent<Rigidbody>().AddForce(Vector3.up * 100f);
-                        break;
-                    }
-            }
+                int senderViewId = (int)data[0];
+                if (photonView.ViewID != senderViewId)
+                    return;
+
+                EventCodeType eventCodeType = (EventCodeType)photonEvent.Code;
+
+                switch (eventCodeType)
+                {
+                    case EventCodeType.Jump:
+                        {
+                            canJump = false;
+                            GetComponent<Rigidbody>().AddForce(Vector3.up * 100f);
+                            break;
+                        }
+                }
+            } 
         }
     }
 }
