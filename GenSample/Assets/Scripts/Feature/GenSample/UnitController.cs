@@ -19,6 +19,8 @@ namespace Assets.Scripts.Feature.GenSample
 
         public PhotonView photonView;
 
+        private bool canJump = true;
+
         public void OnEnable()
         {
             PhotonNetwork.AddCallbackTarget(this);
@@ -27,6 +29,13 @@ namespace Assets.Scripts.Feature.GenSample
         public void OnDisable()
         {
             PhotonNetwork.RemoveCallbackTarget(this);
+        }
+
+        public override void Init()
+        {
+            base.Init();
+
+            canJump = true;
         }
 
         protected override void Update()
@@ -47,7 +56,7 @@ namespace Assets.Scripts.Feature.GenSample
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && canJump)
             {
                 RaiseEvent(EventCodeType.Jump);
             }
@@ -55,6 +64,18 @@ namespace Assets.Scripts.Feature.GenSample
             if (Vector3.Distance(transform.position, targetPos) > .1f)
             {
                 transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetPos.x, transform.position.y, targetPos.z), Time.deltaTime * speed);
+            }
+
+            if(!canJump && GetComponent<Rigidbody>().velocity.y <= 0f)
+            {
+                RaycastHit hit;
+                if(Physics.Raycast(transform.position, Vector3.down, out hit, .25f))
+                {
+                    if(hit.collider.tag == "Ground")
+                    {
+                        canJump = true;
+                    }
+                }
             }
         }
 
@@ -83,6 +104,7 @@ namespace Assets.Scripts.Feature.GenSample
             {
                 case EventCodeType.Jump:
                     {
+                        canJump = false;
                         GetComponent<Rigidbody>().AddForce(Vector3.up * 100f);
                         break;
                     }

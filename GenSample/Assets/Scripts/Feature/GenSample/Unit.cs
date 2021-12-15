@@ -31,7 +31,7 @@ namespace Assets.Scripts.Feature.GenSample
         public SpriteRenderer srWpShild;
         public SpriteRenderer srWp;
 
-        public void Init()
+        public virtual void Init()
         {
             unitState = UNIT_STATE.IDLE;
             curIdleTime = GetIdleTime();
