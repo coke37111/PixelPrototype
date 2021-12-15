@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.Managers;
+using Photon.Pun;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Feature.GenSample
@@ -31,14 +33,6 @@ namespace Assets.Scripts.Feature.GenSample
 
         public void Init()
         {
-            srHair2.sprite = SetSprite("Image/Unit/human_m/imgs/hair2");
-            srSkin.sprite = SetSprite("Image/Unit/human_m/imgs/skin");
-            srHair1.sprite = SetSprite("Image/Unit/human_m/imgs/hair1");
-            srCos.sprite = SetSprite("Image/Unit/human_m/imgs/cos");
-            srHat.sprite = SetSprite("Image/Unit/human_m/imgs/hat");
-            srWpShild.sprite = SetSprite("Image/Unit/human_m/imgs/wp_shild");
-            srWp.sprite = SetSprite("Image/Unit/human_m/imgs/wp_1");
-
             unitState = UNIT_STATE.IDLE;
             curIdleTime = GetIdleTime();
 
@@ -95,22 +89,52 @@ namespace Assets.Scripts.Feature.GenSample
             return Random.Range(0f, MAX_IDLE_TIME);
         }
 
-        private static Sprite SetSprite(string path)
+        public void SetSprite(Dictionary<string, string> unitPartList)
         {
-            Sprite resultSprite = null;
-
-            Sprite[] loadedSprite = ResourceManager.LoadAssets<Sprite>(path);
-
-            for (int i = 0; i < loadedSprite.Length; i++)
+            foreach (string unitPartName in unitPartList.Keys)
             {
-                if (Random.Range(0f, 1f) > .5f || i == loadedSprite.Length - 1)
+                string resPath = unitPartList[unitPartName];
+
+                Sprite resultSprite = ResourceManager.LoadAsset<Sprite>(resPath);
+                switch (unitPartName)
                 {
-                    resultSprite = loadedSprite[i];
-                    break;
+                    case "cos":
+                        {
+                            srCos.sprite = resultSprite;
+                            break;
+                        }
+                    case "hair1":
+                        {
+                            srHair1.sprite = resultSprite;
+                            break;
+                        }
+                    case "hair2":
+                        {
+                            srHair2.sprite = resultSprite;
+                            break;
+                        }
+                    case "skin":
+                        {
+                            srSkin.sprite = resultSprite;
+                            break;
+                        }
+                    case "hat":
+                        {
+                            srHat.sprite = resultSprite;
+                            break;
+                        }
+                    case "wp_1":
+                        {
+                            srWp.sprite = resultSprite;
+                            break;
+                        }
+                    case "wp_shild":
+                        {
+                            srWpShild.sprite = resultSprite;
+                            break;
+                        }
                 }
             }
-
-            return resultSprite;
         }
 
         public void ResetSpawnPos(float posX, float posZ)
