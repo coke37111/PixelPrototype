@@ -1,0 +1,4 @@
+Unicode Range (Hex)
+Chracter Sequence (Hex)
+
+0080-00FF,0100-024F,1E00-1EFF,0300-036F

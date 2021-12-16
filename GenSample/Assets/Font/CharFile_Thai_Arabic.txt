@@ -1,0 +1,7 @@
+Unicode Range (Hex)
+Chracter Sequence (Hex)
+E00-E7F
+
+Unicode Range (Hex)
+Chracter Sequence (Hex)
+600-6FF,750-77F,8A0-8FF,FB50-FDFF,FE70-FEFF,10E60-10E7F,1EE00-1EEFF
