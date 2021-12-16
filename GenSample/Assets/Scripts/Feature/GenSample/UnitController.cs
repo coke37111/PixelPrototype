@@ -1,7 +1,9 @@
-﻿using ExitGames.Client.Photon;
+﻿using Assets.Scripts.Util;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.Feature.GenSample
@@ -101,25 +103,23 @@ namespace Assets.Scripts.Feature.GenSample
 
         public void OnEvent(EventData photonEvent)
         {
-            object[] data = (object[])photonEvent.CustomData;
-            if(data != null)
+            EventCodeType eventCodeType = (EventCodeType)photonEvent.Code;
+
+            switch (eventCodeType)
             {
-                int senderViewId = (int)data[0];
-                if (photonView.ViewID != senderViewId)
-                    return;
+                case EventCodeType.Jump:
+                    {
+                        object[] data = (object[])photonEvent.CustomData;
+                        int senderViewId = (int)data[0];
 
-                EventCodeType eventCodeType = (EventCodeType)photonEvent.Code;
+                        if (photonView.ViewID != senderViewId)
+                            return;
 
-                switch (eventCodeType)
-                {
-                    case EventCodeType.Jump:
-                        {
-                            canJump = false;
-                            GetComponent<Rigidbody>().AddForce(Vector3.up * 100f);
-                            break;
-                        }
-                }
-            } 
+                        canJump = false;
+                        GetComponent<Rigidbody>().AddForce(Vector3.up * 100f);
+                        break;
+                    }
+            }
         }
     }
 }
