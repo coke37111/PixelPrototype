@@ -7,6 +7,6 @@ namespace Assets.Scripts.System
     public class RoomSettings : MonoBehaviour
     {
         public static Room room;
-        public static bool isMater;
+        public static bool isMaster;
     }
 }

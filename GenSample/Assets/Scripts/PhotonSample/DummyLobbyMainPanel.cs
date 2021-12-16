@@ -77,20 +77,17 @@ namespace Photon.Pun.Demo.Asteroids
             Room curRoom = RoomSettings.room;
             if(curRoom != null)
             {
-                Log.Print($"isMaster = {RoomSettings.isMater}");
+                Log.Print($"isMaster = {RoomSettings.isMaster}");
                 
-                if(RoomSettings.isMater)
+                if(RoomSettings.isMaster)
                 {
                     RoomOptions options = new RoomOptions { MaxPlayers = curRoom.MaxPlayers, PlayerTtl = 10000 };
                     PhotonNetwork.CreateRoom(curRoom.Name, options, null);
                 }
                 else
-                {
+                {                    
                     PhotonNetwork.JoinRoom(curRoom.Name);
                 }
-
-                RoomSettings.room = null;
-                RoomSettings.isMater = false;
                 return;
             }
             
@@ -121,11 +118,25 @@ namespace Photon.Pun.Demo.Asteroids
 
         public override void OnCreateRoomFailed(short returnCode, string message)
         {
+            Room curRoom = RoomSettings.room;
+            if (curRoom != null && RoomSettings.isMaster)
+            {
+                RoomOptions options = new RoomOptions { MaxPlayers = curRoom.MaxPlayers, PlayerTtl = 10000 };
+                PhotonNetwork.CreateRoom(curRoom.Name, options, null);
+                return;
+            }
+
             SetActivePanel(SelectionPanel.name);
         }
 
         public override void OnJoinRoomFailed(short returnCode, string message)
         {
+            if (!RoomSettings.isMaster)
+            {
+                PhotonNetwork.JoinRoom(RoomSettings.room.Name);
+                return;
+            }
+
             SetActivePanel(SelectionPanel.name);
         }
 
@@ -140,6 +151,9 @@ namespace Photon.Pun.Demo.Asteroids
 
         public override void OnJoinedRoom()
         {
+            RoomSettings.room = null;
+            RoomSettings.isMaster = false;
+
             // joining (or entering) a room invalidates any cached lobby room list (even if LeaveLobby was not called due to just joining a room)
             cachedRoomList.Clear();
 
@@ -306,6 +320,8 @@ namespace Photon.Pun.Demo.Asteroids
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
+
+            Log.Print($"{PhotonNetwork.CurrentRoom.Name}");
 
             PhotonNetwork.LoadLevel(GameSceneName);
         }

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Feature.GenSample;
 using Assets.Scripts.System;
 using Assets.Scripts.Util;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
@@ -29,6 +30,9 @@ namespace Assets.Scripts.Managers
             "human_l",
         };
 
+        public const string PLAYER_LIVES = "GenPlayerLives";
+        private const string PLAYER_LOADED_LEVEL = "GenPlayerLoadedLevel";
+
         public GameObject ground;
 
         [Header("- For View Test"), Space(10)]
@@ -44,16 +48,14 @@ namespace Assets.Scripts.Managers
         private Transform unitContainer;
         private bool isConnect = false;
 
+        private int lives;
+
         // Use this for initialization
         void Start()
         {
             isConnect = PhotonNetwork.IsConnected;
 
-            if (isConnect)
-            {
-                SpawnPlayer();
-            }
-            else
+            if (!isConnect)
             {
                 unitContainer = FindObjectOfType<UnitContainer>().transform;
 
@@ -62,6 +64,17 @@ namespace Assets.Scripts.Managers
                 DestroyAllMob();
                 GenerateMob();
                 ResetMobPos();
+            }
+            else
+            {
+                Hashtable props = new Hashtable
+                    {
+                        {PLAYER_LOADED_LEVEL, true},
+                        { PLAYER_LIVES, 1 }
+                    };
+                PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+                SpawnPlayer();
             }
         }
 
@@ -72,7 +85,15 @@ namespace Assets.Scripts.Managers
             {
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
-                    EndOfGame();
+                    object lives;
+                    if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(PLAYER_LIVES, out lives))
+                    {
+                        if ((int)lives > 0)
+                        {
+                            Hashtable props = new Hashtable() { { PLAYER_LIVES, 0 } };
+                            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+                        }
+                    }
                 }
             }
             else
@@ -103,20 +124,62 @@ namespace Assets.Scripts.Managers
             var data = new List<object>();            
             data.Add(GetSelectUnitPartDict());
 
-            PhotonNetwork.Instantiate(Path.Combine("Prefab", "Player"), new Vector3(0, 0, 0), Quaternion.identity, 0, data.ToArray());
+            PhotonNetwork.Instantiate(Path.Combine("Prefab", "Player"), new Vector3(0, 0, -1f), Quaternion.identity, 0, data.ToArray());
         }
 
-        private void EndOfGame()
+        private void CheckEndOfGame()
         {
-            if (PhotonNetwork.IsMasterClient)
+            bool allDestroyed = true;
+
+            foreach (Player p in PhotonNetwork.PlayerList)
             {
-                StopAllCoroutines();
+                object lives;
+                if (p.CustomProperties.TryGetValue(PLAYER_LIVES, out lives))
+                {
+                    if ((int)lives > 0)
+                    {
+                        allDestroyed = false;
+                        break;
+                    }
+                }
             }
 
-            RoomSettings.room = PhotonNetwork.CurrentRoom;
-            RoomSettings.isMater = PhotonNetwork.IsMasterClient;
-            
-            PhotonNetwork.LeaveRoom();
+            if (allDestroyed)
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    StopAllCoroutines();
+
+                    Log.Print($"otherCount={PhotonNetwork.PlayerListOthers.Length}");
+                    if (PhotonNetwork.PlayerListOthers.Length > 0)
+                        return;
+                }
+
+                RoomSettings.room = PhotonNetwork.CurrentRoom;
+                RoomSettings.isMaster = PhotonNetwork.IsMasterClient;
+
+                PhotonNetwork.LeaveRoom();
+            }
+        }
+
+        private bool CheckAllPlayerLoadedLevel()
+        {
+            foreach (Player p in PhotonNetwork.PlayerList)
+            {
+                object playerLoadedLevel;
+
+                if (p.CustomProperties.TryGetValue(PLAYER_LOADED_LEVEL, out playerLoadedLevel))
+                {
+                    if ((bool)playerLoadedLevel)
+                    {
+                        continue;
+                    }
+                }
+
+                return false;
+            }
+
+            return true;
         }
 
         #endregion
@@ -124,14 +187,9 @@ namespace Assets.Scripts.Managers
         #region PUN_CALLBACKS
 
         public override void OnLeftRoom()
-        {
+        {            
             UnityEngine.SceneManagement.SceneManager.LoadScene("PhotonLobbySample");
         }
-
-        //public override void OnDisconnected(DisconnectCause cause)
-        //{
-        //    PhotonNetwork.Disconnect();
-        //}
 
         public override void OnMasterClientSwitched(Player newMasterClient)
         {
@@ -141,6 +199,31 @@ namespace Assets.Scripts.Managers
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
             Log.Print($"{otherPlayer.ActorNumber} Left Room");
+            CheckEndOfGame();
+        }
+
+        public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+        {
+            if (changedProps.ContainsKey(PLAYER_LIVES))
+            {
+                CheckEndOfGame();
+            }
+
+            if (changedProps.ContainsKey(PLAYER_LOADED_LEVEL))
+            {
+                if (!CheckAllPlayerLoadedLevel())
+                {
+                    // not all players loaded yet. wait:
+                    Log.Print("Waiting for other players...");
+                }
+                else
+                {
+                    if(PhotonNetwork.LocalPlayer.ActorNumber == targetPlayer.ActorNumber)
+                    {
+                        Log.Print($"SpawnPlayer {targetPlayer.ActorNumber}");
+                    }
+                }
+            }
         }
 
         #endregion

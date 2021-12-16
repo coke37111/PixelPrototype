@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Util;
+﻿using Assets.Scripts.Managers;
+using Assets.Scripts.Util;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
@@ -45,6 +46,15 @@ namespace Assets.Scripts.Feature.GenSample
         {
             if (!photonView.IsMine)
                 return;
+
+            object lives;
+            if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(GenSampleManager.PLAYER_LIVES, out lives))
+            {
+                if ((int)lives <= 0)
+                {
+                    return;
+                }
+            }
 
             if (Input.GetMouseButtonUp(1))
             {                
@@ -95,11 +105,14 @@ namespace Assets.Scripts.Feature.GenSample
 
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
-            info.photonView.transform.SetParent(FindObjectOfType<UnitContainer>().transform);
+            PhotonView targetPv = info.photonView;
+            targetPv.transform.SetParent(FindObjectOfType<UnitContainer>().transform);
 
-            Dictionary<string, string> unitPartList = (Dictionary<string, string>)info.photonView.InstantiationData[0];
+            Dictionary<string, string> unitPartList = (Dictionary<string, string>)targetPv.InstantiationData[0];
             SetSprite(unitPartList);
 
+            targetPos = targetPv.transform.position;
+            
             Init();
         }
 
