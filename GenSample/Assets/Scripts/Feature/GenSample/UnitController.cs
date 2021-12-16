@@ -14,6 +14,7 @@ namespace Assets.Scripts.Feature.GenSample
 
         public enum EventCodeType
         {
+            Move,
             Jump,
         }
 
@@ -54,7 +55,8 @@ namespace Assets.Scripts.Feature.GenSample
                     targetPos = hit.point;
 
                     isLeftDir = targetPos.x <= transform.position.x;
-                    SetDir();
+
+                    RaiseEvent(EventCodeType.Move, isLeftDir);
                 }
             }
 
@@ -107,6 +109,18 @@ namespace Assets.Scripts.Feature.GenSample
 
             switch (eventCodeType)
             {
+                case EventCodeType.Move:
+                    {
+                        object[] data = (object[])photonEvent.CustomData;
+                        int senderViewId = (int)data[0];
+                        isLeftDir = (bool)data[1];
+
+                        if (photonView.ViewID != senderViewId)
+                            return;
+
+                        SetDir();
+                        break;
+                    }
                 case EventCodeType.Jump:
                     {
                         object[] data = (object[])photonEvent.CustomData;
