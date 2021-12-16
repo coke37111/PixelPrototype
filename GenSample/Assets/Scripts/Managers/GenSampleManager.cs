@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Feature.GenSample;
+using Assets.Scripts.System;
 using Assets.Scripts.Util;
 using Photon.Pun;
 using Photon.Realtime;
@@ -112,6 +113,9 @@ namespace Assets.Scripts.Managers
                 StopAllCoroutines();
             }
 
+            RoomSettings.room = PhotonNetwork.CurrentRoom;
+            RoomSettings.isMater = PhotonNetwork.IsMasterClient;
+            
             PhotonNetwork.LeaveRoom();
         }
 
@@ -119,15 +123,15 @@ namespace Assets.Scripts.Managers
 
         #region PUN_CALLBACKS
 
-        public override void OnDisconnected(DisconnectCause cause)
+        public override void OnLeftRoom()
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("PhotonLobbySample");
         }
 
-        public override void OnLeftRoom()
-        {
-            PhotonNetwork.Disconnect();
-        }
+        //public override void OnDisconnected(DisconnectCause cause)
+        //{
+        //    PhotonNetwork.Disconnect();
+        //}
 
         public override void OnMasterClientSwitched(Player newMasterClient)
         {
@@ -136,7 +140,7 @@ namespace Assets.Scripts.Managers
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
-
+            Log.Print($"{otherPlayer.ActorNumber} Left Room");
         }
 
         #endregion

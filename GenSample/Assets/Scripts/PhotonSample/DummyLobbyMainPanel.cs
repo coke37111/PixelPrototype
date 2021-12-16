@@ -1,6 +1,9 @@
-﻿using ExitGames.Client.Photon;
+﻿using Assets.Scripts.System;
+using Assets.Scripts.Util;
+using ExitGames.Client.Photon;
 using Photon.Realtime;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -48,12 +51,19 @@ namespace Photon.Pun.Demo.Asteroids
 
         public void Awake()
         {
-            PhotonNetwork.AutomaticallySyncScene = true;
-
             cachedRoomList = new Dictionary<string, RoomInfo>();
             roomListEntries = new Dictionary<string, GameObject>();
+
+            if (PhotonNetwork.IsConnected)
+            {
+                return;
+            }                
+
+            PhotonNetwork.AutomaticallySyncScene = true;
             
             PlayerNameInput.text = "Player " + Random.Range(1000, 10000);
+
+            Log.Print($"DummyLobbyMainPanel Awake!");
         }
 
         #endregion
@@ -62,6 +72,28 @@ namespace Photon.Pun.Demo.Asteroids
 
         public override void OnConnectedToMaster()
         {
+            Log.Print($"OnConnectedToMaster!");
+
+            Room curRoom = RoomSettings.room;
+            if(curRoom != null)
+            {
+                Log.Print($"isMaster = {RoomSettings.isMater}");
+                
+                if(RoomSettings.isMater)
+                {
+                    RoomOptions options = new RoomOptions { MaxPlayers = curRoom.MaxPlayers, PlayerTtl = 10000 };
+                    PhotonNetwork.CreateRoom(curRoom.Name, options, null);
+                }
+                else
+                {
+                    PhotonNetwork.JoinRoom(curRoom.Name);
+                }
+
+                RoomSettings.room = null;
+                RoomSettings.isMater = false;
+                return;
+            }
+            
             this.SetActivePanel(SelectionPanel.name);
         }
 
@@ -237,7 +269,7 @@ namespace Photon.Pun.Demo.Asteroids
         {
             SetActivePanel(JoinRandomRoomPanel.name);
 
-            PhotonNetwork.JoinRandomRoom();
+            PhotonNetwork.JoinRandomRoom();            
         }
 
         public void OnLeaveGameButtonClicked()
