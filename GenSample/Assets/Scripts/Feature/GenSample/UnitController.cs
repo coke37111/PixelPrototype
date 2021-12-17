@@ -10,8 +10,6 @@ namespace Assets.Scripts.Feature.GenSample
 {
     public class UnitController : Unit, IPunInstantiateMagicCallback, IOnEventCallback
     {
-        public LayerMask ignoreClickLayer;
-
         public float speed = 1f;
 
         public PhotonView photonView;
@@ -157,13 +155,20 @@ namespace Assets.Scripts.Feature.GenSample
                 RaiseEvent(EventCodeType.Move, isLeftDir);
         }
 
-        public override void Knockback(float hitX, float hitZ)
-        {
-            Vector3 diffPos = transform.position - new Vector3(hitX, transform.position.y, hitZ);
-            Vector3 dir = diffPos.normalized;
+        public override void Knockback(float centerX, float centerZ)
+        {            
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, 10000f, knockbackLayer))
+            {
+                if(hit.collider.tag == "Indicator")
+                {
+                    Vector3 diffPos = transform.position - new Vector3(centerX, transform.position.y, centerZ);
+                    Vector3 dir = diffPos.normalized;
 
-            if (canJump)
-                rb.AddForce(dir * 1000f);
+                    if (canJump)
+                        rb.AddForce(dir * 1000f);
+                }
+            }
         }
 
         public void Die()
