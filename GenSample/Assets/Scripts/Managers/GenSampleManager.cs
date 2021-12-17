@@ -6,12 +6,19 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.Managers
 {
-    public class GenSampleManager : MonoBehaviourPunCallbacks
+    public class GenSampleManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
+        public enum EventCodeType
+        {
+            Move,
+            Knockback,
+        }
+
         private readonly List<string> unitPartList = new List<string>
         {
             "cos",
@@ -28,14 +35,17 @@ namespace Assets.Scripts.Managers
             "human_m",
             "human_s",
             "human_l",
+            "char_st_01",
         };
 
         public const string PLAYER_LIVES = "GenPlayerLives";
         private const string PLAYER_LOADED_LEVEL = "GenPlayerLoadedLevel";
 
-        public GameObject ground;
+        public GameObject collGround;
+        public LayerMask ignoreClickLayer;
 
-        [Header("- For View Test"), Space(10)]
+        [Header("- For Gen Test"), Space(10)]
+        public Transform unitContainer;
         [Range(1, 100)]
         public int unitGenCount = 1;
 
@@ -45,10 +55,10 @@ namespace Assets.Scripts.Managers
         public float spawnRange;
 
         private List<Unit> unitList = new List<Unit>();
-        private Transform unitContainer;
         private bool isConnect = false;
 
-        private int lives;
+        private UnitController unitCtrl;
+        private readonly float initSpawnHeight = 1f;
 
         // Use this for initialization
         void Start()
@@ -57,10 +67,7 @@ namespace Assets.Scripts.Managers
 
             if (!isConnect)
             {
-                unitContainer = FindObjectOfType<UnitContainer>().transform;
-
                 SetSpawnArea();
-
                 DestroyAllMob();
                 GenerateMob();
                 ResetMobPos();
@@ -73,9 +80,9 @@ namespace Assets.Scripts.Managers
                         { PLAYER_LIVES, 1 }
                     };
                 PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-
-                SpawnPlayer();
             }
+
+            SpawnPlayer(isConnect);
         }
 
         // Update is called once per frame
@@ -85,15 +92,12 @@ namespace Assets.Scripts.Managers
             {
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
-                    object lives;
-                    if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(PLAYER_LIVES, out lives))
-                    {
-                        if ((int)lives > 0)
-                        {
-                            Hashtable props = new Hashtable() { { PLAYER_LIVES, 0 } };
-                            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-                        }
-                    }
+                    PhotonNetwork.LeaveRoom();
+                }
+
+                if (PhotonNetwork.IsMasterClient && Input.GetMouseButtonUp(0))
+                {
+                    KnockBack();
                 }
             }
             else
@@ -101,6 +105,7 @@ namespace Assets.Scripts.Managers
                 if (Input.GetKeyDown(KeyCode.R))
                 {
                     ResetMobPos();
+                    ResetPlayerPos();
                 }
 
                 if (Input.GetKeyDown(KeyCode.D))
@@ -113,18 +118,37 @@ namespace Assets.Scripts.Managers
                     GenerateMob();
                     ResetMobPos();
                 }
+
+                if (Input.GetMouseButtonUp(0))
+                {
+                    KnockBack();
+                }
             }
         }
 
         #region CONNECT_NETWORK
 
 
-        public void SpawnPlayer()
+        public void SpawnPlayer(bool isConnect)
         {
-            var data = new List<object>();            
-            data.Add(GetSelectUnitPartDict());
+            Vector3 initPos = new Vector3(0, initSpawnHeight, -1f);
+            Dictionary<string, string> selectUnitParts = GetSelectUnitPartDict();
 
-            PhotonNetwork.Instantiate(Path.Combine("Prefab", "Player"), new Vector3(0, 0, -1f), Quaternion.identity, 0, data.ToArray());
+            if (isConnect)
+            {
+                var data = new List<object>();
+                data.Add(selectUnitParts);
+
+                GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Player"), initPos, Quaternion.identity, 0, data.ToArray());
+                unitCtrl = netGoPlayer.GetComponent<UnitController>();
+            }
+            else{
+                GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>("Prefab/Player");
+                GameObject goPlayer = Instantiate(pfPlayer, initPos, Quaternion.identity, unitContainer);
+                unitCtrl = goPlayer.GetComponent<UnitController>();
+                unitCtrl.SetSprite(selectUnitParts);
+                unitCtrl.Init(false);
+            }
         }
 
         private void CheckEndOfGame()
@@ -133,14 +157,10 @@ namespace Assets.Scripts.Managers
 
             foreach (Player p in PhotonNetwork.PlayerList)
             {
-                object lives;
-                if (p.CustomProperties.TryGetValue(PLAYER_LIVES, out lives))
+                if (!IsPlayerDie(p))
                 {
-                    if ((int)lives > 0)
-                    {
-                        allDestroyed = false;
-                        break;
-                    }
+                    allDestroyed = false;
+                    break;
                 }
             }
 
@@ -149,8 +169,6 @@ namespace Assets.Scripts.Managers
                 if (PhotonNetwork.IsMasterClient)
                 {
                     StopAllCoroutines();
-
-                    Log.Print($"otherCount={PhotonNetwork.PlayerListOthers.Length}");
                     if (PhotonNetwork.PlayerListOthers.Length > 0)
                         return;
                 }
@@ -160,6 +178,17 @@ namespace Assets.Scripts.Managers
 
                 PhotonNetwork.LeaveRoom();
             }
+        }
+
+        private bool IsPlayerDie(Player player)
+        {
+            object lives;
+            if (player.CustomProperties.TryGetValue(PLAYER_LIVES, out lives))
+            {
+                return (int)lives <= 0;
+            }
+
+            return false;
         }
 
         private bool CheckAllPlayerLoadedLevel()
@@ -198,15 +227,27 @@ namespace Assets.Scripts.Managers
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
-            Log.Print($"{otherPlayer.ActorNumber} Left Room");
+            Log.Print($"Player {otherPlayer.ActorNumber} Left Room");
+
             CheckEndOfGame();
         }
 
         public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
         {
             if (changedProps.ContainsKey(PLAYER_LIVES))
-            {
+            {                
                 CheckEndOfGame();
+
+                if(PhotonNetwork.LocalPlayer.ActorNumber == targetPlayer.ActorNumber)
+                {
+                    if(IsPlayerDie(targetPlayer))
+                        unitCtrl.Die();
+                }
+            }
+
+            if (!PhotonNetwork.IsMasterClient)
+            {
+                return;
             }
 
             if (changedProps.ContainsKey(PLAYER_LOADED_LEVEL))
@@ -218,11 +259,29 @@ namespace Assets.Scripts.Managers
                 }
                 else
                 {
-                    if(PhotonNetwork.LocalPlayer.ActorNumber == targetPlayer.ActorNumber)
-                    {
-                        Log.Print($"SpawnPlayer {targetPlayer.ActorNumber}");
-                    }
+                    Log.Print("Loaded All Players Complete!");
                 }
+            }
+        }
+
+        public void OnEvent(EventData photonEvent)
+        {
+            EventCodeType eventCodeType = (EventCodeType)photonEvent.Code;
+
+            object[] data = (photonEvent.CustomData != null) ? photonEvent.CustomData as object[] : null;
+            switch (eventCodeType)
+            {
+                case EventCodeType.Knockback:
+                    {
+                        float hitX = (float)data[0];
+                        float hitZ = (float)data[1];
+
+                        if (unitCtrl == null)
+                            return;
+
+                        unitCtrl.Knockback(hitX, hitZ);
+                        break;
+                    }
             }
         }
 
@@ -231,31 +290,26 @@ namespace Assets.Scripts.Managers
         #region NOT_CONNTECT_NETWORK
 
         private void SetSpawnArea()
-        {
-            Vector2 spawnArea = GetSpawnArea();
-            Log.Print(spawnArea);
+        {   
+            Vector3 spawnArea = GetSpawnArea();
 
-            spawnAreaX = new Vector2(-spawnArea.x, spawnArea.x);
-            spawnAreaZ = new Vector2(-spawnArea.y, spawnArea.y);
+            Vector3 center = collGround.transform.localPosition;
+            spawnAreaX = new Vector2(-spawnArea.x, spawnArea.x) + Vector2.one * center.x;
+            spawnAreaZ = new Vector2(-spawnArea.z, spawnArea.z) + Vector2.one * center.z;
         }
 
-        public Vector2 GetSpawnArea()
+        public Vector3 GetSpawnArea()
         {
-            Vector3 groundScale = ground.transform.localScale;
-
+            Vector3 groundScale = collGround.transform.localScale;
+            
             // x-z 좌표계
-            Vector2 spawnArea = new Vector2(Mathf.Abs(groundScale.x), Mathf.Abs(groundScale.z))* .5f * spawnRange;
+            Vector3 spawnArea = new Vector3(Mathf.Abs(groundScale.x), Mathf.Abs(groundScale.y), Mathf.Abs(groundScale.z)) * .5f * spawnRange;
             return spawnArea;
-        }
-
-        public List<Unit> GetUnitList()
-        {
-            return unitList;
         }
 
         private void GenerateMob()
         {
-            GameObject pfUnit = ResourceManager.LoadAsset<GameObject>("Prefab/Unit");
+            GameObject pfUnit = ResourceManager.LoadAsset<GameObject>("Prefab/AIUnit");
             Unit unitComp;
 
             for (int i = 0; i < unitGenCount; i++)
@@ -300,8 +354,14 @@ namespace Assets.Scripts.Managers
                 float spawnX = UnityEngine.Random.Range(spawnAreaX.x, spawnAreaX.y);
                 float spawnZ = UnityEngine.Random.Range(spawnAreaZ.x, spawnAreaZ.y);
 
-                unit.ResetSpawnPos(spawnX, spawnZ);
+                unit.ResetSpawnPos(spawnX, initSpawnHeight, spawnZ);
             }
+        }
+
+        private void ResetPlayerPos()
+        {
+            Vector3 initPos = new Vector3(0, initSpawnHeight, -1f);
+            unitCtrl.ResetSpawnPos(initPos);
         }
 
         #endregion
@@ -322,14 +382,14 @@ namespace Assets.Scripts.Managers
 
             foreach (string unitPartName in unitPartList)
             {
-
                 string dirPath = $"Image/Unit/{unitType}/imgs/{unitPartName}";
-                string spriteName = GetRandomSprite(dirPath).name;
-                if (string.IsNullOrEmpty(spriteName))
+                Sprite selectSprite = GetRandomSprite(dirPath);
+                if (selectSprite == null)
                 {
                     Log.Error($"Cannot SpawnPlayer! : Cannot find sprite {dirPath}!");
                     continue;
                 }
+                string spriteName = GetRandomSprite(dirPath).name;
 
                 string resPath = Path.Combine(dirPath, spriteName);
 
@@ -355,6 +415,30 @@ namespace Assets.Scripts.Managers
             }
 
             return resultSprite;
+        }
+
+        private void KnockBack()
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 10000f, ~ignoreClickLayer))
+            {
+                if (isConnect)
+                {
+                    List<object> content = new List<object>() { hit.point.x, hit.point.z };
+                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+                    SendOptions sendOptions = new SendOptions { Reliability = true };
+                    PhotonNetwork.RaiseEvent((byte)EventCodeType.Knockback, content.ToArray(), raiseEventOptions, sendOptions);
+                }
+                else
+                {
+                    unitCtrl.Knockback(hit.point.x, hit.point.z);
+                    foreach(Unit unit in unitList)
+                    {
+                        unit.Knockback(hit.point.x, hit.point.z);
+                    }
+                }                
+            }
         }
     }
 }

@@ -31,6 +31,13 @@ namespace Assets.Scripts.Feature.GenSample
         public SpriteRenderer srWpShild;
         public SpriteRenderer srWp;
 
+        protected Rigidbody rb;
+
+        private void Awake()
+        {
+            rb = GetComponent<Rigidbody>();
+        }
+
         public virtual void Init()
         {
             unitState = UNIT_STATE.IDLE;
@@ -137,9 +144,12 @@ namespace Assets.Scripts.Feature.GenSample
             }
         }
 
-        public void ResetSpawnPos(float posX, float posZ)
+        public virtual void ResetSpawnPos(float posX, float posY, float posZ)
         {
-            spawnPos = new Vector3(posX, 0f, posZ);
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
+            spawnPos = new Vector3(posX, posY, posZ);
             transform.position = spawnPos;
 
             unitState = UNIT_STATE.IDLE;
@@ -163,6 +173,14 @@ namespace Assets.Scripts.Feature.GenSample
             srHat.flipX = !isLeftDir;
             srWpShild.flipX = !isLeftDir;
             srWp.flipX = !isLeftDir;
+        }
+
+        public virtual void Knockback(float hitX, float hitZ)
+        {
+            Vector3 diffPos = transform.position - new Vector3(hitX, transform.position.y, hitZ);
+            Vector3 dir = diffPos.normalized;
+
+            rb.AddForce(dir * 1000f);                
         }
     }
 }

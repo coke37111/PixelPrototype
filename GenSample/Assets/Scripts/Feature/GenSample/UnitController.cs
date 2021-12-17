@@ -1,11 +1,10 @@
-﻿using Assets.Scripts.Managers;
-using Assets.Scripts.Util;
+﻿using Assets.Scripts.Util;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using static Assets.Scripts.Managers.GenSampleManager;
 
 namespace Assets.Scripts.Feature.GenSample
 {
@@ -13,17 +12,13 @@ namespace Assets.Scripts.Feature.GenSample
     {
         public LayerMask ignoreClickLayer;
 
-        public enum EventCodeType
-        {
-            Move,
-            Jump,
-        }
-
         public float speed = 1f;
 
         public PhotonView photonView;
 
-        private bool canJump = true;
+        private bool isConnected = false;
+        private bool isDie = false;
+        private bool canJump = true;        
 
         public void OnEnable()
         {
@@ -35,63 +30,106 @@ namespace Assets.Scripts.Feature.GenSample
             PhotonNetwork.RemoveCallbackTarget(this);
         }
 
-        public override void Init()
+        public void Init(bool isConnected)
         {
             base.Init();
 
+            this.isConnected = isConnected;
+
+            isDie = false;
             canJump = true;
+
+            transform.SetParent(FindObjectOfType<UnitContainer>().transform);
+            targetPos = transform.position;
         }
 
         protected override void Update()
         {
-            if (!photonView.IsMine)
+            if (isConnected)
+            {
+                if (!photonView.IsMine)
+                    return;
+            }
+
+            if (isDie)
                 return;
 
-            object lives;
-            if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(GenSampleManager.PLAYER_LIVES, out lives))
+            // INPUT
             {
-                if ((int)lives <= 0)
+                if (Input.GetMouseButtonUp(1))
                 {
-                    return;
-                }
-            }
-
-            if (Input.GetMouseButtonUp(1))
-            {                
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if(Physics.Raycast(ray, out hit, 10000f, ~ignoreClickLayer))
-                {                    
-                    targetPos = hit.point;
-
-                    isLeftDir = targetPos.x <= transform.position.x;
-
-                    RaiseEvent(EventCodeType.Move, isLeftDir);
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space) && canJump)
-            {
-                RaiseEvent(EventCodeType.Jump);
-            }
-            
-            if (Vector3.Distance(transform.position, targetPos) > .1f)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetPos.x, transform.position.y, targetPos.z), Time.deltaTime * speed);
-            }
-
-            if(!canJump && GetComponent<Rigidbody>().velocity.y <= 0f)
-            {
-                RaycastHit hit;
-                if(Physics.Raycast(transform.position, Vector3.down, out hit, .25f))
-                {
-                    if(hit.collider.tag == "Ground")
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit, 10000f, ~ignoreClickLayer))
                     {
-                        canJump = true;
+                        Move(hit.point);
+                    }
+                }
+
+                if (Input.GetKeyDown(KeyCode.Space) && canJump)
+                {
+                    canJump = false;
+                    rb.AddForce(Vector3.up * 150f);
+                }
+            }
+
+            // ACTION
+            {
+                if (Vector3.Distance(transform.position, targetPos) > .1f)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetPos.x, transform.position.y, targetPos.z), Time.deltaTime * speed);
+                }
+
+                if (!canJump && rb.velocity.y <= 0f)
+                {
+                    RaycastHit hit;
+                    if (Physics.Raycast(transform.position, Vector3.down, out hit, .25f))
+                    {
+                        if (hit.collider.tag == "Ground")
+                        {
+                            Log.Print($"canJump : {canJump} / vel : {rb.velocity}");
+                            canJump = true;
+                        }
                     }
                 }
             }
         }
+
+        public void Move(Vector3 targetPos)
+        {
+            this.targetPos = targetPos;
+
+            isLeftDir = targetPos.x <= transform.position.x;
+            SetDir();
+
+            if(isConnected)
+                RaiseEvent(EventCodeType.Move, isLeftDir);
+        }
+
+        public override void Knockback(float hitX, float hitZ)
+        {
+            Vector3 diffPos = transform.position - new Vector3(hitX, transform.position.y, hitZ);
+            Vector3 dir = diffPos.normalized;
+
+            if (canJump)
+                rb.AddForce(dir * 1000f);
+        }
+
+        public void Die()
+        {
+            isDie = true;
+        }
+
+        public void ResetSpawnPos(Vector3 pos)
+        {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
+            transform.position = pos;
+            targetPos = pos;
+        }
+
+        #region PUN_CALLBACK
 
         private void RaiseEvent(EventCodeType eventCodeType, params object[] objs)
         {
@@ -105,48 +143,33 @@ namespace Assets.Scripts.Feature.GenSample
 
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
-            PhotonView targetPv = info.photonView;
-            targetPv.transform.SetParent(FindObjectOfType<UnitContainer>().transform);
-
-            Dictionary<string, string> unitPartList = (Dictionary<string, string>)targetPv.InstantiationData[0];
+            Dictionary<string, string> unitPartList = (Dictionary<string, string>)info.photonView.InstantiationData[0];
             SetSprite(unitPartList);
 
-            targetPos = targetPv.transform.position;
-            
-            Init();
+            Init(true);
         }
 
         public void OnEvent(EventData photonEvent)
         {
             EventCodeType eventCodeType = (EventCodeType)photonEvent.Code;
+            object[] data = (photonEvent.CustomData != null) ? (object[])photonEvent.CustomData : null;
 
             switch (eventCodeType)
             {
                 case EventCodeType.Move:
                     {
-                        object[] data = (object[])photonEvent.CustomData;
                         int senderViewId = (int)data[0];
+                        if (photonView.ViewID != senderViewId)
+                            return;
+
                         isLeftDir = (bool)data[1];
-
-                        if (photonView.ViewID != senderViewId)
-                            return;
-
                         SetDir();
-                        break;
-                    }
-                case EventCodeType.Jump:
-                    {
-                        object[] data = (object[])photonEvent.CustomData;
-                        int senderViewId = (int)data[0];
-
-                        if (photonView.ViewID != senderViewId)
-                            return;
-
-                        canJump = false;
-                        GetComponent<Rigidbody>().AddForce(Vector3.up * 100f);
                         break;
                     }
             }
         }
+
+        #endregion
+
     }
 }
