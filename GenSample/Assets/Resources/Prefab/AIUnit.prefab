@@ -217,6 +217,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16c026991e20b0642b10820a313050fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ignoreClickLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  knockbackLayer:
+    serializedVersion: 2
+    m_Bits: 128
   srHair2: {fileID: 3716669947645113363}
   srSkin: {fileID: 3716669947872454819}
   srHair1: {fileID: 8836763874261590823}
@@ -234,7 +240,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
 --- !u!54 &4497415847833395133
 Rigidbody:
   m_ObjectHideFlags: 0

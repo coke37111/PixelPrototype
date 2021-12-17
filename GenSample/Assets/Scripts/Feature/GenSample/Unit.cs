@@ -22,6 +22,8 @@ namespace Assets.Scripts.Feature.GenSample
         protected bool isLeftDir;
         private Vector3 spawnPos;
         protected Vector3 targetPos;
+        public LayerMask ignoreClickLayer;
+        public LayerMask knockbackLayer;
 
         public SpriteRenderer srHair2;
         public SpriteRenderer srSkin;
@@ -175,12 +177,19 @@ namespace Assets.Scripts.Feature.GenSample
             srWp.flipX = !isLeftDir;
         }
 
-        public virtual void Knockback(float hitX, float hitZ)
+        public virtual void Knockback(float centerX, float centerZ)
         {
-            Vector3 diffPos = transform.position - new Vector3(hitX, transform.position.y, hitZ);
-            Vector3 dir = diffPos.normalized;
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, 10000f, knockbackLayer))
+            {
+                if (hit.collider.tag == "Indicator")
+                {
+                    Vector3 diffPos = transform.position - new Vector3(centerX, transform.position.y, centerZ);
+                    Vector3 dir = diffPos.normalized;
 
-            rb.AddForce(dir * 1000f);                
+                    rb.AddForce(dir * 1000f);
+                }
+            }         
         }
     }
 }

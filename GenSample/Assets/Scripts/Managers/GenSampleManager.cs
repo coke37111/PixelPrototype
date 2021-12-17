@@ -6,7 +6,6 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.Managers
@@ -58,7 +57,7 @@ namespace Assets.Scripts.Managers
         private bool isConnect = false;
 
         private UnitController unitCtrl;
-        private readonly float initSpawnHeight = 1f;
+        private readonly float initSpawnHeight = 1f;        
 
         // Use this for initialization
         void Start()
@@ -97,7 +96,7 @@ namespace Assets.Scripts.Managers
 
                 if (PhotonNetwork.IsMasterClient && Input.GetMouseButtonUp(0))
                 {
-                    KnockBack();
+                    MakeIndicator();
                 }
             }
             else
@@ -121,7 +120,7 @@ namespace Assets.Scripts.Managers
 
                 if (Input.GetMouseButtonUp(0))
                 {
-                    KnockBack();
+                    MakeIndicator();
                 }
             }
         }
@@ -277,13 +276,18 @@ namespace Assets.Scripts.Managers
             {
                 case EventCodeType.Knockback:
                     {
-                        float hitX = (float)data[0];
-                        float hitZ = (float)data[1];
+                        int viewId = (int)data[0];
+                        float centerX = (float)data[1];
+                        float centerY = (float)data[2];
+                        float centerZ = (float)data[2];
 
                         if (unitCtrl == null)
                             return;
 
-                        unitCtrl.Knockback(hitX, hitZ);
+                        Knockback(new Vector3(centerX, centerY, centerZ));
+
+                        PhotonView targetIndicator = PhotonNetwork.GetPhotonView(viewId);
+                        PhotonNetwork.Destroy(targetIndicator);
                         break;
                     }
             }
@@ -421,27 +425,55 @@ namespace Assets.Scripts.Managers
             return resultSprite;
         }
 
-        private void KnockBack()
+        private void MakeIndicator()
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 10000f, ~ignoreClickLayer))
             {
+                Vector3 hitPoint = hit.point;
+
+                string pfPath = Path.Combine("Prefab", "Indicator");
+                Vector3 initPos = new Vector3(hitPoint.x, 0f, hitPoint.z);
+
+                float limitTime = 3f;
+                float scaleX = 3f;
+                float scaleZ = 3f;
+
                 if (isConnect)
                 {
-                    List<object> content = new List<object>() { hit.point.x, hit.point.z };
-                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                    SendOptions sendOptions = new SendOptions { Reliability = true };
-                    PhotonNetwork.RaiseEvent((byte)EventCodeType.Knockback, content.ToArray(), raiseEventOptions, sendOptions);
+
+                    var data = new List<object>();
+                    data.Add(limitTime);
+                    data.Add(scaleX);
+                    data.Add(scaleZ);
+
+                    PhotonNetwork.Instantiate(pfPath, initPos, Quaternion.identity, 0, data.ToArray());
                 }
                 else
                 {
-                    unitCtrl.Knockback(hit.point.x, hit.point.z);
-                    foreach(Unit unit in unitList)
-                    {
-                        unit.Knockback(hit.point.x, hit.point.z);
-                    }
-                }                
+                    GameObject pfIndicator = ResourceManager.LoadAsset<GameObject>(pfPath);
+                    GameObject goIndicator = Instantiate(pfIndicator, initPos, Quaternion.identity, unitContainer);
+                    Indicator indicator = goIndicator.GetComponent<Indicator>();
+                    indicator.Init(limitTime, scaleX, scaleZ);
+                    indicator.SetGenSampleManager(Knockback);
+                }       
+            }
+        }
+
+        public void Knockback(Vector3 center)
+        {
+            if (isConnect)
+            {
+                unitCtrl.Knockback(center.x, center.z);
+            }
+            else
+            {   
+                unitCtrl.Knockback(center.x, center.z);
+                foreach (Unit unit in unitList)
+                {
+                    unit.Knockback(center.x, center.z);
+                }
             }
         }
     }
