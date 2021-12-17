@@ -18,7 +18,9 @@ namespace Assets.Scripts.Feature.GenSample
 
         private bool isConnected = false;
         private bool isDie = false;
-        private bool canJump = true;        
+        private bool canJump = true;
+
+        #region UNITY
 
         public void OnEnable()
         {
@@ -28,19 +30,6 @@ namespace Assets.Scripts.Feature.GenSample
         public void OnDisable()
         {
             PhotonNetwork.RemoveCallbackTarget(this);
-        }
-
-        public void Init(bool isConnected)
-        {
-            base.Init();
-
-            this.isConnected = isConnected;
-
-            isDie = false;
-            canJump = true;
-
-            transform.SetParent(FindObjectOfType<UnitContainer>().transform);
-            targetPos = transform.position;
         }
 
         protected override void Update()
@@ -79,20 +68,82 @@ namespace Assets.Scripts.Feature.GenSample
                 {
                     transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetPos.x, transform.position.y, targetPos.z), Time.deltaTime * speed);
                 }
-
-                if (!canJump && rb.velocity.y <= 0f)
+                
+                if(isConnected && transform.localPosition.y <= -5f)
                 {
-                    RaycastHit hit;
-                    if (Physics.Raycast(transform.position, Vector3.down, out hit, .25f))
+                    Hashtable props = new Hashtable
                     {
-                        if (hit.collider.tag == "Ground")
-                        {
-                            Log.Print($"canJump : {canJump} / vel : {rb.velocity}");
-                            canJump = true;
-                        }
-                    }
+                        { PLAYER_LIVES, 0 }
+                    };
+                    PhotonNetwork.LocalPlayer.SetCustomProperties(props);
                 }
             }
+        }
+
+        void OnCollisionEnter(Collision coll)
+        {
+            if(coll.gameObject.tag == "Ground")
+            {
+                canJump = true;
+            }
+        }
+
+        #endregion
+
+
+        #region PUN_CALLBACK
+
+        private void RaiseEvent(EventCodeType eventCodeType, params object[] objs)
+        {
+            List<object> content = new List<object>() { photonView.ViewID };
+            content.AddRange(objs);
+
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            SendOptions sendOptions = new SendOptions { Reliability = true };
+            PhotonNetwork.RaiseEvent((byte)eventCodeType, content.ToArray(), raiseEventOptions, sendOptions);
+        }
+
+        public void OnPhotonInstantiate(PhotonMessageInfo info)
+        {
+            Dictionary<string, string> unitPartList = (Dictionary<string, string>)info.photonView.InstantiationData[0];
+            SetSprite(unitPartList);
+
+            Init(true);
+        }
+
+        public void OnEvent(EventData photonEvent)
+        {
+            EventCodeType eventCodeType = (EventCodeType)photonEvent.Code;
+            object[] data = (photonEvent.CustomData != null) ? photonEvent.CustomData as object[]: null;
+
+            switch (eventCodeType)
+            {
+                case EventCodeType.Move:
+                    {
+                        int senderViewId = (int)data[0];
+                        if (photonView.ViewID != senderViewId)
+                            return;
+
+                        isLeftDir = (bool)data[1];
+                        SetDir();
+                        break;
+                    }
+            }
+        }
+
+        #endregion
+
+        public void Init(bool isConnected)
+        {
+            base.Init();
+
+            this.isConnected = isConnected;
+
+            isDie = false;
+            canJump = true;
+
+            transform.SetParent(FindObjectOfType<UnitContainer>().transform);
+            targetPos = transform.position;
         }
 
         public void Move(Vector3 targetPos)
@@ -102,7 +153,7 @@ namespace Assets.Scripts.Feature.GenSample
             isLeftDir = targetPos.x <= transform.position.x;
             SetDir();
 
-            if(isConnected)
+            if (isConnected)
                 RaiseEvent(EventCodeType.Move, isLeftDir);
         }
 
@@ -128,48 +179,6 @@ namespace Assets.Scripts.Feature.GenSample
             transform.position = pos;
             targetPos = pos;
         }
-
-        #region PUN_CALLBACK
-
-        private void RaiseEvent(EventCodeType eventCodeType, params object[] objs)
-        {
-            List<object> content = new List<object>() { photonView.ViewID };
-            content.AddRange(objs);
-
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-            SendOptions sendOptions = new SendOptions { Reliability = true };
-            PhotonNetwork.RaiseEvent((byte)eventCodeType, content.ToArray(), raiseEventOptions, sendOptions);
-        }
-
-        public void OnPhotonInstantiate(PhotonMessageInfo info)
-        {
-            Dictionary<string, string> unitPartList = (Dictionary<string, string>)info.photonView.InstantiationData[0];
-            SetSprite(unitPartList);
-
-            Init(true);
-        }
-
-        public void OnEvent(EventData photonEvent)
-        {
-            EventCodeType eventCodeType = (EventCodeType)photonEvent.Code;
-            object[] data = (photonEvent.CustomData != null) ? (object[])photonEvent.CustomData : null;
-
-            switch (eventCodeType)
-            {
-                case EventCodeType.Move:
-                    {
-                        int senderViewId = (int)data[0];
-                        if (photonView.ViewID != senderViewId)
-                            return;
-
-                        isLeftDir = (bool)data[1];
-                        SetDir();
-                        break;
-                    }
-            }
-        }
-
-        #endregion
 
     }
 }
