@@ -74,19 +74,19 @@ namespace Photon.Pun.Demo.Asteroids
         {
             Log.Print($"OnConnectedToMaster!");
 
-            Room curRoom = RoomSettings.room;
-            if(curRoom != null)
+            if (RoomSettings.ExistPrevRoom())
             {
+                string roomName = RoomSettings.roomName;
                 Log.Print($"isMaster = {RoomSettings.isMaster}");
-                
-                if(RoomSettings.isMaster)
+
+                if (RoomSettings.isMaster)
                 {
-                    RoomOptions options = new RoomOptions { MaxPlayers = curRoom.MaxPlayers, PlayerTtl = 10000 };
-                    PhotonNetwork.CreateRoom(curRoom.Name, options, null);
+                    RoomOptions options = new RoomOptions { MaxPlayers = RoomSettings.maxPlayers, PlayerTtl = 10000 };
+                    PhotonNetwork.CreateRoom(roomName, options, null);
                 }
                 else
-                {                    
-                    PhotonNetwork.JoinRoom(curRoom.Name);
+                {
+                    PhotonNetwork.JoinRoom(roomName);
                 }
                 return;
             }
@@ -118,11 +118,11 @@ namespace Photon.Pun.Demo.Asteroids
 
         public override void OnCreateRoomFailed(short returnCode, string message)
         {
-            Room curRoom = RoomSettings.room;
-            if (curRoom != null && RoomSettings.isMaster)
+            if (RoomSettings.ExistPrevRoom() && RoomSettings.isMaster)
             {
-                RoomOptions options = new RoomOptions { MaxPlayers = curRoom.MaxPlayers, PlayerTtl = 10000 };
-                PhotonNetwork.CreateRoom(curRoom.Name, options, null);
+                string roomName = RoomSettings.roomName;
+                RoomOptions options = new RoomOptions { MaxPlayers = RoomSettings.maxPlayers, PlayerTtl = 10000 };
+                PhotonNetwork.CreateRoom(roomName, options, null);
                 return;
             }
 
@@ -130,10 +130,11 @@ namespace Photon.Pun.Demo.Asteroids
         }
 
         public override void OnJoinRoomFailed(short returnCode, string message)
-        {
-            if (!RoomSettings.isMaster)
+        {            
+            if (RoomSettings.ExistPrevRoom() && !RoomSettings.isMaster)
             {
-                PhotonNetwork.JoinRoom(RoomSettings.room.Name);
+                string roomName = RoomSettings.roomName;
+                PhotonNetwork.JoinRoom(roomName);
                 return;
             }
 
@@ -151,7 +152,7 @@ namespace Photon.Pun.Demo.Asteroids
 
         public override void OnJoinedRoom()
         {
-            RoomSettings.room = null;
+            RoomSettings.roomName = null;
             RoomSettings.isMaster = false;
 
             // joining (or entering) a room invalidates any cached lobby room list (even if LeaveLobby was not called due to just joining a room)

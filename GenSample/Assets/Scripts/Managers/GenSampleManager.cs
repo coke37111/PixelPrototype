@@ -153,6 +153,9 @@ namespace Assets.Scripts.Managers
 
         private void CheckEndOfGame()
         {
+            if (PhotonNetwork.NetworkClientState == ClientState.Leaving)
+                return;
+
             bool allDestroyed = true;
 
             foreach (Player p in PhotonNetwork.PlayerList)
@@ -169,11 +172,9 @@ namespace Assets.Scripts.Managers
                 if (PhotonNetwork.IsMasterClient)
                 {
                     StopAllCoroutines();
-                    if (PhotonNetwork.PlayerListOthers.Length > 0)
-                        return;
                 }
 
-                RoomSettings.room = PhotonNetwork.CurrentRoom;
+                RoomSettings.roomName = PhotonNetwork.CurrentRoom.Name;
                 RoomSettings.isMaster = PhotonNetwork.IsMasterClient;
 
                 PhotonNetwork.LeaveRoom();
@@ -228,6 +229,7 @@ namespace Assets.Scripts.Managers
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
             Log.Print($"Player {otherPlayer.ActorNumber} Left Room");
+            PhotonNetwork.DestroyPlayerObjects(otherPlayer);
 
             CheckEndOfGame();
         }
@@ -236,13 +238,15 @@ namespace Assets.Scripts.Managers
         {
             if (changedProps.ContainsKey(PLAYER_LIVES))
             {                
-                CheckEndOfGame();
-
                 if(PhotonNetwork.LocalPlayer.ActorNumber == targetPlayer.ActorNumber)
                 {
                     if(IsPlayerDie(targetPlayer))
+                    {
                         unitCtrl.Die();
+                    }
                 }
+
+                CheckEndOfGame();
             }
 
             if (!PhotonNetwork.IsMasterClient)
