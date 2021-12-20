@@ -2,6 +2,7 @@
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static Assets.Scripts.Managers.GenSampleManager;
@@ -62,27 +63,22 @@ namespace Assets.Scripts.Feature.GenSample
 
             // ACTION
             {
-                if (Vector3.Distance(transform.position, targetPos) > .1f)
-                {
-                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetPos.x, transform.position.y, targetPos.z), Time.deltaTime * speed);
-                }
-                else
-                {
-                    Vector3 delta = Vector3.zero;
-                    if (Input.GetKey(KeyCode.W))
-                        targetPos.z += (speed * Time.deltaTime);
-                    if (Input.GetKey(KeyCode.S))
-                        targetPos.z -= (speed * Time.deltaTime);
-                    if (Input.GetKey(KeyCode.A))
-                        targetPos.x -= (speed * Time.deltaTime);
-                    if (Input.GetKey(KeyCode.D))
-                        targetPos.x += (speed * Time.deltaTime);
+                Vector3 delta = Vector3.zero;
+                if (Input.GetKey(KeyCode.W))
+                    targetPos.z += (speed * Time.deltaTime);
+                if (Input.GetKey(KeyCode.S))
+                    targetPos.z -= (speed * Time.deltaTime);
+                if (Input.GetKey(KeyCode.A))
+                    targetPos.x -= (speed * Time.deltaTime);
+                if (Input.GetKey(KeyCode.D))
+                    targetPos.x += (speed * Time.deltaTime);
 
-                    isLeftDir = targetPos.x <= transform.position.x;
-                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetPos.x, transform.position.y, targetPos.z), Time.deltaTime * speed);                    
-                }
-                
-                if(isConnected && transform.localPosition.y <= -5f)
+                isLeftDir = targetPos.x <= transform.position.x;
+                transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetPos.x, transform.position.y, targetPos.z), Time.deltaTime * speed);
+
+                OnChnagePosition?.Invoke(transform.position);
+
+                if (isConnected && transform.localPosition.y <= -5f)
                 {
                     Hashtable props = new Hashtable
                     {
@@ -156,7 +152,7 @@ namespace Assets.Scripts.Feature.GenSample
             canJump = true;
 
             transform.SetParent(FindObjectOfType<UnitContainer>().transform);
-            targetPos = transform.position;
+            targetPos = new Vector3( transform.position.x, 0.0f, transform.position.z);
         }
 
         protected override void OnChangeDir(bool isLeft)
@@ -204,6 +200,8 @@ namespace Assets.Scripts.Feature.GenSample
             transform.position = pos;
             targetPos = pos;
         }
+
+        public event Action<Vector3> OnChnagePosition;
 
     }
 }

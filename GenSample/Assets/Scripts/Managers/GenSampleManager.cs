@@ -169,6 +169,7 @@ namespace Assets.Scripts.Managers
 
                 GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Player"), initPos, Quaternion.identity, 0, data.ToArray());
                 unitCtrl = netGoPlayer.GetComponent<UnitController>();
+                CameraController.Instance.SetOwner(unitCtrl);
             }
             else{
                 GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>("Prefab/Player");
@@ -504,6 +505,7 @@ namespace Assets.Scripts.Managers
 
         private void MakeIndicator(Vector3 hitPoint)
         {
+            return;
             string pfPath = Path.Combine("Prefab", "Indicator");
             Vector3 initPos = new Vector3(hitPoint.x, 0f, hitPoint.z);
 
