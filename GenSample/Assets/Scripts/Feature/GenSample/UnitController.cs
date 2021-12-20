@@ -107,6 +107,16 @@ namespace Assets.Scripts.Feature.GenSample
 
         #region PUN_CALLBACK
 
+        private void RaiseEventExeptMe(EventCodeType eventCodeType, params object[] objs)
+        {
+            List<object> content = new List<object>() { photonView.ViewID };
+            content.AddRange(objs);
+
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
+            SendOptions sendOptions = new SendOptions { Reliability = true };
+            PhotonNetwork.RaiseEvent((byte)eventCodeType, content.ToArray(), raiseEventOptions, sendOptions);
+        }
+
         private void RaiseEvent(EventCodeType eventCodeType, params object[] objs)
         {
             List<object> content = new List<object>() { photonView.ViewID };
@@ -135,7 +145,7 @@ namespace Assets.Scripts.Feature.GenSample
                 case EventCodeType.Move:
                     {
                         int senderViewId = (int)data[0];
-                        if (photonView.ViewID != senderViewId)
+                        if (photonView.ViewID != senderViewId || photonView.AmOwner)
                             return;
 
                         isLeftDir = (bool)data[1];
@@ -166,7 +176,7 @@ namespace Assets.Scripts.Feature.GenSample
             SetDir();
 
             if (isConnected)
-                RaiseEvent(EventCodeType.Move, isLeftDir);
+                RaiseEventExeptMe(EventCodeType.Move, isLeftDir);
         }
 
         public void Move(Vector3 targetPos)
@@ -182,7 +192,7 @@ namespace Assets.Scripts.Feature.GenSample
 
             Debug.Log($"knockback : {distance}");
 
-            if (canJump && distance <= 1.25f)
+            if (canJump && distance <= 1.3f)
             {                
                 Vector3 diffPos = transform.position - new Vector3(centerX, transform.position.y, centerZ);
                 Vector3 dir = diffPos.normalized;
