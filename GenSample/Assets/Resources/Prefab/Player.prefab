@@ -182,7 +182,7 @@ MonoBehaviour:
   srHat: {fileID: 7459697232958080777}
   srWpShild: {fileID: 5030982358097849806}
   srWp: {fileID: 2994791547972375866}
-  speed: 1
+  speed: 1.5
   photonView: {fileID: 4800140194375321968}
 --- !u!210 &4800140194375321970
 SortingGroup:
