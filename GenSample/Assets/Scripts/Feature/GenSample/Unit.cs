@@ -19,7 +19,19 @@ namespace Assets.Scripts.Feature.GenSample
         private float curIdleTime;
         private float idleDelay;
 
-        protected bool isLeftDir;
+        private bool oldLeftDir = true;
+        protected bool isLeftDir 
+        {
+            get => oldLeftDir;
+            set
+            {
+                if (oldLeftDir != value)
+                {
+                    oldLeftDir = value;
+                    OnChangeDir(value);
+                }
+            }
+        }
         private Vector3 spawnPos;
         protected Vector3 targetPos;
         public LayerMask clickLayer;
@@ -39,6 +51,11 @@ namespace Assets.Scripts.Feature.GenSample
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
+        }
+
+        protected virtual void OnChangeDir(bool isLeft)
+        {
+
         }
 
         public virtual void Init()

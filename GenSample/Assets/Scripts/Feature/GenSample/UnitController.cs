@@ -66,6 +66,21 @@ namespace Assets.Scripts.Feature.GenSample
                 {
                     transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetPos.x, transform.position.y, targetPos.z), Time.deltaTime * speed);
                 }
+                else
+                {
+                    Vector3 delta = Vector3.zero;
+                    if (Input.GetKey(KeyCode.W))
+                        targetPos.z += (speed * Time.deltaTime);
+                    if (Input.GetKey(KeyCode.S))
+                        targetPos.z -= (speed * Time.deltaTime);
+                    if (Input.GetKey(KeyCode.A))
+                        targetPos.x -= (speed * Time.deltaTime);
+                    if (Input.GetKey(KeyCode.D))
+                        targetPos.x += (speed * Time.deltaTime);
+
+                    isLeftDir = targetPos.x <= transform.position.x;
+                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetPos.x, transform.position.y, targetPos.z), Time.deltaTime * speed);                    
+                }
                 
                 if(isConnected && transform.localPosition.y <= -5f)
                 {
@@ -144,15 +159,20 @@ namespace Assets.Scripts.Feature.GenSample
             targetPos = transform.position;
         }
 
-        public void Move(Vector3 targetPos)
+        protected override void OnChangeDir(bool isLeft)
         {
-            this.targetPos = targetPos;
-
-            isLeftDir = targetPos.x <= transform.position.x;
+            base.OnChangeDir(isLeft);
             SetDir();
 
             if (isConnected)
                 RaiseEvent(EventCodeType.Move, isLeftDir);
+        }
+
+        public void Move(Vector3 targetPos)
+        {
+            this.targetPos = targetPos;
+
+            isLeftDir = targetPos.x <= transform.position.x;            
         }
 
         public override void Knockback(float centerX, float centerZ)
