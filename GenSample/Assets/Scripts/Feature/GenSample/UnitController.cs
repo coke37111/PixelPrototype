@@ -18,6 +18,7 @@ namespace Assets.Scripts.Feature.GenSample
         private bool isConnected = false;
         private bool isDie = false;
         private bool canJump = true;
+        private bool knockbacked = false;
 
         #region UNITY
 
@@ -44,15 +45,16 @@ namespace Assets.Scripts.Feature.GenSample
 
             // INPUT
             {
-                if (Input.GetMouseButtonUp(1))
-                {
-                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    RaycastHit hit;
-                    if (Physics.Raycast(ray, out hit, 10000f, clickLayer))
-                    {
-                        Move(hit.point);
-                    }
-                }
+                // 키보드 wasd 이동으로
+                //if (Input.GetMouseButtonUp(1))
+                //{
+                //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                //    RaycastHit hit;
+                //    if (Physics.Raycast(ray, out hit, 10000f, clickLayer))
+                //    {
+                //        Move(hit.point);
+                //    }
+                //}
 
                 if (Input.GetKeyDown(KeyCode.Space) && canJump)
                 {
@@ -65,17 +67,20 @@ namespace Assets.Scripts.Feature.GenSample
             {
                 Vector3 delta = Vector3.zero;
                 if (Input.GetKey(KeyCode.W))
-                    targetPos.z += (speed * Time.deltaTime);
+                    delta.z += (speed * Time.deltaTime);
                 if (Input.GetKey(KeyCode.S))
-                    targetPos.z -= (speed * Time.deltaTime);
+                    delta.z -= (speed * Time.deltaTime);
                 if (Input.GetKey(KeyCode.A))
-                    targetPos.x -= (speed * Time.deltaTime);
+                    delta.x -= (speed * Time.deltaTime);
                 if (Input.GetKey(KeyCode.D))
-                    targetPos.x += (speed * Time.deltaTime);
+                    delta.x += (speed * Time.deltaTime);
 
-                isLeftDir = targetPos.x <= transform.position.x;
-                transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetPos.x, transform.position.y, targetPos.z), Time.deltaTime * speed);
+                if (delta.x != 0)
+                    isLeftDir = delta.x < 0;
 
+                if (delta != Vector3.zero)
+                    transform.position += delta;
+                                
                 OnChnagePosition?.Invoke(transform.position);
 
                 if (isConnected && transform.localPosition.y <= -5f)
@@ -172,18 +177,17 @@ namespace Assets.Scripts.Feature.GenSample
         }
 
         public override void Knockback(float centerX, float centerZ)
-        {            
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, 10000f, knockbackLayer))
-            {
-                if(hit.collider.tag == "Indicator")
-                {
-                    Vector3 diffPos = transform.position - new Vector3(centerX, transform.position.y, centerZ);
-                    Vector3 dir = diffPos.normalized;
+        {
+            var distance = Vector3.Distance(new Vector3(centerX, transform.position.y, centerZ), transform.position);
 
-                    if (canJump)
-                        rb.AddForce(dir * 1000f);
-                }
+            Debug.Log($"knockback : {distance}");
+
+            if (canJump && distance <= 1.25f)
+            {                
+                Vector3 diffPos = transform.position - new Vector3(centerX, transform.position.y, centerZ);
+                Vector3 dir = diffPos.normalized;
+                rb.AddForce(dir * 300f + Vector3.up * 150f);
+                knockbacked = true;
             }
         }
 
@@ -198,7 +202,6 @@ namespace Assets.Scripts.Feature.GenSample
             rb.angularVelocity = Vector3.zero;
 
             transform.position = pos;
-            targetPos = pos;
         }
 
         public event Action<Vector3> OnChnagePosition;

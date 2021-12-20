@@ -55,8 +55,8 @@ namespace Assets.Scripts.Managers
         [Range(0f, 1f)]
         public float spawnRange;
 
-        private readonly float MIN_SPAWN_TIME_INDICATOR = 3f;
-        private readonly float MAX_SPAWN_TIME_INDICATOR = 5f;
+        private readonly float MIN_SPAWN_TIME_INDICATOR = 1f;
+        private readonly float MAX_SPAWN_TIME_INDICATOR = 3f;
 
         private List<Unit> unitList = new List<Unit>();
         private bool isConnect = false;
@@ -357,7 +357,7 @@ namespace Assets.Scripts.Managers
                         int viewId = (int)data[0];
                         float centerX = (float)data[1];
                         float centerY = (float)data[2];
-                        float centerZ = (float)data[2];
+                        float centerZ = (float)data[3];
 
                         if (unitCtrl == null)
                             return;
@@ -505,13 +505,12 @@ namespace Assets.Scripts.Managers
 
         private void MakeIndicator(Vector3 hitPoint)
         {
-            return;
             string pfPath = Path.Combine("Prefab", "Indicator");
             Vector3 initPos = new Vector3(hitPoint.x, 0f, hitPoint.z);
 
             Log.Print($"Indi {initPos}");
 
-            float limitTime = 3f;
+            float limitTime = 2f;
             float scaleX = 3f;
             float scaleZ = 3f;
 

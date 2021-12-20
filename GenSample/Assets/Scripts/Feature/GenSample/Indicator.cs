@@ -21,6 +21,7 @@ namespace Assets.Scripts.Feature.GenSample
         private bool isConnected;
 
         private UnityAction<Vector3> knockbackCB;
+        private bool _tryDestroyed;
 
         #region UNITY
 
@@ -28,16 +29,15 @@ namespace Assets.Scripts.Feature.GenSample
         {
             if(curTime >= timeLimit)
             {
-                curTime = 0f;
+                //curTime = 0f;
 
                 DestroyIndicator();
             }
             else
             {
                 curTime += Time.deltaTime;
-            }
-
-            SetTextAlert();
+                SetTextAlert();
+            }            
         }
 
         #endregion
@@ -57,7 +57,7 @@ namespace Assets.Scripts.Feature.GenSample
             this.isConnected = isConnected;
 
             this.timeLimit = timeLimit;
-
+            _tryDestroyed = false;
             curTime = 0f;
 
             SetTextAlert();
@@ -71,21 +71,29 @@ namespace Assets.Scripts.Feature.GenSample
 
         private void SetTextAlert()
         {
-            textAlert.text = (timeLimit - curTime + 1f).ToString("N0");
+            textAlert.text = (Mathf.Max(0, timeLimit - curTime + 1f)).ToString("N0");
         }
 
         private void DestroyIndicator()
         {
             if (isConnected)
             {
-                Vector3 trPos = transform.position;
+                if (_tryDestroyed == false)
+                {
+                    _tryDestroyed = true;
 
-                PhotonView photonView = GetComponent<PhotonView>();
+                    if (PhotonNetwork.IsMasterClient)
+                    {
+                        Vector3 trPos = transform.position;
 
-                List<object> content = new List<object>() { photonView.ViewID, trPos.x, trPos.y, trPos.z };
-                RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                SendOptions sendOptions = new SendOptions { Reliability = true };
-                PhotonNetwork.RaiseEvent((byte)GenSampleManager.EventCodeType.Knockback, content.ToArray(), raiseEventOptions, sendOptions);
+                        PhotonView photonView = GetComponent<PhotonView>();
+
+                        List<object> content = new List<object>() { photonView.ViewID, trPos.x, trPos.y, trPos.z };
+                        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+                        SendOptions sendOptions = new SendOptions { Reliability = true };
+                        PhotonNetwork.RaiseEvent((byte)GenSampleManager.EventCodeType.Knockback, content.ToArray(), raiseEventOptions, sendOptions);
+                    }
+                }
             }
             else
             {

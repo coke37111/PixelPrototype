@@ -74,41 +74,42 @@ namespace Assets.Scripts.Feature.GenSample
 
         protected virtual void Update()
         {
-            switch (unitState)
-            {
-                case UNIT_STATE.IDLE:
-                    {
-                        if (idleDelay >= curIdleTime)
-                        {
-                            targetPos = transform.position + new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f, 1f));
-                            unitState = UNIT_STATE.MOVE;
+            // 호출 되지 않는 코드
+            //switch (unitState)
+            //{
+            //    case UNIT_STATE.IDLE:
+            //        {
+            //            if (idleDelay >= curIdleTime)
+            //            {
+            //                targetPos = transform.position + new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f, 1f));
+            //                unitState = UNIT_STATE.MOVE;
 
-                            idleDelay = 0f;
-                            curIdleTime = GetIdleTime();
-                        }
-                        else
-                        {
-                            idleDelay += Time.deltaTime;
-                        }
-                        break;
-                    }
-                case UNIT_STATE.MOVE:
-                    {
-                        Vector3 nextPos = Vector3.Lerp(transform.position, targetPos, Time.deltaTime);
-                        if (Vector3.Distance(transform.position, targetPos) <= .1f || OutOfRangePos(nextPos))
-                        {
-                            unitState = UNIT_STATE.IDLE;
-                        }
-                        else
-                        {
-                            isLeftDir = transform.position.x > targetPos.x;
-                            SetDir();
+            //                idleDelay = 0f;
+            //                curIdleTime = GetIdleTime();
+            //            }
+            //            else
+            //            {
+            //                idleDelay += Time.deltaTime;
+            //            }
+            //            break;
+            //        }
+            //    case UNIT_STATE.MOVE:
+            //        {
+            //            Vector3 nextPos = Vector3.Lerp(transform.position, targetPos, Time.deltaTime);
+            //            if (Vector3.Distance(transform.position, targetPos) <= .1f || OutOfRangePos(nextPos))
+            //            {
+            //                unitState = UNIT_STATE.IDLE;
+            //            }
+            //            else
+            //            {
+            //                isLeftDir = transform.position.x > targetPos.x;
+            //                SetDir();
 
-                            transform.position = nextPos;
-                        }
-                        break;
-                    }
-            }
+            //                transform.position = nextPos;
+            //            }
+            //            break;
+            //        }
+            //}
         }
 
         private bool OutOfRangePos(Vector3 pos)
