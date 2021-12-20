@@ -4,9 +4,11 @@ using Assets.Scripts.Util;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Assets.Scripts.Managers
 {
@@ -53,6 +55,9 @@ namespace Assets.Scripts.Managers
         [Range(0f, 1f)]
         public float spawnRange;
 
+        private readonly float MIN_SPAWN_TIME_INDICATOR = 3f;
+        private readonly float MAX_SPAWN_TIME_INDICATOR = 5f;
+
         private List<Unit> unitList = new List<Unit>();
         private bool isConnect = false;
 
@@ -64,12 +69,14 @@ namespace Assets.Scripts.Managers
         {
             isConnect = PhotonNetwork.IsConnected;
 
+            SetSpawnArea();
+
             if (!isConnect)
             {
-                SetSpawnArea();
                 DestroyAllMob();
                 GenerateMob();
                 ResetMobPos();
+                SpawnPlayer(isConnect);
             }
             else
             {
@@ -80,8 +87,6 @@ namespace Assets.Scripts.Managers
                     };
                 PhotonNetwork.LocalPlayer.SetCustomProperties(props);
             }
-
-            SpawnPlayer(isConnect);
         }
 
         // Update is called once per frame
@@ -96,7 +101,12 @@ namespace Assets.Scripts.Managers
 
                 if (PhotonNetwork.IsMasterClient && Input.GetMouseButtonUp(0))
                 {
-                    MakeIndicator();
+                    //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    //RaycastHit hit;
+                    //if (Physics.Raycast(ray, out hit, 10000f, ~ignoreClickLayer))
+                    //{
+                    //    MakeIndicator(hit.point);
+                    //}
                 }
             }
             else
@@ -120,9 +130,28 @@ namespace Assets.Scripts.Managers
 
                 if (Input.GetMouseButtonUp(0))
                 {
-                    MakeIndicator();
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit, 10000f, ~ignoreClickLayer))
+                    {
+                        MakeIndicator(hit.point);
+                    }
                 }
             }
+        }
+
+        public override void OnEnable()
+        {
+            base.OnEnable();
+
+            GenCountdownTimer.OnCountdownTimerHasExpired += OnCountdownTimerIsExpired;
+        }
+
+        public override void OnDisable()
+        {
+            base.OnDisable();
+
+            GenCountdownTimer.OnCountdownTimerHasExpired -= OnCountdownTimerIsExpired;
         }
 
         #region CONNECT_NETWORK
@@ -211,6 +240,47 @@ namespace Assets.Scripts.Managers
             return true;
         }
 
+
+        private void SetStartTime()
+        {
+            int startTime = 0;
+            bool wasSet = TryGetStartTime(out startTime);
+
+            Hashtable props = new Hashtable
+            {
+                {GenCountdownTimer.CountdownStartTime, (int)PhotonNetwork.ServerTimestamp}
+            };
+            PhotonNetwork.CurrentRoom.SetCustomProperties(props);
+
+
+            Debug.Log("Set Custom Props for Time: " + props.ToStringFull() + " wasSet: " + wasSet);
+        }
+
+
+        private bool TryGetStartTime(out int startTimestamp)
+        {
+            startTimestamp = PhotonNetwork.ServerTimestamp;
+
+            object startTimeFromProps;
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(GenCountdownTimer.CountdownStartTime, out startTimeFromProps))
+            {
+                startTimestamp = (int)startTimeFromProps;
+                return true;
+            }
+
+            return false;
+        }
+
+        private void OnCountdownTimerIsExpired()
+        {
+            SpawnPlayer(isConnect);
+
+            if (isConnect && PhotonNetwork.IsMasterClient)
+            {
+                StartCoroutine(SpawnIndicator());
+            }
+        }
+
         #endregion
 
         #region PUN_CALLBACKS
@@ -253,6 +323,10 @@ namespace Assets.Scripts.Managers
                 return;
             }
 
+            // if there was no countdown yet, the master client (this one) waits until everyone loaded the level and sets a timer start
+            int startTimestamp;
+            bool startTimeIsSet = TryGetStartTime(out startTimestamp);
+
             if (changedProps.ContainsKey(PLAYER_LOADED_LEVEL))
             {
                 if (!CheckAllPlayerLoadedLevel())
@@ -262,7 +336,10 @@ namespace Assets.Scripts.Managers
                 }
                 else
                 {
-                    Log.Print("Loaded All Players Complete!");
+                    if (!startTimeIsSet)
+                    {
+                        SetStartTime();
+                    }
                 }
             }
         }
@@ -425,39 +502,33 @@ namespace Assets.Scripts.Managers
             return resultSprite;
         }
 
-        private void MakeIndicator()
+        private void MakeIndicator(Vector3 hitPoint)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 10000f, ~ignoreClickLayer))
+            string pfPath = Path.Combine("Prefab", "Indicator");
+            Vector3 initPos = new Vector3(hitPoint.x, 0f, hitPoint.z);
+
+            Log.Print($"Indi {initPos}");
+
+            float limitTime = 3f;
+            float scaleX = 3f;
+            float scaleZ = 3f;
+
+            if (isConnect)
             {
-                Vector3 hitPoint = hit.point;
+                var data = new List<object>();
+                data.Add(limitTime);
+                data.Add(scaleX);
+                data.Add(scaleZ);
 
-                string pfPath = Path.Combine("Prefab", "Indicator");
-                Vector3 initPos = new Vector3(hitPoint.x, 0f, hitPoint.z);
-
-                float limitTime = 3f;
-                float scaleX = 3f;
-                float scaleZ = 3f;
-
-                if (isConnect)
-                {
-
-                    var data = new List<object>();
-                    data.Add(limitTime);
-                    data.Add(scaleX);
-                    data.Add(scaleZ);
-
-                    PhotonNetwork.Instantiate(pfPath, initPos, Quaternion.identity, 0, data.ToArray());
-                }
-                else
-                {
-                    GameObject pfIndicator = ResourceManager.LoadAsset<GameObject>(pfPath);
-                    GameObject goIndicator = Instantiate(pfIndicator, initPos, Quaternion.identity, unitContainer);
-                    Indicator indicator = goIndicator.GetComponent<Indicator>();
-                    indicator.Init(limitTime, scaleX, scaleZ);
-                    indicator.SetGenSampleManager(Knockback);
-                }       
+                PhotonNetwork.InstantiateRoomObject(pfPath, initPos, Quaternion.identity, 0, data.ToArray());
+            }
+            else
+            {
+                GameObject pfIndicator = ResourceManager.LoadAsset<GameObject>(pfPath);
+                GameObject goIndicator = Instantiate(pfIndicator, initPos, Quaternion.identity, unitContainer);
+                Indicator indicator = goIndicator.GetComponent<Indicator>();
+                indicator.Init(limitTime, scaleX, scaleZ);
+                indicator.SetGenSampleManager(Knockback);
             }
         }
 
@@ -475,6 +546,36 @@ namespace Assets.Scripts.Managers
                     unit.Knockback(center.x, center.z);
                 }
             }
+        }
+        private IEnumerator SpawnIndicator()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(Random.Range(MIN_SPAWN_TIME_INDICATOR, MAX_SPAWN_TIME_INDICATOR));
+
+                float spawnAreaX = Random.Range(this.spawnAreaX.x, this.spawnAreaX.y);
+                float spawnAreaZ = Random.Range(this.spawnAreaZ.x, this.spawnAreaZ.y);
+
+                Vector3 spawnPoint = new Vector3(spawnAreaX, 0f, spawnAreaZ);
+                MakeIndicator(spawnPoint);
+            }
+        }
+
+        private IEnumerator EndOfGame(string winner, int score)
+        {
+            yield return null;
+            //float timer = 5.0f;
+
+            //while (timer > 0.0f)
+            //{
+            //    InfoText.text = string.Format("Player {0} won with {1} points.\n\n\nReturning to login screen in {2} seconds.", winner, score, timer.ToString("n2"));
+
+            //    yield return new WaitForEndOfFrame();
+
+            //    timer -= Time.deltaTime;
+            //}
+
+            //PhotonNetwork.LeaveRoom();
         }
     }
 }

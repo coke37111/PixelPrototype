@@ -22,9 +22,10 @@ namespace Assets.Scripts.Feature.GenSample
         protected bool isLeftDir;
         private Vector3 spawnPos;
         protected Vector3 targetPos;
-        public LayerMask ignoreClickLayer;
+        public LayerMask clickLayer;
         public LayerMask knockbackLayer;
 
+        public Transform trUnitPartsRoot;
         public SpriteRenderer srHair2;
         public SpriteRenderer srSkin;
         public SpriteRenderer srHair1;
@@ -47,6 +48,11 @@ namespace Assets.Scripts.Feature.GenSample
 
             isLeftDir = Random.Range(0f, 1f) >= .5f;
             SetDir();
+
+            Quaternion quaUnit = trUnitPartsRoot.rotation;
+            float camRotX = Camera.main.transform.rotation.x;
+            quaUnit.x = camRotX;
+            trUnitPartsRoot.rotation = quaUnit;
         }
 
         protected virtual void Update()
