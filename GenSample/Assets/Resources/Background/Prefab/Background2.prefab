@@ -575,22 +575,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ground2
       objectReference: {fileID: 0}
-    - target: {fileID: 6537454101198144839, guid: 669c6776a05255941970874f56259160, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6537454101198144840, guid: 669c6776a05255941970874f56259160, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6537454101198144840, guid: 669c6776a05255941970874f56259160, type: 3}
-      propertyPath: m_DynamicOccludee
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6537454101198144840, guid: 669c6776a05255941970874f56259160, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: c1a9e4d2b6a13a24c8636a391c1e4437, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 669c6776a05255941970874f56259160, type: 3}
 --- !u!4 &7477788655667623439 stripped
