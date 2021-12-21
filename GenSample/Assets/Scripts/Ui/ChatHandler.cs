@@ -18,10 +18,7 @@ public class ChatHandler : MonoBehaviourPunCallbacks, IChatClientListener
     {
         if (_instance == null)
             _instance = this;
-    }
 
-    private void Start()
-    {
         if (_chatClient == null)
         {
 #if PHOTON_UNITY_NETWORKING
@@ -32,12 +29,19 @@ public class ChatHandler : MonoBehaviourPunCallbacks, IChatClientListener
 #if !UNITY_WEBGL
             _chatClient.UseBackgroundWorkerForSending = true;
 #endif
-            //_chatClient.AuthValues = new Photon.Chat.AuthenticationValues(My.Nickname);
+            _chatClient.AuthValues = new Photon.Chat.AuthenticationValues(PhotonNetwork.LocalPlayer.NickName);
 
             if (_chatClient.ConnectUsingSettings(_chatAppSettings) == false)
                 throw new Exception("Chat Connect Failed");
+
+           
         }
     }
+
+    private void Start()
+    {
+    }
+
     public IEnumerable<string> GetChat(string channelName)
     {
         ChatChannel chatChannel = null;
@@ -51,6 +55,12 @@ public class ChatHandler : MonoBehaviourPunCallbacks, IChatClientListener
                 yield return $"{sender}:{msg}";
             }
         }
+    }
+
+    public override void OnConnected()
+    {
+        _chatClient.SetOnlineStatus(ChatUserStatus.Online);
+        _chatClient.Subscribe(new string[] { PhotonNetwork.CurrentRoom.Name }, 20);
     }
 
     public void OnDestroy()
@@ -95,6 +105,7 @@ public class ChatHandler : MonoBehaviourPunCallbacks, IChatClientListener
 
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
     {
+        OnUpdateChat?.Invoke(channelName, GetChat(channelName));
     }
 
     public void OnPrivateMessage(string sender, object message, string channelName)
@@ -126,4 +137,6 @@ public class ChatHandler : MonoBehaviourPunCallbacks, IChatClientListener
         if (_chatClient != null)
             _chatClient.Service();
     }
+
+    public event Action<string, IEnumerable<string>> OnUpdateChat;
 }

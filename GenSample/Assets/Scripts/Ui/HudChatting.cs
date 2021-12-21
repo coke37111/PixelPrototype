@@ -22,21 +22,26 @@ namespace ProjectF
             _chatNew.text = "";
             _chatOld.text = "";
                         
-            Instance_OnUpdateChat("chat_test", ChatHandler.Instance.GetChat("chat_test"));
+            Instance_OnUpdateChat(PhotonNetwork.CurrentRoom.Name, ChatHandler.Instance.GetChat(PhotonNetwork.CurrentRoom.Name));
         }
 
         public void SetText(string text)
         {
-            ChatHandler.Instance.SendChat("chat_test", text);
+            ChatHandler.Instance.SendChat(PhotonNetwork.CurrentRoom.Name, text);
         }
 
         protected override void OnClose()
         {
         }
 
-        private void Awake()
+        public void OnDisable()
         {
-            //NetworkManager.Instance.OnUpdateChat += Instance_OnUpdateChat;
+            ChatHandler.Instance.OnUpdateChat -= Instance_OnUpdateChat;
+        }
+
+        public void OnEnable()
+        {
+            ChatHandler.Instance.OnUpdateChat += Instance_OnUpdateChat;
         }
 
         private void Instance_OnUpdateChat(string channelName, IEnumerable<string> chats)

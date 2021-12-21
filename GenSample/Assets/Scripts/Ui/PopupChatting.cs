@@ -20,14 +20,13 @@ namespace ProjectF
 
         public override void OnOpen(object parameter)
         {
-
-            //Instance_OnUpdateChat("chat_test", NetworkManager.Instance.GetChat("chat_test"));
+            Instance_OnUpdateChat(PhotonNetwork.CurrentRoom.Name, ChatHandler.Instance.GetChat(PhotonNetwork.CurrentRoom.Name));
         }
 
         private void OnEnable()
         {
             AddClickEvent(_closeButton, OnClickClose);
-            AddClickEvent(_sendButton, OnClickSender);
+            AddClickEvent(_sendButton, OnClickSend);
         }
 
         protected override void OnClose()
@@ -36,7 +35,7 @@ namespace ProjectF
 
         private void Awake()
         {
-            //NetworkManager.Instance.OnUpdateChat += Instance_OnUpdateChat;
+            ChatHandler.Instance.OnUpdateChat += Instance_OnUpdateChat;
         }
 
         private void Instance_OnUpdateChat(string channelName, IEnumerable<string> chats)
@@ -58,14 +57,15 @@ namespace ProjectF
             _inputField.ActivateInputField();
         }
 
-        private void OnClickClose()
+        public void OnClickClose()
         {
+            this.gameObject.SetActive(false);
             //UiManager.Instance.Close<PopupChatting>();
         }
 
-        private void OnClickSender()
+        public void OnClickSend()
         {
-            //NetworkManager.Instance.SendChat("chat_test", _inputField.text);
+            ChatHandler.Instance.SendChat(PhotonNetwork.CurrentRoom.Name, _inputField.text);
             _inputField.text = "";
         }
 
@@ -73,7 +73,7 @@ namespace ProjectF
         {
             if ((Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter)) && (string.IsNullOrEmpty(_inputField.text) == false))
             {
-                OnClickSender();
+                OnClickSend();
             }
 
             if (Input.GetKey(KeyCode.Escape))

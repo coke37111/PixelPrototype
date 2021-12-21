@@ -557,14 +557,14 @@ namespace Assets.Scripts.Managers
 
         private IEnumerator EndOfGame()
         {
-            Log.Print($"EndOfGame");
+            //Log.Print($"EndOfGame");
 
             yield return null;
             float timer = 3.0f;
 
             while (timer > 0.0f)
             {
-                Log.Print(timer);
+                //Log.Print(timer);
                 infoText.text = string.Format("Leave Room in {0} seconds", timer.ToString("n0"));
 
 
