@@ -244,37 +244,6 @@ namespace Assets.Scripts.Managers
             return true;
         }
 
-
-        private void SetStartTime()
-        {
-            int startTime = 0;
-            bool wasSet = TryGetStartTime(out startTime);
-
-            Hashtable props = new Hashtable
-            {
-                {GenCountdownTimer.CountdownStartTime, (int)PhotonNetwork.ServerTimestamp}
-            };
-            PhotonNetwork.CurrentRoom.SetCustomProperties(props);
-
-
-            Debug.Log("Set Custom Props for Time: " + props.ToStringFull() + " wasSet: " + wasSet);
-        }
-
-
-        private bool TryGetStartTime(out int startTimestamp)
-        {
-            startTimestamp = PhotonNetwork.ServerTimestamp;
-
-            object startTimeFromProps;
-            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(GenCountdownTimer.CountdownStartTime, out startTimeFromProps))
-            {
-                startTimestamp = (int)startTimeFromProps;
-                return true;
-            }
-
-            return false;
-        }
-
         private void OnCountdownTimerIsExpired()
         {
             SpawnPlayer(isConnect);
@@ -329,7 +298,7 @@ namespace Assets.Scripts.Managers
 
             // if there was no countdown yet, the master client (this one) waits until everyone loaded the level and sets a timer start
             int startTimestamp;
-            bool startTimeIsSet = TryGetStartTime(out startTimestamp);
+            bool startTimeIsSet = GenCountdownTimer.TryGetStartTime(out startTimestamp);
 
             if (changedProps.ContainsKey(PLAYER_LOADED_LEVEL))
             {
@@ -342,7 +311,7 @@ namespace Assets.Scripts.Managers
                 {
                     if (!startTimeIsSet)
                     {
-                        SetStartTime();
+                        GenCountdownTimer.SetStartTime();
                     }
                 }
             }
@@ -568,7 +537,7 @@ namespace Assets.Scripts.Managers
         private IEnumerator EndOfGame(string winner, int score)
         {
             yield return null;
-            //float timer = 5.0f;
+            //float timer = 3.0f;
 
             //while (timer > 0.0f)
             //{
