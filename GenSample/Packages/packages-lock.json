@@ -187,6 +187,12 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
+    "sc.posteffects": {
+      "version": "file:../Assets/SC Post Effects",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,
