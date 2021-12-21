@@ -62,8 +62,9 @@ namespace Assets.Scripts.Managers
         private bool isConnect = false;
 
         private UnitController unitCtrl;
-        private readonly float initSpawnHeight = 1f;        
+        private readonly float initSpawnHeight = 1f;
 
+        #region UNITY
         // Use this for initialization
         void Start()
         {
@@ -111,18 +112,18 @@ namespace Assets.Scripts.Managers
             }
             else
             {
-                if (Input.GetKeyDown(KeyCode.R))
+                if (Input.GetKeyDown(KeyCode.F1))
                 {
                     ResetMobPos();
                     ResetPlayerPos();
                 }
 
-                if (Input.GetKeyDown(KeyCode.D))
+                if (Input.GetKeyDown(KeyCode.F2))
                 {
                     DestroyAllMob();
                 }
 
-                if (Input.GetKeyDown(KeyCode.G))
+                if (Input.GetKeyDown(KeyCode.F3))
                 {
                     GenerateMob();
                     ResetMobPos();
@@ -153,6 +154,8 @@ namespace Assets.Scripts.Managers
 
             GenCountdownTimer.OnCountdownTimerHasExpired -= OnCountdownTimerIsExpired;
         }
+
+        #endregion
 
         #region CONNECT_NETWORK
 

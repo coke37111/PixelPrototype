@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Util;
-using ExitGames.Client.Photon;
+﻿using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
@@ -12,8 +11,9 @@ namespace Assets.Scripts.Feature.GenSample
     public class UnitController : Unit, IPunInstantiateMagicCallback, IOnEventCallback
     {
         public float speed = 1f;
-
         public PhotonView photonView;
+
+        public event Action<Vector3> OnChnagePosition;
 
         private bool isConnected = false;
         private bool isDie = false;
@@ -104,7 +104,6 @@ namespace Assets.Scripts.Feature.GenSample
 
         #endregion
 
-
         #region PUN_CALLBACK
 
         private void RaiseEventExeptMe(EventCodeType eventCodeType, params object[] objs)
@@ -113,16 +112,6 @@ namespace Assets.Scripts.Feature.GenSample
             content.AddRange(objs);
 
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
-            SendOptions sendOptions = new SendOptions { Reliability = true };
-            PhotonNetwork.RaiseEvent((byte)eventCodeType, content.ToArray(), raiseEventOptions, sendOptions);
-        }
-
-        private void RaiseEvent(EventCodeType eventCodeType, params object[] objs)
-        {
-            List<object> content = new List<object>() { photonView.ViewID };
-            content.AddRange(objs);
-
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             SendOptions sendOptions = new SendOptions { Reliability = true };
             PhotonNetwork.RaiseEvent((byte)eventCodeType, content.ToArray(), raiseEventOptions, sendOptions);
         }
@@ -157,6 +146,18 @@ namespace Assets.Scripts.Feature.GenSample
 
         #endregion
 
+        #region FOR_TEST
+
+        public void ResetSpawnPos(Vector3 pos)
+        {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
+            transform.position = pos;
+        }
+
+        #endregion
+
         public void Init(bool isConnected)
         {
             base.Init();
@@ -179,12 +180,13 @@ namespace Assets.Scripts.Feature.GenSample
                 RaiseEventExeptMe(EventCodeType.Move, isLeftDir);
         }
 
-        public void Move(Vector3 targetPos)
-        {
-            this.targetPos = targetPos;
+        // TODO : 마우스 클릭으로 이동 시에 사용되던 함수
+        //public void Move(Vector3 targetPos)
+        //{
+        //    this.targetPos = targetPos;
 
-            isLeftDir = targetPos.x <= transform.position.x;            
-        }
+        //    isLeftDir = targetPos.x <= transform.position.x;            
+        //}
 
         public override void Knockback(float centerX, float centerZ)
         {
@@ -205,16 +207,5 @@ namespace Assets.Scripts.Feature.GenSample
         {
             isDie = true;
         }
-
-        public void ResetSpawnPos(Vector3 pos)
-        {
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-
-            transform.position = pos;
-        }
-
-        public event Action<Vector3> OnChnagePosition;
-
     }
 }

@@ -7,17 +7,6 @@ namespace Assets.Scripts.Feature.GenSample
 {
     public class Unit : MonoBehaviour
     {
-        public enum UNIT_STATE
-        {
-            IDLE,
-            MOVE,
-        }
-
-        private UNIT_STATE unitState;
-
-        private readonly float MAX_IDLE_TIME = 1f;
-        private float curIdleTime;
-        private float idleDelay;
 
         private bool oldLeftDir = true;
         protected bool isLeftDir 
@@ -47,11 +36,86 @@ namespace Assets.Scripts.Feature.GenSample
         public SpriteRenderer srWp;
 
         protected Rigidbody rb;
+        private SpriteRenderer[] srUnitParts;
+
+        #region UNITY
 
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
+            srUnitParts = trUnitPartsRoot.GetComponentsInChildren<SpriteRenderer>();
         }
+
+
+        protected virtual void Update()
+        {
+            AIProc();
+        }
+
+        #endregion
+
+        #region FOR_TEST
+        public enum UNIT_STATE
+        {
+            IDLE,
+            MOVE,
+        }
+
+        private UNIT_STATE unitState;
+
+        private readonly float MAX_IDLE_TIME = 1f;
+        private float curIdleTime;
+        private float idleDelay;
+        private void AIProc()
+        {
+            switch (unitState)
+            {
+                case UNIT_STATE.IDLE:
+                    {
+                        if (idleDelay >= curIdleTime)
+                        {
+                            targetPos = transform.position + new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f, 1f));
+                            unitState = UNIT_STATE.MOVE;
+
+                            idleDelay = 0f;
+                            curIdleTime = GetIdleTime();
+                        }
+                        else
+                        {
+                            idleDelay += Time.deltaTime;
+                        }
+                        break;
+                    }
+                case UNIT_STATE.MOVE:
+                    {
+                        Vector3 nextPos = Vector3.Lerp(transform.position, targetPos, Time.deltaTime);
+                        if (Vector3.Distance(transform.position, targetPos) <= .1f || OutOfRangePos(nextPos))
+                        {
+                            unitState = UNIT_STATE.IDLE;
+                        }
+                        else
+                        {
+                            isLeftDir = transform.position.x > targetPos.x;
+                            SetDir();
+
+                            transform.position = nextPos;
+                        }
+                        break;
+                    }
+            }
+        }
+
+        private bool OutOfRangePos(Vector3 pos)
+        {
+            return Vector3.Distance(spawnPos, pos) > 1f;
+        }
+
+        private float GetIdleTime()
+        {
+            return Random.Range(0f, MAX_IDLE_TIME);
+        }
+
+        #endregion
 
         protected virtual void OnChangeDir(bool isLeft)
         {
@@ -70,56 +134,6 @@ namespace Assets.Scripts.Feature.GenSample
             float camRotX = Camera.main.transform.rotation.x;
             quaUnit.x = camRotX;
             trUnitPartsRoot.rotation = quaUnit;
-        }
-
-        protected virtual void Update()
-        {
-            // 호출 되지 않는 코드
-            //switch (unitState)
-            //{
-            //    case UNIT_STATE.IDLE:
-            //        {
-            //            if (idleDelay >= curIdleTime)
-            //            {
-            //                targetPos = transform.position + new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f, 1f));
-            //                unitState = UNIT_STATE.MOVE;
-
-            //                idleDelay = 0f;
-            //                curIdleTime = GetIdleTime();
-            //            }
-            //            else
-            //            {
-            //                idleDelay += Time.deltaTime;
-            //            }
-            //            break;
-            //        }
-            //    case UNIT_STATE.MOVE:
-            //        {
-            //            Vector3 nextPos = Vector3.Lerp(transform.position, targetPos, Time.deltaTime);
-            //            if (Vector3.Distance(transform.position, targetPos) <= .1f || OutOfRangePos(nextPos))
-            //            {
-            //                unitState = UNIT_STATE.IDLE;
-            //            }
-            //            else
-            //            {
-            //                isLeftDir = transform.position.x > targetPos.x;
-            //                SetDir();
-
-            //                transform.position = nextPos;
-            //            }
-            //            break;
-            //        }
-            //}
-        }
-
-        private bool OutOfRangePos(Vector3 pos)
-        {
-            return Vector3.Distance(spawnPos, pos) > 1f;
-        }
-
-        private float GetIdleTime()
-        {
-            return Random.Range(0f, MAX_IDLE_TIME);
         }
 
         public void SetSprite(Dictionary<string, string> unitPartList)
@@ -185,20 +199,12 @@ namespace Assets.Scripts.Feature.GenSample
             SetDir();
         }
 
-        public Vector3 GetSpawnPos()
-        {
-            return spawnPos;
-        }
-
         public void SetDir()
         {
-            srHair2.flipX = !isLeftDir;
-            srSkin.flipX = !isLeftDir;
-            srHair1.flipX = !isLeftDir;
-            srCos.flipX = !isLeftDir;
-            srHat.flipX = !isLeftDir;
-            srWpShild.flipX = !isLeftDir;
-            srWp.flipX = !isLeftDir;
+            foreach(SpriteRenderer sr in srUnitParts)
+            {
+                sr.flipX = !isLeftDir;
+            }
         }
 
         public virtual void Knockback(float centerX, float centerZ)
