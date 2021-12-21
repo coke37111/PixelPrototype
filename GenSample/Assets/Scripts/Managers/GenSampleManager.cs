@@ -503,8 +503,6 @@ namespace Assets.Scripts.Managers
             string pfPath = Path.Combine("Prefab", "Indicator");
             Vector3 initPos = new Vector3(hitPoint.x, 0f, hitPoint.z);
 
-            Log.Print($"Indi {initPos}");
-
             float limitTime = 2f;
             float scaleX = 3f;
             float scaleZ = 3f;

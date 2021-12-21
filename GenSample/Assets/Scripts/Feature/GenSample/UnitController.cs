@@ -221,8 +221,6 @@ namespace Assets.Scripts.Feature.GenSample
         {
             var distance = Vector3.Distance(new Vector3(centerX, transform.position.y, centerZ), transform.position);
 
-            Debug.Log($"knockback : {distance}");
-
             if (canJump && distance <= 1.3f)
             {                
                 Vector3 diffPos = transform.position - new Vector3(centerX, transform.position.y, centerZ);
