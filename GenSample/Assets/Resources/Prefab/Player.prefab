@@ -182,8 +182,10 @@ MonoBehaviour:
   srHat: {fileID: 7459697232958080777}
   srWpShild: {fileID: 5030982358097849806}
   srWp: {fileID: 2994791547972375866}
-  speed: 1.5
   photonView: {fileID: 4800140194375321968}
+  speed: 1.5
+  atk: 100
+  atkDelay: 0.2
 --- !u!210 &4800140194375321970
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -261,7 +263,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.18, y: 0.5, z: 0.2}
+  m_Size: {x: 0.5, y: 0.5, z: 0.2}
   m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!1 &4800140194687157058
 GameObject:
