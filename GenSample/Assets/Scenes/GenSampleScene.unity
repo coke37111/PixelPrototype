@@ -500,7 +500,7 @@ MonoBehaviour:
       colorBlindnessStrength: 1
   m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
   m_ShowToolkit: 0
-  m_ShowCustomSorter: 0
+  m_ShowCustomSorter: 1
   breakBeforeColorGrading: 0
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles:
@@ -1725,7 +1725,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.7
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -1773,13 +1773,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1773844021}
-  m_LocalRotation: {x: 0.47514933, y: -0.2696282, z: 0.15566991, w: 0.8229828}
+  m_LocalRotation: {x: 0.5105951, y: -0.26258138, z: 0.16728276, w: 0.8014738}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 698529489}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 60, y: -36.28, z: 0}
+  m_LocalEulerAnglesHint: {x: 65, y: -36.28, z: 0}
 --- !u!1 &1971176403
 GameObject:
   m_ObjectHideFlags: 0
