@@ -33,6 +33,8 @@ namespace Assets.Scripts.Feature.GenSample
         public static event CountdownTimerHasExpired OnCountdownTimerHasExpired;
 
 
+        #region UNITY
+
         public void Start()
         {
             if (this.Text == null) Debug.LogError("Reference to 'Text' is not set. Please set a valid reference.", this);
@@ -66,6 +68,7 @@ namespace Assets.Scripts.Feature.GenSample
             OnTimerEnds();
         }
 
+        #endregion
 
         private void OnTimerRuns()
         {
@@ -89,7 +92,6 @@ namespace Assets.Scripts.Feature.GenSample
             Debug.Log("CountdownTimer.OnRoomPropertiesUpdate " + propertiesThatChanged.ToStringFull());
             Initialize();
         }
-
 
         private void Initialize()
         {

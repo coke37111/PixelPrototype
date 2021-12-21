@@ -1,4 +1,5 @@
-﻿using ExitGames.Client.Photon;
+﻿using Assets.Scripts.Util;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
@@ -10,8 +11,10 @@ namespace Assets.Scripts.Feature.GenSample
 {
     public class UnitController : Unit, IPunInstantiateMagicCallback, IOnEventCallback
     {
-        public float speed = 1f;
         public PhotonView photonView;
+        public float speed = 1f;
+        public float atk = 10f;
+        public float atkDelay = .5f;
 
         public event Action<Vector3> OnChnagePosition;
 
@@ -19,6 +22,10 @@ namespace Assets.Scripts.Feature.GenSample
         private bool isDie = false;
         private bool canJump = true;
         private bool knockbacked = false;
+
+        private bool canAtk;
+        private MobController targetMob;
+        private float curAtkDelay;
 
         #region UNITY
 
@@ -65,23 +72,8 @@ namespace Assets.Scripts.Feature.GenSample
 
             // ACTION
             {
-                Vector3 delta = Vector3.zero;
-                if (Input.GetKey(KeyCode.W))
-                    delta.z += (speed * Time.deltaTime);
-                if (Input.GetKey(KeyCode.S))
-                    delta.z -= (speed * Time.deltaTime);
-                if (Input.GetKey(KeyCode.A))
-                    delta.x -= (speed * Time.deltaTime);
-                if (Input.GetKey(KeyCode.D))
-                    delta.x += (speed * Time.deltaTime);
-
-                if (delta.x != 0)
-                    isLeftDir = delta.x < 0;
-
-                if (delta != Vector3.zero)
-                    transform.position += delta;
-                                
-                OnChnagePosition?.Invoke(transform.position);
+                MoveByKeyboard();
+                Attack();
 
                 if (isConnected && transform.localPosition.y <= -5f)
                 {
@@ -99,6 +91,20 @@ namespace Assets.Scripts.Feature.GenSample
             if(coll.gameObject.tag == "Ground")
             {
                 canJump = true;
+            }
+            else if(coll.gameObject.tag == "Mob")
+            {
+                canAtk = true;
+                targetMob = coll.gameObject.GetComponent<MobController>();
+            }
+        }
+
+        void OnCollisionExit(Collision coll)
+        {
+            if(coll.gameObject.tag == "Mob")
+            {
+                canAtk = false;
+                targetMob = null;
             }
         }
 
@@ -169,6 +175,8 @@ namespace Assets.Scripts.Feature.GenSample
 
             transform.SetParent(FindObjectOfType<UnitContainer>().transform);
             targetPos = new Vector3( transform.position.x, 0.0f, transform.position.z);
+
+            curAtkDelay = 0f;
         }
 
         protected override void OnChangeDir(bool isLeft)
@@ -188,6 +196,27 @@ namespace Assets.Scripts.Feature.GenSample
         //    isLeftDir = targetPos.x <= transform.position.x;            
         //}
 
+        private void MoveByKeyboard()
+        {
+            Vector3 delta = Vector3.zero;
+            if (Input.GetKey(KeyCode.W))
+                delta.z += (speed * Time.deltaTime);
+            if (Input.GetKey(KeyCode.S))
+                delta.z -= (speed * Time.deltaTime);
+            if (Input.GetKey(KeyCode.A))
+                delta.x -= (speed * Time.deltaTime);
+            if (Input.GetKey(KeyCode.D))
+                delta.x += (speed * Time.deltaTime);
+
+            if (delta.x != 0)
+                isLeftDir = delta.x < 0;
+
+            if (delta != Vector3.zero)
+                transform.position += delta;
+
+            OnChnagePosition?.Invoke(transform.position);
+        }
+
         public override void Knockback(float centerX, float centerZ)
         {
             var distance = Vector3.Distance(new Vector3(centerX, transform.position.y, centerZ), transform.position);
@@ -206,6 +235,22 @@ namespace Assets.Scripts.Feature.GenSample
         public void Die()
         {
             isDie = true;
+        }
+
+        private void Attack()
+        {
+            if (canAtk && targetMob != null)
+            {
+                if (curAtkDelay >= atkDelay)
+                {
+                    curAtkDelay = 0f;
+                    targetMob.AttackBy(this);
+                }
+                else
+                {
+                    curAtkDelay += Time.deltaTime;
+                }
+            }
         }
     }
 }

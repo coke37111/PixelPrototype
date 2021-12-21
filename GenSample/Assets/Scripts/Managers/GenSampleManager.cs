@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Assets.Scripts.Managers
@@ -18,6 +19,8 @@ namespace Assets.Scripts.Managers
         {
             Move,
             Knockback,
+            MobAttackBy,
+            MobDie,
         }
 
         private readonly List<string> unitPartList = new List<string>
@@ -41,7 +44,9 @@ namespace Assets.Scripts.Managers
 
         public const string PLAYER_LIVES = "GenPlayerLives";
         private const string PLAYER_LOADED_LEVEL = "GenPlayerLoadedLevel";
+        public const string MOB_DIE = "GenMobDie";
 
+        public Text infoText;
         public GameObject collGround;
         public LayerMask ignoreClickLayer;
 
@@ -74,10 +79,11 @@ namespace Assets.Scripts.Managers
 
             if (!isConnect)
             {
-                DestroyAllMob();
-                GenerateMob();
-                ResetMobPos();
+                DestroyAllAIUnit();
+                GenerateAIUnit();
+                ResetAIUnitPos();
                 SpawnPlayer(isConnect);
+                GenerateMob();
             }
             else
             {
@@ -114,19 +120,19 @@ namespace Assets.Scripts.Managers
             {
                 if (Input.GetKeyDown(KeyCode.F1))
                 {
-                    ResetMobPos();
+                    ResetAIUnitPos();
                     ResetPlayerPos();
                 }
 
                 if (Input.GetKeyDown(KeyCode.F2))
                 {
-                    DestroyAllMob();
+                    DestroyAllAIUnit();
                 }
 
                 if (Input.GetKeyDown(KeyCode.F3))
                 {
-                    GenerateMob();
-                    ResetMobPos();
+                    GenerateAIUnit();
+                    ResetAIUnitPos();
                 }
 
                 if (Input.GetMouseButtonUp(0))
@@ -206,11 +212,16 @@ namespace Assets.Scripts.Managers
                     StopAllCoroutines();
                 }
 
-                RoomSettings.roomName = PhotonNetwork.CurrentRoom.Name;
-                RoomSettings.isMaster = PhotonNetwork.IsMasterClient;
-
-                PhotonNetwork.LeaveRoom();
+                StartCoroutine(EndOfGame());
             }
+        }
+
+        private void LeaveRoom()
+        {
+            RoomSettings.roomName = PhotonNetwork.CurrentRoom.Name;
+            RoomSettings.isMaster = PhotonNetwork.IsMasterClient;
+
+            PhotonNetwork.LeaveRoom();
         }
 
         private bool IsPlayerDie(Player player)
@@ -312,6 +323,8 @@ namespace Assets.Scripts.Managers
                     if (!startTimeIsSet)
                     {
                         GenCountdownTimer.SetStartTime();
+
+                        GenerateMob();
                     }
                 }
             }
@@ -336,8 +349,18 @@ namespace Assets.Scripts.Managers
 
                         Knockback(new Vector3(centerX, centerY, centerZ));
 
-                        PhotonView targetIndicator = PhotonNetwork.GetPhotonView(viewId);
+                        PhotonView targetIndicator = PhotonNetwork.GetPhotonView(viewId);                        
                         PhotonNetwork.Destroy(targetIndicator);
+                        break;
+                    }
+                case EventCodeType.MobDie:
+                    {
+                        if (PhotonNetwork.IsMasterClient)
+                        {
+                            StopAllCoroutines();
+                        }
+
+                        StartCoroutine(EndOfGame());
                         break;
                     }
             }
@@ -365,7 +388,7 @@ namespace Assets.Scripts.Managers
             return spawnArea;
         }
 
-        private void GenerateMob()
+        private void GenerateAIUnit()
         {
             GameObject pfUnit = ResourceManager.LoadAsset<GameObject>("Prefab/AIUnit");
             Unit unitComp;
@@ -396,7 +419,7 @@ namespace Assets.Scripts.Managers
             }
         }
 
-        private void DestroyAllMob()
+        private void DestroyAllAIUnit()
         {
             foreach (Unit unit in unitList)
             {
@@ -405,7 +428,7 @@ namespace Assets.Scripts.Managers
             unitList.Clear();
         }
 
-        private void ResetMobPos()
+        private void ResetAIUnitPos()
         {
             foreach (Unit unit in unitList)
             {
@@ -501,7 +524,7 @@ namespace Assets.Scripts.Managers
                 GameObject goIndicator = Instantiate(pfIndicator, initPos, Quaternion.identity, unitContainer);
                 Indicator indicator = goIndicator.GetComponent<Indicator>();
                 indicator.Init(limitTime, scaleX, scaleZ);
-                indicator.SetGenSampleManager(Knockback);
+                indicator.RegisterKnockbackListener(Knockback);
             }
         }
 
@@ -534,21 +557,42 @@ namespace Assets.Scripts.Managers
             }
         }
 
-        private IEnumerator EndOfGame(string winner, int score)
+        private IEnumerator EndOfGame()
         {
+            Log.Print($"EndOfGame");
+
             yield return null;
-            //float timer = 3.0f;
+            float timer = 3.0f;
 
-            //while (timer > 0.0f)
-            //{
-            //    InfoText.text = string.Format("Player {0} won with {1} points.\n\n\nReturning to login screen in {2} seconds.", winner, score, timer.ToString("n2"));
+            while (timer > 0.0f)
+            {
+                Log.Print(timer);
+                infoText.text = string.Format("Leave Room in {0} seconds", timer.ToString("n0"));
 
-            //    yield return new WaitForEndOfFrame();
 
-            //    timer -= Time.deltaTime;
-            //}
+                yield return new WaitForEndOfFrame();
 
-            //PhotonNetwork.LeaveRoom();
+                timer -= Time.deltaTime;
+            }
+
+            LeaveRoom();
+        }
+
+        private void GenerateMob()
+        {
+            Vector3 initPos = new Vector3(0f, 1f, 0f);
+            string pfMobPath = "Prefab/Mob";
+
+            if (isConnect)
+            {
+                var data = new List<object>();
+                PhotonNetwork.InstantiateRoomObject(pfMobPath, initPos, Quaternion.identity, 0, data.ToArray());
+            }
+            else
+            {
+                GameObject pfMob = ResourceManager.LoadAsset<GameObject>(pfMobPath);
+                GameObject goMob = Instantiate(pfMob, initPos, Quaternion.identity, unitContainer);                
+            }
         }
     }
 }

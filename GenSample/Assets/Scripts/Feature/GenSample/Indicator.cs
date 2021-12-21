@@ -64,7 +64,7 @@ namespace Assets.Scripts.Feature.GenSample
             trArea.localScale = new Vector3(scaleX, trArea.localScale.y, scaleZ);
         }
 
-        public void SetGenSampleManager(UnityAction<Vector3> knockbackCB)
+        public void RegisterKnockbackListener(UnityAction<Vector3> knockbackCB)
         {
             this.knockbackCB = knockbackCB;
         }
