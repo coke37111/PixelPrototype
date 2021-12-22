@@ -8,12 +8,15 @@ using static Assets.Scripts.Managers.GenSampleManager;
 
 namespace Assets.Scripts.Feature.GenSample
 {
-    public class MobController : MonoBehaviour, IOnEventCallback
+    public class MobController : MonoBehaviour, IOnEventCallback, IPunInstantiateMagicCallback
     {
         public HpBar hpbar;
 
         public float hp = 10000;
+        public float regenHpRatio = .01f;
+        public float regenHpDelay = .5f;
         private float curHp;
+        private float curRegenHpDelay;
 
         private GameObject hitEffect;
         private GameObject hitEffect2;
@@ -21,18 +24,21 @@ namespace Assets.Scripts.Feature.GenSample
 
         #region UNITY
 
-
-        // Use this for initialization
-        void Start()
-        {
-            curHp = hp;
-            SetGauge();
-        }
-
-        // Update is called once per frame
         void Update()
         {
+            if(curRegenHpDelay >= regenHpDelay)
+            {
+                curRegenHpDelay = 0f;
 
+                if (curHp > 0)
+                {
+                    RegenHp();
+                }
+            }
+            else
+            {
+                curRegenHpDelay += Time.deltaTime;
+            }
         }
 
         public void OnEnable()
@@ -48,6 +54,14 @@ namespace Assets.Scripts.Feature.GenSample
         #endregion
 
         #region PUN_CALLBACKS
+
+        public void OnPhotonInstantiate(PhotonMessageInfo info)
+        {
+            int playerCnt = (int)info.photonView.InstantiationData[0];
+            hp *= playerCnt;
+
+            Init();
+        }
 
         public void OnEvent(EventData photonEvent)
         {
@@ -77,10 +91,30 @@ namespace Assets.Scripts.Feature.GenSample
                         GetComponent<Animator>().SetTrigger("mob_hit_01");
                         break;
                     }
+                case EventCodeType.MobRegenHp:
+                    {
+                        if (curHp >= hp)
+                        {
+                            return;
+                        }
+
+                        curHp += hp * regenHpRatio;
+
+                        SetGauge();
+                        break;
+                    }
             }
         }
 
         #endregion
+
+        public void Init()
+        {
+            transform.SetParent(FindObjectOfType<UnitContainer>().transform);
+
+            curHp = hp;
+            SetGauge();
+        }
 
         public void AttackBy(UnitController unit)
         {
@@ -168,6 +202,27 @@ namespace Assets.Scripts.Feature.GenSample
                     hitEffect2.GetComponent<ParticleSystem>().Play();
                 }
             }
+        }
+
+        private void RegenHp()
+        {
+            if (PhotonNetwork.IsConnected)
+            {
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+                SendOptions sendOptions = new SendOptions { Reliability = true };
+                PhotonNetwork.RaiseEvent((byte)EventCodeType.MobRegenHp, null, raiseEventOptions, sendOptions);
+            }
+            else
+            {
+                if (curHp >= hp)
+                {
+                    return;
+                }
+
+                curHp += hp * regenHpRatio;
+
+                SetGauge();
+            }            
         }
     }
 }

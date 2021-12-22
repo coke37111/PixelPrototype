@@ -23,6 +23,7 @@ namespace Assets.Scripts.Managers
             MobAttackBy,
             MobDie,
             MakeAtkEff,
+            MobRegenHp,
         }
 
         private readonly List<string> unitPartList = new List<string>
@@ -651,12 +652,15 @@ namespace Assets.Scripts.Managers
             if (isConnect)
             {
                 var data = new List<object>();
+                data.Add(PhotonNetwork.PlayerList.Length);
+
                 PhotonNetwork.InstantiateRoomObject(pfMobPath, initPos, Quaternion.identity, 0, data.ToArray());
             }
             else
             {
                 GameObject pfMob = ResourceManager.LoadAsset<GameObject>(pfMobPath);
-                GameObject goMob = Instantiate(pfMob, initPos, Quaternion.identity, unitContainer);                
+                GameObject goMob = Instantiate(pfMob, initPos, Quaternion.identity);
+                goMob.GetComponent<MobController>().Init();
             }
         }
 
