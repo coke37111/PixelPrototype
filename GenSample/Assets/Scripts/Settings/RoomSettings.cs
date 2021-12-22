@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Assets.Scripts.System
+namespace Assets.Scripts.Settings
 {
     public class RoomSettings : MonoBehaviour
     {

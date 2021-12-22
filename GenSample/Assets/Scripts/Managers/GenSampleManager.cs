@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Feature.GenSample;
-using Assets.Scripts.System;
+using Assets.Scripts.Settings;
 using Assets.Scripts.Util;
 using ExitGames.Client.Photon;
 using Photon.Pun;
@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
-using static Assets.Scripts.System.PlayerSettings;
+using static Assets.Scripts.Settings.PlayerSettings;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Assets.Scripts.Managers

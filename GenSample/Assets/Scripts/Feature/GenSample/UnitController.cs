@@ -6,7 +6,7 @@ using Photon.Realtime;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static Assets.Scripts.System.PlayerSettings;
+using static Assets.Scripts.Settings.PlayerSettings;
 
 namespace Assets.Scripts.Feature.GenSample
 {
@@ -33,7 +33,6 @@ namespace Assets.Scripts.Feature.GenSample
         private bool isConnected = false;
         private bool isDie = false;
         private bool canJump = true;
-        private bool knockbacked = false;
 
         private bool canAtk;
         private MobController targetMob;
@@ -247,7 +246,6 @@ namespace Assets.Scripts.Feature.GenSample
                 Vector3 diffPos = transform.position - new Vector3(centerX, transform.position.y, centerZ);
                 Vector3 dir = diffPos.normalized;
                 rb.AddForce(dir * 300f + Vector3.up * 150f);
-                knockbacked = true;
             }
         }
 

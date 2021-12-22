@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace Assets.Scripts.System
+namespace Assets.Scripts.Settings
 {
     public static class UnitSettings
     {

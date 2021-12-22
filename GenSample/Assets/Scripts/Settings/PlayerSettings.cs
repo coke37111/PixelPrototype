@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.System
+﻿namespace Assets.Scripts.Settings
 {
     public static class PlayerSettings
     {

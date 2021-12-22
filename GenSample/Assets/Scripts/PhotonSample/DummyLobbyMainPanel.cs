@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.System;
+﻿using Assets.Scripts.Settings;
 using Assets.Scripts.Util;
 using ExitGames.Client.Photon;
 using Photon.Realtime;

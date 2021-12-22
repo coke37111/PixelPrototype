@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Managers;
-using Assets.Scripts.System;
+using Assets.Scripts.Settings;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;

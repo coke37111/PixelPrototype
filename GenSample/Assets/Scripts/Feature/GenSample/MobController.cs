@@ -4,7 +4,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
-using static Assets.Scripts.System.PlayerSettings;
+using static Assets.Scripts.Settings.PlayerSettings;
 
 namespace Assets.Scripts.Feature.GenSample
 {
