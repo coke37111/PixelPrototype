@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2794545214297028355}
   - component: {fileID: 2912008198765849385}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: fx_hit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 5239875618210611655}
   - component: {fileID: 4957835086230338092}
   - component: {fileID: 3982195960060020662}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9032398899253780106}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: AnimationRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 1208135385983071003}
   - component: {fileID: 7950443612264552042}
   - component: {fileID: 2485201225306065767}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Gauge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -299,7 +299,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3788226047655753190}
   - component: {fileID: 5672291857753003950}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: HpBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,7 +351,7 @@ GameObject:
   - component: {fileID: 6169999151138470387}
   - component: {fileID: 8328703863804353624}
   - component: {fileID: 4423494205327200437}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Bg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -425,7 +425,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8930584945541486627}
   - component: {fileID: 8930584945541486626}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -642,7 +642,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8930584945990410753}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: ImageRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
