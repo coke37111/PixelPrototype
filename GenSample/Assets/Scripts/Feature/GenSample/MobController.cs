@@ -1,13 +1,10 @@
 ﻿using Assets.Scripts.Managers;
-using Assets.Scripts.Util;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Assets.Scripts.Managers.GenSampleManager;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Assets.Scripts.Feature.GenSample
 {
@@ -77,6 +74,7 @@ namespace Assets.Scripts.Feature.GenSample
                         SetGauge();
 
                         MakeHitEffect();
+                        GetComponent<Animator>().SetTrigger("mob_hit_01");
                         break;
                     }
             }
@@ -101,6 +99,8 @@ namespace Assets.Scripts.Feature.GenSample
 
                 SetGauge();
                 MakeHitEffect();
+
+                GetComponent<Animator>().SetTrigger("mob_hit_01");
             }            
         }
 
