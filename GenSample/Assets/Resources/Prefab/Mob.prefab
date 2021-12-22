@@ -512,7 +512,7 @@ GameObject:
   - component: {fileID: 8259922626139420722}
   - component: {fileID: 9199153682668429282}
   - component: {fileID: 8168807644316611256}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Mob
   m_TagString: Mob
   m_Icon: {fileID: 0}
