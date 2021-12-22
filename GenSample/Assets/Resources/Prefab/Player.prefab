@@ -590,8 +590,8 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 13
-  m_Range: 5.3
+  m_Intensity: 1
+  m_Range: 7
   m_SpotAngle: 6
   m_InnerSpotAngle: 1
   m_CookieSize: 10
@@ -627,7 +627,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 704
   m_RenderingLayerMask: 1
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0
