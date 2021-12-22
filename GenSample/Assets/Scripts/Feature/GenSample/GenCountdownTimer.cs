@@ -24,7 +24,7 @@ namespace Assets.Scripts.Feature.GenSample
         private int startTime;
 
         [Header("Reference to a Text component for visualizing the countdown")]
-        public Text Text;
+        public TMPro.TextMeshProUGUI Text;
 
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Assets.Scripts.Feature.GenSample
             if (!this.isTimerRunning) return;
 
             float countdown = TimeRemaining();
-            this.Text.text = string.Format("Game starts in {0} seconds", countdown.ToString("n0"));
+            this.Text.text = string.Format("Ready {0}", countdown.ToString("n0"));
 
             if (countdown > 0.0f) return;
 

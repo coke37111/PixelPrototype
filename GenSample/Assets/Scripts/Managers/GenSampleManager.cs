@@ -16,7 +16,7 @@ namespace Assets.Scripts.Managers
 {
     public class GenSampleManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
-        public Text infoText;
+        public TMPro.TextMeshProUGUI infoText;
         public GameObject collGround;
         public LayerMask ignoreClickLayer;
 
@@ -66,6 +66,10 @@ namespace Assets.Scripts.Managers
                 curLimitTime = 0f;
                 isGameEnd = true;
 
+                Hashtable roomProps = new Hashtable();
+                roomProps["IsGameEnd"] = true;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
+
                 Hashtable props = new Hashtable
                     {
                         { PLAYER_LOADED_LEVEL, true},
@@ -101,6 +105,9 @@ namespace Assets.Scripts.Managers
                     if (curLimitTime >= limitTime)
                     {
                         isGameEnd = true;
+                        Hashtable roomProps = new Hashtable();
+                        roomProps["IsGameEnd"] = true;
+                        PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
 
                         Hashtable props = new Hashtable
                     {
@@ -112,7 +119,13 @@ namespace Assets.Scripts.Managers
                     {
                         curLimitTime += Time.deltaTime;
                     }
-                    infoText.text = $"Remain {(limitTime - curLimitTime):n0} seconds";
+
+                    var remain = limitTime - curLimitTime;
+
+                    if (remain > 3)
+                        infoText.text = $"{(limitTime - curLimitTime):n0}";
+                    else
+                        infoText.text = $"{(limitTime - curLimitTime):f1}";
                 }
             }
             else
@@ -271,6 +284,10 @@ namespace Assets.Scripts.Managers
         private void OnCountdownTimerIsExpired()
         {
             isGameEnd = false;
+            Hashtable roomProps = new Hashtable();
+            roomProps["IsGameEnd"] = false;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
+
             SpawnPlayer(isConnect);
 
             if (isConnect && PhotonNetwork.IsMasterClient)
@@ -542,6 +559,9 @@ namespace Assets.Scripts.Managers
         private IEnumerator EndOfGame()
         {
             isGameEnd = true;
+            Hashtable roomProps = new Hashtable();
+            roomProps["IsGameEnd"] = true;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
 
             yield return null;
             float timer = 3.0f;

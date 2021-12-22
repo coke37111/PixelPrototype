@@ -83,7 +83,7 @@ namespace Assets.Scripts.Feature.GenSample
                 //    }
                 //}
 
-                if (Input.GetKeyDown(KeyCode.Space) && canJump)
+                if (Input.GetKeyDown(KeyCode.Space) && canJump && Controlable)
                 {
                     canJump = false;
                     rb.AddForce(Vector3.up * 150f);
@@ -219,14 +219,18 @@ namespace Assets.Scripts.Feature.GenSample
         private void MoveByKeyboard()
         {
             Vector3 delta = Vector3.zero;
-            if (Input.GetKey(KeyCode.W))
-                delta.z += (speed * Time.deltaTime);
-            if (Input.GetKey(KeyCode.S))
-                delta.z -= (speed * Time.deltaTime);
-            if (Input.GetKey(KeyCode.A))
-                delta.x -= (speed * Time.deltaTime);
-            if (Input.GetKey(KeyCode.D))
-                delta.x += (speed * Time.deltaTime);
+
+            if (Controlable)
+            {                
+                if (Input.GetKey(KeyCode.W))
+                    delta.z += (speed * Time.deltaTime);
+                if (Input.GetKey(KeyCode.S))
+                    delta.z -= (speed * Time.deltaTime);
+                if (Input.GetKey(KeyCode.A))
+                    delta.x -= (speed * Time.deltaTime);
+                if (Input.GetKey(KeyCode.D))
+                    delta.x += (speed * Time.deltaTime);
+            }
 
             if (delta.x != 0)
                 isLeftDir = delta.x < 0;
@@ -331,6 +335,18 @@ namespace Assets.Scripts.Feature.GenSample
                 }
 
                 atkEffectR.GetComponent<ParticleSystem>().Play();
+            }
+        }
+
+        private bool Controlable
+        {
+            get
+            {
+                object value;
+                if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("IsGameEnd", out value))
+                    return ((bool)value) == false;
+
+                return false;
             }
         }
     }
