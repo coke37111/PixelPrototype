@@ -45,6 +45,7 @@ namespace Assets.Scripts.Managers
             "char_st_01",
             "char_st_01_human_m",
             "char_st_01_human_s",
+            "char_st_01_human_l",
         };
 
         public const string PLAYER_LIVES = "GenPlayerLives";
