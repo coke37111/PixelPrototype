@@ -8,51 +8,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
+using static Assets.Scripts.System.PlayerSettings;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Assets.Scripts.Managers
 {
     public class GenSampleManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
-        public enum EventCodeType
-        {
-            Move,
-            Knockback,
-            MobAttackBy,
-            MobDie,
-            MakeAtkEff,
-            MobRegenHp,
-        }
-
-        private readonly List<string> unitPartList = new List<string>
-        {
-            "cos",
-            "hair1",
-            "hair2",
-            "skin",
-            "hat",
-            "wp_1",
-            "wp_shild",
-        };
-
-        private readonly List<string> unitTypeList = new List<string>
-        {
-            "human_m",
-            "human_s",
-            "human_l",
-            "char_st_01",
-            "char_st_01_human_m",
-            "char_st_01_human_s",
-            "char_st_01_human_l",
-        };
-
-        public const string PLAYER_LIVES = "GenPlayerLives";
-        private const string PLAYER_LOADED_LEVEL = "GenPlayerLoadedLevel";
-        public const string MOB_DIE = "GenMobDie";
-        private const string FAIL_GAME = "GenGameFail";
-
         public Text infoText;
         public GameObject collGround;
         public LayerMask ignoreClickLayer;
@@ -105,7 +68,7 @@ namespace Assets.Scripts.Managers
 
                 Hashtable props = new Hashtable
                     {
-                        {PLAYER_LOADED_LEVEL, true},
+                        { PLAYER_LOADED_LEVEL, true},
                         { PLAYER_LIVES, 1 },
                     { FAIL_GAME, false }
                     };
@@ -205,7 +168,7 @@ namespace Assets.Scripts.Managers
         public void SpawnPlayer(bool isConnect)
         {
             Vector3 initPos = new Vector3(0, initSpawnHeight, -1f);
-            Dictionary<string, string> selectUnitParts = GetSelectUnitPartDict();
+            Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict();
 
             if (isConnect)
             {
@@ -487,7 +450,7 @@ namespace Assets.Scripts.Managers
                 }
 
                 unitComp.Init();
-                unitComp.SetSprite(GetSelectUnitPartDict());
+                unitComp.SetSprite(UnitSettings.GetSelectUnitPartDict());
             }
         }
 
@@ -518,57 +481,6 @@ namespace Assets.Scripts.Managers
         }
 
         #endregion
-
-        private Dictionary<string, string> GetSelectUnitPartDict()
-        {
-            Dictionary<string, string> unitPartData = new Dictionary<string, string>();
-
-            string unitType = "";
-            for (int i = 0; i < unitTypeList.Count; i++)
-            {
-                if (UnityEngine.Random.Range(0f, 1f) >= .3f || i == unitTypeList.Count - 1)
-                {
-                    unitType = unitTypeList[i];
-                    break;
-                }
-            }
-
-            foreach (string unitPartName in unitPartList)
-            {
-                string dirPath = $"Image/Unit/{unitType}/imgs/{unitPartName}";
-                Sprite selectSprite = GetRandomSprite(dirPath);
-                if (selectSprite == null)
-                {
-                    Log.Error($"Cannot SpawnPlayer! : Cannot find sprite {dirPath}!");
-                    continue;
-                }
-                string spriteName = GetRandomSprite(dirPath).name;
-
-                string resPath = Path.Combine(dirPath, spriteName);
-
-                unitPartData.Add(unitPartName, resPath);
-            }
-
-            return unitPartData;
-        }
-
-        private Sprite GetRandomSprite(string path)
-        {
-            Sprite resultSprite = null;
-
-            Sprite[] loadedSprite = ResourceManager.LoadAssets<Sprite>(path);
-
-            for (int i = 0; i < loadedSprite.Length; i++)
-            {
-                if (UnityEngine.Random.Range(0f, 1f) > .5f || i == loadedSprite.Length - 1)
-                {
-                    resultSprite = loadedSprite[i];
-                    break;
-                }
-            }
-
-            return resultSprite;
-        }
 
         private void MakeIndicator(Vector3 hitPoint)
         {

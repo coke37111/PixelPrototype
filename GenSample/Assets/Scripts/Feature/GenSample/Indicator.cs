@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Managers;
+using Assets.Scripts.System;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
@@ -91,7 +92,7 @@ namespace Assets.Scripts.Feature.GenSample
                         List<object> content = new List<object>() { photonView.ViewID, trPos.x, trPos.y, trPos.z };
                         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
                         SendOptions sendOptions = new SendOptions { Reliability = true };
-                        PhotonNetwork.RaiseEvent((byte)GenSampleManager.EventCodeType.Knockback, content.ToArray(), raiseEventOptions, sendOptions);
+                        PhotonNetwork.RaiseEvent((byte)PlayerSettings.EventCodeType.Knockback, content.ToArray(), raiseEventOptions, sendOptions);
                     }
                 }
             }

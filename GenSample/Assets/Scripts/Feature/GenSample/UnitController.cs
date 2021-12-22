@@ -6,7 +6,7 @@ using Photon.Realtime;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static Assets.Scripts.Managers.GenSampleManager;
+using static Assets.Scripts.System.PlayerSettings;
 
 namespace Assets.Scripts.Feature.GenSample
 {
