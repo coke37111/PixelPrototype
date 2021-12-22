@@ -49,6 +49,7 @@ namespace Assets.Scripts.Managers
         public const string PLAYER_LIVES = "GenPlayerLives";
         private const string PLAYER_LOADED_LEVEL = "GenPlayerLoadedLevel";
         public const string MOB_DIE = "GenMobDie";
+        private const string FAIL_GAME = "GenGameFail";
 
         public Text infoText;
         public GameObject collGround;
@@ -63,6 +64,10 @@ namespace Assets.Scripts.Managers
         private Vector2 spawnAreaZ; // min, max
         [Range(0f, 1f)]
         public float spawnRange;
+
+        public float limitTime = 30f;
+        private float curLimitTime;
+        private bool isGameEnd;
 
         private readonly float MIN_SPAWN_TIME_INDICATOR = 1f;
         private readonly float MAX_SPAWN_TIME_INDICATOR = 3f;
@@ -93,10 +98,14 @@ namespace Assets.Scripts.Managers
             }
             else
             {
+                curLimitTime = 0f;
+                isGameEnd = true;
+
                 Hashtable props = new Hashtable
                     {
                         {PLAYER_LOADED_LEVEL, true},
-                        { PLAYER_LIVES, 1 }
+                        { PLAYER_LIVES, 1 },
+                    { FAIL_GAME, false }
                     };
                 PhotonNetwork.LocalPlayer.SetCustomProperties(props);
             }
@@ -120,6 +129,25 @@ namespace Assets.Scripts.Managers
                     //{
                     //    MakeIndicator(hit.point);
                     //}
+                }
+
+                if (!isGameEnd)
+                {
+                    if (curLimitTime >= limitTime)
+                    {
+                        isGameEnd = true;
+
+                        Hashtable props = new Hashtable
+                    {
+                        { FAIL_GAME, true },
+                    };
+                        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+                    }
+                    else
+                    {
+                        curLimitTime += Time.deltaTime;
+                    }
+                    infoText.text = $"Remain {(limitTime - curLimitTime):n0} seconds";
                 }
             }
             else
@@ -211,7 +239,21 @@ namespace Assets.Scripts.Managers
                 }
             }
 
-            if (allDestroyed)
+            bool failClear = true;
+            foreach (Player p in PhotonNetwork.PlayerList)
+            {
+                object playerGameFail;
+                if (p.CustomProperties.TryGetValue(FAIL_GAME, out playerGameFail))
+                {
+                    if (!(bool)playerGameFail)
+                    {
+                        failClear = false;
+                        break;
+                    }
+                }
+            }
+
+            if (allDestroyed || failClear)
             {
                 if (PhotonNetwork.IsMasterClient)
                 {
@@ -263,6 +305,7 @@ namespace Assets.Scripts.Managers
 
         private void OnCountdownTimerIsExpired()
         {
+            isGameEnd = false;
             SpawnPlayer(isConnect);
 
             if (isConnect && PhotonNetwork.IsMasterClient)
@@ -305,6 +348,11 @@ namespace Assets.Scripts.Managers
                     }
                 }
 
+                CheckEndOfGame();
+            }
+
+            if (changedProps.ContainsKey(FAIL_GAME))
+            {
                 CheckEndOfGame();
             }
 
@@ -579,6 +627,8 @@ namespace Assets.Scripts.Managers
 
         private IEnumerator EndOfGame()
         {
+            isGameEnd = true;
+
             yield return null;
             float timer = 3.0f;
 
