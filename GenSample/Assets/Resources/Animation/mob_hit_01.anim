@@ -84,7 +84,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: ImageRoot
+    path: ImageRoot/AnimationRoot
   m_ScaleCurves:
   - curve:
       serializedVersion: 2
@@ -119,7 +119,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: ImageRoot
+    path: ImageRoot/AnimationRoot
   m_FloatCurves:
   - curve:
       serializedVersion: 2
@@ -155,7 +155,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_IsActive
-    path: ImageRoot/fx_hit
+    path: ImageRoot/AnimationRoot/fx_hit
     classID: 1
     script: {fileID: 0}
   - curve:
@@ -183,7 +183,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.a
-    path: ImageRoot/fx_hit
+    path: ImageRoot/AnimationRoot/fx_hit
     classID: 212
     script: {fileID: 0}
   m_PPtrCurves: []
@@ -314,7 +314,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: ImageRoot
+    path: ImageRoot/AnimationRoot
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -351,7 +351,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: ImageRoot
+    path: ImageRoot/AnimationRoot
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -379,7 +379,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: ImageRoot
+    path: ImageRoot/AnimationRoot
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -416,7 +416,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.x
-    path: ImageRoot
+    path: ImageRoot/AnimationRoot
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -453,7 +453,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.y
-    path: ImageRoot
+    path: ImageRoot/AnimationRoot
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -481,7 +481,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.z
-    path: ImageRoot
+    path: ImageRoot/AnimationRoot
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -518,7 +518,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_IsActive
-    path: ImageRoot/fx_hit
+    path: ImageRoot/AnimationRoot/fx_hit
     classID: 1
     script: {fileID: 0}
   - curve:
@@ -546,7 +546,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Color.a
-    path: ImageRoot/fx_hit
+    path: ImageRoot/AnimationRoot/fx_hit
     classID: 212
     script: {fileID: 0}
   m_EulerEditorCurves: []
