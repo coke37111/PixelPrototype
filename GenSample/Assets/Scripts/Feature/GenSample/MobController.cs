@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Util;
+﻿using Assets.Scripts.Managers;
+using Assets.Scripts.Util;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
@@ -15,8 +16,11 @@ namespace Assets.Scripts.Feature.GenSample
         public HpBar hpbar;
 
         public float hp = 10000;
-
         private float curHp;
+
+        private GameObject hitEffect;
+        private GameObject hitEffect2;
+        private GameObject critHitEffect;
 
         #region UNITY
 
@@ -71,6 +75,8 @@ namespace Assets.Scripts.Feature.GenSample
                             Die();
                         }
                         SetGauge();
+
+                        MakeHitEffect();
                         break;
                     }
             }
@@ -94,6 +100,7 @@ namespace Assets.Scripts.Feature.GenSample
                     curHp = 0f;
 
                 SetGauge();
+                MakeHitEffect();
             }            
         }
 
@@ -110,6 +117,55 @@ namespace Assets.Scripts.Feature.GenSample
                 if (PhotonNetwork.IsMasterClient)
                 {
                     PhotonNetwork.Destroy(gameObject);
+                }
+            }
+        }
+
+        public void MakeHitEffect()
+        {
+            string effPath = $"Prefab/Effect/";
+
+            bool isCrit = Random.Range(0f, 1f) >= .7f;
+            if (isCrit)
+            {
+                effPath += "damage_critical";
+
+                if(critHitEffect == null)
+                {
+                    GameObject pfCritHitEff = ResourceManager.LoadAsset<GameObject>(effPath);
+                    critHitEffect = Instantiate(pfCritHitEff, transform);                    
+                }
+
+                critHitEffect.transform.localPosition = new Vector3(Random.Range(-.2f, .2f), Random.Range(-.2f, .2f), 0f);
+                critHitEffect.GetComponent<ParticleSystem>().Play();
+            }
+            else
+            {
+                if(Random.Range(0f, 1f) > .5f)
+                {
+                    effPath += "damage_001";
+
+                    if (hitEffect == null)
+                    {
+                        GameObject pfHitEff = ResourceManager.LoadAsset<GameObject>(effPath);
+                        hitEffect = Instantiate(pfHitEff, transform);
+                    }
+
+                    hitEffect.transform.localPosition = new Vector3(Random.Range(-.2f, .2f), Random.Range(-.2f, .2f), 0f);
+                    hitEffect.GetComponent<ParticleSystem>().Play();
+                }
+                else
+                {
+                    effPath += "damage_002";
+
+                    if (hitEffect2 == null)
+                    {
+                        GameObject pfHitEff = ResourceManager.LoadAsset<GameObject>(effPath);
+                        hitEffect2 = Instantiate(pfHitEff, transform);
+                    }
+
+                    hitEffect2.transform.localPosition = new Vector3(Random.Range(-.2f, .2f), Random.Range(-.2f, .2f), 0f);
+                    hitEffect2.GetComponent<ParticleSystem>().Play();
                 }
             }
         }

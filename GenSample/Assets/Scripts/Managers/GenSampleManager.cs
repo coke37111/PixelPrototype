@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -21,6 +22,7 @@ namespace Assets.Scripts.Managers
             Knockback,
             MobAttackBy,
             MobDie,
+            MakeAtkEff,
         }
 
         private readonly List<string> unitPartList = new List<string>
@@ -40,6 +42,8 @@ namespace Assets.Scripts.Managers
             "human_s",
             "human_l",
             "char_st_01",
+            "char_st_01_human_m",
+            "char_st_01_human_s",
         };
 
         public const string PLAYER_LIVES = "GenPlayerLives";
@@ -68,6 +72,8 @@ namespace Assets.Scripts.Managers
 
         private UnitController unitCtrl;
         private readonly float initSpawnHeight = 1f;
+
+        private static List<UnitController> unitListenerList = new List<UnitController>();
 
         #region UNITY
         // Use this for initialization
@@ -363,6 +369,22 @@ namespace Assets.Scripts.Managers
                         StartCoroutine(EndOfGame());
                         break;
                     }
+                case EventCodeType.MakeAtkEff:
+                    {
+                        int senderViewId = (int)data[0];
+                        string effColor = data[1].ToString();
+
+                        foreach(UnitController unit in unitListenerList)
+                        {
+                            if(unit.photonView.ViewID == senderViewId)
+                            {
+                                unit.SetAtkEffColor(effColor);
+                                unit.MakeAtkEffect();
+                                break;
+                            }
+                        }
+                        break;
+                    }
             }
         }
 
@@ -557,17 +579,12 @@ namespace Assets.Scripts.Managers
 
         private IEnumerator EndOfGame()
         {
-            //Log.Print($"EndOfGame");
-
             yield return null;
             float timer = 3.0f;
 
             while (timer > 0.0f)
             {
-                //Log.Print(timer);
                 infoText.text = string.Format("Leave Room in {0} seconds", timer.ToString("n0"));
-
-
                 yield return new WaitForEndOfFrame();
 
                 timer -= Time.deltaTime;
@@ -591,6 +608,16 @@ namespace Assets.Scripts.Managers
                 GameObject pfMob = ResourceManager.LoadAsset<GameObject>(pfMobPath);
                 GameObject goMob = Instantiate(pfMob, initPos, Quaternion.identity, unitContainer);                
             }
+        }
+
+        public static void RegisterUnit(UnitController unit)
+        {
+            unitListenerList.Add(unit);
+        }
+
+        public static void UnRegisterUnit(UnitController unit)
+        {
+            unitListenerList.Remove(unit);
         }
     }
 }

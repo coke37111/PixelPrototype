@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Util;
+﻿using Assets.Scripts.Managers;
+using Assets.Scripts.Util;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
@@ -11,7 +12,18 @@ namespace Assets.Scripts.Feature.GenSample
 {
     public class UnitController : Unit, IPunInstantiateMagicCallback, IOnEventCallback
     {
+        public readonly string[] effColorList = new string[] {
+            "blue",
+            "green",
+            "purple",
+            "red",
+            "yellow"
+        };
+
         public PhotonView photonView;
+        public Transform effContainerL;
+        public Transform effContainerR;
+
         public float speed = 1f;
         public float atk = 10f;
         public float atkDelay = .5f;
@@ -27,16 +39,25 @@ namespace Assets.Scripts.Feature.GenSample
         private MobController targetMob;
         private float curAtkDelay;
 
+        private GameObject atkEffectL;
+        private GameObject atkEffectR;
+        private string curEffColor;
+        
+
         #region UNITY
 
         public void OnEnable()
         {
             PhotonNetwork.AddCallbackTarget(this);
+
+            GenSampleManager.RegisterUnit(this);
         }
 
         public void OnDisable()
         {
             PhotonNetwork.RemoveCallbackTarget(this);
+
+            GenSampleManager.UnRegisterUnit(this);
         }
 
         protected override void Update()
@@ -243,11 +264,75 @@ namespace Assets.Scripts.Feature.GenSample
                 {
                     curAtkDelay = 0f;
                     targetMob.AttackBy(this);
+
+                    CheckAtkEffect();
                 }
                 else
                 {
                     curAtkDelay += Time.deltaTime;
                 }
+            }
+        }
+
+        private void CheckAtkEffect()
+        {
+            SetAtkEffColor();
+
+            if (PhotonNetwork.IsConnected)
+            {
+                List<object> content = new List<object>() { photonView.ViewID, curEffColor };
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+                SendOptions sendOptions = new SendOptions { Reliability = true };
+                PhotonNetwork.RaiseEvent((byte)EventCodeType.MakeAtkEff, content, raiseEventOptions, sendOptions);
+            }
+            else
+            {
+                MakeAtkEffect();
+            }
+        }
+
+        public void SetAtkEffColor()
+        {
+            if (!string.IsNullOrEmpty(curEffColor))
+                return;
+
+            int colorIdx = UnityEngine.Random.Range(0, effColorList.Length);
+            curEffColor = effColorList[colorIdx];
+        }
+
+        public void SetAtkEffColor(string effColor)
+        {
+            if (!string.IsNullOrEmpty(curEffColor))
+                return;
+
+            curEffColor = effColor;
+        }
+
+        public void MakeAtkEffect()
+        {
+            if (isLeftDir)
+            {
+                if(atkEffectL == null)
+                {
+                    GameObject pfAtkEff =
+                        ResourceManager.LoadAsset<GameObject>($"Prefab/Effect/attack_slash_eff_{curEffColor}_L");
+                    atkEffectL = Instantiate(pfAtkEff, effContainerL);
+                    atkEffectL.transform.localPosition = Vector3.zero;
+                }
+
+                atkEffectL.GetComponent<ParticleSystem>().Play();
+            }
+            else
+            {
+                if (atkEffectR == null)
+                {
+                    GameObject pfAtkEff =
+                        ResourceManager.LoadAsset<GameObject>($"Prefab/Effect/attack_slash_eff_{curEffColor}_R");
+                    atkEffectR = Instantiate(pfAtkEff, effContainerR);
+                    atkEffectR.transform.localPosition = Vector3.zero;
+                }
+
+                atkEffectR.GetComponent<ParticleSystem>().Play();
             }
         }
     }
