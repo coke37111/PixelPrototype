@@ -71,7 +71,7 @@ namespace Assets.Scripts.Feature.GenSample
             switch (eventCodeType)
             {
                 case EventCodeType.MobAttackBy:
-                    {
+                    {                        
                         float damage = (float)data[0];
 
                         curHp -= damage;
@@ -83,7 +83,9 @@ namespace Assets.Scripts.Feature.GenSample
                             SendOptions sendOptions = new SendOptions { Reliability = true };
                             PhotonNetwork.RaiseEvent((byte)EventCodeType.MobDie, null, raiseEventOptions, sendOptions);
 
-                            Die();
+                            GetComponent<Animator>().SetTrigger("mob_die_01");
+                            SetGauge();
+                            return;
                         }
                         SetGauge();
 
@@ -118,6 +120,9 @@ namespace Assets.Scripts.Feature.GenSample
 
         public void AttackBy(UnitController unit)
         {
+            if (curHp <= 0)
+                return;
+
             if (PhotonNetwork.IsConnected)
             {
                 List<object> content = new List<object>() { unit.atk };
@@ -144,7 +149,7 @@ namespace Assets.Scripts.Feature.GenSample
             hpbar.SetGauge(hpRatio);
         }
 
-        private void Die()
+        public void Die()
         {
             if (PhotonNetwork.IsConnected)
             {
@@ -223,6 +228,11 @@ namespace Assets.Scripts.Feature.GenSample
 
                 SetGauge();
             }            
+        }
+
+        public bool IsDie()
+        {
+            return curHp <= 0f;
         }
     }
 }
