@@ -16,6 +16,14 @@ namespace Assets.Scripts.Managers
 {
     public class GenSampleManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
+        public enum GenSampleState
+        {
+            Init,
+            Idle,
+            play,
+        }
+        private GenSampleState genSampleState;
+
         public TMPro.TextMeshProUGUI infoText;
         public GameObject collGround;
         public LayerMask ignoreClickLayer;
@@ -52,111 +60,27 @@ namespace Assets.Scripts.Managers
             if(PhotonNetwork.IsConnected)
                 PlayerSettings.ConnectNetwork();
 
-            SetSpawnArea();
-            if (!PlayerSettings.IsConnectNetwork())
-            {
-                DestroyAllAIUnit();
-                GenerateAIUnit();
-                ResetAIUnitPos();
-
-                SpawnPlayer();
-                GenerateMob();
-            }
-            else
-            {
-                curLimitTime = 0f;
-                isGameEnd = true;
-
-                Hashtable roomProps = new Hashtable();
-                roomProps["IsGameEnd"] = true;
-                PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
-
-                Hashtable props = new Hashtable();
-                props.Add(PLAYER_LOADED_LEVEL, true);
-                props.Add(PLAYER_LIVES, DEFAULT_PLAYER_LIVES);
-                props.Add(FAIL_GAME, false);
-                PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-            }
+            SetGenSampleState(GenSampleState.Init);
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (PlayerSettings.IsConnectNetwork())
+            switch (genSampleState)
             {
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    PhotonNetwork.LeaveRoom();
-                }
-
-                if (PhotonNetwork.IsMasterClient && Input.GetMouseButtonUp(0))
-                {
-                    //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    //RaycastHit hit;
-                    //if (Physics.Raycast(ray, out hit, 10000f, ~ignoreClickLayer))
-                    //{
-                    //    MakeIndicator(hit.point);
-                    //}
-                }
-
-                if (!isGameEnd)
-                {
-                    if (curLimitTime >= limitTime)
+                case GenSampleState.Idle: return;
+                case GenSampleState.Init:
                     {
-                        isGameEnd = true;
-                        Hashtable roomProps = new Hashtable();
-                        roomProps["IsGameEnd"] = true;
-                        PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
-
-                        Hashtable props = new Hashtable
-                    {
-                        { FAIL_GAME, true },
-                    };
-                        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+                        InitProc();
+                        break;
                     }
-                    else
+                case GenSampleState.play:
                     {
-                        curLimitTime += Time.deltaTime;
+                        PlayProc();
+                        break;
                     }
-
-                    var remain = limitTime - curLimitTime;
-
-                    if (remain > 3)
-                        infoText.text = $"{(limitTime - curLimitTime):n0}";
-                    else
-                        infoText.text = $"{(limitTime - curLimitTime):f1}";
-                }
-            }
-            else
-            {
-                if (Input.GetKeyDown(KeyCode.F1))
-                {
-                    ResetAIUnitPos();
-                    ResetPlayerPos();
-                }
-
-                if (Input.GetKeyDown(KeyCode.F2))
-                {
-                    DestroyAllAIUnit();
-                }
-
-                if (Input.GetKeyDown(KeyCode.F3))
-                {
-                    GenerateAIUnit();
-                    ResetAIUnitPos();
-                }
-
-                if (Input.GetMouseButtonUp(0))
-                {
-                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    RaycastHit hit;
-                    if (Physics.Raycast(ray, out hit, 10000f, ~ignoreClickLayer))
-                    {
-                        MakeIndicator(hit.point);
-                    }
-                }
-            }
-        }
+            }            
+        }        
 
         public override void OnEnable()
         {
@@ -420,6 +344,8 @@ namespace Assets.Scripts.Managers
             {
                 StartCoroutine(SpawnIndicator());
             }
+
+            SetGenSampleState(GenSampleState.play);
         }
 
         private IEnumerator EndOfGame()
@@ -447,22 +373,15 @@ namespace Assets.Scripts.Managers
 
         #region NOT_CONNTECT_NETWORK
 
-        private void SetSpawnArea()
+        private void InitSpawnArea()
         {   
-            Vector3 spawnArea = GetSpawnArea();
-
-            Vector3 center = collGround.transform.localPosition;
-            spawnAreaX = new Vector2(-spawnArea.x, spawnArea.x) + Vector2.one * center.x;
-            spawnAreaZ = new Vector2(-spawnArea.z, spawnArea.z) + Vector2.one * center.z;
-        }
-
-        public Vector3 GetSpawnArea()
-        {
+            Vector3 groundCenter = collGround.transform.localPosition;
             Vector3 groundScale = collGround.transform.localScale;
-            
-            // x-z 좌표계
-            Vector3 spawnArea = new Vector3(Mathf.Abs(groundScale.x), Mathf.Abs(groundScale.y), Mathf.Abs(groundScale.z)) * .5f * spawnRange;
-            return spawnArea;
+
+            Vector3 spawnRadius = groundScale * .5f * spawnRange;
+
+            spawnAreaX = new Vector2(-spawnRadius.x, spawnRadius.x) + Vector2.one * groundCenter.x;
+            spawnAreaZ = new Vector2(-spawnRadius.z, spawnRadius.z) + Vector2.one * groundCenter.z;
         }
 
         private void GenerateAIUnit()
@@ -609,6 +528,122 @@ namespace Assets.Scripts.Managers
         public static void UnRegisterUnit(UnitController unit)
         {
             unitListenerList.Remove(unit);
+        }
+
+        private void SetGenSampleState(GenSampleState state)
+        {
+            this.genSampleState = state;
+        }
+        private void PlayProc()
+        {
+            if (PlayerSettings.IsConnectNetwork())
+            {
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    PhotonNetwork.LeaveRoom();
+                }
+
+                if (PhotonNetwork.IsMasterClient && Input.GetMouseButtonUp(0))
+                {
+                    //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    //RaycastHit hit;
+                    //if (Physics.Raycast(ray, out hit, 10000f, ~ignoreClickLayer))
+                    //{
+                    //    MakeIndicator(hit.point);
+                    //}
+                }
+
+                if (!isGameEnd)
+                {
+                    if (curLimitTime >= limitTime)
+                    {
+                        isGameEnd = true;
+                        Hashtable roomProps = new Hashtable();
+                        roomProps["IsGameEnd"] = true;
+                        PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
+
+                        Hashtable props = new Hashtable
+                    {
+                        { FAIL_GAME, true },
+                    };
+                        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+                    }
+                    else
+                    {
+                        curLimitTime += Time.deltaTime;
+                    }
+
+                    var remain = limitTime - curLimitTime;
+
+                    if (remain > 3)
+                        infoText.text = $"{(limitTime - curLimitTime):n0}";
+                    else
+                        infoText.text = $"{(limitTime - curLimitTime):f1}";
+                }
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.F1))
+                {
+                    ResetAIUnitPos();
+                    ResetPlayerPos();
+                }
+
+                if (Input.GetKeyDown(KeyCode.F2))
+                {
+                    DestroyAllAIUnit();
+                }
+
+                if (Input.GetKeyDown(KeyCode.F3))
+                {
+                    GenerateAIUnit();
+                    ResetAIUnitPos();
+                }
+
+                if (Input.GetMouseButtonUp(0))
+                {
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit, 10000f, ~ignoreClickLayer))
+                    {
+                        MakeIndicator(hit.point);
+                    }
+                }
+            }
+        }
+
+        private void InitProc()
+        {
+            InitSpawnArea();
+
+            if (!PlayerSettings.IsConnectNetwork())
+            {
+                DestroyAllAIUnit();
+                GenerateAIUnit();
+                ResetAIUnitPos();
+
+                SpawnPlayer();
+                GenerateMob();
+
+                SetGenSampleState(GenSampleState.play);
+            }
+            else
+            {
+                curLimitTime = 0f;
+                isGameEnd = true;
+
+                Hashtable roomProps = new Hashtable();
+                roomProps["IsGameEnd"] = true;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
+
+                Hashtable props = new Hashtable();
+                props.Add(PLAYER_LOADED_LEVEL, true);
+                props.Add(PLAYER_LIVES, DEFAULT_PLAYER_LIVES);
+                props.Add(FAIL_GAME, false);
+                PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+                SetGenSampleState(GenSampleState.Idle);
+            }
         }
     }
 }
