@@ -10,10 +10,11 @@
             MobDie,
             MakeAtkEff,
             MobRegenHp,
+            PlayerDie,
         }
 
         public const string PLAYER_LOADED_LEVEL = "GenPlayerLoadedLevel"; // 모든 player 씬 로드 체크 후 player 생성
-        public const string PLAYER_LIVES = "GenPlayerLives"; // player 낙하로 인한 종료 체크
+        public const string PLAYER_DIE = "GEN_PLAYER_DIE"; // player 낙하로 인한 종료 체크 new
         public const string FAIL_GAME = "GenGameFail"; // 시간 초과로 인한 종료 체크
 
         public const int DEFAULT_PLAYER_LIVES = 1;

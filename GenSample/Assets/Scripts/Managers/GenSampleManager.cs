@@ -20,7 +20,8 @@ namespace Assets.Scripts.Managers
         {
             Init,
             Idle,
-            play,
+            playNetwork,
+            playAI,
         }
         private GenSampleState genSampleState;
 
@@ -74,9 +75,14 @@ namespace Assets.Scripts.Managers
                         InitProc();
                         break;
                     }
-                case GenSampleState.play:
+                case GenSampleState.playNetwork:
                     {
-                        PlayProc();
+                        PlayProcNetwork();
+                        break;
+                    }
+                case GenSampleState.playAI:
+                    {
+                        PlayProcAI();
                         break;
                     }
             }            
@@ -121,16 +127,8 @@ namespace Assets.Scripts.Managers
 
         public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
         {
-            if (changedProps.ContainsKey(PLAYER_LIVES))
-            {                
-                if(PhotonNetwork.LocalPlayer.ActorNumber == targetPlayer.ActorNumber)
-                {
-                    if(IsPlayerDie(targetPlayer))
-                    {
-                        unitCtrl.Die();
-                    }
-                }
-
+            if (changedProps.ContainsKey(PLAYER_DIE))
+            {           
                 CheckEndOfGame();
             }
 
@@ -304,10 +302,10 @@ namespace Assets.Scripts.Managers
 
         private bool IsPlayerDie(Player player)
         {
-            object lives;
-            if (player.CustomProperties.TryGetValue(PLAYER_LIVES, out lives))
+            object isDie;
+            if (player.CustomProperties.TryGetValue(PLAYER_DIE, out isDie))
             {
-                return (int)lives <= 0;
+                return (bool)isDie;
             }
 
             return false;
@@ -348,7 +346,7 @@ namespace Assets.Scripts.Managers
                 StartCoroutine(SpawnIndicator());
             }
 
-            SetGenSampleState(GenSampleState.play);
+            SetGenSampleState(GenSampleState.playNetwork);
         }
 
         private IEnumerator EndOfGame()
@@ -537,80 +535,68 @@ namespace Assets.Scripts.Managers
         {
             this.genSampleState = state;
         }
-        private void PlayProc()
+        private void PlayProcNetwork()
         {
-            if (PlayerSettings.IsConnectNetwork())
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    PhotonNetwork.LeaveRoom();
-                }
+                PhotonNetwork.LeaveRoom();
+            }
 
-                if (PhotonNetwork.IsMasterClient && Input.GetMouseButtonUp(0))
+            if (!isGameEnd)
+            {
+                if (curLimitTime >= limitTime)
                 {
-                    //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    //RaycastHit hit;
-                    //if (Physics.Raycast(ray, out hit, 10000f, ~ignoreClickLayer))
-                    //{
-                    //    MakeIndicator(hit.point);
-                    //}
-                }
+                    isGameEnd = true;
+                    Hashtable roomProps = new Hashtable();
+                    roomProps["IsGameEnd"] = true;
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
 
-                if (!isGameEnd)
-                {
-                    if (curLimitTime >= limitTime)
-                    {
-                        isGameEnd = true;
-                        Hashtable roomProps = new Hashtable();
-                        roomProps["IsGameEnd"] = true;
-                        PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
-
-                        Hashtable props = new Hashtable
+                    Hashtable props = new Hashtable
                     {
                         { FAIL_GAME, true },
                     };
-                        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-                    }
-                    else
-                    {
-                        curLimitTime += Time.deltaTime;
-                    }
-
-                    var remain = limitTime - curLimitTime;
-
-                    if (remain > 3)
-                        infoText.text = $"{(limitTime - curLimitTime):n0}";
-                    else
-                        infoText.text = $"{(limitTime - curLimitTime):f1}";
+                    PhotonNetwork.LocalPlayer.SetCustomProperties(props);
                 }
+                else
+                {
+                    curLimitTime += Time.deltaTime;
+                }
+
+                var remain = limitTime - curLimitTime;
+
+                if (remain > 3)
+                    infoText.text = $"{(limitTime - curLimitTime):n0}";
+                else
+                    infoText.text = $"{(limitTime - curLimitTime):f1}";
             }
-            else
+        }
+
+        private void PlayProcAI()
+        {
+            if (Input.GetKeyDown(KeyCode.F1))
             {
-                if (Input.GetKeyDown(KeyCode.F1))
-                {
-                    ResetAIUnitPos();
-                    ResetPlayerPos();
-                }
+                ResetAIUnitPos();
+                ResetPlayerPos();
+            }
 
-                if (Input.GetKeyDown(KeyCode.F2))
-                {
-                    DestroyAllAIUnit();
-                }
+            if (Input.GetKeyDown(KeyCode.F2))
+            {
+                DestroyAllAIUnit();
+            }
 
-                if (Input.GetKeyDown(KeyCode.F3))
-                {
-                    GenerateAIUnit();
-                    ResetAIUnitPos();
-                }
+            if (Input.GetKeyDown(KeyCode.F3))
+            {
+                GenerateAIUnit();
+                ResetAIUnitPos();
+            }
 
-                if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, 10000f, ~ignoreClickLayer))
                 {
-                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    RaycastHit hit;
-                    if (Physics.Raycast(ray, out hit, 10000f, ~ignoreClickLayer))
-                    {
-                        MakeIndicator(hit.point);
-                    }
+                    MakeIndicator(hit.point);
                 }
             }
         }
@@ -628,7 +614,7 @@ namespace Assets.Scripts.Managers
                 SpawnPlayer();
                 GenerateMob();
 
-                SetGenSampleState(GenSampleState.play);
+                SetGenSampleState(GenSampleState.playAI);
             }
             else
             {
@@ -641,7 +627,7 @@ namespace Assets.Scripts.Managers
 
                 Hashtable props = new Hashtable();
                 props.Add(PLAYER_LOADED_LEVEL, true);
-                props.Add(PLAYER_LIVES, DEFAULT_PLAYER_LIVES);
+                props.Add(PLAYER_DIE, false);
                 props.Add(FAIL_GAME, false);
                 PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 

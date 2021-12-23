@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Managers;
+using Assets.Scripts.Settings;
 using Assets.Scripts.Util;
 using ExitGames.Client.Photon;
 using Photon.Pun;
@@ -99,9 +100,11 @@ namespace Assets.Scripts.Feature.GenSample
                 {
                     Hashtable props = new Hashtable
                     {
-                        { PLAYER_LIVES, 0 }
+                        { PLAYER_DIE, true },
                     };
                     PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+                    RaiseEvent(EventCodeType.PlayerDie, ReceiverGroup.All);
                 }
             }
         }
@@ -132,12 +135,12 @@ namespace Assets.Scripts.Feature.GenSample
 
         #region PUN_CALLBACK
 
-        private void RaiseEventExeptMe(EventCodeType eventCodeType, params object[] objs)
+        private void RaiseEvent(EventCodeType eventCodeType, ReceiverGroup receiveGroup, params object[] objs)
         {
             List<object> content = new List<object>() { photonView.ViewID };
             content.AddRange(objs);
 
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = receiveGroup };
             SendOptions sendOptions = new SendOptions { Reliability = true };
             PhotonNetwork.RaiseEvent((byte)eventCodeType, content.ToArray(), raiseEventOptions, sendOptions);
         }
@@ -165,6 +168,15 @@ namespace Assets.Scripts.Feature.GenSample
 
                         isLeftDir = (bool)data[1];
                         SetDir();
+                        break;
+                    }
+                case EventCodeType.PlayerDie:
+                    {
+                        int senderViewId = (int)data[0];
+                        if(photonView.ViewID == senderViewId)
+                        {
+                            Die();
+                        }
                         break;
                     }
             }
@@ -205,7 +217,7 @@ namespace Assets.Scripts.Feature.GenSample
             SetDir();
 
             if (isConnected)
-                RaiseEventExeptMe(EventCodeType.Move, isLeftDir);
+                RaiseEvent(EventCodeType.Move, ReceiverGroup.Others, isLeftDir);
         }
 
         // TODO : 마우스 클릭으로 이동 시에 사용되던 함수
@@ -256,6 +268,9 @@ namespace Assets.Scripts.Feature.GenSample
         public void Die()
         {
             isDie = true;
+
+            if(PlayerSettings.IsConnectNetwork())
+                PhotonNetwork.Destroy(photonView);
         }
 
         private void Attack()
