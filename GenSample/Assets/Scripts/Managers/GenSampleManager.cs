@@ -220,6 +220,9 @@ namespace Assets.Scripts.Managers
                 return;
             }
 
+            if (PhotonNetwork.LocalPlayer.ActorNumber != targetPlayer.ActorNumber)
+                return;
+
             // if there was no countdown yet, the master client (this one) waits until everyone loaded the level and sets a timer start
             int startTimestamp;
             bool startTimeIsSet = GenCountdownTimer.TryGetStartTime(out startTimestamp);
@@ -236,7 +239,6 @@ namespace Assets.Scripts.Managers
                     if (!startTimeIsSet)
                     {
                         GenCountdownTimer.SetStartTime();
-
                         GenerateMob();
                     }
                 }
