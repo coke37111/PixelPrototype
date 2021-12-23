@@ -140,9 +140,7 @@ namespace Assets.Scripts.Feature.GenSample
             List<object> content = new List<object>() { photonView.ViewID };
             content.AddRange(objs);
 
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = receiveGroup };
-            SendOptions sendOptions = new SendOptions { Reliability = true };
-            PhotonNetwork.RaiseEvent((byte)eventCodeType, content.ToArray(), raiseEventOptions, sendOptions);
+            PhotonEventManager.RaiseEvent(eventCodeType, receiveGroup, content.ToArray());
         }
 
         public void OnPhotonInstantiate(PhotonMessageInfo info)
@@ -362,11 +360,16 @@ namespace Assets.Scripts.Feature.GenSample
         {
             get
             {
-                object value;
-                if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("IsGameEnd", out value))
-                    return ((bool)value) == false;
+                if(PlayerSettings.IsConnectNetwork())
+                {
+                    object value;
+                    if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(RoomSettings.GAME_END, out value))
+                        return ((bool)value) == false;
 
-                return false;
+                    return false;
+                }
+
+                return true;
             }
         }
     }

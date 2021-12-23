@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Managers;
+using Assets.Scripts.Settings;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
@@ -79,9 +80,7 @@ namespace Assets.Scripts.Feature.GenSample
                         {
                             curHp = 0f;
 
-                            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                            SendOptions sendOptions = new SendOptions { Reliability = true };
-                            PhotonNetwork.RaiseEvent((byte)EventCodeType.MobDie, null, raiseEventOptions, sendOptions);
+                            PhotonEventManager.RaiseEvent(EventCodeType.MobDie, ReceiverGroup.All);
 
                             GetComponent<Animator>().SetTrigger("mob_die_01");
                             SetGauge();
@@ -149,14 +148,17 @@ namespace Assets.Scripts.Feature.GenSample
             hpbar.SetGauge(hpRatio);
         }
 
+        // mob의 die anim에서 호출
         public void Die()
         {
-            if (PhotonNetwork.IsConnected)
+            if (PlayerSettings.IsConnectNetwork())
             {
                 if (PhotonNetwork.IsMasterClient)
                 {
                     PhotonNetwork.Destroy(gameObject);
                 }
+
+                PhotonEventManager.RaiseEvent(EventCodeType.Clear, ReceiverGroup.All);
             }
         }
 

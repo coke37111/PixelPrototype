@@ -10,6 +10,8 @@ namespace Assets.Scripts.Settings
         public static byte maxPlayers;
         public static bool isMaster;
 
+        public const string GAME_END = "IsGameEnd";
+
         public static bool ExistPrevRoom()
         {
             return !string.IsNullOrEmpty(roomName);

@@ -20,8 +20,10 @@ namespace Assets.Scripts.Managers
         {
             Init,
             Idle,
-            playNetwork,
-            playAI,
+            PlayNetwork,
+            PlayAI,
+            Clear,
+            End,
         }
         private GenSampleState genSampleState;
 
@@ -40,8 +42,7 @@ namespace Assets.Scripts.Managers
         public float spawnRange;
 
         public float limitTime = 30f;
-        private float curLimitTime;
-        private bool isGameEnd;
+        private float curLimitTime;       
 
         private readonly float MIN_SPAWN_TIME_INDICATOR = 1f;
         private readonly float MAX_SPAWN_TIME_INDICATOR = 3f;
@@ -75,14 +76,26 @@ namespace Assets.Scripts.Managers
                         InitProc();
                         break;
                     }
-                case GenSampleState.playNetwork:
+                case GenSampleState.PlayNetwork:
                     {
                         PlayProcNetwork();
                         break;
                     }
-                case GenSampleState.playAI:
+                case GenSampleState.PlayAI:
                     {
                         PlayProcAI();
+                        break;
+                    }
+                case GenSampleState.Clear:
+                    {
+                        // TODO mob의 die 애니메이션에서 call 대기
+                        break;
+                    }
+                case GenSampleState.End:
+                    {
+                        StartCoroutine(EndOfGame());
+
+                        SetGenSampleState(GenSampleState.Idle);
                         break;
                     }
             }            
@@ -127,13 +140,9 @@ namespace Assets.Scripts.Managers
 
         public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
         {
-            if (changedProps.ContainsKey(PLAYER_DIE))
+            if (changedProps.ContainsKey(PLAYER_DIE) ||
+                changedProps.ContainsKey(FAIL_GAME))
             {           
-                CheckEndOfGame();
-            }
-
-            if (changedProps.ContainsKey(FAIL_GAME))
-            {
                 CheckEndOfGame();
             }
 
@@ -168,7 +177,7 @@ namespace Assets.Scripts.Managers
         }
 
         public void OnEvent(EventData photonEvent)
-        {
+        {            
             EventCodeType eventCodeType = (EventCodeType)photonEvent.Code;
 
             object[] data = (photonEvent.CustomData != null) ? photonEvent.CustomData as object[] : null;
@@ -195,12 +204,15 @@ namespace Assets.Scripts.Managers
                     }
                 case EventCodeType.MobDie:
                     {
+                        Hashtable roomProps = new Hashtable();
+                        roomProps[RoomSettings.GAME_END] = true;
+                        PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
+
                         if (PhotonNetwork.IsMasterClient)
                         {
                             StopAllCoroutines();
                         }
-
-                        StartCoroutine(EndOfGame());
+                        SetGenSampleState(GenSampleState.Clear);
                         break;
                     }
                 case EventCodeType.MakeAtkEff:
@@ -217,6 +229,11 @@ namespace Assets.Scripts.Managers
                                 break;
                             }
                         }
+                        break;
+                    }
+                case EventCodeType.Clear:
+                    {
+                        SetGenSampleState(GenSampleState.End);
                         break;
                     }
             }
@@ -287,8 +304,7 @@ namespace Assets.Scripts.Managers
                 {
                     StopAllCoroutines();
                 }
-
-                StartCoroutine(EndOfGame());
+                SetGenSampleState(GenSampleState.End);
             }
         }
 
@@ -333,10 +349,8 @@ namespace Assets.Scripts.Managers
 
         private void OnCountdownTimerIsExpired()
         {
-            isGameEnd = false;
-
             Hashtable roomProps = new Hashtable();
-            roomProps["IsGameEnd"] = false;
+            roomProps[RoomSettings.GAME_END] = false;
             PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
 
             SpawnPlayer();
@@ -346,16 +360,11 @@ namespace Assets.Scripts.Managers
                 StartCoroutine(SpawnIndicator());
             }
 
-            SetGenSampleState(GenSampleState.playNetwork);
+            SetGenSampleState(GenSampleState.PlayNetwork);
         }
 
         private IEnumerator EndOfGame()
         {
-            isGameEnd = true;
-            Hashtable roomProps = new Hashtable();
-            roomProps["IsGameEnd"] = true;
-            PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
-
             yield return null;
             float timer = 3.0f;
 
@@ -542,33 +551,36 @@ namespace Assets.Scripts.Managers
                 PhotonNetwork.LeaveRoom();
             }
 
-            if (!isGameEnd)
+            if (curLimitTime >= limitTime)
             {
-                if (curLimitTime >= limitTime)
-                {
-                    isGameEnd = true;
-                    Hashtable roomProps = new Hashtable();
-                    roomProps["IsGameEnd"] = true;
-                    PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
+                Hashtable roomProps = new Hashtable();
+                roomProps[RoomSettings.GAME_END] = true;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
 
-                    Hashtable props = new Hashtable
+                Hashtable props = new Hashtable
                     {
                         { FAIL_GAME, true },
                     };
-                    PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-                }
-                else
-                {
-                    curLimitTime += Time.deltaTime;
-                }
+                PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
-                var remain = limitTime - curLimitTime;
-
-                if (remain > 3)
-                    infoText.text = $"{(limitTime - curLimitTime):n0}";
-                else
-                    infoText.text = $"{(limitTime - curLimitTime):f1}";
+                SetGenSampleState(GenSampleState.Idle);
             }
+            else
+            {
+                curLimitTime += Time.deltaTime;
+            }
+
+            SetTextLimitTime();
+        }
+
+        private void SetTextLimitTime()
+        {
+            var remain = limitTime - curLimitTime;
+
+            if (remain > 3)
+                infoText.text = $"{(limitTime - curLimitTime):n0}";
+            else
+                infoText.text = $"{(limitTime - curLimitTime):f1}";
         }
 
         private void PlayProcAI()
@@ -614,15 +626,14 @@ namespace Assets.Scripts.Managers
                 SpawnPlayer();
                 GenerateMob();
 
-                SetGenSampleState(GenSampleState.playAI);
+                SetGenSampleState(GenSampleState.PlayAI);
             }
             else
             {
                 curLimitTime = 0f;
-                isGameEnd = true;
 
                 Hashtable roomProps = new Hashtable();
-                roomProps["IsGameEnd"] = true;
+                roomProps[RoomSettings.GAME_END] = true;
                 PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
 
                 Hashtable props = new Hashtable();
