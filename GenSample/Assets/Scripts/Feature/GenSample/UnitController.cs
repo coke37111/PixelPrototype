@@ -265,8 +265,13 @@ namespace Assets.Scripts.Feature.GenSample
                 if (curAtkDelay >= atkDelay)
                 {
                     curAtkDelay = 0f;
-                    targetMob.AttackBy(this);
 
+                    if (targetMob.IsDie())
+                    {
+                        return;
+                    }
+
+                    targetMob.AttackBy(this);
                     CheckAtkEffect();
                 }
                 else
