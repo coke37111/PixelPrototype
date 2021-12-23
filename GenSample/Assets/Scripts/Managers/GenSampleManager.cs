@@ -188,8 +188,11 @@ namespace Assets.Scripts.Managers
 
                         Knockback(new Vector3(centerX, centerY, centerZ));
 
-                        PhotonView targetIndicator = PhotonNetwork.GetPhotonView(viewId);                        
-                        PhotonNetwork.Destroy(targetIndicator);
+                        if (PhotonNetwork.IsMasterClient)
+                        {
+                            PhotonView targetIndicator = PhotonNetwork.GetPhotonView(viewId);
+                            PhotonNetwork.Destroy(targetIndicator);
+                        }
                         break;
                     }
                 case EventCodeType.MobDie:
