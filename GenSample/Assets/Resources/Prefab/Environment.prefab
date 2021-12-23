@@ -536,7 +536,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7195084141161389972
 Transform:
   m_ObjectHideFlags: 0
@@ -551,7 +551,7 @@ Transform:
   - {fileID: 2203757245242561194}
   m_Father: {fileID: 4244034424766544802}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 8.46, y: 0, z: -1.1431684}
+  m_LocalEulerAnglesHint: {x: 8.46, y: 0, z: -0.0035171509}
 --- !u!20 &8831437517798890414
 Camera:
   m_ObjectHideFlags: 0
