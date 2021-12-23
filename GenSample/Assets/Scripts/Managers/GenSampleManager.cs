@@ -38,7 +38,6 @@ namespace Assets.Scripts.Managers
         private readonly float MAX_SPAWN_TIME_INDICATOR = 3f;
 
         private List<Unit> unitList = new List<Unit>();
-        private bool isConnect = false;
 
         private UnitController unitCtrl;
         private readonly float initSpawnHeight = 1f;
@@ -49,16 +48,18 @@ namespace Assets.Scripts.Managers
         // Use this for initialization
         void Start()
         {
-            isConnect = PhotonNetwork.IsConnected;
+            // TODO : 훨씬 더 앞 프로세스에 있어야하긴 함
+            if(PhotonNetwork.IsConnected)
+                PlayerSettings.ConnectNetwork();
 
             SetSpawnArea();
-
-            if (!isConnect)
+            if (!PlayerSettings.IsConnectNetwork())
             {
                 DestroyAllAIUnit();
                 GenerateAIUnit();
                 ResetAIUnitPos();
-                SpawnPlayer(isConnect);
+
+                SpawnPlayer();
                 GenerateMob();
             }
             else
@@ -70,12 +71,10 @@ namespace Assets.Scripts.Managers
                 roomProps["IsGameEnd"] = true;
                 PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
 
-                Hashtable props = new Hashtable
-                    {
-                        { PLAYER_LOADED_LEVEL, true},
-                        { PLAYER_LIVES, 1 },
-                    { FAIL_GAME, false }
-                    };
+                Hashtable props = new Hashtable();
+                props.Add(PLAYER_LOADED_LEVEL, true);
+                props.Add(PLAYER_LIVES, DEFAULT_PLAYER_LIVES);
+                props.Add(FAIL_GAME, false);
                 PhotonNetwork.LocalPlayer.SetCustomProperties(props);
             }
         }
@@ -83,7 +82,7 @@ namespace Assets.Scripts.Managers
         // Update is called once per frame
         void Update()
         {
-            if (isConnect)
+            if (PlayerSettings.IsConnectNetwork())
             {
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
@@ -175,128 +174,6 @@ namespace Assets.Scripts.Managers
 
         #endregion
 
-        #region CONNECT_NETWORK
-
-
-        public void SpawnPlayer(bool isConnect)
-        {
-            Vector3 initPos = new Vector3(0, initSpawnHeight, -1f);
-            Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict();
-
-            if (isConnect)
-            {
-                var data = new List<object>();
-                data.Add(selectUnitParts);
-
-                GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Player"), initPos, Quaternion.identity, 0, data.ToArray());
-                unitCtrl = netGoPlayer.GetComponent<UnitController>();
-                CameraController.Instance.SetOwner(unitCtrl);
-            }
-            else{
-                GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>("Prefab/Player");
-                GameObject goPlayer = Instantiate(pfPlayer, initPos, Quaternion.identity, unitContainer);
-                unitCtrl = goPlayer.GetComponent<UnitController>();
-                unitCtrl.SetSprite(selectUnitParts);
-                unitCtrl.Init(false);
-            }
-        }
-
-        private void CheckEndOfGame()
-        {
-            if (PhotonNetwork.NetworkClientState == ClientState.Leaving)
-                return;
-
-            bool allDestroyed = true;
-
-            foreach (Player p in PhotonNetwork.PlayerList)
-            {
-                if (!IsPlayerDie(p))
-                {
-                    allDestroyed = false;
-                    break;
-                }
-            }
-
-            bool failClear = true;
-            foreach (Player p in PhotonNetwork.PlayerList)
-            {
-                object playerGameFail;
-                if (p.CustomProperties.TryGetValue(FAIL_GAME, out playerGameFail))
-                {
-                    if (!(bool)playerGameFail)
-                    {
-                        failClear = false;
-                        break;
-                    }
-                }
-            }
-
-            if (allDestroyed || failClear)
-            {
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    StopAllCoroutines();
-                }
-
-                StartCoroutine(EndOfGame());
-            }
-        }
-
-        private void LeaveRoom()
-        {
-            RoomSettings.roomName = PhotonNetwork.CurrentRoom.Name;
-            RoomSettings.isMaster = PhotonNetwork.IsMasterClient;
-
-            PhotonNetwork.LeaveRoom();
-        }
-
-        private bool IsPlayerDie(Player player)
-        {
-            object lives;
-            if (player.CustomProperties.TryGetValue(PLAYER_LIVES, out lives))
-            {
-                return (int)lives <= 0;
-            }
-
-            return false;
-        }
-
-        private bool CheckAllPlayerLoadedLevel()
-        {
-            foreach (Player p in PhotonNetwork.PlayerList)
-            {
-                object playerLoadedLevel;
-
-                if (p.CustomProperties.TryGetValue(PLAYER_LOADED_LEVEL, out playerLoadedLevel))
-                {
-                    if ((bool)playerLoadedLevel)
-                    {
-                        continue;
-                    }
-                }
-
-                return false;
-            }
-
-            return true;
-        }
-
-        private void OnCountdownTimerIsExpired()
-        {
-            isGameEnd = false;
-            Hashtable roomProps = new Hashtable();
-            roomProps["IsGameEnd"] = false;
-            PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
-
-            SpawnPlayer(isConnect);
-
-            if (isConnect && PhotonNetwork.IsMasterClient)
-            {
-                StartCoroutine(SpawnIndicator());
-            }
-        }
-
-        #endregion
 
         #region PUN_CALLBACKS
 
@@ -313,8 +190,8 @@ namespace Assets.Scripts.Managers
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
             Log.Print($"Player {otherPlayer.ActorNumber} Left Room");
-            PhotonNetwork.DestroyPlayerObjects(otherPlayer);
 
+            PhotonNetwork.DestroyPlayerObjects(otherPlayer);
             CheckEndOfGame();
         }
 
@@ -420,6 +297,152 @@ namespace Assets.Scripts.Managers
 
         #endregion
 
+        #region CONNECT_NETWORK
+
+
+        public void SpawnPlayer()
+        {
+            Vector3 initPos = new Vector3(0, initSpawnHeight, -1f);
+            Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict();
+
+            if (PlayerSettings.IsConnectNetwork())
+            {
+                var data = new List<object>();
+                data.Add(selectUnitParts);
+
+                GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Player"), initPos, Quaternion.identity, 0, data.ToArray());
+                unitCtrl = netGoPlayer.GetComponent<UnitController>();
+                CameraController.Instance.SetOwner(unitCtrl);
+            }
+            else
+            {
+                GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>("Prefab/Player");
+                GameObject goPlayer = Instantiate(pfPlayer, initPos, Quaternion.identity, unitContainer);
+                unitCtrl = goPlayer.GetComponent<UnitController>();
+                unitCtrl.SetSprite(selectUnitParts);
+                unitCtrl.Init(false);
+            }
+        }
+
+        private void CheckEndOfGame()
+        {
+            if (PhotonNetwork.NetworkClientState == ClientState.Leaving)
+                return;
+
+            bool allDestroyed = true;
+
+            foreach (Player p in PhotonNetwork.PlayerList)
+            {
+                if (!IsPlayerDie(p))
+                {
+                    allDestroyed = false;
+                    break;
+                }
+            }
+
+            bool failClear = true;
+            foreach (Player p in PhotonNetwork.PlayerList)
+            {
+                object playerGameFail;
+                if (p.CustomProperties.TryGetValue(FAIL_GAME, out playerGameFail))
+                {
+                    if (!(bool)playerGameFail)
+                    {
+                        failClear = false;
+                        break;
+                    }
+                }
+            }
+
+            if (allDestroyed || failClear)
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    StopAllCoroutines();
+                }
+
+                StartCoroutine(EndOfGame());
+            }
+        }
+
+        private void LeaveRoom()
+        {
+            RoomSettings.roomName = PhotonNetwork.CurrentRoom.Name;
+            RoomSettings.isMaster = PhotonNetwork.IsMasterClient;
+
+            PhotonNetwork.LeaveRoom();
+        }
+
+        private bool IsPlayerDie(Player player)
+        {
+            object lives;
+            if (player.CustomProperties.TryGetValue(PLAYER_LIVES, out lives))
+            {
+                return (int)lives <= 0;
+            }
+
+            return false;
+        }
+
+        private bool CheckAllPlayerLoadedLevel()
+        {
+            foreach (Player p in PhotonNetwork.PlayerList)
+            {
+                object playerLoadedLevel;
+
+                if (p.CustomProperties.TryGetValue(PLAYER_LOADED_LEVEL, out playerLoadedLevel))
+                {
+                    if ((bool)playerLoadedLevel)
+                    {
+                        continue;
+                    }
+                }
+
+                return false;
+            }
+
+            return true;
+        }
+
+        private void OnCountdownTimerIsExpired()
+        {
+            isGameEnd = false;
+
+            Hashtable roomProps = new Hashtable();
+            roomProps["IsGameEnd"] = false;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
+
+            SpawnPlayer();
+
+            if (PlayerSettings.IsConnectNetwork() && PhotonNetwork.IsMasterClient)
+            {
+                StartCoroutine(SpawnIndicator());
+            }
+        }
+
+        private IEnumerator EndOfGame()
+        {
+            isGameEnd = true;
+            Hashtable roomProps = new Hashtable();
+            roomProps["IsGameEnd"] = true;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
+
+            yield return null;
+            float timer = 3.0f;
+
+            while (timer > 0.0f)
+            {
+                infoText.text = string.Format("Leave Room in {0} seconds", timer.ToString("n0"));
+                yield return new WaitForEndOfFrame();
+
+                timer -= Time.deltaTime;
+            }
+
+            LeaveRoom();
+        }
+
+        #endregion
+
         #region NOT_CONNTECT_NETWORK
 
         private void SetSpawnArea()
@@ -508,7 +531,7 @@ namespace Assets.Scripts.Managers
             float scaleX = 3f;
             float scaleZ = 3f;
 
-            if (isConnect)
+            if (PlayerSettings.IsConnectNetwork())
             {
                 var data = new List<object>();
                 data.Add(limitTime);
@@ -529,7 +552,7 @@ namespace Assets.Scripts.Managers
 
         public void Knockback(Vector3 center)
         {
-            if (isConnect)
+            if (PlayerSettings.IsConnectNetwork())
             {
                 unitCtrl.Knockback(center.x, center.z);
             }
@@ -556,33 +579,12 @@ namespace Assets.Scripts.Managers
             }
         }
 
-        private IEnumerator EndOfGame()
-        {
-            isGameEnd = true;
-            Hashtable roomProps = new Hashtable();
-            roomProps["IsGameEnd"] = true;
-            PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
-
-            yield return null;
-            float timer = 3.0f;
-
-            while (timer > 0.0f)
-            {
-                infoText.text = string.Format("Leave Room in {0} seconds", timer.ToString("n0"));
-                yield return new WaitForEndOfFrame();
-
-                timer -= Time.deltaTime;
-            }
-
-            LeaveRoom();
-        }
-
         private void GenerateMob()
         {
             Vector3 initPos = new Vector3(0f, 1f, 0f);
             string pfMobPath = "Prefab/Mob";
 
-            if (isConnect)
+            if (PlayerSettings.IsConnectNetwork())
             {
                 var data = new List<object>();
                 data.Add(PhotonNetwork.PlayerList.Length);
