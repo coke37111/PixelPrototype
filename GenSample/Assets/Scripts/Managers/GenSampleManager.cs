@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Feature.GenSample;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.SO;
 using Assets.Scripts.Util;
 using ExitGames.Client.Photon;
 using Photon.Pun;

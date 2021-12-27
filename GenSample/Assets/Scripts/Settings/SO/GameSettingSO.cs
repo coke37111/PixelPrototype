@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Assets.Scripts.Settings
+namespace Assets.Scripts.Settings.SO
 {
     [CreateAssetMenu(fileName = "GameSetting", menuName = "SO/Setting/Game")]
     public class GameSettingSO : ScriptableObject

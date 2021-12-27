@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.Settings
+namespace Assets.Scripts.Settings.SO
 {
     [CreateAssetMenu(fileName = "PlayerUnitSetting", menuName = "SO/Setting/PlayerUnit")]
     public class PlayerUnitSettingSO : ScriptableObject

@@ -5,6 +5,7 @@ using ExitGames.Client.Photon;
 using Photon.Realtime;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Managers;
+using Assets.Scripts.Settings.SO;
 
 namespace Assets.Scripts.Feature.GenSample
 {
