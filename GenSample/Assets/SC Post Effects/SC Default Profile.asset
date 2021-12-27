@@ -128,7 +128,7 @@ MonoBehaviour:
     value: 1
   amount:
     overrideState: 1
-    value: 0.7
+    value: 1
   mode:
     overrideState: 1
     value: 0
