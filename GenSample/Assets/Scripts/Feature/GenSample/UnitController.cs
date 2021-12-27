@@ -25,9 +25,7 @@ namespace Assets.Scripts.Feature.GenSample
         public Transform effContainerL;
         public Transform effContainerR;
 
-        public float speed = 1f;
-        public float atk = 10f;
-        public float atkDelay = .5f;
+        private PlayerUnitSettingSO playerUnitSetting;
 
         public event Action<Vector3> OnChnagePosition;
 
@@ -206,6 +204,8 @@ namespace Assets.Scripts.Feature.GenSample
             transform.SetParent(FindObjectOfType<UnitContainer>().transform);
             targetPos = new Vector3( transform.position.x, 0.0f, transform.position.z);
 
+            playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
+
             curAtkDelay = 0f;
         }
 
@@ -233,13 +233,13 @@ namespace Assets.Scripts.Feature.GenSample
             if (Controlable)
             {                
                 if (Input.GetKey(KeyCode.W))
-                    delta.z += (speed * Time.deltaTime);
+                    delta.z += (playerUnitSetting.speed * Time.deltaTime);
                 if (Input.GetKey(KeyCode.S))
-                    delta.z -= (speed * Time.deltaTime);
+                    delta.z -= (playerUnitSetting.speed * Time.deltaTime);
                 if (Input.GetKey(KeyCode.A))
-                    delta.x -= (speed * Time.deltaTime);
+                    delta.x -= (playerUnitSetting.speed * Time.deltaTime);
                 if (Input.GetKey(KeyCode.D))
-                    delta.x += (speed * Time.deltaTime);
+                    delta.x += (playerUnitSetting.speed * Time.deltaTime);
             }
 
             if (delta.x != 0)
@@ -275,7 +275,7 @@ namespace Assets.Scripts.Feature.GenSample
         {
             if (canAtk && targetMob != null)
             {
-                if (curAtkDelay >= atkDelay)
+                if (curAtkDelay >= playerUnitSetting.atkDelay)
                 {
                     curAtkDelay = 0f;
 
@@ -371,6 +371,11 @@ namespace Assets.Scripts.Feature.GenSample
 
                 return true;
             }
+        }
+
+        public float GetAtk()
+        {
+            return playerUnitSetting.atk;
         }
     }
 }

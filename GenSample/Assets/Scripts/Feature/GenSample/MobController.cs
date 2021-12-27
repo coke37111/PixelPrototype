@@ -13,9 +13,10 @@ namespace Assets.Scripts.Feature.GenSample
     {
         public HpBar hpbar;
 
-        public float hp = 10000;
-        public float regenHpRatio = .01f;
-        public float regenHpDelay = .5f;
+        private MobSettingSO mobSetting;
+        private float maxHp;
+        private int enhanceHpCount = 1;
+
         private float curHp;
         private float curRegenHpDelay;
 
@@ -27,7 +28,7 @@ namespace Assets.Scripts.Feature.GenSample
 
         void Update()
         {
-            if(curRegenHpDelay >= regenHpDelay)
+            if(curRegenHpDelay >= mobSetting.regenHpDelay)
             {
                 curRegenHpDelay = 0f;
 
@@ -58,8 +59,7 @@ namespace Assets.Scripts.Feature.GenSample
 
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
-            int playerCnt = (int)info.photonView.InstantiationData[0];
-            hp *= playerCnt;
+            enhanceHpCount = (int)info.photonView.InstantiationData[0];
 
             Init();
         }
@@ -94,12 +94,12 @@ namespace Assets.Scripts.Feature.GenSample
                     }
                 case EventCodeType.MobRegenHp:
                     {
-                        if (curHp >= hp)
+                        if (curHp >= maxHp)
                         {
                             return;
                         }
 
-                        curHp += hp * regenHpRatio;
+                        curHp += maxHp * mobSetting.regenHpRatio;
 
                         SetGauge();
                         break;
@@ -113,7 +113,10 @@ namespace Assets.Scripts.Feature.GenSample
         {
             transform.SetParent(FindObjectOfType<UnitContainer>().transform);
 
-            curHp = hp;
+            mobSetting = ResourceManager.LoadAsset<MobSettingSO>(MobSettingSO.path);
+            maxHp = enhanceHpCount * mobSetting.hp;
+
+            curHp = maxHp;
             SetGauge();
         }
 
@@ -124,14 +127,14 @@ namespace Assets.Scripts.Feature.GenSample
 
             if (PhotonNetwork.IsConnected)
             {
-                List<object> content = new List<object>() { unit.atk };
+                List<object> content = new List<object>() { unit.GetAtk() };
                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
                 SendOptions sendOptions = new SendOptions { Reliability = true };
                 PhotonNetwork.RaiseEvent((byte)EventCodeType.MobAttackBy, content.ToArray(), raiseEventOptions, sendOptions);
             }
             else
             {
-                curHp -= unit.atk;
+                curHp -= unit.GetAtk();
                 if (curHp <= 0f)
                     curHp = 0f;
 
@@ -144,7 +147,7 @@ namespace Assets.Scripts.Feature.GenSample
 
         private void SetGauge()
         {
-            float hpRatio = curHp / hp;
+            float hpRatio = curHp / maxHp;
             hpbar.SetGauge(hpRatio);
         }
 
@@ -221,12 +224,12 @@ namespace Assets.Scripts.Feature.GenSample
             }
             else
             {
-                if (curHp >= hp)
+                if (curHp >= maxHp)
                 {
                     return;
                 }
 
-                curHp += hp * regenHpRatio;
+                curHp += maxHp * mobSetting.regenHpRatio;
 
                 SetGauge();
             }            
