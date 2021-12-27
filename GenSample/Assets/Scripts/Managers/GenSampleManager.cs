@@ -44,7 +44,6 @@ namespace Assets.Scripts.Managers
         private readonly float initSpawnHeight = 1f;
         private float curLimitTime;
 
-        private UnitController unitCtrl;
         private static List<UnitController> unitListenerList = new List<UnitController>();
 
         private GenSampleAIManager aiManager;
@@ -175,25 +174,6 @@ namespace Assets.Scripts.Managers
             object[] data = (photonEvent.CustomData != null) ? photonEvent.CustomData as object[] : null;
             switch (eventCodeType)
             {
-                case EventCodeType.Knockback:
-                    {
-                        int viewId = (int)data[0];
-                        float centerX = (float)data[1];
-                        float centerY = (float)data[2];
-                        float centerZ = (float)data[3];
-
-                        if (unitCtrl == null)
-                            return;
-
-                        Knockback(new Vector3(centerX, centerY, centerZ));
-
-                        if (PhotonNetwork.IsMasterClient)
-                        {
-                            PhotonView targetIndicator = PhotonNetwork.GetPhotonView(viewId);
-                            PhotonNetwork.Destroy(targetIndicator);
-                        }
-                        break;
-                    }
                 case EventCodeType.MobDie:
                     {
                         Hashtable roomProps = new Hashtable();
@@ -328,7 +308,7 @@ namespace Assets.Scripts.Managers
             data.Add(selectUnitParts);
 
             GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Player"), initPos, Quaternion.identity, 0, data.ToArray());
-            unitCtrl = netGoPlayer.GetComponent<UnitController>();
+            UnitController unitCtrl = netGoPlayer.GetComponent<UnitController>();
             CameraController.Instance.SetOwner(unitCtrl);
         }
 
@@ -479,11 +459,6 @@ namespace Assets.Scripts.Managers
             data.Add(scaleZ);
 
             PhotonNetwork.InstantiateRoomObject(pfPath, initPos, Quaternion.identity, 0, data.ToArray());
-        }
-
-        public void Knockback(Vector3 center)
-        {
-            unitCtrl.Knockback(center.x, center.z);
         }
 
         private IEnumerator SpawnIndicator()

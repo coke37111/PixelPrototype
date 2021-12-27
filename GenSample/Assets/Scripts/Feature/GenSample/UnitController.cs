@@ -167,6 +167,28 @@ namespace Assets.Scripts.Feature.GenSample
                         SetDir();
                         break;
                     }
+                case EventCodeType.Knockback:
+                    {
+                        float centerX = (float)data[1];
+                        float centerZ = (float)data[2];
+
+                        Knockback(centerX, centerZ);
+                        break;
+                    }
+                case EventCodeType.MakeAtkEff:
+                    {
+                        int senderViewId = (int)data[0];
+                        string effColor = data[1].ToString();
+
+                        if (photonView.ViewID != senderViewId)
+                        {
+                            return;
+                        }
+
+                        SetAtkEffColor(effColor);
+                        MakeAtkEffect();
+                        break;
+                    }
                 case EventCodeType.PlayerDie:
                     {
                         int senderViewId = (int)data[0];
@@ -268,7 +290,7 @@ namespace Assets.Scripts.Feature.GenSample
         {
             isDie = true;
 
-            if(PlayerSettings.IsConnectNetwork())
+            if(PlayerSettings.IsConnectNetwork() && photonView.AmOwner)
                 PhotonNetwork.Destroy(photonView);
         }
 
