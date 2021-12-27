@@ -19,17 +19,6 @@ namespace Assets.Scripts.Settings
             "wp_shild",
         };
 
-        public static readonly string[] unitTypes = 
-        {
-            "human_m",
-            "human_s",
-            "human_l",
-            "char_st_01",
-            "char_st_01_human_m",
-            "char_st_01_human_s",
-            "char_st_01_human_l",
-        };
-
         public static Dictionary<string, string> GetSelectUnitPartDict(string unitType)
         {
             Dictionary<string, string> unitPartData = new Dictionary<string, string>();
