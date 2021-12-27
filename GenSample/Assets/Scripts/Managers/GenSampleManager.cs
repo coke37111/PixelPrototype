@@ -40,15 +40,14 @@ namespace Assets.Scripts.Managers
         [Range(0f, 1f)]
         public float spawnRange;
 
-        public float limitTime = 30f;
+        private readonly float initSpawnHeight = 1f;
         private float curLimitTime;
 
         private UnitController unitCtrl;
-        private readonly float initSpawnHeight = 1f;
-
         private static List<UnitController> unitListenerList = new List<UnitController>();
 
         private GenSampleAIManager aiManager;
+        private GameSettingSO gameSetting;
         private IndicatorSettingSO indicatorSetting;
 
         #region UNITY
@@ -242,6 +241,7 @@ namespace Assets.Scripts.Managers
         {
             InitSpawnArea();
 
+            gameSetting = ResourceManager.LoadAsset<GameSettingSO>(GameSettingSO.path);
             indicatorSetting = ResourceManager.LoadAsset<IndicatorSettingSO>(IndicatorSettingSO.path);
 
             if (!PlayerSettings.IsConnectNetwork())
@@ -284,7 +284,7 @@ namespace Assets.Scripts.Managers
                 PhotonNetwork.LeaveRoom();
             }
 
-            if (curLimitTime >= limitTime)
+            if (curLimitTime >= gameSetting.limitTime)
             {
                 Hashtable roomProps = new Hashtable();
                 roomProps[RoomSettings.GAME_END] = true;
@@ -308,12 +308,12 @@ namespace Assets.Scripts.Managers
 
         private void SetTextLimitTime()
         {
-            var remain = limitTime - curLimitTime;
+            var remain = gameSetting.limitTime - curLimitTime;
 
             if (remain > 3)
-                infoText.text = $"{(limitTime - curLimitTime):n0}";
+                infoText.text = $"{(gameSetting.limitTime - curLimitTime):n0}";
             else
-                infoText.text = $"{(limitTime - curLimitTime):f1}";
+                infoText.text = $"{(gameSetting.limitTime - curLimitTime):f1}";
         }
 
         private void SpawnPlayer()
@@ -427,7 +427,7 @@ namespace Assets.Scripts.Managers
         private IEnumerator EndOfGame()
         {
             yield return null;
-            float timer = 3.0f;
+            float timer = gameSetting.endDelay;
 
             while (timer > 0.0f)
             {
