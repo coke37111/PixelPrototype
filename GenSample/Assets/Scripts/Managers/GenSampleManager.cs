@@ -187,22 +187,6 @@ namespace Assets.Scripts.Managers
                         SetGenSampleState(GenSampleState.Clear);
                         break;
                     }
-                case EventCodeType.MakeAtkEff:
-                    {
-                        int senderViewId = (int)data[0];
-                        string effColor = data[1].ToString();
-
-                        foreach(UnitController unit in unitListenerList)
-                        {
-                            if(unit.photonView.ViewID == senderViewId)
-                            {
-                                unit.SetAtkEffColor(effColor);
-                                unit.MakeAtkEffect();
-                                break;
-                            }
-                        }
-                        break;
-                    }
                 case EventCodeType.Clear:
                     {
                         SetGenSampleState(GenSampleState.End);
