@@ -9,17 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 603c2b2db2b03624ca176c1244d257c2, type: 3}
+  m_Script: {fileID: 11500000, guid: b405b50632984c345b98287212a52a5a, type: 3}
   m_Name: PlayerUnitSetting
   m_EditorClassIdentifier: 
   speed: 1
   atk: 10
-  atkDelay: 0.5
+  atkDelay: 0.2
   unitTypes:
-  - human_m
-  - human_s
-  - human_l
   - char_st_01
+  - char_st_01_human_l
   - char_st_01_human_m
   - char_st_01_human_s
-  - char_st_01_human_l
+  - human_l
+  - human_m
+  - human_s
