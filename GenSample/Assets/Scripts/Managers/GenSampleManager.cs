@@ -41,10 +41,7 @@ namespace Assets.Scripts.Managers
         public float spawnRange;
 
         public float limitTime = 30f;
-        private float curLimitTime;       
-
-        private readonly float MIN_SPAWN_TIME_INDICATOR = 1f;
-        private readonly float MAX_SPAWN_TIME_INDICATOR = 3f;
+        private float curLimitTime;
 
         private UnitController unitCtrl;
         private readonly float initSpawnHeight = 1f;
@@ -52,6 +49,7 @@ namespace Assets.Scripts.Managers
         private static List<UnitController> unitListenerList = new List<UnitController>();
 
         private GenSampleAIManager aiManager;
+        private IndicatorSettingSO indicatorSetting;
 
         #region UNITY
         // Use this for initialization
@@ -243,6 +241,8 @@ namespace Assets.Scripts.Managers
         private void InitProc()
         {
             InitSpawnArea();
+
+            indicatorSetting = ResourceManager.LoadAsset<IndicatorSettingSO>(IndicatorSettingSO.path);
 
             if (!PlayerSettings.IsConnectNetwork())
             {
@@ -487,7 +487,7 @@ namespace Assets.Scripts.Managers
         {
             while (true)
             {
-                yield return new WaitForSeconds(Random.Range(MIN_SPAWN_TIME_INDICATOR, MAX_SPAWN_TIME_INDICATOR));
+                yield return new WaitForSeconds(Random.Range(indicatorSetting.minSpawnTime, indicatorSetting.maxSpawnTime));
 
                 float spawnAreaX = Random.Range(this.spawnAreaX.x, this.spawnAreaX.y);
                 float spawnAreaZ = Random.Range(this.spawnAreaZ.x, this.spawnAreaZ.y);

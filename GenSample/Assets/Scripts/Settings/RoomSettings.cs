@@ -11,6 +11,7 @@ namespace Assets.Scripts.Settings
         public static bool isMaster;
 
         public const string GAME_END = "IsGameEnd";
+        public const string CountdownStartTime = "GenCountdownStartTime";
 
         public static bool ExistPrevRoom()
         {

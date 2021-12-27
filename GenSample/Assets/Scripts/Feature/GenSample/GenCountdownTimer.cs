@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using ExitGames.Client.Photon;
 using Photon.Realtime;
+using Assets.Scripts.Settings;
+using Assets.Scripts.Managers;
 
 namespace Assets.Scripts.Feature.GenSample
 {
@@ -14,11 +16,6 @@ namespace Assets.Scripts.Feature.GenSample
         /// </summary>
         public delegate void CountdownTimerHasExpired();
 
-        public const string CountdownStartTime = "GenCountdownStartTime";
-
-        [Header("Countdown time in seconds")]
-        public float Countdown = 5.0f;
-
         private bool isTimerRunning;
 
         private int startTime;
@@ -26,6 +23,7 @@ namespace Assets.Scripts.Feature.GenSample
         [Header("Reference to a Text component for visualizing the countdown")]
         public TMPro.TextMeshProUGUI Text;
 
+        private GameSettingSO gameSetting;
 
         /// <summary>
         ///     Called when the timer has expired.
@@ -117,8 +115,13 @@ namespace Assets.Scripts.Feature.GenSample
 
         private float TimeRemaining()
         {
+            if(gameSetting == null)
+            {
+                gameSetting = ResourceManager.LoadAsset<GameSettingSO>(GameSettingSO.path);
+            }
+
             int timer = PhotonNetwork.ServerTimestamp - this.startTime;
-            return this.Countdown - timer / 1000f;
+            return gameSetting.startDelay - timer / 1000f;
         }
 
 
@@ -127,7 +130,7 @@ namespace Assets.Scripts.Feature.GenSample
             startTimestamp = PhotonNetwork.ServerTimestamp;
 
             object startTimeFromProps;
-            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(CountdownStartTime, out startTimeFromProps))
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(RoomSettings.CountdownStartTime, out startTimeFromProps))
             {
                 startTimestamp = (int)startTimeFromProps;
                 return true;
@@ -144,7 +147,7 @@ namespace Assets.Scripts.Feature.GenSample
 
             Hashtable props = new Hashtable
             {
-                {GenCountdownTimer.CountdownStartTime, (int)PhotonNetwork.ServerTimestamp}
+                {RoomSettings.CountdownStartTime, (int)PhotonNetwork.ServerTimestamp}
             };
             PhotonNetwork.CurrentRoom.SetCustomProperties(props);
 
