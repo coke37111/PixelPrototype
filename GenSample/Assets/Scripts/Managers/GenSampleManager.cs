@@ -32,7 +32,7 @@ namespace Assets.Scripts.Managers
         private GenSampleState genSampleState;
 
         public TMPro.TextMeshProUGUI infoText;
-        public GameObject collGround;
+        public GameObject collGround; // Jump 체크를 위한 collider
         public LayerMask ignoreClickLayer;
 
         private Vector2 spawnAreaX; // min, max
@@ -122,11 +122,6 @@ namespace Assets.Scripts.Managers
         public override void OnLeftRoom()
         {            
             UnityEngine.SceneManagement.SceneManager.LoadScene("PhotonLobbySample");
-        }
-
-        public override void OnMasterClientSwitched(Player newMasterClient)
-        {
-            Log.Print("MaterClientSwitched");
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -240,31 +235,98 @@ namespace Assets.Scripts.Managers
 
         #endregion
 
-        #region CONNECT_NETWORK
+        private void SetGenSampleState(GenSampleState state)
+        {
+            this.genSampleState = state;
+        }
 
+        private void InitProc()
+        {
+            InitSpawnArea();
 
-        public void SpawnPlayer()
+            if (!PlayerSettings.IsConnectNetwork())
+            {
+                GameObject pfAIManager = ResourceManager.LoadAsset<GameObject>("Prefab/Manager/GenSampleAIManager");
+                if (pfAIManager == null)
+                {
+                    SetGenSampleState(GenSampleState.Idle);
+                    return;
+                }
+
+                GameObject goAIManager = Instantiate(pfAIManager, transform);
+                aiManager = goAIManager.GetComponent<GenSampleAIManager>();
+                aiManager.Build(this);
+
+                SetGenSampleState(GenSampleState.PlayAI);
+            }
+            else
+            {
+                curLimitTime = 0f;
+
+                Hashtable roomProps = new Hashtable();
+                roomProps[RoomSettings.GAME_END] = true;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
+
+                Hashtable props = new Hashtable();
+                props.Add(PLAYER_LOADED_LEVEL, true);
+                props.Add(PLAYER_DIE, false);
+                props.Add(FAIL_GAME, false);
+                PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+                SetGenSampleState(GenSampleState.Idle);
+            }
+        }
+
+        private void PlayProcNetwork()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                PhotonNetwork.LeaveRoom();
+            }
+
+            if (curLimitTime >= limitTime)
+            {
+                Hashtable roomProps = new Hashtable();
+                roomProps[RoomSettings.GAME_END] = true;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
+
+                Hashtable props = new Hashtable
+                    {
+                        { FAIL_GAME, true },
+                    };
+                PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+                SetGenSampleState(GenSampleState.Idle);
+            }
+            else
+            {
+                curLimitTime += Time.deltaTime;
+            }
+
+            SetTextLimitTime();
+        }
+
+        private void SetTextLimitTime()
+        {
+            var remain = limitTime - curLimitTime;
+
+            if (remain > 3)
+                infoText.text = $"{(limitTime - curLimitTime):n0}";
+            else
+                infoText.text = $"{(limitTime - curLimitTime):f1}";
+        }
+
+        private void SpawnPlayer()
         {
             Vector3 initPos = new Vector3(0, initSpawnHeight, -1f);
             Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict();
 
-            if (PlayerSettings.IsConnectNetwork())
-            {
-                var data = new List<object>();
-                data.Add(selectUnitParts);
+            var data = new List<object>();
+            data.Add(selectUnitParts);
 
-                GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Player"), initPos, Quaternion.identity, 0, data.ToArray());
-                unitCtrl = netGoPlayer.GetComponent<UnitController>();
-                CameraController.Instance.SetOwner(unitCtrl);
-            }
-            else
-            {
-                GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>("Prefab/Player");
-                GameObject goPlayer = Instantiate(pfPlayer, initPos, Quaternion.identity, FindObjectOfType<UnitContainer>().transform);
-                unitCtrl = goPlayer.GetComponent<UnitController>();
-                unitCtrl.SetSprite(selectUnitParts);
-                unitCtrl.Init(false);
-            }
+            GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Player"), initPos, Quaternion.identity, 0, data.ToArray());
+            unitCtrl = netGoPlayer.GetComponent<UnitController>();
+            CameraController.Instance.SetOwner(unitCtrl);
         }
 
         private void CheckEndOfGame()
@@ -354,7 +416,7 @@ namespace Assets.Scripts.Managers
 
             SpawnPlayer();
 
-            if (PlayerSettings.IsConnectNetwork() && PhotonNetwork.IsMasterClient)
+            if (PhotonNetwork.IsMasterClient)
             {
                 StartCoroutine(SpawnIndicator());
             }
@@ -378,12 +440,8 @@ namespace Assets.Scripts.Managers
             LeaveRoom();
         }
 
-        #endregion
-
-        #region NOT_CONNTECT_NETWORK
-
         private void InitSpawnArea()
-        {   
+        {
             Vector3 groundCenter = collGround.transform.localPosition;
             Vector3 groundScale = collGround.transform.localScale;
 
@@ -402,8 +460,6 @@ namespace Assets.Scripts.Managers
         {
             return spawnAreaZ;
         }
-
-        #endregion
 
         public void MakeIndicator(Vector3 hitPoint)
         {
@@ -460,86 +516,6 @@ namespace Assets.Scripts.Managers
         public static void UnRegisterUnit(UnitController unit)
         {
             unitListenerList.Remove(unit);
-        }
-
-        private void SetGenSampleState(GenSampleState state)
-        {
-            this.genSampleState = state;
-        }
-        private void PlayProcNetwork()
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                PhotonNetwork.LeaveRoom();
-            }
-
-            if (curLimitTime >= limitTime)
-            {
-                Hashtable roomProps = new Hashtable();
-                roomProps[RoomSettings.GAME_END] = true;
-                PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
-
-                Hashtable props = new Hashtable
-                    {
-                        { FAIL_GAME, true },
-                    };
-                PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-
-                SetGenSampleState(GenSampleState.Idle);
-            }
-            else
-            {
-                curLimitTime += Time.deltaTime;
-            }
-
-            SetTextLimitTime();
-        }
-
-        private void SetTextLimitTime()
-        {
-            var remain = limitTime - curLimitTime;
-
-            if (remain > 3)
-                infoText.text = $"{(limitTime - curLimitTime):n0}";
-            else
-                infoText.text = $"{(limitTime - curLimitTime):f1}";
-        }
-
-        private void InitProc()
-        {
-            InitSpawnArea();
-
-            if (!PlayerSettings.IsConnectNetwork())
-            {
-                GameObject pfAIManager = ResourceManager.LoadAsset<GameObject>("Prefab/Manager/GenSampleAIManager");
-                if (pfAIManager == null)
-                {
-                    SetGenSampleState(GenSampleState.Idle);
-                    return;
-                }
-
-                GameObject goAIManager = Instantiate(pfAIManager, transform);
-                aiManager = goAIManager.GetComponent<GenSampleAIManager>();
-                aiManager.Build(this);
-
-                SetGenSampleState(GenSampleState.PlayAI);
-            }
-            else
-            {
-                curLimitTime = 0f;
-
-                Hashtable roomProps = new Hashtable();
-                roomProps[RoomSettings.GAME_END] = true;
-                PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
-
-                Hashtable props = new Hashtable();
-                props.Add(PLAYER_LOADED_LEVEL, true);
-                props.Add(PLAYER_DIE, false);
-                props.Add(FAIL_GAME, false);
-                PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-
-                SetGenSampleState(GenSampleState.Idle);
-            }
         }
     }
 }

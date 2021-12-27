@@ -133,6 +133,8 @@ namespace Assets.Scripts.Managers
             unitCtrl = goPlayer.GetComponent<UnitController>();
             unitCtrl.SetSprite(selectUnitParts);
             unitCtrl.Init(false);
+
+            CameraController.Instance.SetOwner(unitCtrl);
         }
         private void GenerateMob()
         {
