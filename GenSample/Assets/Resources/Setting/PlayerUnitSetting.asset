@@ -15,3 +15,11 @@ MonoBehaviour:
   speed: 1
   atk: 10
   atkDelay: 0.5
+  unitTypes:
+  - human_m
+  - human_s
+  - human_l
+  - char_st_01
+  - char_st_01_human_m
+  - char_st_01_human_s
+  - char_st_01_human_l

@@ -91,7 +91,10 @@ namespace Assets.Scripts.Managers
                 }
 
                 unitComp.Init();
-                unitComp.SetSprite(UnitSettings.GetSelectUnitPartDict());
+
+                PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
+                Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
+                unitComp.SetSprite(selectUnitParts);
             }
         }
 
@@ -126,7 +129,9 @@ namespace Assets.Scripts.Managers
         public void SpawnPlayer()
         {
             Vector3 initPos = new Vector3(0, initSpawnHeight, -1f);
-            Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict();
+
+            PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
+            Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
 
             GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>("Prefab/Player");
             GameObject goPlayer = Instantiate(pfPlayer, initPos, Quaternion.identity, unitContainer);

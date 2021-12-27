@@ -230,9 +230,6 @@ MonoBehaviour:
   photonView: {fileID: 4800140194375321968}
   effContainerL: {fileID: 7163933714169049392}
   effContainerR: {fileID: 4758997846855564133}
-  speed: 1.5
-  atk: 100
-  atkDelay: 0.2
 --- !u!114 &4800140194375321968
 MonoBehaviour:
   m_ObjectHideFlags: 0

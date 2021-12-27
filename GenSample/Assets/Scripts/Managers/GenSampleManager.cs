@@ -319,7 +319,9 @@ namespace Assets.Scripts.Managers
         private void SpawnPlayer()
         {
             Vector3 initPos = new Vector3(0, initSpawnHeight, -1f);
-            Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict();
+            
+            PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
+            Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
 
             var data = new List<object>();
             data.Add(selectUnitParts);

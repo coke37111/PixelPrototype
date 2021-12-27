@@ -611,9 +611,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpbar: {fileID: 5672291857753003950}
-  hp: 10000
-  regenHpRatio: 0.01
-  regenHpDelay: 0.5
 --- !u!95 &8168807644316611256
 Animator:
   serializedVersion: 3

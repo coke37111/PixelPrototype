@@ -30,19 +30,9 @@ namespace Assets.Scripts.Settings
             "char_st_01_human_l",
         };
 
-        public static Dictionary<string, string> GetSelectUnitPartDict()
+        public static Dictionary<string, string> GetSelectUnitPartDict(string unitType)
         {
             Dictionary<string, string> unitPartData = new Dictionary<string, string>();
-
-            string unitType = "";
-            for (int i = 0; i < unitTypes.Length; i++)
-            {
-                if (Random.Range(0f, 1f) >= .3f || i == unitTypes.Length - 1)
-                {
-                    unitType = unitTypes[i];
-                    break;
-                }
-            }
 
             foreach (string unitPartName in unitParts)
             {
