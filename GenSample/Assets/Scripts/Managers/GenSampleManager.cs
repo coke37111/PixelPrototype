@@ -14,6 +14,10 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Assets.Scripts.Managers
 {
+    /// <summary>
+    /// Photon Network 연결된 상태에서의 게임 처리 로직
+    /// GenSampleScene 자체 실행 로직은 GenSampleAIManager에서 처리
+    /// </summary>
     public class GenSampleManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         public enum GenSampleState
@@ -31,11 +35,6 @@ namespace Assets.Scripts.Managers
         public GameObject collGround;
         public LayerMask ignoreClickLayer;
 
-        [Header("- For Gen Test"), Space(10)]
-        public Transform unitContainer;
-        [Range(1, 100)]
-        public int unitGenCount = 1;
-
         private Vector2 spawnAreaX; // min, max
         private Vector2 spawnAreaZ; // min, max
         [Range(0f, 1f)]
@@ -47,12 +46,12 @@ namespace Assets.Scripts.Managers
         private readonly float MIN_SPAWN_TIME_INDICATOR = 1f;
         private readonly float MAX_SPAWN_TIME_INDICATOR = 3f;
 
-        private List<Unit> unitList = new List<Unit>();
-
         private UnitController unitCtrl;
         private readonly float initSpawnHeight = 1f;
 
         private static List<UnitController> unitListenerList = new List<UnitController>();
+
+        private GenSampleAIManager aiManager;
 
         #region UNITY
         // Use this for initialization
@@ -83,7 +82,7 @@ namespace Assets.Scripts.Managers
                     }
                 case GenSampleState.PlayAI:
                     {
-                        PlayProcAI();
+                        aiManager.Proc();
                         break;
                     }
                 case GenSampleState.Clear:
@@ -261,7 +260,7 @@ namespace Assets.Scripts.Managers
             else
             {
                 GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>("Prefab/Player");
-                GameObject goPlayer = Instantiate(pfPlayer, initPos, Quaternion.identity, unitContainer);
+                GameObject goPlayer = Instantiate(pfPlayer, initPos, Quaternion.identity, FindObjectOfType<UnitContainer>().transform);
                 unitCtrl = goPlayer.GetComponent<UnitController>();
                 unitCtrl.SetSprite(selectUnitParts);
                 unitCtrl.Init(false);
@@ -394,66 +393,19 @@ namespace Assets.Scripts.Managers
             spawnAreaZ = new Vector2(-spawnRadius.z, spawnRadius.z) + Vector2.one * groundCenter.z;
         }
 
-        private void GenerateAIUnit()
+        public Vector2 GetSpawnAreaX()
         {
-            GameObject pfUnit = ResourceManager.LoadAsset<GameObject>("Prefab/AIUnit");
-            Unit unitComp;
-
-            for (int i = 0; i < unitGenCount; i++)
-            {
-                if (unitList.Count <= i)
-                {
-                    GameObject goUnit = Instantiate(pfUnit, unitContainer);
-                    unitComp = goUnit.GetComponent<Unit>();
-
-                    if (unitComp != null)
-                        unitList.Add(unitComp);
-                }
-                else
-                {
-                    unitComp = unitList[i];
-                }
-
-                if (unitComp == null)
-                {
-                    Log.Error($"Unit Component cannot find!");
-                    return;
-                }
-
-                unitComp.Init();
-                unitComp.SetSprite(UnitSettings.GetSelectUnitPartDict());
-            }
+            return spawnAreaX;
         }
 
-        private void DestroyAllAIUnit()
+        public Vector2 GetSpawnAreaZ()
         {
-            foreach (Unit unit in unitList)
-            {
-                Destroy(unit.gameObject);
-            }
-            unitList.Clear();
-        }
-
-        private void ResetAIUnitPos()
-        {
-            foreach (Unit unit in unitList)
-            {
-                float spawnX = UnityEngine.Random.Range(spawnAreaX.x, spawnAreaX.y);
-                float spawnZ = UnityEngine.Random.Range(spawnAreaZ.x, spawnAreaZ.y);
-
-                unit.ResetSpawnPos(spawnX, initSpawnHeight, spawnZ);
-            }
-        }
-
-        private void ResetPlayerPos()
-        {
-            Vector3 initPos = new Vector3(0, initSpawnHeight, -1f);
-            unitCtrl.ResetSpawnPos(initPos);
+            return spawnAreaZ;
         }
 
         #endregion
 
-        private void MakeIndicator(Vector3 hitPoint)
+        public void MakeIndicator(Vector3 hitPoint)
         {
             string pfPath = Path.Combine("Prefab", "Indicator");
             Vector3 initPos = new Vector3(hitPoint.x, 0f, hitPoint.z);
@@ -462,40 +414,19 @@ namespace Assets.Scripts.Managers
             float scaleX = 3f;
             float scaleZ = 3f;
 
-            if (PlayerSettings.IsConnectNetwork())
-            {
-                var data = new List<object>();
-                data.Add(limitTime);
-                data.Add(scaleX);
-                data.Add(scaleZ);
+            var data = new List<object>();
+            data.Add(limitTime);
+            data.Add(scaleX);
+            data.Add(scaleZ);
 
-                PhotonNetwork.InstantiateRoomObject(pfPath, initPos, Quaternion.identity, 0, data.ToArray());
-            }
-            else
-            {
-                GameObject pfIndicator = ResourceManager.LoadAsset<GameObject>(pfPath);
-                GameObject goIndicator = Instantiate(pfIndicator, initPos, Quaternion.identity, unitContainer);
-                Indicator indicator = goIndicator.GetComponent<Indicator>();
-                indicator.Init(limitTime, scaleX, scaleZ);
-                indicator.RegisterKnockbackListener(Knockback);
-            }
+            PhotonNetwork.InstantiateRoomObject(pfPath, initPos, Quaternion.identity, 0, data.ToArray());
         }
 
         public void Knockback(Vector3 center)
         {
-            if (PlayerSettings.IsConnectNetwork())
-            {
-                unitCtrl.Knockback(center.x, center.z);
-            }
-            else
-            {   
-                unitCtrl.Knockback(center.x, center.z);
-                foreach (Unit unit in unitList)
-                {
-                    unit.Knockback(center.x, center.z);
-                }
-            }
+            unitCtrl.Knockback(center.x, center.z);
         }
+
         private IEnumerator SpawnIndicator()
         {
             while (true)
@@ -515,19 +446,10 @@ namespace Assets.Scripts.Managers
             Vector3 initPos = new Vector3(0f, 1f, 0f);
             string pfMobPath = "Prefab/Mob";
 
-            if (PlayerSettings.IsConnectNetwork())
-            {
-                var data = new List<object>();
-                data.Add(PhotonNetwork.PlayerList.Length);
+            var data = new List<object>();
+            data.Add(PhotonNetwork.PlayerList.Length);
 
-                PhotonNetwork.InstantiateRoomObject(pfMobPath, initPos, Quaternion.identity, 0, data.ToArray());
-            }
-            else
-            {
-                GameObject pfMob = ResourceManager.LoadAsset<GameObject>(pfMobPath);
-                GameObject goMob = Instantiate(pfMob, initPos, Quaternion.identity);
-                goMob.GetComponent<MobController>().Init();
-            }
+            PhotonNetwork.InstantiateRoomObject(pfMobPath, initPos, Quaternion.identity, 0, data.ToArray());
         }
 
         public static void RegisterUnit(UnitController unit)
@@ -583,48 +505,22 @@ namespace Assets.Scripts.Managers
                 infoText.text = $"{(limitTime - curLimitTime):f1}";
         }
 
-        private void PlayProcAI()
-        {
-            if (Input.GetKeyDown(KeyCode.F1))
-            {
-                ResetAIUnitPos();
-                ResetPlayerPos();
-            }
-
-            if (Input.GetKeyDown(KeyCode.F2))
-            {
-                DestroyAllAIUnit();
-            }
-
-            if (Input.GetKeyDown(KeyCode.F3))
-            {
-                GenerateAIUnit();
-                ResetAIUnitPos();
-            }
-
-            if (Input.GetMouseButtonUp(0))
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, 10000f, ~ignoreClickLayer))
-                {
-                    MakeIndicator(hit.point);
-                }
-            }
-        }
-
         private void InitProc()
         {
             InitSpawnArea();
 
             if (!PlayerSettings.IsConnectNetwork())
             {
-                DestroyAllAIUnit();
-                GenerateAIUnit();
-                ResetAIUnitPos();
+                GameObject pfAIManager = ResourceManager.LoadAsset<GameObject>("Prefab/Manager/GenSampleAIManager");
+                if (pfAIManager == null)
+                {
+                    SetGenSampleState(GenSampleState.Idle);
+                    return;
+                }
 
-                SpawnPlayer();
-                GenerateMob();
+                GameObject goAIManager = Instantiate(pfAIManager, transform);
+                aiManager = goAIManager.GetComponent<GenSampleAIManager>();
+                aiManager.Build(this);
 
                 SetGenSampleState(GenSampleState.PlayAI);
             }
