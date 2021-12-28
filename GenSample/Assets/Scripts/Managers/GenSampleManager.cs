@@ -317,14 +317,10 @@ namespace Assets.Scripts.Managers
             bool failClear = true;
             foreach (Player p in PhotonNetwork.PlayerList)
             {
-                object playerGameFail;
-                if (p.CustomProperties.TryGetValue(FAIL_GAME, out playerGameFail))
+                if (!IsPlayerGameFail(p))
                 {
-                    if (!(bool)playerGameFail)
-                    {
-                        failClear = false;
-                        break;
-                    }
+                    failClear = false;
+                    break;
                 }
             }
 
@@ -352,6 +348,17 @@ namespace Assets.Scripts.Managers
             if (player.CustomProperties.TryGetValue(PLAYER_DIE, out isDie))
             {
                 return (bool)isDie;
+            }
+
+            return false;
+        }
+
+        private bool IsPlayerGameFail(Player player)
+        {
+            object playerGameFail;
+            if (player.CustomProperties.TryGetValue(FAIL_GAME, out playerGameFail))
+            {
+                return (bool)playerGameFail;
             }
 
             return false;

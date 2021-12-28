@@ -44,17 +44,6 @@ namespace Assets.Scripts.Feature.GenSample
         
 
         #region UNITY
-
-        public void OnEnable()
-        {
-            PhotonNetwork.AddCallbackTarget(this);
-        }
-
-        public void OnDisable()
-        {
-            PhotonNetwork.RemoveCallbackTarget(this);
-        }
-
         protected override void Update()
         {
             if (isConnected)
@@ -102,6 +91,16 @@ namespace Assets.Scripts.Feature.GenSample
                     RaiseEvent(EventCodeType.PlayerDie, ReceiverGroup.All);
                 }
             }
+        }
+
+        public void OnEnable()
+        {            
+            PhotonNetwork.AddCallbackTarget(this);
+        }
+
+        public void OnDisable()
+        {
+            PhotonNetwork.RemoveCallbackTarget(this);
         }
 
         void OnCollisionEnter(Collision coll)
