@@ -44,8 +44,6 @@ namespace Assets.Scripts.Managers
         private readonly float initSpawnHeight = 1f;
         private float curLimitTime;
 
-        private static List<UnitController> unitListenerList = new List<UnitController>();
-
         private GenSampleAIManager aiManager;
         private GameSettingSO gameSetting;
         private IndicatorSettingSO indicatorSetting;
@@ -129,6 +127,14 @@ namespace Assets.Scripts.Managers
             CheckEndOfGame();
         }
 
+        public override void OnMasterClientSwitched(Player newMasterClient)
+        {
+            if (PhotonNetwork.LocalPlayer.ActorNumber == newMasterClient.ActorNumber)
+            {
+                StartCoroutine(SpawnIndicator());
+            }
+        }
+
         public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
         {
             if (changedProps.ContainsKey(PLAYER_DIE) ||
@@ -137,34 +143,30 @@ namespace Assets.Scripts.Managers
                 CheckEndOfGame();
             }
 
-            if (!PhotonNetwork.IsMasterClient)
+            if(PhotonNetwork.IsMasterClient && 
+                PhotonNetwork.LocalPlayer.ActorNumber == targetPlayer.ActorNumber)
             {
-                return;
-            }
+                // if there was no countdown yet, the master client (this one) waits until everyone loaded the level and sets a timer start
+                int startTimestamp;
+                bool startTimeIsSet = GenCountdownTimer.TryGetStartTime(out startTimestamp);
 
-            if (PhotonNetwork.LocalPlayer.ActorNumber != targetPlayer.ActorNumber)
-                return;
-
-            // if there was no countdown yet, the master client (this one) waits until everyone loaded the level and sets a timer start
-            int startTimestamp;
-            bool startTimeIsSet = GenCountdownTimer.TryGetStartTime(out startTimestamp);
-
-            if (changedProps.ContainsKey(PLAYER_LOADED_LEVEL))
-            {
-                if (!CheckAllPlayerLoadedLevel())
+                if (changedProps.ContainsKey(PLAYER_LOADED_LEVEL))
                 {
-                    // not all players loaded yet. wait:
-                    Log.Print("Waiting for other players...");
-                }
-                else
-                {
-                    if (!startTimeIsSet)
+                    if (!CheckAllPlayerLoadedLevel())
                     {
-                        GenCountdownTimer.SetStartTime();
-                        GenerateMob();
+                        // not all players loaded yet. wait:
+                        Log.Print("Waiting for other players...");
+                    }
+                    else
+                    {
+                        if (!startTimeIsSet)
+                        {
+                            GenCountdownTimer.SetStartTime();
+                            GenerateMob();
+                        }
                     }
                 }
-            }
+            }            
         }
 
         public void OnEvent(EventData photonEvent)
@@ -468,16 +470,6 @@ namespace Assets.Scripts.Managers
             data.Add(PhotonNetwork.PlayerList.Length);
 
             PhotonNetwork.InstantiateRoomObject(pfMobPath, initPos, Quaternion.identity, 0, data.ToArray());
-        }
-
-        public static void RegisterUnit(UnitController unit)
-        {
-            unitListenerList.Add(unit);
-        }
-
-        public static void UnRegisterUnit(UnitController unit)
-        {
-            unitListenerList.Remove(unit);
         }
     }
 }

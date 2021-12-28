@@ -48,15 +48,11 @@ namespace Assets.Scripts.Feature.GenSample
         public void OnEnable()
         {
             PhotonNetwork.AddCallbackTarget(this);
-
-            GenSampleManager.RegisterUnit(this);
         }
 
         public void OnDisable()
         {
             PhotonNetwork.RemoveCallbackTarget(this);
-
-            GenSampleManager.UnRegisterUnit(this);
         }
 
         protected override void Update()
