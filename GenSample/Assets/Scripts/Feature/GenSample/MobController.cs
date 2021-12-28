@@ -145,6 +145,18 @@ namespace Assets.Scripts.Feature.GenSample
                 GetComponent<Animator>().SetTrigger("mob_hit_01");
             }            
         }
+        
+        public void AttackBy(UnitLocalPlayer unit)
+        {
+            curHp -= unit.GetAtk();
+            if (curHp <= 0f)
+                curHp = 0f;
+
+            SetGauge();
+            MakeHitEffect();
+
+            GetComponent<Animator>().SetTrigger("mob_hit_01");
+        }
 
         private void SetGauge()
         {

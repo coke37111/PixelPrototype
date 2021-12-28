@@ -293,7 +293,7 @@ namespace Assets.Scripts.Managers
             var data = new List<object>();
             data.Add(selectUnitParts);
 
-            GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Player"), initPos, Quaternion.identity, 0, data.ToArray());
+            GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Unit/NetworkPlayer"), initPos, Quaternion.identity, 0, data.ToArray());
             UnitController unitCtrl = netGoPlayer.GetComponent<UnitController>();
             CameraController.Instance.SetOwner(unitCtrl);
         }

@@ -10,6 +10,7 @@ namespace Assets.Scripts.Feature.GenSample
     {
         private static CameraController _instance;
         private UnitController _owner;
+        private UnitLocalPlayer _unitLocalPlayer;
 
         private void Start()
         {
@@ -29,6 +30,16 @@ namespace Assets.Scripts.Feature.GenSample
             _owner = unitController;
 
             _owner.OnChnagePosition += UnitController_OnChnagePosition;
+        }
+
+        public void SetOwner(UnitLocalPlayer unitLocalPlayer)
+        {
+            if (_unitLocalPlayer != null)
+                _unitLocalPlayer.OnChnagePosition -= UnitController_OnChnagePosition;
+
+            _unitLocalPlayer = unitLocalPlayer;
+
+            _unitLocalPlayer.OnChnagePosition += UnitController_OnChnagePosition;
         }
 
         private void UnitController_OnChnagePosition(Vector3 position)

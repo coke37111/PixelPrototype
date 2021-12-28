@@ -17,8 +17,9 @@ namespace Assets.Scripts.Managers
 
         private GenSampleManager genSampleManager;
         private List<Unit> unitList = new List<Unit>();
+        private List<UnitAI> unitAIList = new List<UnitAI>();
         private Transform unitContainer;
-        private UnitController unitCtrl;
+        private UnitLocalPlayer unitLocalPlayer;
 
         private readonly float initSpawnHeight = 1f;
 
@@ -67,27 +68,27 @@ namespace Assets.Scripts.Managers
 
         private void GenerateAIUnit()
         {
-            GameObject pfUnit = ResourceManager.LoadAsset<GameObject>("Prefab/AIUnit");
-            Unit unitComp;
+            GameObject pfUnit = ResourceManager.LoadAsset<GameObject>("Prefab/Unit/AIUnit");
+            UnitAI unitComp;
 
             for (int i = 0; i < unitGenCount; i++)
             {
-                if (unitList.Count <= i)
+                if (unitAIList.Count <= i)
                 {
                     GameObject goUnit = Instantiate(pfUnit, unitContainer);
-                    unitComp = goUnit.GetComponent<Unit>();
+                    unitComp = goUnit.GetComponent<UnitAI>();
 
                     if (unitComp != null)
-                        unitList.Add(unitComp);
+                        unitAIList.Add(unitComp);
                 }
                 else
                 {
-                    unitComp = unitList[i];
+                    unitComp = unitAIList[i];
                 }
 
                 if (unitComp == null)
                 {
-                    Log.Error($"Unit Component cannot find!");
+                    Log.Error($"UnitAI Component cannot find!");
                     return;
                 }
 
@@ -101,11 +102,11 @@ namespace Assets.Scripts.Managers
 
         private void DestroyAllAIUnit()
         {
-            foreach (Unit unit in unitList)
+            foreach (UnitAI unit in unitAIList)
             {
                 Destroy(unit.gameObject);
             }
-            unitList.Clear();
+            unitAIList.Clear();
         }
 
         private void ResetAIUnitPos()
@@ -113,19 +114,19 @@ namespace Assets.Scripts.Managers
             Vector2 spawnAreaX = genSampleManager.GetSpawnAreaX();
             Vector2 spawnAreaZ = genSampleManager.GetSpawnAreaZ();
 
-            foreach (Unit unit in unitList)
+            foreach (UnitAI unit in unitAIList)
             {
                 float spawnX = UnityEngine.Random.Range(spawnAreaX.x, spawnAreaX.y);
                 float spawnZ = UnityEngine.Random.Range(spawnAreaZ.x, spawnAreaZ.y);
 
-                unit.ResetSpawnPos(spawnX, initSpawnHeight, spawnZ);
+                unit.ResetSpawnPos(new Vector3(spawnX, initSpawnHeight, spawnZ));
             }
         }
 
         private void ResetPlayerPos()
         {
             Vector3 initPos = new Vector3(0, initSpawnHeight, -1f);
-            unitCtrl.ResetSpawnPos(initPos);
+            unitLocalPlayer.ResetSpawnPos(initPos);
         }
         public void SpawnPlayer()
         {
@@ -134,13 +135,13 @@ namespace Assets.Scripts.Managers
             PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
             Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
 
-            GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>("Prefab/Player");
+            GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>("Prefab/Unit/LocalPlayer");
             GameObject goPlayer = Instantiate(pfPlayer, initPos, Quaternion.identity, unitContainer);
-            unitCtrl = goPlayer.GetComponent<UnitController>();
-            unitCtrl.SetSprite(selectUnitParts);
-            unitCtrl.Init(false);
+            unitLocalPlayer = goPlayer.GetComponent<UnitLocalPlayer>();
+            unitLocalPlayer.Init();
+            unitLocalPlayer.SetSprite(selectUnitParts);
 
-            CameraController.Instance.SetOwner(unitCtrl);
+            CameraController.Instance.SetOwner(unitLocalPlayer);
         }
         private void GenerateMob()
         {
@@ -169,8 +170,8 @@ namespace Assets.Scripts.Managers
         }
         public void Knockback(Vector3 center)
         {
-            unitCtrl.Knockback(center.x, center.z);
-            foreach (Unit unit in unitList)
+            unitLocalPlayer.Knockback(center.x, center.z);
+            foreach (UnitAI unit in unitAIList)
             {
                 unit.Knockback(center.x, center.z);
             }

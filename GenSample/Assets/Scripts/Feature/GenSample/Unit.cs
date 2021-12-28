@@ -23,7 +23,6 @@ namespace Assets.Scripts.Feature.GenSample
         }
         private Vector3 spawnPos;
         protected Vector3 targetPos;
-        public LayerMask clickLayer;
         public LayerMask knockbackLayer;
 
         public Transform trUnitPartsRoot;

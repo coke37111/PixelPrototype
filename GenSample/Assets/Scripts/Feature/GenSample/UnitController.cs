@@ -30,7 +30,6 @@ namespace Assets.Scripts.Feature.GenSample
 
         public event Action<Vector3> OnChnagePosition;
 
-        private bool isConnected = false;
         private bool isDie = false;
         private bool canJump = true;
 
@@ -46,7 +45,7 @@ namespace Assets.Scripts.Feature.GenSample
         #region UNITY
         protected override void Update()
         {
-            if (isConnected)
+            if (PlayerSettings.IsConnectNetwork())
             {
                 if (!photonView.IsMine)
                     return;
@@ -80,7 +79,7 @@ namespace Assets.Scripts.Feature.GenSample
                 MoveByKeyboard();
                 Attack();
 
-                if (isConnected && transform.localPosition.y <= -5f)
+                if (PlayerSettings.IsConnectNetwork() && transform.localPosition.y <= -5f)
                 {
                     Hashtable props = new Hashtable
                     {
@@ -142,7 +141,7 @@ namespace Assets.Scripts.Feature.GenSample
             Dictionary<string, string> unitPartList = (Dictionary<string, string>)info.photonView.InstantiationData[0];
             SetSprite(unitPartList);
 
-            Init(true);
+            Init();
         }
 
         public void OnEvent(EventData photonEvent)
@@ -210,21 +209,30 @@ namespace Assets.Scripts.Feature.GenSample
 
         #endregion
 
-        public void Init(bool isConnected)
+        public override void Init()
         {
-            base.Init();
+            isLeftDir = UnityEngine.Random.Range(0f, 1f) >= .5f;
+            SetDir();
 
-            this.isConnected = isConnected;
+            SetRotation();
 
             isDie = false;
             canJump = true;
 
             transform.SetParent(FindObjectOfType<UnitContainer>().transform);
-            targetPos = new Vector3( transform.position.x, 0.0f, transform.position.z);
+            targetPos = new Vector3(transform.position.x, 0f, transform.position.z);
 
             playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
 
             curAtkDelay = 0f;
+        }
+
+        private void SetRotation()
+        {
+            Quaternion quaUnit = trUnitPartsRoot.rotation;
+            float camRotX = Camera.main.transform.rotation.x;
+            quaUnit.x = camRotX;
+            trUnitPartsRoot.rotation = quaUnit;
         }
 
         protected override void OnChangeDir(bool isLeft)
@@ -232,7 +240,7 @@ namespace Assets.Scripts.Feature.GenSample
             base.OnChangeDir(isLeft);
             SetDir();
 
-            if (isConnected)
+            if (PlayerSettings.IsConnectNetwork())
                 RaiseEvent(EventCodeType.Move, ReceiverGroup.Others, isLeftDir);
         }
 
