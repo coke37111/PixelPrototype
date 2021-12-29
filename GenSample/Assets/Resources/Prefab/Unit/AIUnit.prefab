@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3716669947162223262}
+  - component: {fileID: 3779076486425653320}
   - component: {fileID: 4497415847833395133}
   - component: {fileID: 3385077308483427467}
-  - component: {fileID: 3779076486425653320}
   m_Layer: 6
   m_Name: AIUnit
   m_TagString: Untagged
@@ -34,6 +34,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3779076486425653320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3716669947162223263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ee78d1bbe4a64545b9de47f3c8c58e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockbackLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!54 &4497415847833395133
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -63,21 +78,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.18, y: 0.5, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3779076486425653320
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3716669947162223263}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 265cb5545b880f341b539c425ad41d85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  knockbackLayer:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!1001 &399699715207781345
 PrefabInstance:
   m_ObjectHideFlags: 0
