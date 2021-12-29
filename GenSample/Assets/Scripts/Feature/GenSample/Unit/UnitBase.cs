@@ -63,6 +63,8 @@ namespace Assets.Scripts.Feature.GenSample
             unitParts = transform.GetComponentInChildren<UnitParts>();
             if (unitParts == null)
                 Log.Error($"unitParts component가 존재하지 않습니다!");
+
+            transform.SetParent(FindObjectOfType<UnitContainer>().transform);
         }
 
         protected virtual void OnChangeDir(bool isLeft)

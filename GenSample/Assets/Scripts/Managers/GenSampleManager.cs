@@ -33,15 +33,14 @@ namespace Assets.Scripts.Managers
         private GenSampleState genSampleState;
 
         public TMPro.TextMeshProUGUI infoText;
-        public GameObject collGround; // Jump 체크를 위한 collider
-        public LayerMask ignoreClickLayer;
+        public GameObject collGround; // 각종 오브젝트의 spawn 기준영역
 
         private Vector2 spawnAreaX; // min, max
         private Vector2 spawnAreaZ; // min, max
         [Range(0f, 1f)]
         public float spawnRange;
 
-        private readonly float initSpawnHeight = 1f;
+        private readonly Vector3 initSpawnPos = new Vector3(0, 1f, -1f);
         private float curLimitTime;
 
         private GenSampleAIManager aiManager;
@@ -159,6 +158,8 @@ namespace Assets.Scripts.Managers
                     }
                     else
                     {
+                        Log.Print("Players Loaded Complete!");
+
                         if (!startTimeIsSet)
                         {
                             GenCountdownTimer.SetStartTime();
@@ -178,10 +179,6 @@ namespace Assets.Scripts.Managers
             {
                 case EventCodeType.MobDie:
                     {
-                        Hashtable roomProps = new Hashtable();
-                        roomProps[RoomSettings.GAME_END] = true;
-                        PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
-
                         if (PhotonNetwork.IsMasterClient)
                         {
                             StopAllCoroutines();
@@ -230,10 +227,6 @@ namespace Assets.Scripts.Managers
             {
                 curLimitTime = 0f;
 
-                Hashtable roomProps = new Hashtable();
-                roomProps[RoomSettings.GAME_END] = true;
-                PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
-
                 Hashtable props = new Hashtable();
                 props.Add(PLAYER_LOADED_LEVEL, true);
                 props.Add(PLAYER_DIE, false);
@@ -253,15 +246,13 @@ namespace Assets.Scripts.Managers
 
             if (curLimitTime >= gameSetting.limitTime)
             {
-                Hashtable roomProps = new Hashtable();
-                roomProps[RoomSettings.GAME_END] = true;
-                PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
-
                 Hashtable props = new Hashtable
                     {
                         { FAIL_GAME, true },
                     };
                 PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+                PhotonEventManager.RaiseEvent(EventCodeType.Fail, ReceiverGroup.All);
 
                 SetGenSampleState(GenSampleState.Idle);
             }
@@ -285,22 +276,23 @@ namespace Assets.Scripts.Managers
 
         private void SpawnPlayer()
         {
-            Vector3 initPos = new Vector3(0, initSpawnHeight, -1f);
-            
             PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
             Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
 
             var data = new List<object>();
             data.Add(selectUnitParts);
 
-            GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Unit/NetworkPlayer"), initPos, Quaternion.identity, 0, data.ToArray());
-            UnitController unitCtrl = netGoPlayer.GetComponent<UnitController>();
-            CameraController.Instance.SetOwner(unitCtrl);
+            GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Unit/NetworkPlayer"), initSpawnPos, Quaternion.identity, 0, data.ToArray());            
+            UnitNetworkPlayer unit = netGoPlayer.GetComponent<UnitNetworkPlayer>();
+            CameraController.Instance.SetOwner(unit);
         }
 
         private void CheckEndOfGame()
         {
             if (PhotonNetwork.NetworkClientState == ClientState.Leaving)
+                return;
+
+            if (genSampleState == GenSampleState.Clear)
                 return;
 
             bool allDestroyed = true;
@@ -386,10 +378,6 @@ namespace Assets.Scripts.Managers
 
         private void OnCountdownTimerIsExpired()
         {
-            Hashtable roomProps = new Hashtable();
-            roomProps[RoomSettings.GAME_END] = false;
-            PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
-
             SpawnPlayer();
 
             if (PhotonNetwork.IsMasterClient)

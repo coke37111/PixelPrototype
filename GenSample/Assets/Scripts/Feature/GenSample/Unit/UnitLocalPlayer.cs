@@ -22,7 +22,7 @@ namespace Assets.Scripts.Feature.GenSample
         private bool canAtk;
         private bool canJump;
         private float curAtkDelay;
-        private string curEffColor;
+        protected string curEffColor;
 
         private PlayerUnitSettingSO playerUnitSetting;
         private MobController targetMob;

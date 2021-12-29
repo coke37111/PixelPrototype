@@ -9,7 +9,6 @@ namespace Assets.Scripts.Feature.GenSample
     public class CameraController : MonoBehaviour
     {
         private static CameraController _instance;
-        private UnitController _owner;
         private UnitLocalPlayer _unitLocalPlayer;
 
         private void Start()
@@ -20,16 +19,6 @@ namespace Assets.Scripts.Feature.GenSample
         private void Update()
         {
 
-        }
-
-        public void SetOwner(UnitController unitController)
-        {
-            if (_owner != null)
-                _owner.OnChnagePosition -= UnitController_OnChnagePosition;
-
-            _owner = unitController;
-
-            _owner.OnChnagePosition += UnitController_OnChnagePosition;
         }
 
         public void SetOwner(UnitLocalPlayer unitLocalPlayer)

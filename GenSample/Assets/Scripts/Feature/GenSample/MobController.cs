@@ -120,13 +120,13 @@ namespace Assets.Scripts.Feature.GenSample
             curHp = maxHp;
             SetGauge();
         }
-
-        public void AttackBy(UnitController unit)
+        
+        public void AttackBy(UnitLocalPlayer unit)
         {
             if (curHp <= 0)
                 return;
 
-            if (PhotonNetwork.IsConnected)
+            if (PlayerSettings.IsConnectNetwork())
             {
                 List<object> content = new List<object>() { unit.GetAtk() };
                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
@@ -143,19 +143,7 @@ namespace Assets.Scripts.Feature.GenSample
                 MakeHitEffect();
 
                 GetComponent<Animator>().SetTrigger("mob_hit_01");
-            }            
-        }
-        
-        public void AttackBy(UnitLocalPlayer unit)
-        {
-            curHp -= unit.GetAtk();
-            if (curHp <= 0f)
-                curHp = 0f;
-
-            SetGauge();
-            MakeHitEffect();
-
-            GetComponent<Animator>().SetTrigger("mob_hit_01");
+            }
         }
 
         private void SetGauge()
@@ -251,6 +239,12 @@ namespace Assets.Scripts.Feature.GenSample
         public bool IsDie()
         {
             return curHp <= 0f;
+        }
+
+        public void ResetHp()
+        {
+            curHp = maxHp;
+            SetGauge();
         }
     }
 }

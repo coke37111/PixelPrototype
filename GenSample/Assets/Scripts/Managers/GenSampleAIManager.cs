@@ -16,10 +16,10 @@ namespace Assets.Scripts.Managers
         public int unitGenCount = 1;
 
         private GenSampleManager genSampleManager;
-        private List<Unit> unitList = new List<Unit>();
         private List<UnitAI> unitAIList = new List<UnitAI>();
         private Transform unitContainer;
         private UnitLocalPlayer unitLocalPlayer;
+        private MobController mobCtrl;
 
         private readonly float initSpawnHeight = 1f;
 
@@ -42,6 +42,7 @@ namespace Assets.Scripts.Managers
             {
                 ResetAIUnitPos();
                 ResetPlayerPos();
+                ResetMobHp();
             }
 
             if (Input.GetKeyDown(KeyCode.F2))
@@ -150,7 +151,13 @@ namespace Assets.Scripts.Managers
 
             GameObject pfMob = ResourceManager.LoadAsset<GameObject>(pfMobPath);
             GameObject goMob = Instantiate(pfMob, initPos, Quaternion.identity);
-            goMob.GetComponent<MobController>().Init();
+            mobCtrl = goMob.GetComponent<MobController>();
+            mobCtrl.Init();
+        }
+
+        private void ResetMobHp()
+        {
+            mobCtrl.ResetHp();
         }
 
         public void MakeIndicator(Vector3 hitPoint)

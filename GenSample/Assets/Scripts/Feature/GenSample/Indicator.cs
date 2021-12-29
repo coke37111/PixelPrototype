@@ -87,15 +87,14 @@ namespace Assets.Scripts.Feature.GenSample
                     {
                         Vector3 trPos = transform.position;
 
-                        PhotonView photonView = GetComponent<PhotonView>();
-
-                        List<object> content = new List<object>() { photonView.ViewID, trPos.x, trPos.z };
+                        List<object> content = new List<object>() { trPos.x, trPos.z };
                         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
                         SendOptions sendOptions = new SendOptions { Reliability = true };
                         PhotonNetwork.RaiseEvent((byte)PlayerSettings.EventCodeType.Knockback, content.ToArray(), raiseEventOptions, sendOptions);
 
                         if (PhotonNetwork.IsMasterClient)
                         {
+                            PhotonView photonView = GetComponent<PhotonView>();
                             PhotonNetwork.Destroy(photonView);
                         }
                     }
