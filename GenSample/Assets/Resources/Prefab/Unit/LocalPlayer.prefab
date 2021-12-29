@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 4800140194375321981}
   - component: {fileID: 6541877049648714907}
   - component: {fileID: 6456685749915187343}
-  - component: {fileID: 7965140824443809947}
+  - component: {fileID: 6429365142392916869}
   m_Layer: 6
   m_Name: LocalPlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -64,7 +64,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!65 &7965140824443809947
+--- !u!65 &6429365142392916869
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Managers;
 using Assets.Scripts.Settings.SO;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Feature.GenSample
@@ -21,15 +22,45 @@ namespace Assets.Scripts.Feature.GenSample
 
         private bool canAtk;
         private bool canJump;
-        private float curAtkDelay;
         protected string curEffColor;
 
-        private PlayerUnitSettingSO playerUnitSetting;
         private MobController targetMob;
         private GameObject atkEffectL;
         private GameObject atkEffectR;
+        private List<UnitBase> targetUnitList;
 
         #region UNITY
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.tag == "Player")
+            {
+                canAtk = true;
+
+                UnitBase targetUnit = other.gameObject.GetComponent<UnitBase>();
+                if (targetUnitList == null)
+                    targetUnitList = new List<UnitBase>();
+
+                if (targetUnitList.Contains(targetUnit))
+                    return;
+                targetUnitList.Add(targetUnit);
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.tag == "Player")
+            {
+                if (targetUnitList == null)
+                    return;
+
+                UnitBase targetUnit = other.gameObject.GetComponent<UnitBase>();
+                if (targetUnitList.Contains(targetUnit))
+                    targetUnitList.Remove(targetUnit);
+            }
+
+            CheckCanAtk();
+        }
 
         protected override void OnCollisionEnter(Collision coll)
         {
@@ -52,9 +83,10 @@ namespace Assets.Scripts.Feature.GenSample
 
             if (coll.gameObject.tag == "Mob")
             {
-                canAtk = false;
                 targetMob = null;
             }
+
+            CheckCanAtk();
         }
 
         #endregion
@@ -62,19 +94,55 @@ namespace Assets.Scripts.Feature.GenSample
         #region abstract override
         protected override void Attack()
         {
-            if (canAtk && targetMob != null)
+            if (canAtk)
             {
                 if (curAtkDelay >= playerUnitSetting.atkDelay)
                 {
                     curAtkDelay = 0f;
 
-                    if (targetMob.IsDie())
+                    bool showAtkEff = false;
+                    if(targetMob != null)
                     {
-                        return;
+                        if (targetMob.IsDie())
+                        {
+                            return;
+                        }
+
+                        targetMob.AttackBy(this);
+                        showAtkEff = true;
                     }
 
-                    targetMob.AttackBy(this);
-                    CheckAtkEffect();
+                    if(targetUnitList != null)
+                    {
+                        List<UnitBase> removePlayer = null;
+                        foreach(UnitBase unitPlayer in targetUnitList)
+                        {
+                            if (unitPlayer.IsDie())
+                            {
+                                if (removePlayer == null)
+                                    removePlayer = new List<UnitBase>();
+                                removePlayer.Add(unitPlayer);
+                                continue;
+                            }
+
+                            unitPlayer.AttackBy(this);
+                            showAtkEff = true;
+                        }
+
+                        if(removePlayer != null)
+                        {
+                            foreach(UnitBase removeUnit in removePlayer)
+                            {
+                                if (targetUnitList.Contains(removeUnit))
+                                    targetUnitList.Remove(removeUnit);
+                            }
+
+                            CheckCanAtk();
+                        }
+                    }
+                    
+                    if(showAtkEff)
+                        ShowAtkEff();
                 }
                 else
                 {
@@ -123,11 +191,9 @@ namespace Assets.Scripts.Feature.GenSample
             canAtk = false;
             canJump = true;
             controlable = true;
-
-            playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
         }
 
-        protected virtual void CheckAtkEffect()
+        protected virtual void ShowAtkEff()
         {
             SetAtkEffColor();
             MakeAtkEffect();
@@ -179,12 +245,6 @@ namespace Assets.Scripts.Feature.GenSample
 
             transform.position = pos;
         }
-
-        public float GetAtk()
-        {
-            return playerUnitSetting.atk;
-        }
-
         
         public override void Knockback(float centerX, float centerZ)
         {
@@ -195,6 +255,16 @@ namespace Assets.Scripts.Feature.GenSample
                 Vector3 diffPos = transform.position - new Vector3(centerX, transform.position.y, centerZ);
                 Vector3 dir = diffPos.normalized;
                 rb.AddForce(dir * 300f + Vector3.up * 150f);
+            }
+        }
+
+        private void CheckCanAtk()
+        {
+            if (targetMob == null &&
+                            (targetUnitList == null || targetUnitList.Count <= 0))
+            {
+                canAtk = false;
+                curAtkDelay = 0f;
             }
         }
     }

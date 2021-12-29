@@ -55,11 +55,13 @@ namespace Assets.Scripts.Feature.GenSample
             {
                 // We own this player: send the others our data
                 stream.SendNext(isLeftDir);
+                stream.SendNext(curHp);
             }
             else
             {
                 // Network player, receive data
                 this.isLeftDir = (bool)stream.ReceiveNext();
+                this.curHp = (float)stream.ReceiveNext();
             }
         }
 
@@ -107,6 +109,23 @@ namespace Assets.Scripts.Feature.GenSample
                         Knockback(centerX, centerZ);
                         break;
                     }
+                case EventCodeType.Hit:
+                    {
+                        int senderViewId = (int)data[0];
+                        float atk = (float)data[1];
+
+                        if (photonView.ViewID != senderViewId)
+                            return;
+
+                        MakeHitEffect();
+
+                        curHp -= atk;
+                        if (curHp <= 0f && photonView.AmOwner)
+                        {
+                            RaiseDie();
+                        }
+                        break;
+                    }
             }
         }
 
@@ -119,7 +138,7 @@ namespace Assets.Scripts.Feature.GenSample
             photonView = GetComponent<PhotonView>();
         }
 
-        protected override void CheckAtkEffect()
+        protected override void ShowAtkEff()
         {
             SetAtkEffColor();
             PhotonEventManager.RaiseEvent(EventCodeType.MakeAtkEff, ReceiverGroup.All, photonView.ViewID, curEffColor);
@@ -129,16 +148,28 @@ namespace Assets.Scripts.Feature.GenSample
         {
             if (transform.localPosition.y <= -5f)
             {
-                // 게임 종료 체크 처리를 위한 호출(=>GenSampleManager)
-                Hashtable props = new Hashtable
+                RaiseDie();
+            }
+        }
+
+        private bool raiseDieCall = false;
+        private void RaiseDie()
+        {
+            if (raiseDieCall)
+                return;
+
+            raiseDieCall = true;
+
+            Log.Print($"{photonView.ViewID} Die");
+            // 게임 종료 체크 처리를 위한 호출(=>GenSampleManager)
+            Hashtable props = new Hashtable
                     {
                         { PlayerSettings.PLAYER_DIE, true },
                     };
-                PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
-                // 오브젝트 Destroy를 위한 호출
-                PhotonEventManager.RaiseEvent(EventCodeType.PlayerDie, ReceiverGroup.All, photonView.ViewID);
-            }
+            // 오브젝트 Destroy를 위한 호출
+            PhotonEventManager.RaiseEvent(EventCodeType.PlayerDie, ReceiverGroup.All, photonView.ViewID);
         }
 
         private void Die()
@@ -152,6 +183,11 @@ namespace Assets.Scripts.Feature.GenSample
                 return;
 
             curEffColor = effColor;
+        }
+
+        public override void AttackBy(UnitLocalPlayer unitNetworkPlayer)
+        {
+            PhotonEventManager.RaiseEvent(EventCodeType.Hit, ReceiverGroup.All, photonView.ViewID, unitNetworkPlayer.GetAtk());
         }
     }
 }

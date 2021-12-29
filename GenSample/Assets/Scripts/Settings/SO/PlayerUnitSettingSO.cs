@@ -11,6 +11,10 @@ namespace Assets.Scripts.Settings.SO
         public float atk;
         [Header("- 공격 딜레이")]
         public float atkDelay;
+        [Header("- 방어력")]
+        public float def;
+        [Header("- 체력")]
+        public float hp;
         [Header("- 스킨목록")]
         public string[] unitTypes;
 

@@ -282,7 +282,7 @@ namespace Assets.Scripts.Managers
             var data = new List<object>();
             data.Add(selectUnitParts);
 
-            GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Unit/NetworkPlayer"), initSpawnPos, Quaternion.identity, 0, data.ToArray());            
+            GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Unit/NetworkPlayer"), initSpawnPos, Quaternion.identity, 0, data.ToArray());
             UnitNetworkPlayer unit = netGoPlayer.GetComponent<UnitNetworkPlayer>();
             CameraController.Instance.SetOwner(unit);
         }
@@ -304,6 +304,7 @@ namespace Assets.Scripts.Managers
                     allDestroyed = false;
                     break;
                 }
+                Log.Print($"{p.ActorNumber} is Die");
             }
 
             bool failClear = true;
@@ -316,6 +317,7 @@ namespace Assets.Scripts.Managers
                 }
             }
 
+            Log.Print(PhotonNetwork.PlayerList.Length, allDestroyed, failClear);
             if (allDestroyed || failClear)
             {
                 if (PhotonNetwork.IsMasterClient)
