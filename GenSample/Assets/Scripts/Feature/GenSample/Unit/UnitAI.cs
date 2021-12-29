@@ -82,7 +82,8 @@ namespace Assets.Scripts.Feature.GenSample
 
         private bool OutOfRangePos(Vector3 pos)
         {
-            return Vector3.Distance(spawnPos, pos) > 1f;
+            Vector3 spawnPosXZ = new Vector3(spawnPos.x, transform.position.y, spawnPos.z);
+            return Vector3.Distance(spawnPosXZ, pos) > 1f;
         }
 
         private float GetIdleTime()
