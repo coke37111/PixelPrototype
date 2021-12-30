@@ -23,6 +23,10 @@ namespace Assets.Scripts.Feature.GenSample
         private bool canAtk;
         private bool canJump;
         protected string curEffColor;
+        protected Vector3 moveDir;
+        private readonly float FIRE_DELAY = .5f;
+        private float curFireDelay;
+        private bool canFire;
 
         private MobController targetMob;
         private GameObject atkEffectL;
@@ -30,6 +34,12 @@ namespace Assets.Scripts.Feature.GenSample
         private List<UnitBase> targetUnitList;
 
         #region UNITY
+
+        protected override void Update()
+        {
+            base.Update();
+            Fire();
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -177,7 +187,11 @@ namespace Assets.Scripts.Feature.GenSample
                 isLeftDir = delta.x < 0;
 
             if (delta != Vector3.zero)
+            {
                 transform.position += delta;
+
+                moveDir = delta.normalized;
+            }
 
             OnChnagePosition?.Invoke(transform.position);
         }
@@ -191,6 +205,10 @@ namespace Assets.Scripts.Feature.GenSample
             canAtk = false;
             canJump = true;
             controlable = true;
+
+            moveDir = isLeftDir ? Vector3.left : Vector3.right;
+            curFireDelay = 0f;
+            canFire = true;
         }
 
         protected virtual void ShowAtkEff()
@@ -266,6 +284,40 @@ namespace Assets.Scripts.Feature.GenSample
                 canAtk = false;
                 curAtkDelay = 0f;
             }
+        }
+
+        private void Fire()
+        {
+            if (canFire)
+            {
+                if (Input.GetKeyDown(KeyCode.CapsLock))
+                {
+                    MakeMissile();
+
+                    canFire = false;
+                }
+            }
+            else
+            {
+                if(curFireDelay >= FIRE_DELAY)
+                {
+                    canFire = true;
+                    curFireDelay = 0f;
+                }
+                else
+                {
+                    curFireDelay += Time.deltaTime;
+                }
+            }
+        }
+
+        protected virtual void MakeMissile()
+        {
+            Vector3 initPos = transform.position + (moveDir + Vector3.up) * .25f;
+            GameObject pfBullet = ResourceManager.LoadAsset<GameObject>("Prefab/Missile");
+            GameObject goBullet = Instantiate(pfBullet, initPos, Quaternion.identity, transform);
+            Missile bullet = goBullet.GetComponent<Missile>();
+            bullet.InitializeBullet(this, moveDir, 0f);
         }
     }
 }

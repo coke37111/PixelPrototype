@@ -130,6 +130,17 @@ namespace Assets.Scripts.Feature.GenSample
             }
         }
 
+        [PunRPC]
+        public void MakeMissileRPC(Vector3 position, Vector3 moveDir,  PhotonMessageInfo info)
+        {
+            float lag = (float)(PhotonNetwork.Time - info.SentServerTime);
+            Vector3 initPos = position + (moveDir + Vector3.up) * .25f;
+            GameObject pfBullet = ResourceManager.LoadAsset<GameObject>("Prefab/Missile");
+            GameObject goBullet = Instantiate(pfBullet, initPos, Quaternion.identity, transform);
+            Missile bullet = goBullet.GetComponent<Missile>();
+            bullet.InitializeBullet(this, moveDir, Mathf.Abs(lag));
+        }
+
         #endregion
 
         public override void Init()
@@ -188,6 +199,11 @@ namespace Assets.Scripts.Feature.GenSample
         public override void AttackBy(UnitLocalPlayer unitNetworkPlayer)
         {
             PhotonEventManager.RaiseEvent(EventCodeType.Hit, ReceiverGroup.All, photonView.ViewID, unitNetworkPlayer.GetAtk());
+        }
+
+        protected override void MakeMissile()
+        {
+            photonView.RPC("MakeMissileRPC", RpcTarget.AllViaServer, rb.position, moveDir);
         }
     }
 }

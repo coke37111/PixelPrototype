@@ -46,7 +46,7 @@ namespace Assets.Scripts.Feature.GenSample
                     OnChangeDir(value);
                 }
             }
-        }
+        }        
 
         protected bool controlable;
 
@@ -77,7 +77,6 @@ namespace Assets.Scripts.Feature.GenSample
         protected abstract void Move();
         protected abstract void Jump();
         protected abstract void Attack();
-
         #endregion
 
         public virtual void Init()

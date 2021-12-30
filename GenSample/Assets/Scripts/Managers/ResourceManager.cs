@@ -13,6 +13,6 @@ namespace Assets.Scripts.Managers
         public static T[] LoadAssets<T>(string path) where T : Object
         {
             return Resources.LoadAll<T>(path);
-        }
+        }        
     }
 }
