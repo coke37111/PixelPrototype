@@ -128,13 +128,73 @@ TextureImporter:
     sprites: []
     outline: []
     physicsShape: []
-    bones: []
+    bones:
+    - name: head_001
+      position: {x: 9.907407, y: 3.2098722, z: 1}
+      rotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+      length: 9.814814
+      parentId: -1
+    - name: bone_eyes_001
+      position: {x: 4.999999, y: 7.0061703, z: 0}
+      rotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+      length: 1.9444444
+      parentId: -1
+    - name: bone_eyes_001
+      position: {x: 11.049382, y: 7.0061703, z: 0}
+      rotation: {x: 0, y: 0, z: 0.7126961, w: 0.70147294}
+      length: 1.9446896
+      parentId: -1
+    - name: bone_mouth_001
+      position: {x: 7.4074063, y: 4.0123434, z: 0}
+      rotation: {x: 0, y: 0, z: 0.71611196, w: 0.6979855}
+      length: 1.204099
+      parentId: -1
     spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
-    vertices: []
-    indices: 
-    edges: []
-    weights: []
+    vertices:
+    - {x: 20, y: 0}
+    - {x: 20, y: 20}
+    - {x: 0, y: 20}
+    - {x: 0, y: 0}
+    indices: 000000000300000002000000020000000100000000000000
+    edges:
+    - {x: 1, y: 2}
+    - {x: 3, y: 2}
+    - {x: 0, y: 3}
+    - {x: 1, y: 0}
+    weights:
+    - weight[0]: 0
+      weight[1]: 0
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 0
+      boneIndex[1]: 0
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    - weight[0]: 0
+      weight[1]: 0
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 0
+      boneIndex[1]: 0
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    - weight[0]: 0
+      weight[1]: 0
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 0
+      boneIndex[1]: 0
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    - weight[0]: 0
+      weight[1]: 0
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 0
+      boneIndex[1]: 0
+      boneIndex[2]: 0
+      boneIndex[3]: 0
     secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
