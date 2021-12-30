@@ -304,7 +304,6 @@ namespace Assets.Scripts.Managers
                     allDestroyed = false;
                     break;
                 }
-                Log.Print($"{p.ActorNumber} is Die");
             }
 
             bool failClear = true;
@@ -317,7 +316,6 @@ namespace Assets.Scripts.Managers
                 }
             }
 
-            Log.Print(PhotonNetwork.PlayerList.Length, allDestroyed, failClear);
             if (allDestroyed || failClear)
             {
                 if (PhotonNetwork.IsMasterClient)

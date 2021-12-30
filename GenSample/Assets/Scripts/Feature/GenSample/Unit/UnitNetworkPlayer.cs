@@ -14,6 +14,7 @@ namespace Assets.Scripts.Feature.GenSample
     public class UnitNetworkPlayer : UnitLocalPlayer, IPunInstantiateMagicCallback, IPunObservable, IOnEventCallback
     {
         private PhotonView photonView;
+        private bool raiseDieCall = false;
 
         #region UNITY
 
@@ -136,6 +137,7 @@ namespace Assets.Scripts.Feature.GenSample
             base.Init();
 
             photonView = GetComponent<PhotonView>();
+            raiseDieCall = false;
         }
 
         protected override void ShowAtkEff()
@@ -152,7 +154,6 @@ namespace Assets.Scripts.Feature.GenSample
             }
         }
 
-        private bool raiseDieCall = false;
         private void RaiseDie()
         {
             if (raiseDieCall)
@@ -160,7 +161,6 @@ namespace Assets.Scripts.Feature.GenSample
 
             raiseDieCall = true;
 
-            Log.Print($"{photonView.ViewID} Die");
             // 게임 종료 체크 처리를 위한 호출(=>GenSampleManager)
             Hashtable props = new Hashtable
                     {
