@@ -39,6 +39,7 @@ namespace Photon.Pun.Demo.Asteroids
 
         public Button StartGameButton;
         public GameObject PlayerListEntryPrefab;
+        public Text RoomTypeText;
 
         private Dictionary<string, RoomInfo> cachedRoomList;
         private Dictionary<string, GameObject> roomListEntries;
@@ -191,6 +192,21 @@ namespace Photon.Pun.Demo.Asteroids
                 {AsteroidsGame.PLAYER_LOADED_LEVEL, false}
             };
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+            object roomType;
+            if(PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(RoomSettings.RoomTypeKey, out roomType))
+            {
+                RoomSettings.roomType = (RoomSettings.ROOM_TYPE)roomType;
+                RoomTypeText.text = RoomSettings.roomType.ToString();
+            }
+            else
+            {
+                Hashtable roomProps = new Hashtable
+                {
+                    {RoomSettings.RoomTypeKey, RoomSettings.ROOM_TYPE.Raid}
+                };
+                PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
+            }
         }
 
         public override void OnLeftRoom()
@@ -252,6 +268,16 @@ namespace Photon.Pun.Demo.Asteroids
             }
 
             StartGameButton.gameObject.SetActive(CheckPlayersReady());
+        }
+
+        public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+        {
+            object roomType;
+            if(propertiesThatChanged.TryGetValue(RoomSettings.RoomTypeKey, out roomType))
+            {
+                RoomSettings.roomType = (RoomSettings.ROOM_TYPE)roomType;
+                RoomTypeText.text = RoomSettings.roomType.ToString();
+            }
         }
 
         #endregion
@@ -321,14 +347,33 @@ namespace Photon.Pun.Demo.Asteroids
 
         public void OnStartGameButtonClicked()
         {
-            RoomSettings.roomType = RoomSettings.ROOM_TYPE.Raid;
-
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
 
             Log.Print($"{PhotonNetwork.CurrentRoom.Name}");
 
             PhotonNetwork.LoadLevel(GameSceneName);
+        }
+
+        public void ChangeGameTypeButtonClicked()
+        {
+            if (!PhotonNetwork.IsMasterClient)
+            {
+                return;
+            }
+
+            RoomSettings.ROOM_TYPE nextRoomType;
+            if (RoomSettings.roomType == RoomSettings.ROOM_TYPE.Raid)
+            {
+                nextRoomType = RoomSettings.ROOM_TYPE.Pvp;
+            }
+            else
+            {
+                nextRoomType = RoomSettings.ROOM_TYPE.Raid;
+            }
+
+            Hashtable props = new Hashtable() { { RoomSettings.RoomTypeKey, nextRoomType } };
+            PhotonNetwork.CurrentRoom.SetCustomProperties(props);
         }
 
         #endregion
