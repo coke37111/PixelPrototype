@@ -74,6 +74,8 @@ namespace Photon.Pun.Demo.Asteroids
         {
             Log.Print($"OnConnectedToMaster!");
 
+            PlayerSettings.ConnectNetwork();
+
             if (RoomSettings.ExistPrevRoom())
             {
                 string roomName = RoomSettings.roomName;

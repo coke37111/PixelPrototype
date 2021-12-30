@@ -51,10 +51,6 @@ namespace Assets.Scripts.Managers
         // Use this for initialization
         void Start()
         {
-            // TODO : 훨씬 더 앞 프로세스에 있어야하긴 함
-            if(PhotonNetwork.IsConnected)
-                PlayerSettings.ConnectNetwork();
-
             SetGenSampleState(GenSampleState.Init);
         }
 
