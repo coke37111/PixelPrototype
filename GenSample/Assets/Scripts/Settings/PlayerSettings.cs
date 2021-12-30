@@ -4,7 +4,6 @@
     {
         public enum EventCodeType
         {
-            Move,
             Knockback,
             MobAttackBy,
             MobDie,

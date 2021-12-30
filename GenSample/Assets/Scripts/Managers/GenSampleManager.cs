@@ -226,6 +226,8 @@ namespace Assets.Scripts.Managers
             }
             else
             {
+                curRoomType = RoomSettings.roomType;
+
                 curLimitTime = 0f;
 
                 Hashtable props = new Hashtable();
