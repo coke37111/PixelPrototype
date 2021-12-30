@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Managers;
 using Assets.Scripts.Settings.SO;
 using Assets.Scripts.Util;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -49,6 +50,13 @@ namespace Assets.Scripts.Feature.GenSample
         }        
 
         protected bool controlable;
+        
+        public enum ATK_TYPE
+        {
+            melee,
+            missile
+        }
+        private ATK_TYPE atkType;
 
         #region UNITY
 
@@ -59,7 +67,20 @@ namespace Assets.Scripts.Feature.GenSample
 
             Move();
             Jump();
-            Attack();
+
+            switch (atkType)
+            {
+                case ATK_TYPE.melee:
+                    {
+                        Attack();
+                        break;
+                    }
+                case ATK_TYPE.missile:
+                    {
+                        Fire();
+                        break;
+                    }
+            }
         }
 
         protected virtual void OnCollisionEnter(Collision coll)
@@ -77,6 +98,7 @@ namespace Assets.Scripts.Feature.GenSample
         protected abstract void Move();
         protected abstract void Jump();
         protected abstract void Attack();
+        protected abstract void Fire();
         #endregion
 
         public virtual void Init()
@@ -95,6 +117,9 @@ namespace Assets.Scripts.Feature.GenSample
             playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
             maxHp = playerUnitSetting.hp;
             curHp = maxHp;
+
+            atkType = (ATK_TYPE)(UnityEngine.Random.Range(0, Enum.GetValues(typeof(ATK_TYPE)).Length));
+            Log.Print($"ATK_TYPE {atkType}");
         }
 
         protected virtual void OnChangeDir(bool isLeft)
@@ -129,7 +154,7 @@ namespace Assets.Scripts.Feature.GenSample
         {
             MakeHitEffect();
 
-            curHp -= unitLocalPlayer.GetAtk();
+            curHp -= GetFinalDamage(unitLocalPlayer.GetAtk(), GetDef());
             if (curHp <= 0f)
             {
                 Destroy(gameObject);
@@ -144,6 +169,17 @@ namespace Assets.Scripts.Feature.GenSample
         public float GetAtk()
         {
             return playerUnitSetting.atk;
+        }
+
+        public float GetDef()
+        {
+            return playerUnitSetting.def;
+        }
+
+        protected float GetFinalDamage(float atk, float def)
+        {
+            float result = atk - def;
+            return result <= 0f ? 0f : result;
         }
 
         protected void MakeHitEffect()

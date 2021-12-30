@@ -69,6 +69,11 @@ namespace Assets.Scripts.Feature.GenSample
             }
         }
 
+        protected override void Fire()
+        {
+            
+        }
+
         public override void Init()
         {
             base.Init();

@@ -23,8 +23,8 @@ namespace Assets.Scripts.Feature.GenSample
         private bool canAtk;
         private bool canJump;
         protected string curEffColor;
-        protected Vector3 moveDir;
-        private readonly float FIRE_DELAY = .5f;
+
+        protected Vector3 moveDir; // misile 발사 방향을 위한 변수
         private float curFireDelay;
         private bool canFire;
 
@@ -34,12 +34,6 @@ namespace Assets.Scripts.Feature.GenSample
         private List<UnitBase> targetUnitList;
 
         #region UNITY
-
-        protected override void Update()
-        {
-            base.Update();
-            Fire();
-        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -286,7 +280,7 @@ namespace Assets.Scripts.Feature.GenSample
             }
         }
 
-        private void Fire()
+        protected override void Fire()
         {
             if (canFire)
             {
@@ -299,7 +293,7 @@ namespace Assets.Scripts.Feature.GenSample
             }
             else
             {
-                if(curFireDelay >= FIRE_DELAY)
+                if(curFireDelay >= playerUnitSetting.fireDelay)
                 {
                     canFire = true;
                     curFireDelay = 0f;

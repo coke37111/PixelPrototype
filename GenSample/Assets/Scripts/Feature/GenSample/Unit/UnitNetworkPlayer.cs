@@ -120,7 +120,7 @@ namespace Assets.Scripts.Feature.GenSample
 
                         MakeHitEffect();
 
-                        curHp -= atk;
+                        curHp -= GetFinalDamage(atk, GetDef());
                         if (curHp <= 0f && photonView.AmOwner)
                         {
                             RaiseDie();

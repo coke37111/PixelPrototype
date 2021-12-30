@@ -15,6 +15,8 @@ namespace Assets.Scripts.Settings.SO
         public float def;
         [Header("- 체력")]
         public float hp;
+        [Header("- 미사일 발사 딜레이")]
+        public float fireDelay;
         [Header("- 스킨목록")]
         public string[] unitTypes;
 
