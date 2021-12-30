@@ -5,6 +5,7 @@ using Assets.Scripts.Util;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using static Assets.Scripts.Settings.RoomSettings;
 
 namespace Assets.Scripts.Managers
 {
@@ -146,6 +147,9 @@ namespace Assets.Scripts.Managers
         }
         private void GenerateMob()
         {
+            if (RoomSettings.roomType != ROOM_TYPE.Raid)
+                return;
+
             Vector3 initPos = new Vector3(0f, 1f, 0f);
             string pfMobPath = "Prefab/Mob";
 

@@ -321,6 +321,8 @@ namespace Photon.Pun.Demo.Asteroids
 
         public void OnStartGameButtonClicked()
         {
+            RoomSettings.roomType = RoomSettings.ROOM_TYPE.Raid;
+
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
 

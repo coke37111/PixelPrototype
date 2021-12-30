@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Managers;
+using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,9 @@ namespace Assets.Scripts.Feature.GenSample
 
         private void OnTriggerEnter(Collider other)
         {
+            if (RoomSettings.roomType != RoomSettings.ROOM_TYPE.Pvp)
+                return;
+
             if (other.gameObject.tag == "Player")
             {
                 canAtk = true;
@@ -53,6 +57,9 @@ namespace Assets.Scripts.Feature.GenSample
 
         private void OnTriggerExit(Collider other)
         {
+            if (RoomSettings.roomType != RoomSettings.ROOM_TYPE.Pvp)
+                return;
+
             if (other.gameObject.tag == "Player")
             {
                 if (targetUnitList == null)

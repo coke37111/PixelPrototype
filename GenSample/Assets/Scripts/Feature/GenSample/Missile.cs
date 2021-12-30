@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Util;
+﻿using Assets.Scripts.Settings;
+using Assets.Scripts.Util;
 using Photon.Realtime;
 using System.Collections;
 using UnityEngine;
@@ -18,19 +19,26 @@ namespace Assets.Scripts.Feature.GenSample
 
         private void OnTriggerEnter(Collider other)
         {
+            bool isDestroy = false;
+
             MobController targetMob = other.GetComponent<MobController>();
             if(targetMob != null)
             {
                 targetMob.AttackBy(Owner);
+                isDestroy = true;
             }
 
-            UnitBase targetUnit = other.GetComponent<UnitBase>();
-            if(targetUnit != null)
+            if(RoomSettings.roomType == RoomSettings.ROOM_TYPE.Pvp)
             {
-                targetUnit.AttackBy(Owner);
+                UnitBase targetUnit = other.GetComponent<UnitBase>();
+                if (targetUnit != null)
+                {
+                    targetUnit.AttackBy(Owner);
+                    isDestroy = true;
+                }
             }
 
-            if(targetMob != null || targetUnit != null)
+            if(isDestroy)
             {
                 Destroy(gameObject);
             }

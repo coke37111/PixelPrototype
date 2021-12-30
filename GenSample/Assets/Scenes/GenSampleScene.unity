@@ -298,6 +298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ced775ad5c9385f45816cfaade80a504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curRoomType: 1
   infoText: {fileID: 1236455606}
   collGround: {fileID: 1596229681}
   spawnRange: 0.5

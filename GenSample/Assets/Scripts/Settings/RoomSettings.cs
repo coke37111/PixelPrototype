@@ -6,6 +6,13 @@ namespace Assets.Scripts.Settings
 {
     public class RoomSettings : MonoBehaviour
     {
+        public enum ROOM_TYPE
+        {
+            Raid,
+            Pvp,
+        }
+
+        public static ROOM_TYPE roomType;
         public static string roomName;
         public static byte maxPlayers;
         public static bool isMaster;

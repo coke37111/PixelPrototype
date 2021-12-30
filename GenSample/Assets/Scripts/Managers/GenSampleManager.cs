@@ -11,6 +11,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using static Assets.Scripts.Settings.PlayerSettings;
+using static Assets.Scripts.Settings.RoomSettings;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Assets.Scripts.Managers
@@ -21,6 +22,8 @@ namespace Assets.Scripts.Managers
     /// </summary>
     public class GenSampleManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
+        public ROOM_TYPE curRoomType = ROOM_TYPE.Raid;
+
         public enum GenSampleState
         {
             Init,
@@ -124,7 +127,7 @@ namespace Assets.Scripts.Managers
 
         public override void OnMasterClientSwitched(Player newMasterClient)
         {
-            if (PhotonNetwork.LocalPlayer.ActorNumber == newMasterClient.ActorNumber)
+            if (curRoomType == ROOM_TYPE.Raid && PhotonNetwork.LocalPlayer.ActorNumber == newMasterClient.ActorNumber)
             {
                 StartCoroutine(SpawnIndicator());
             }
@@ -206,6 +209,8 @@ namespace Assets.Scripts.Managers
 
             if (!PlayerSettings.IsConnectNetwork())
             {
+                RoomSettings.roomType = curRoomType;
+
                 GameObject pfAIManager = ResourceManager.LoadAsset<GameObject>("Prefab/Manager/GenSampleAIManager");
                 if (pfAIManager == null)
                 {
@@ -375,8 +380,8 @@ namespace Assets.Scripts.Managers
         private void OnCountdownTimerIsExpired()
         {
             SpawnPlayer();
-
-            if (PhotonNetwork.IsMasterClient)
+                        
+            if (curRoomType == ROOM_TYPE.Raid && PhotonNetwork.IsMasterClient)
             {
                 StartCoroutine(SpawnIndicator());
             }
@@ -454,6 +459,9 @@ namespace Assets.Scripts.Managers
 
         private void GenerateMob()
         {
+            if (curRoomType != ROOM_TYPE.Raid)
+                return;
+
             Vector3 initPos = new Vector3(0f, 1f, 0f);
             string pfMobPath = "Prefab/Mob";
 
