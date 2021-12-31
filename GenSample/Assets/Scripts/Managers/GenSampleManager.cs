@@ -295,18 +295,34 @@ namespace Assets.Scripts.Managers
             if (PhotonNetwork.NetworkClientState == ClientState.Leaving)
                 return;
 
-            if (genSampleState == GenSampleState.Clear)
+            if (genSampleState != GenSampleState.PlayNetwork)
                 return;
 
             bool allDestroyed = true;
 
-            foreach (Player p in PhotonNetwork.PlayerList)
+            if(curRoomType == ROOM_TYPE.Raid)
             {
-                if (!IsPlayerDie(p))
+                foreach (Player p in PhotonNetwork.PlayerList)
                 {
-                    allDestroyed = false;
-                    break;
+                    if (!IsPlayerDie(p))
+                    {
+                        allDestroyed = false;
+                        break;
+                    }
                 }
+            }
+            else if(curRoomType == ROOM_TYPE.Pvp)
+            {
+                foreach (Player p in PhotonNetwork.PlayerListOthers)
+                {
+                    Log.Print($"{p.ActorNumber} {IsPlayerDie(p)}");
+                    if (!IsPlayerDie(p))
+                    {
+                        allDestroyed = false;
+                        break;
+                    }
+                }
+                Log.Print(allDestroyed);
             }
 
             bool failClear = true;
@@ -389,6 +405,10 @@ namespace Assets.Scripts.Managers
             }
 
             SetGenSampleState(GenSampleState.PlayNetwork);
+            if (curRoomType == ROOM_TYPE.Pvp)
+            {
+                CheckEndOfGame();
+            }
         }
 
         private IEnumerator EndOfGame()
