@@ -43,7 +43,7 @@ namespace Assets.Scripts.Managers
         [Range(0f, 1f)]
         public float spawnRange;
 
-        private readonly Vector3 initSpawnPos = new Vector3(0, 1f, -1f);
+        private readonly Vector3 initSpawnPos = new Vector3(0, 1f, -1f);        
         private float curLimitTime;
 
         private GenSampleAIManager aiManager;
@@ -234,6 +234,7 @@ namespace Assets.Scripts.Managers
                 props.Add(PLAYER_LOADED_LEVEL, true);
                 props.Add(PLAYER_DIE, false);
                 props.Add(FAIL_GAME, false);
+                props.Add(PLAYER_TEAM, Random.Range(0, 2));
                 PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
                 SetGenSampleState(GenSampleState.Idle);
@@ -285,7 +286,20 @@ namespace Assets.Scripts.Managers
             var data = new List<object>();
             data.Add(selectUnitParts);
 
-            GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Unit/NetworkPlayer"), initSpawnPos, Quaternion.identity, 0, data.ToArray());
+            Vector3 orgSpawnPos = initSpawnPos;
+
+            if(curRoomType == ROOM_TYPE.Pvp)
+            {
+                int teamNum = -1;
+                if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(PLAYER_TEAM, out object playerTeam))
+                {
+                    teamNum = (int)playerTeam;
+                }
+                orgSpawnPos = teamNum == 0 ? orgSpawnPos + Vector3.left : orgSpawnPos + Vector3.right;
+                data.Add(teamNum);
+            }
+            
+            GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Unit/NetworkPlayer"), orgSpawnPos, Quaternion.identity, 0, data.ToArray());
             UnitNetworkPlayer unit = netGoPlayer.GetComponent<UnitNetworkPlayer>();
             CameraController.Instance.SetOwner(unit);
         }

@@ -48,6 +48,8 @@ namespace Assets.Scripts.Feature.GenSample
 
             Dictionary<string, string> unitPartList = (Dictionary<string, string>)info.photonView.InstantiationData[0];
             SetSprite(unitPartList);
+
+            teamNum = (int)info.photonView.InstantiationData[1];
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

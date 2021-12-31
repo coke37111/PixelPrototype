@@ -43,12 +43,14 @@ namespace Assets.Scripts.Feature.GenSample
 
             if (other.gameObject.tag == "Player")
             {
-                canAtk = true;
-
-                UnitBase targetUnit = other.gameObject.GetComponent<UnitBase>();
                 if (targetUnitList == null)
                     targetUnitList = new List<UnitBase>();
 
+                UnitBase targetUnit = other.gameObject.GetComponent<UnitBase>();
+                if (teamNum == targetUnit.teamNum)
+                    return;
+
+                canAtk = true;
                 if (targetUnitList.Contains(targetUnit))
                     return;
                 targetUnitList.Add(targetUnit);

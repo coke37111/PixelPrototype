@@ -57,6 +57,11 @@ namespace Assets.Scripts.Feature.GenSample
             missile
         }
         private ATK_TYPE atkType;
+        public int teamNum 
+        {
+            get;
+            set;
+        }
 
         #region UNITY
 
@@ -120,6 +125,8 @@ namespace Assets.Scripts.Feature.GenSample
 
             atkType = (ATK_TYPE)(UnityEngine.Random.Range(0, Enum.GetValues(typeof(ATK_TYPE)).Length));
             Log.Print($"ATK_TYPE {atkType}");
+
+            teamNum = -1;
         }
 
         protected virtual void OnChangeDir(bool isLeft)
