@@ -249,7 +249,7 @@ namespace Assets.Scripts.Feature.GenSample
 
         public override void AttackBy(UnitLocalPlayer unitNetworkPlayer)
         {
-            if (!photonView.IsMine)
+            if (!unitNetworkPlayer.GetComponent<PhotonView>().IsMine)
                 return;
 
             Log.Print($"{PhotonNetwork.LocalPlayer.ActorNumber}={photonView.IsMine} attacked");
