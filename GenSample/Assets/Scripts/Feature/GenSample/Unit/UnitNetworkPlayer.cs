@@ -90,7 +90,7 @@ namespace Assets.Scripts.Feature.GenSample
                 }
 
                 teamNum = (int)info.photonView.InstantiationData[1];
-                if(teamNum != myTeamNum)
+                if(!photonView.IsMine && !IsSameTeam(myTeamNum))
                 {
                     hpbar.SetGaugeBarColor(Color.yellow);
                 }
@@ -246,6 +246,9 @@ namespace Assets.Scripts.Feature.GenSample
 
         public override void AttackBy(UnitLocalPlayer unitNetworkPlayer)
         {
+            if (!photonView.IsMine)
+                return;
+
             Log.Print($"{PhotonNetwork.LocalPlayer.ActorNumber}={photonView.IsMine} attacked");
             PhotonEventManager.RaiseEvent(EventCodeType.Hit, ReceiverGroup.All, photonView.ViewID, unitNetworkPlayer.GetAtk());
         }

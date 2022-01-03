@@ -47,7 +47,7 @@ namespace Assets.Scripts.Feature.GenSample
                     targetUnitList = new List<UnitBase>();
 
                 UnitBase targetUnit = other.gameObject.GetComponent<UnitBase>();
-                if (teamNum == targetUnit.teamNum)
+                if (IsSameTeam(targetUnit.teamNum))
                     return;
 
                 canAtk = true;

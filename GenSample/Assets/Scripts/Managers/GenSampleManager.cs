@@ -8,6 +8,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using static Assets.Scripts.Settings.PlayerSettings;
@@ -240,7 +241,11 @@ namespace Assets.Scripts.Managers
                 props.Add(PLAYER_LOADED_LEVEL, true);
                 props.Add(PLAYER_DIE, false);
                 props.Add(FAIL_GAME, false);
-                props.Add(PLAYER_TEAM, Random.Range(0, 2));
+
+                // TODO : FreeForAll 일때 -1
+                //props.Add(PLAYER_TEAM, Random.Range(0, 2));
+                props.Add(PLAYER_TEAM, -1);
+
                 PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
                 SetGenSampleState(GenSampleState.Idle);
@@ -301,8 +306,20 @@ namespace Assets.Scripts.Managers
                 {
                     teamNum = (int)playerTeam;
                 }
-                orgSpawnPos = teamNum == 0 ? orgSpawnPos + Vector3.left : orgSpawnPos + Vector3.right;
                 data.Add(teamNum);
+
+                if (teamNum < 0)
+                {
+                    float spawnAreaX = Random.Range(this.spawnAreaX.x, this.spawnAreaX.y);
+                    float spawnAreaZ = Random.Range(this.spawnAreaZ.x, this.spawnAreaZ.y);
+
+                    Vector3 spawnPoint = new Vector3(spawnAreaX, 0f, spawnAreaZ);
+                    orgSpawnPos += spawnPoint;
+                }
+                else
+                {
+                    orgSpawnPos = teamNum == 0 ? orgSpawnPos + Vector3.left : orgSpawnPos + Vector3.right;
+                }
             }
             
             GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Unit/NetworkPlayer"), orgSpawnPos, Quaternion.identity, 0, data.ToArray());
@@ -332,25 +349,34 @@ namespace Assets.Scripts.Managers
             }
             else if (curRoomType == ROOM_TYPE.Pvp)
             {
-                int teamNum = -1;
+                allDestroyed = false;
+
+                Dictionary<int, int> teamCntDict = new Dictionary<int, int>(); // teamNum, cnt
                 foreach (Player p in PhotonNetwork.PlayerList)
                 {
                     if (!IsPlayerDie(p))
                     {
-                        if (p.CustomProperties.TryGetValue(PLAYER_TEAM, out object curTeamNum))
+                        if (p.CustomProperties.TryGetValue(PLAYER_TEAM, out object playerTeamNum))
                         {
-                            if (teamNum < 0)
+                            int teamNum = (int)playerTeamNum;
+                            if (!teamCntDict.ContainsKey(teamNum))
                             {
-                                teamNum = (int)curTeamNum;
-                                continue;
+                                teamCntDict.Add(teamNum, 0);
                             }
-
-                            if (teamNum != (int)curTeamNum)
-                            {
-                                allDestroyed = false;
-                                break;
-                            }
+                            teamCntDict[teamNum]++;
                         }
+                    }
+                }
+
+                if(teamCntDict.Keys.ToList().Count <= 1)
+                {
+                    if(teamCntDict.Keys.First() == -1)
+                    {
+                        allDestroyed = teamCntDict[-1] <= 1 ? true : false;
+                    }
+                    else
+                    {
+                        allDestroyed = true;
                     }
                 }
             }

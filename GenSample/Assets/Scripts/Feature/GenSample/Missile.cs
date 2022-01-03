@@ -31,7 +31,7 @@ namespace Assets.Scripts.Feature.GenSample
             if(RoomSettings.roomType == RoomSettings.ROOM_TYPE.Pvp)
             {
                 UnitBase targetUnit = other.GetComponent<UnitBase>();
-                if (targetUnit != null && Owner.teamNum != targetUnit.teamNum)
+                if (targetUnit != null && !Owner.IsSameTeam(targetUnit.teamNum))
                 {
                     targetUnit.AttackBy(Owner);
                     isDestroy = true;

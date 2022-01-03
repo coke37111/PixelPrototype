@@ -243,5 +243,13 @@ namespace Assets.Scripts.Feature.GenSample
             float hpRatio = curHp / maxHp;
             hpbar.SetGauge(hpRatio);
         }
+
+        public bool IsSameTeam(int teamNum)
+        {
+            if (this.teamNum == -1)
+                return false;
+
+            return this.teamNum == teamNum;
+        }
     }
 }
