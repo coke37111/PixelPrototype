@@ -10,7 +10,7 @@ namespace Assets.Scripts.Feature.GenSample
     [RequireComponent(typeof(Rigidbody))]
     public abstract class UnitBase : MonoBehaviour
     {
-        private HpBar hpbar;
+        protected HpBar hpbar;
         protected Rigidbody rb;
         private GameObject hitEffect;
         private GameObject hitEffect2;

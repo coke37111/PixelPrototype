@@ -8,6 +8,11 @@ namespace Assets.Scripts.Feature.GenSample
     {
         public Image hpGauge;
 
+        public void SetGaugeBarColor(Color color)
+        {
+            hpGauge.GetComponent<Image>().color = color;
+        }
+
         public void SetGauge(float ratio)
         {
             if (ratio <= 0f)
