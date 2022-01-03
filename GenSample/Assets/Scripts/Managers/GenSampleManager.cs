@@ -259,7 +259,7 @@ namespace Assets.Scripts.Managers
                 PhotonNetwork.LeaveRoom();
             }
 
-            if (curLimitTime >= gameSetting.limitTime)
+            if (curLimitTime >= gameSetting.GetLimitTime(curRoomType))
             {
                 Hashtable props = new Hashtable
                     {
@@ -281,12 +281,13 @@ namespace Assets.Scripts.Managers
 
         private void SetTextLimitTime()
         {
-            var remain = gameSetting.limitTime - curLimitTime;
+            float limitTime = gameSetting.GetLimitTime(curRoomType);
+            var remain = limitTime - curLimitTime;
 
             if (remain > 3)
-                infoText.text = $"{(gameSetting.limitTime - curLimitTime):n0}";
+                infoText.text = $"{(limitTime - curLimitTime):n0}";
             else
-                infoText.text = $"{(gameSetting.limitTime - curLimitTime):f1}";
+                infoText.text = $"{(limitTime - curLimitTime):f1}";
         }
 
         private void SpawnPlayer()

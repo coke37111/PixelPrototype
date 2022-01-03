@@ -15,3 +15,4 @@ MonoBehaviour:
   startDelay: 3
   endDelay: 3
   limitTime: 30
+  limitTimePvp: 120
