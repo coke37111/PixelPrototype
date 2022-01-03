@@ -75,7 +75,7 @@ Material:
     - _EnableExternalAlpha: 0
     - _End: 0.9
     - _GlossMapScale: 1
-    - _Glossiness: 0.5
+    - _Glossiness: 0
     - _GlossyReflections: 1
     - _GlowCutoff: 0.3
     - _Metallic: 0
