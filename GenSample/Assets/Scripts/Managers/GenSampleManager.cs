@@ -140,9 +140,8 @@ namespace Assets.Scripts.Managers
             {           
                 CheckEndOfGame();
             }
-
-            if(PhotonNetwork.IsMasterClient && 
-                PhotonNetwork.LocalPlayer.ActorNumber == targetPlayer.ActorNumber)
+            
+            if(PhotonNetwork.IsMasterClient && PhotonNetwork.LocalPlayer.ActorNumber == PhotonNetwork.MasterClient.ActorNumber)
             {
                 // if there was no countdown yet, the master client (this one) waits until everyone loaded the level and sets a timer start
                 int startTimestamp;
