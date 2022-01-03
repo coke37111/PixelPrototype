@@ -130,56 +130,16 @@ TextureImporter:
     physicsShape: []
     bones:
     - name: bone_1
-      position: {x: 9.760121, y: 8.074896, z: 0}
-      rotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-      length: 3.8271604
+      position: {x: 10.034729, y: 8.024688, z: 0}
+      rotation: {x: 0, y: 0, z: 0.7082396, w: 0.70597214}
+      length: 4.9268346
       parentId: -1
     spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
-    vertices:
-    - {x: 20, y: 0}
-    - {x: 20, y: 20}
-    - {x: 0, y: 20}
-    - {x: 0, y: 0}
-    indices: 000000000300000002000000020000000100000000000000
-    edges:
-    - {x: 1, y: 2}
-    - {x: 2, y: 3}
-    - {x: 0, y: 3}
-    - {x: 0, y: 1}
-    weights:
-    - weight[0]: 0
-      weight[1]: 0
-      weight[2]: 0
-      weight[3]: 0
-      boneIndex[0]: 0
-      boneIndex[1]: 0
-      boneIndex[2]: 0
-      boneIndex[3]: 0
-    - weight[0]: 0
-      weight[1]: 0
-      weight[2]: 0
-      weight[3]: 0
-      boneIndex[0]: 0
-      boneIndex[1]: 0
-      boneIndex[2]: 0
-      boneIndex[3]: 0
-    - weight[0]: 0
-      weight[1]: 0
-      weight[2]: 0
-      weight[3]: 0
-      boneIndex[0]: 0
-      boneIndex[1]: 0
-      boneIndex[2]: 0
-      boneIndex[3]: 0
-    - weight[0]: 0
-      weight[1]: 0
-      weight[2]: 0
-      weight[3]: 0
-      boneIndex[0]: 0
-      boneIndex[1]: 0
-      boneIndex[2]: 0
-      boneIndex[3]: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
     secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
