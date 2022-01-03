@@ -38,6 +38,37 @@ namespace Assets.Scripts.Feature.GenSample
             PhotonNetwork.RemoveCallbackTarget(this);
         }
 
+        protected override void OnTriggerEnter(Collider other)
+        {
+            if (!photonView.IsMine)
+                return;
+
+            base.OnTriggerEnter(other);
+        }
+
+        protected override void OnTriggerExit(Collider other)
+        {
+            if (!photonView.IsMine)
+                return;
+
+            base.OnTriggerExit(other);
+        }
+
+        protected override void OnCollisionEnter(Collision coll)
+        {
+            if (!photonView.IsMine)
+                return;
+
+            base.OnCollisionEnter(coll);
+        }
+
+        protected override void OnCollisionExit(Collision coll)
+        {
+            if (!photonView.IsMine)
+                return;
+
+            base.OnCollisionExit(coll);
+        }
         #endregion
 
         #region PUN_IMPL
@@ -202,9 +233,7 @@ namespace Assets.Scripts.Feature.GenSample
 
         public override void AttackBy(UnitLocalPlayer unitNetworkPlayer)
         {
-            if (!photonView.IsMine)
-                return;
-
+            Log.Print($"{PhotonNetwork.LocalPlayer.ActorNumber}={photonView.IsMine} attacked");
             PhotonEventManager.RaiseEvent(EventCodeType.Hit, ReceiverGroup.All, photonView.ViewID, unitNetworkPlayer.GetAtk());
         }
 

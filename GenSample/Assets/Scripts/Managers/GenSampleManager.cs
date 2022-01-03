@@ -135,13 +135,18 @@ namespace Assets.Scripts.Managers
 
         public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
         {
-            if (changedProps.ContainsKey(PLAYER_DIE) ||
-                changedProps.ContainsKey(FAIL_GAME))
+            if (changedProps.ContainsKey(PLAYER_DIE))
             {           
                 CheckEndOfGame();
             }
+
+            if (changedProps.ContainsKey(FAIL_GAME))
+            {
+                if(IsPlayerGameFail(targetPlayer))
+                    CheckEndOfGame(true);
+            }
             
-            if(PhotonNetwork.IsMasterClient && PhotonNetwork.LocalPlayer.ActorNumber == PhotonNetwork.MasterClient.ActorNumber)
+            if(PhotonNetwork.IsMasterClient)
             {
                 // if there was no countdown yet, the master client (this one) waits until everyone loaded the level and sets a timer start
                 int startTimestamp;
@@ -156,12 +161,14 @@ namespace Assets.Scripts.Managers
                     }
                     else
                     {
-                        Log.Print("Players Loaded Complete!");
-
+                        Log.Print("Players Loaded Complete!");                        
                         if (!startTimeIsSet)
                         {
                             GenCountdownTimer.SetStartTime();
-                            GenerateMob();
+
+                            Log.Print($"{PhotonNetwork.MasterClient.ActorNumber} = {PhotonNetwork.LocalPlayer.ActorNumber}");
+                            if(PhotonNetwork.MasterClient.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
+                                GenerateMob();
                         }
                     }
                 }
@@ -303,78 +310,79 @@ namespace Assets.Scripts.Managers
             CameraController.Instance.SetOwner(unit);
         }
 
-        private void CheckEndOfGame()
+        private void CheckEndOfGame(bool isForce = false)
         {
             if (PhotonNetwork.NetworkClientState == ClientState.Leaving)
                 return;
 
-            Log.Print(genSampleState);
-            if(genSampleState == GenSampleState.PlayNetwork || genSampleState == GenSampleState.Idle)
-            {
-                bool allDestroyed = true;
+            if (genSampleState != GenSampleState.PlayNetwork && !isForce)
+                return;
 
-                if (curRoomType == ROOM_TYPE.Raid)
+            bool allDestroyed = true;
+            if (curRoomType == ROOM_TYPE.Raid)
+            {
+                foreach (Player p in PhotonNetwork.PlayerList)
                 {
-                    foreach (Player p in PhotonNetwork.PlayerList)
+                    if (!IsPlayerDie(p))
                     {
-                        if (!IsPlayerDie(p))
-                        {
-                            allDestroyed = false;
-                            break;
-                        }
+                        allDestroyed = false;
+                        break;
                     }
                 }
-                else if (curRoomType == ROOM_TYPE.Pvp)
+            }
+            else if (curRoomType == ROOM_TYPE.Pvp)
+            {
+                int teamNum = -1;
+                foreach (Player p in PhotonNetwork.PlayerList)
                 {
-                    int teamNum = -1;
-                    foreach (Player p in PhotonNetwork.PlayerList)
+                    if (!IsPlayerDie(p))
                     {
-                        if (!IsPlayerDie(p))
+                        if (p.CustomProperties.TryGetValue(PLAYER_TEAM, out object curTeamNum))
                         {
-                            if (p.CustomProperties.TryGetValue(PLAYER_TEAM, out object curTeamNum))
+                            if (teamNum < 0)
                             {
-                                if (teamNum < 0)
-                                {
-                                    teamNum = (int)curTeamNum;
-                                    continue;
-                                }
+                                teamNum = (int)curTeamNum;
+                                continue;
+                            }
 
-                                if (teamNum != (int)curTeamNum)
-                                {
-                                    allDestroyed = false;
-                                    break;
-                                }
+                            if (teamNum != (int)curTeamNum)
+                            {
+                                allDestroyed = false;
+                                break;
                             }
                         }
                     }
                 }
+            }
 
-                bool failClear = true;
-                foreach (Player p in PhotonNetwork.PlayerList)
+            bool failClear = true;
+            foreach (Player p in PhotonNetwork.PlayerList)
+            {
+                if (!IsPlayerGameFail(p))
                 {
-                    if (!IsPlayerGameFail(p))
-                    {
-                        failClear = false;
-                        break;
-                    }
+                    failClear = false;
+                    break;
                 }
+            }
 
-                Log.Print($"allDestroy : {allDestroyed} / failCleat : {failClear}");
-                if (allDestroyed || failClear)
+            if (allDestroyed || failClear)
+            {
+                if (PhotonNetwork.IsMasterClient)
                 {
-                    if (PhotonNetwork.IsMasterClient)
-                    {
-                        StopAllCoroutines();
-                    }
-                    SetGenSampleState(GenSampleState.End);
+                    StopAllCoroutines();
                 }
-            }           
+                SetGenSampleState(GenSampleState.End);
+            }
         }
 
         private void LeaveRoom()
         {
             RoomSettings.roomName = PhotonNetwork.CurrentRoom.Name;
             RoomSettings.isMaster = PhotonNetwork.IsMasterClient;
+
+            Hashtable props = new Hashtable();
+            props.Add(PLAYER_LOADED_LEVEL, false);            
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
             PhotonNetwork.LeaveRoom();
         }

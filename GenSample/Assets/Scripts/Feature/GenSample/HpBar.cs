@@ -10,6 +10,9 @@ namespace Assets.Scripts.Feature.GenSample
 
         public void SetGauge(float ratio)
         {
+            if (ratio <= 0f)
+                ratio = 0f;
+
             Vector3 gaugeScale = hpGauge.transform.localScale;
             gaugeScale.x = ratio;
 

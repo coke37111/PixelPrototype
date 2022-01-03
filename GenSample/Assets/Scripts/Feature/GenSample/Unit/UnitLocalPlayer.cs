@@ -36,7 +36,7 @@ namespace Assets.Scripts.Feature.GenSample
 
         #region UNITY
 
-        private void OnTriggerEnter(Collider other)
+        protected virtual void OnTriggerEnter(Collider other)
         {
             if (RoomSettings.roomType != RoomSettings.ROOM_TYPE.Pvp)
                 return;
@@ -57,7 +57,7 @@ namespace Assets.Scripts.Feature.GenSample
             }
         }
 
-        private void OnTriggerExit(Collider other)
+        protected virtual void OnTriggerExit(Collider other)
         {
             if (RoomSettings.roomType != RoomSettings.ROOM_TYPE.Pvp)
                 return;
