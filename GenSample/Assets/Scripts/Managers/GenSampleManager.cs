@@ -308,66 +308,67 @@ namespace Assets.Scripts.Managers
             if (PhotonNetwork.NetworkClientState == ClientState.Leaving)
                 return;
 
-            if (genSampleState != GenSampleState.PlayNetwork)
-                return;
-
-            bool allDestroyed = true;
-
-            if(curRoomType == ROOM_TYPE.Raid)
+            Log.Print(genSampleState);
+            if(genSampleState == GenSampleState.PlayNetwork || genSampleState == GenSampleState.Idle)
             {
-                foreach (Player p in PhotonNetwork.PlayerList)
+                bool allDestroyed = true;
+
+                if (curRoomType == ROOM_TYPE.Raid)
                 {
-                    if (!IsPlayerDie(p))
+                    foreach (Player p in PhotonNetwork.PlayerList)
                     {
-                        allDestroyed = false;
-                        break;
+                        if (!IsPlayerDie(p))
+                        {
+                            allDestroyed = false;
+                            break;
+                        }
                     }
                 }
-            }
-            else if(curRoomType == ROOM_TYPE.Pvp)
-            {
-                int teamNum = -1;
-                foreach (Player p in PhotonNetwork.PlayerList)
-                {                    
-                    if (!IsPlayerDie(p))
+                else if (curRoomType == ROOM_TYPE.Pvp)
+                {
+                    int teamNum = -1;
+                    foreach (Player p in PhotonNetwork.PlayerList)
                     {
-                        if (p.CustomProperties.TryGetValue(PLAYER_TEAM, out object curTeamNum))
+                        if (!IsPlayerDie(p))
                         {
-                            if (teamNum < 0)
+                            if (p.CustomProperties.TryGetValue(PLAYER_TEAM, out object curTeamNum))
                             {
-                                teamNum = (int)curTeamNum;
-                                continue;
-                            }
+                                if (teamNum < 0)
+                                {
+                                    teamNum = (int)curTeamNum;
+                                    continue;
+                                }
 
-                            if (teamNum != (int)curTeamNum)
-                            {
-                                allDestroyed = false;
-                                break;
+                                if (teamNum != (int)curTeamNum)
+                                {
+                                    allDestroyed = false;
+                                    break;
+                                }
                             }
                         }
                     }
                 }
-                Log.Print(allDestroyed);
-            }
 
-            bool failClear = true;
-            foreach (Player p in PhotonNetwork.PlayerList)
-            {
-                if (!IsPlayerGameFail(p))
+                bool failClear = true;
+                foreach (Player p in PhotonNetwork.PlayerList)
                 {
-                    failClear = false;
-                    break;
+                    if (!IsPlayerGameFail(p))
+                    {
+                        failClear = false;
+                        break;
+                    }
                 }
-            }
 
-            if (allDestroyed || failClear)
-            {
-                if (PhotonNetwork.IsMasterClient)
+                Log.Print($"allDestroy : {allDestroyed} / failCleat : {failClear}");
+                if (allDestroyed || failClear)
                 {
-                    StopAllCoroutines();
+                    if (PhotonNetwork.IsMasterClient)
+                    {
+                        StopAllCoroutines();
+                    }
+                    SetGenSampleState(GenSampleState.End);
                 }
-                SetGenSampleState(GenSampleState.End);
-            }
+            }           
         }
 
         private void LeaveRoom()
