@@ -327,13 +327,25 @@ namespace Assets.Scripts.Managers
             }
             else if(curRoomType == ROOM_TYPE.Pvp)
             {
-                foreach (Player p in PhotonNetwork.PlayerListOthers)
-                {
-                    Log.Print($"{p.ActorNumber} {IsPlayerDie(p)}");
+                int teamNum = -1;
+                foreach (Player p in PhotonNetwork.PlayerList)
+                {                    
                     if (!IsPlayerDie(p))
                     {
-                        allDestroyed = false;
-                        break;
+                        if (p.CustomProperties.TryGetValue(PLAYER_TEAM, out object curTeamNum))
+                        {
+                            if (teamNum < 0)
+                            {
+                                teamNum = (int)curTeamNum;
+                                continue;
+                            }
+
+                            if (teamNum != (int)curTeamNum)
+                            {
+                                allDestroyed = false;
+                                break;
+                            }
+                        }
                     }
                 }
                 Log.Print(allDestroyed);
