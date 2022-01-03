@@ -80,8 +80,21 @@ namespace Assets.Scripts.Feature.GenSample
             Dictionary<string, string> unitPartList = (Dictionary<string, string>)info.photonView.InstantiationData[0];
             SetSprite(unitPartList);
 
-            if(RoomSettings.roomType == RoomSettings.ROOM_TYPE.Pvp)
+            hpbar.SetGaugeBarColor(Color.green);
+            if (RoomSettings.roomType == RoomSettings.ROOM_TYPE.Pvp)
+            {
+                int myTeamNum = -1;
+                if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(PLAYER_TEAM, out object playerTeam))
+                {
+                    myTeamNum = (int)playerTeam;
+                }
+
                 teamNum = (int)info.photonView.InstantiationData[1];
+                if(teamNum != myTeamNum)
+                {
+                    hpbar.SetGaugeBarColor(Color.yellow);
+                }
+            }
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
