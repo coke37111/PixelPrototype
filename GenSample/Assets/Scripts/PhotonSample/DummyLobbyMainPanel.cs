@@ -203,7 +203,7 @@ namespace Photon.Pun.Demo.Asteroids
             {
                 Hashtable roomProps = new Hashtable
                 {
-                    {RoomSettings.RoomTypeKey, RoomSettings.ROOM_TYPE.Raid}
+                    {RoomSettings.RoomTypeKey, RoomSettings.roomType}
                 };
                 PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
             }
