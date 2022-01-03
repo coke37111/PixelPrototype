@@ -80,6 +80,9 @@ namespace Assets.Scripts.Feature.GenSample
             Dictionary<string, string> unitPartList = (Dictionary<string, string>)info.photonView.InstantiationData[0];
             SetSprite(unitPartList);
 
+            atkType = (ATK_TYPE)((int)info.photonView.InstantiationData[1]);
+            atkTypeSlot.Build((int)atkType);
+
             hpbar.SetGaugeBarColor(Color.green);
             if (RoomSettings.roomType == RoomSettings.ROOM_TYPE.Pvp)
             {
@@ -89,7 +92,7 @@ namespace Assets.Scripts.Feature.GenSample
                     myTeamNum = (int)playerTeam;
                 }
 
-                teamNum = (int)info.photonView.InstantiationData[1];
+                teamNum = (int)info.photonView.InstantiationData[2];
                 if(!photonView.IsMine && !IsSameTeam(myTeamNum))
                 {
                     hpbar.SetGaugeBarColor(Color.yellow);

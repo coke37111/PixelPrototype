@@ -11,6 +11,7 @@ namespace Assets.Scripts.Feature.GenSample
     public abstract class UnitBase : MonoBehaviour
     {
         protected HpBar hpbar;
+        protected AtkTypeSlot atkTypeSlot;
         protected Rigidbody rb;
         private GameObject hitEffect;
         private GameObject hitEffect2;
@@ -56,7 +57,7 @@ namespace Assets.Scripts.Feature.GenSample
             melee,
             missile
         }
-        private ATK_TYPE atkType;
+        protected ATK_TYPE atkType;
         public int teamNum 
         {
             get;
@@ -117,6 +118,10 @@ namespace Assets.Scripts.Feature.GenSample
             if(hpbar == null)
                 Log.Error($"HpBar component가 존재하지 않습니다!");
 
+            atkTypeSlot = transform.GetComponentInChildren<AtkTypeSlot>();
+            if (atkTypeSlot == null)
+                Log.Error($"AtkTypeSlot component가 존재하지 않습니다!");
+
             transform.SetParent(FindObjectOfType<UnitContainer>().transform);
 
             playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
@@ -124,9 +129,9 @@ namespace Assets.Scripts.Feature.GenSample
             curHp = maxHp;
 
             atkType = (ATK_TYPE)(UnityEngine.Random.Range(0, Enum.GetValues(typeof(ATK_TYPE)).Length));
-            Log.Print($"ATK_TYPE {atkType}");
+            atkTypeSlot.Build((int)atkType);
 
-            teamNum = -1;
+            teamNum = -1;            
         }
 
         protected virtual void OnChangeDir(bool isLeft)

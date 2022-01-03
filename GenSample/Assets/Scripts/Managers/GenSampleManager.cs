@@ -5,12 +5,14 @@ using Assets.Scripts.Util;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using static Assets.Scripts.Feature.GenSample.UnitBase;
 using static Assets.Scripts.Settings.PlayerSettings;
 using static Assets.Scripts.Settings.RoomSettings;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -292,15 +294,20 @@ namespace Assets.Scripts.Managers
 
         private void SpawnPlayer()
         {
+            var data = new List<object>();
+
+            // Set Sprite
             PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
             Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
-
-            var data = new List<object>();
             data.Add(selectUnitParts);
 
-            Vector3 orgSpawnPos = initSpawnPos;
+            // Set AtkType
+            int atkTypeIdx = UnityEngine.Random.Range(0, Enum.GetValues(typeof(ATK_TYPE)).Length);
+            data.Add(atkTypeIdx);
 
-            if(curRoomType == ROOM_TYPE.Pvp)
+            // Set SpawnPos
+            Vector3 orgSpawnPos = initSpawnPos;
+            if (curRoomType == ROOM_TYPE.Pvp)
             {
                 int teamNum = -1;
                 if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(PLAYER_TEAM, out object playerTeam))
@@ -311,8 +318,8 @@ namespace Assets.Scripts.Managers
 
                 if (teamNum < 0)
                 {
-                    float spawnAreaX = Random.Range(this.spawnAreaX.x, this.spawnAreaX.y);
-                    float spawnAreaZ = Random.Range(this.spawnAreaZ.x, this.spawnAreaZ.y);
+                    float spawnAreaX = UnityEngine.Random.Range(this.spawnAreaX.x, this.spawnAreaX.y);
+                    float spawnAreaZ = UnityEngine.Random.Range(this.spawnAreaZ.x, this.spawnAreaZ.y);
 
                     Vector3 spawnPoint = new Vector3(spawnAreaX, 0f, spawnAreaZ);
                     orgSpawnPos += spawnPoint;
@@ -322,7 +329,7 @@ namespace Assets.Scripts.Managers
                     orgSpawnPos = teamNum == 0 ? orgSpawnPos + Vector3.left : orgSpawnPos + Vector3.right;
                 }
             }
-            
+
             GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Unit/NetworkPlayer"), orgSpawnPos, Quaternion.identity, 0, data.ToArray());
             UnitNetworkPlayer unit = netGoPlayer.GetComponent<UnitNetworkPlayer>();
             CameraController.Instance.SetOwner(unit);
@@ -530,10 +537,10 @@ namespace Assets.Scripts.Managers
         {
             while (true)
             {
-                yield return new WaitForSeconds(Random.Range(indicatorSetting.minSpawnTime, indicatorSetting.maxSpawnTime));
+                yield return new WaitForSeconds(UnityEngine.Random.Range(indicatorSetting.minSpawnTime, indicatorSetting.maxSpawnTime));
 
-                float spawnAreaX = Random.Range(this.spawnAreaX.x, this.spawnAreaX.y);
-                float spawnAreaZ = Random.Range(this.spawnAreaZ.x, this.spawnAreaZ.y);
+                float spawnAreaX = UnityEngine.Random.Range(this.spawnAreaX.x, this.spawnAreaX.y);
+                float spawnAreaZ = UnityEngine.Random.Range(this.spawnAreaZ.x, this.spawnAreaZ.y);
 
                 Vector3 spawnPoint = new Vector3(spawnAreaX, 0f, spawnAreaZ);
                 MakeIndicator(spawnPoint);
