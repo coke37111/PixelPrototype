@@ -94,11 +94,11 @@ Material:
     - _End: 0.9
     - _FlipbookMode: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0
+    - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _GlowCutoff: 0.3
     - _LightingEnabled: 0
-    - _Metallic: 0
+    - _Metallic: 0.5
     - _Mode: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
