@@ -131,7 +131,9 @@ namespace Assets.Scripts.Feature.GenSample
             atkType = (ATK_TYPE)(UnityEngine.Random.Range(0, Enum.GetValues(typeof(ATK_TYPE)).Length));
             atkTypeSlot.Build((int)atkType);
 
-            teamNum = -1;            
+            teamNum = -1;
+
+            isLeftDir = UnityEngine.Random.Range(0f, 1f) >= .5f;
         }
 
         protected virtual void OnChangeDir(bool isLeft)
