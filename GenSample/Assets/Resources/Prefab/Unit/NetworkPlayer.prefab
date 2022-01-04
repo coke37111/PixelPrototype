@@ -51,7 +51,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effContainerL: {fileID: 7163933714169049392}
   effContainerR: {fileID: 4758997846855564133}
-  skelAnim: {fileID: 0}
 --- !u!114 &4800140194375321968
 MonoBehaviour:
   m_ObjectHideFlags: 0

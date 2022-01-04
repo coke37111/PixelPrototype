@@ -99,6 +99,7 @@ namespace Assets.Scripts.Managers
                 PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
                 Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
                 unitComp.SetSprite(selectUnitParts);
+                unitComp.MakeSpine(PlayerUnitSettingSO.spinePath);
             }
         }
 
@@ -142,6 +143,7 @@ namespace Assets.Scripts.Managers
             unitLocalPlayer = goPlayer.GetComponent<UnitLocalPlayer>();
             unitLocalPlayer.Init();
             unitLocalPlayer.SetSprite(selectUnitParts);
+            unitLocalPlayer.MakeSpine(PlayerUnitSettingSO.spinePath);
 
             CameraController.Instance.SetOwner(unitLocalPlayer);
         }

@@ -49,7 +49,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effContainerL: {fileID: 7604893540355773684}
   effContainerR: {fileID: 5254081132911173281}
-  skelAnim: {fileID: 5889595913180203149}
 --- !u!54 &6456685749915187343
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -143,11 +142,6 @@ PrefabInstance:
 --- !u!4 &5889595913180203146 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5500441165732827825, guid: a011767345ac592498d56158367fe59f, type: 3}
-  m_PrefabInstance: {fileID: 2155379651919354427}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &5889595913180203149 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5500441165732827830, guid: a011767345ac592498d56158367fe59f, type: 3}
   m_PrefabInstance: {fileID: 2155379651919354427}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8526739970563205978

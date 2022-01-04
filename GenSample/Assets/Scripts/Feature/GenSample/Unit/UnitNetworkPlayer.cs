@@ -83,6 +83,20 @@ namespace Assets.Scripts.Feature.GenSample
             atkType = (ATK_TYPE)((int)info.photonView.InstantiationData[1]);
             atkTypeSlot.Build((int)atkType);
 
+            {
+                GameObject pfSpine = ResourceManager.LoadAsset<GameObject>(info.photonView.InstantiationData[2].ToString());
+                GameObject goSpine = Instantiate(pfSpine, transform);
+                skelAnim = goSpine.GetComponent<Animator>();
+
+                // Rotate Cam
+                Quaternion quaUnit = goSpine.transform.rotation;
+                float camRotX = Camera.main.transform.rotation.x;
+                quaUnit.x = camRotX;
+                goSpine.transform.rotation = quaUnit;
+
+                OnChangeDir(isLeftDir);
+            }
+
             hpbar.SetGaugeBarColor(Color.green);
             if (RoomSettings.roomType == RoomSettings.ROOM_TYPE.Pvp)
             {
@@ -92,7 +106,7 @@ namespace Assets.Scripts.Feature.GenSample
                     myTeamNum = (int)playerTeam;
                 }
 
-                teamNum = (int)info.photonView.InstantiationData[2];
+                teamNum = (int)info.photonView.InstantiationData[3];
                 if(!photonView.IsMine && !IsSameTeam(myTeamNum))
                 {
                     hpbar.SetGaugeBarColor(Color.yellow);
@@ -107,12 +121,14 @@ namespace Assets.Scripts.Feature.GenSample
                 // We own this player: send the others our data
                 stream.SendNext(isLeftDir);
                 stream.SendNext(curHp);
+                stream.SendNext(isMove);
             }
             else
             {
                 // Network player, receive data
                 this.isLeftDir = (bool)stream.ReceiveNext();
                 this.curHp = (float)stream.ReceiveNext();
+                this.isMove = (bool)stream.ReceiveNext();
             }
         }
 

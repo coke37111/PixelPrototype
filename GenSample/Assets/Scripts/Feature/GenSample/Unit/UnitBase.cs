@@ -64,6 +64,20 @@ namespace Assets.Scripts.Feature.GenSample
             set;
         }
 
+
+        private bool _isMove;
+        protected bool isMove
+        {
+            get => _isMove;
+            set
+            {
+                _isMove = value;
+                if (skelAnim != null)
+                    skelAnim.SetBool("isMove", value);
+            }
+        }
+        protected Animator skelAnim;
+
         #region UNITY
 
         protected virtual void Update()
@@ -132,6 +146,8 @@ namespace Assets.Scripts.Feature.GenSample
             atkTypeSlot.Build((int)atkType);
 
             teamNum = -1;
+
+            isMove = false;
         }
 
         protected virtual void OnChangeDir(bool isLeft)
@@ -140,10 +156,20 @@ namespace Assets.Scripts.Feature.GenSample
                 Log.Error($"unitParts component가 존재하지 않습니다!");
             else
                 unitParts.FlipX(isLeft);
+
+            if(skelAnim != null)
+            {
+                Vector3 skelScale = skelAnim.transform.localScale;
+                skelScale.x = isLeftDir ? 1f : -1f;
+                skelAnim.transform.localScale = skelScale;
+            }
         }
 
         public void SetSprite(Dictionary<string, string> unitPartsList)
         {
+            // TODO : spine 테스트
+            return;
+
             if (unitParts == null)
             {
                 Log.Error($"unitParts component가 존재하지 않습니다!");
@@ -157,6 +183,21 @@ namespace Assets.Scripts.Feature.GenSample
             }
 
             unitParts.RotateSprite();
+            OnChangeDir(isLeftDir);
+        }
+
+        public void MakeSpine(string spinePath)
+        {
+            GameObject pfSpine = ResourceManager.LoadAsset<GameObject>(spinePath);
+            GameObject goSpine = Instantiate(pfSpine, transform);
+            skelAnim = goSpine.GetComponent<Animator>();
+
+            // Rotate Cam
+            Quaternion quaUnit = goSpine.transform.rotation;
+            float camRotX = Camera.main.transform.rotation.x;
+            quaUnit.x = camRotX;
+            goSpine.transform.rotation = quaUnit;
+
             OnChangeDir(isLeftDir);
         }
 

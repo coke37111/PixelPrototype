@@ -305,6 +305,9 @@ namespace Assets.Scripts.Managers
             int atkTypeIdx = UnityEngine.Random.Range(0, Enum.GetValues(typeof(ATK_TYPE)).Length);
             data.Add(atkTypeIdx);
 
+            // Set Spine
+            data.Add(PlayerUnitSettingSO.spinePath);
+
             // Set SpawnPos
             Vector3 orgSpawnPos = initSpawnPos;
             if (curRoomType == ROOM_TYPE.Pvp)

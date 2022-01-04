@@ -21,6 +21,7 @@ namespace Assets.Scripts.Settings.SO
         public string[] unitTypes;
 
         public static string path = "Setting/PlayerUnitSetting";
+        public static string spinePath = $"Spine/test_human_m/Spine_test_human_m";
 
         public string GetUnitType()
         {
