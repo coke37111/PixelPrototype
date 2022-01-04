@@ -199,10 +199,14 @@ namespace Assets.Scripts.Feature.GenSample
                 moveDir = delta.normalized;
             }
 
-            skelAnim.SetBool("isMove", delta != Vector3.zero);
-            Vector3 skelScale = skelAnim.transform.localScale;
-            skelScale.x = isLeftDir ? 1f : -1f;
-            skelAnim.transform.localScale = skelScale;
+            // spine 테스트 임시처리
+            if(skelAnim != null)
+            {
+                skelAnim.SetBool("isMove", delta != Vector3.zero);
+                Vector3 skelScale = skelAnim.transform.localScale;
+                skelScale.x = isLeftDir ? 1f : -1f;
+                skelAnim.transform.localScale = skelScale;
+            }            
 
             OnChnagePosition?.Invoke(transform.position);
         }
@@ -221,7 +225,8 @@ namespace Assets.Scripts.Feature.GenSample
             curFireDelay = 0f;
             canFire = true;
 
-            unitParts.gameObject.SetActive(false);
+            if(skelAnim != null)
+                unitParts.gameObject.SetActive(false);
         }
 
         protected virtual void ShowAtkEff()
