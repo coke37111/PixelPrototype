@@ -33,7 +33,7 @@ namespace Assets.Scripts.Feature.GenSample
             }
         }
 
-        private UnitParts unitParts;
+        protected UnitParts unitParts;
         protected PlayerUnitSettingSO playerUnitSetting;
 
         private bool oldLeftDir;

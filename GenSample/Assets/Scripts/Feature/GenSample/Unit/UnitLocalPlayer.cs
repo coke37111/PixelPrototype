@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
+using Spine.Unity;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,6 +34,8 @@ namespace Assets.Scripts.Feature.GenSample
         private GameObject atkEffectL;
         private GameObject atkEffectR;
         private List<UnitBase> targetUnitList;
+
+        public Animator skelAnim;
 
         #region UNITY
 
@@ -196,6 +199,11 @@ namespace Assets.Scripts.Feature.GenSample
                 moveDir = delta.normalized;
             }
 
+            skelAnim.SetBool("isMove", delta != Vector3.zero);
+            Vector3 skelScale = skelAnim.transform.localScale;
+            skelScale.x = isLeftDir ? 1f : -1f;
+            skelAnim.transform.localScale = skelScale;
+
             OnChnagePosition?.Invoke(transform.position);
         }
 
@@ -212,6 +220,8 @@ namespace Assets.Scripts.Feature.GenSample
             moveDir = isLeftDir ? Vector3.left : Vector3.right;
             curFireDelay = 0f;
             canFire = true;
+
+            unitParts.gameObject.SetActive(false);
         }
 
         protected virtual void ShowAtkEff()
