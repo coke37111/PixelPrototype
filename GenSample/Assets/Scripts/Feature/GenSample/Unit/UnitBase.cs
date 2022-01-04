@@ -132,8 +132,6 @@ namespace Assets.Scripts.Feature.GenSample
             atkTypeSlot.Build((int)atkType);
 
             teamNum = -1;
-
-            isLeftDir = UnityEngine.Random.Range(0f, 1f) >= .5f;
         }
 
         protected virtual void OnChangeDir(bool isLeft)
@@ -159,6 +157,7 @@ namespace Assets.Scripts.Feature.GenSample
             }
 
             unitParts.RotateSprite();
+            OnChangeDir(isLeftDir);
         }
 
         public virtual void ResetSpawnPos(Vector3 pos) { }
