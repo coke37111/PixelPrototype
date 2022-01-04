@@ -4421,6 +4421,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5500441165732827825, guid: a011767345ac592498d56158367fe59f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5500441165732827825, guid: a011767345ac592498d56158367fe59f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -4463,6 +4467,18 @@ PrefabInstance:
     - target: {fileID: 5500441165732827828, guid: a011767345ac592498d56158367fe59f, type: 3}
       propertyPath: m_Name
       value: Spine_test_human_m
+      objectReference: {fileID: 0}
+    - target: {fileID: 5500441165732827828, guid: a011767345ac592498d56158367fe59f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5500441165732827829, guid: a011767345ac592498d56158367fe59f, type: 3}
+      propertyPath: initialFlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5500441165732827829, guid: a011767345ac592498d56158367fe59f, type: 3}
+      propertyPath: initialFlipY
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a011767345ac592498d56158367fe59f, type: 3}
