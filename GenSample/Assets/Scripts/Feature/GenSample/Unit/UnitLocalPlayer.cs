@@ -220,6 +220,8 @@ namespace Assets.Scripts.Feature.GenSample
         {
             SetAtkEffColor();
             MakeAtkEffect();
+
+            skelAnim.SetTrigger("isAtk");
         }
 
         public void SetAtkEffColor()
