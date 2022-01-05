@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Managers;
 using Assets.Scripts.Settings.SO;
+using Assets.Scripts.Spine;
 using Assets.Scripts.Util;
 using System;
 using System.Collections.Generic;
@@ -77,6 +78,7 @@ namespace Assets.Scripts.Feature.GenSample
             }
         }
         protected Animator skelAnim;
+        protected SpineEventListener spineListener;
 
         #region UNITY
 
@@ -167,9 +169,6 @@ namespace Assets.Scripts.Feature.GenSample
 
         public void SetSprite(Dictionary<string, string> unitPartsList)
         {
-            // TODO : spine 테스트
-            return;
-
             if (unitParts == null)
             {
                 Log.Error($"unitParts component가 존재하지 않습니다!");
@@ -186,11 +185,12 @@ namespace Assets.Scripts.Feature.GenSample
             OnChangeDir(isLeftDir);
         }
 
-        public void MakeSpine(string spinePath)
+        public virtual void MakeSpine(string spinePath)
         {
             GameObject pfSpine = ResourceManager.LoadAsset<GameObject>(spinePath);
             GameObject goSpine = Instantiate(pfSpine, transform);
             skelAnim = goSpine.GetComponent<Animator>();
+            spineListener = goSpine.GetComponent<SpineEventListener>();
 
             // Rotate Cam
             Quaternion quaUnit = goSpine.transform.rotation;

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
+using Assets.Scripts.Util;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,7 @@ namespace Assets.Scripts.Feature.GenSample
         public Transform effContainerR;
 
         private bool canAtk;
+        private bool isPlayingAtk;
         private bool canJump;
         protected string curEffColor;
 
@@ -102,67 +104,56 @@ namespace Assets.Scripts.Feature.GenSample
             CheckCanAtk();
         }
 
+        private void OnDisable()
+        {
+            spineListener.UnregisterAtkListener(AttackReal);
+        }
+
         #endregion
 
         #region abstract override
         protected override void Attack()
         {
-            if (canAtk)
+            if(skelAnim == null)
             {
-                if (curAtkDelay >= playerUnitSetting.atkDelay)
+                if (canAtk)
                 {
-                    curAtkDelay = 0f;
-
-                    bool showAtkEff = false;
-                    if(targetMob != null)
+                    if (curAtkDelay >= playerUnitSetting.atkDelay)
                     {
-                        if (targetMob.IsDie())
-                        {
-                            return;
-                        }
+                        curAtkDelay = 0f;
 
-                        targetMob.AttackBy(this);
-                        showAtkEff = true;
+                        Log.Print($"no spine atk");
+
+                        AttackReal();
                     }
-
-                    if(targetUnitList != null)
+                    else
                     {
-                        List<UnitBase> removePlayer = null;
-                        foreach(UnitBase unitPlayer in targetUnitList)
-                        {
-                            if (unitPlayer.IsDie())
-                            {
-                                if (removePlayer == null)
-                                    removePlayer = new List<UnitBase>();
-                                removePlayer.Add(unitPlayer);
-                                continue;
-                            }
-
-                            unitPlayer.AttackBy(this);
-                            showAtkEff = true;
-                        }
-
-                        if(removePlayer != null)
-                        {
-                            foreach(UnitBase removeUnit in removePlayer)
-                            {
-                                if (targetUnitList.Contains(removeUnit))
-                                    targetUnitList.Remove(removeUnit);
-                            }
-
-                            CheckCanAtk();
-                        }
+                        curAtkDelay += Time.deltaTime;
                     }
-                    
-                    if(showAtkEff)
-                        ShowAtkEff();
                 }
-                else
+            }
+            else
+            {
+                if (canAtk && !isPlayingAtk)
                 {
-                    curAtkDelay += Time.deltaTime;
+                    if (curAtkDelay >= playerUnitSetting.atkDelay)
+                    {
+                        curAtkDelay = 0f;
+
+                        Log.Print($"spine atk");
+
+                        skelAnim.SetTrigger("isAtk");
+                        isPlayingAtk = true;
+                    }
+                    else
+                    {
+                        curAtkDelay += Time.deltaTime;
+                    }
                 }
             }
         }
+
+        
 
         protected override void Jump()
         {
@@ -210,18 +201,24 @@ namespace Assets.Scripts.Feature.GenSample
             canAtk = false;
             canJump = true;
             controlable = true;
+            isPlayingAtk = false;
 
             moveDir = isLeftDir ? Vector3.left : Vector3.right;
             curFireDelay = 0f;
             canFire = true;
         }
 
+        public override void MakeSpine(string spinePath)
+        {
+            base.MakeSpine(spinePath);
+
+            spineListener.RegisterAtkListener(AttackReal);
+        }
+
         protected virtual void ShowAtkEff()
         {
             SetAtkEffColor();
             MakeAtkEffect();
-
-            skelAnim.SetTrigger("isAtk");
         }
 
         public void SetAtkEffColor()
@@ -325,6 +322,57 @@ namespace Assets.Scripts.Feature.GenSample
             GameObject goBullet = Instantiate(pfBullet, initPos, Quaternion.identity, transform);
             Missile bullet = goBullet.GetComponent<Missile>();
             bullet.InitializeBullet(this, moveDir, 0f);
+        }
+
+        protected void AttackReal()
+        {
+            bool showAtkEff = false;
+            if (targetMob != null)
+            {
+                if (targetMob.IsDie())
+                {
+                    return;
+                }
+
+                targetMob.AttackBy(this);
+                showAtkEff = true;
+            }
+
+            if (targetUnitList != null)
+            {
+                List<UnitBase> removePlayer = null;
+                foreach (UnitBase unitPlayer in targetUnitList)
+                {
+                    if (unitPlayer.IsDie())
+                    {
+                        if (removePlayer == null)
+                            removePlayer = new List<UnitBase>();
+                        removePlayer.Add(unitPlayer);
+                        continue;
+                    }
+
+                    unitPlayer.AttackBy(this);
+                    showAtkEff = true;
+                }
+
+                if (removePlayer != null)
+                {
+                    foreach (UnitBase removeUnit in removePlayer)
+                    {
+                        if (targetUnitList.Contains(removeUnit))
+                            targetUnitList.Remove(removeUnit);
+                    }
+
+                    CheckCanAtk();
+                }
+            }
+
+            if (showAtkEff)
+                ShowAtkEff();
+
+            isPlayingAtk = false;
+
+            Log.Print($"end atk real");
         }
     }
 }

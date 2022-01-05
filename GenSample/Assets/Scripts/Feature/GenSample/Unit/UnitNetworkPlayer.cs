@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Spine;
 using Assets.Scripts.Util;
 using ExitGames.Client.Photon;
 using Photon.Pun;
@@ -35,6 +36,7 @@ namespace Assets.Scripts.Feature.GenSample
 
         public void OnDisable()
         {
+            spineListener.UnregisterAtkListener(AttackReal);
             PhotonNetwork.RemoveCallbackTarget(this);
         }
 
@@ -77,25 +79,29 @@ namespace Assets.Scripts.Feature.GenSample
         {
             Init();
 
-            Dictionary<string, string> unitPartList = (Dictionary<string, string>)info.photonView.InstantiationData[0];
-            SetSprite(unitPartList);
-
-            atkType = (ATK_TYPE)((int)info.photonView.InstantiationData[1]);
-            atkTypeSlot.Build((int)atkType);
-
+            if (UnitSettings.useSpine())
+            {
+                Dictionary<string, string> unitPartList = (Dictionary<string, string>)info.photonView.InstantiationData[0];
+                SetSprite(unitPartList);
+            }
+            else
             {
                 GameObject pfSpine = ResourceManager.LoadAsset<GameObject>(info.photonView.InstantiationData[2].ToString());
                 GameObject goSpine = Instantiate(pfSpine, transform);
                 skelAnim = goSpine.GetComponent<Animator>();
+                spineListener = goSpine.GetComponent<SpineEventListener>();
+                spineListener.RegisterAtkListener(AttackReal);
 
                 // Rotate Cam
                 Quaternion quaUnit = goSpine.transform.rotation;
                 float camRotX = Camera.main.transform.rotation.x;
                 quaUnit.x = camRotX;
                 goSpine.transform.rotation = quaUnit;
-
                 OnChangeDir(isLeftDir);
             }
+
+            atkType = (ATK_TYPE)((int)info.photonView.InstantiationData[1]);
+            atkTypeSlot.Build((int)atkType);
 
             hpbar.SetGaugeBarColor(Color.green);
             if (RoomSettings.roomType == RoomSettings.ROOM_TYPE.Pvp)

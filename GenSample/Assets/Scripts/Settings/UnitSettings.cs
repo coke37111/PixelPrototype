@@ -59,5 +59,10 @@ namespace Assets.Scripts.Settings
 
             return resultSprite;
         }
+
+        public static bool useSpine()
+        {
+            return Random.Range(0f, 1f) >= .7f;
+        }
     }
 }
