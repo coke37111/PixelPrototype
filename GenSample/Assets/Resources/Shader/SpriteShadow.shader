@@ -4,13 +4,13 @@ Shader "Sprites/Custom/SpriteShadow"
 {
     Properties
     {
-        [PerRendererData] _MainTex("Sprite Texture", 2D) = "white" {}
-    _Color("Tint", Color) = (1,1,1,1)
-        [MaterialToggle] PixelSnap("Pixel snap", Float) = 0
-        [HideInInspector] _RendererColor("RendererColor", Color) = (1,1,1,1)
-        [HideInInspector] _Flip("Flip", Vector) = (1,1,1,1)
-        [PerRendererData] _AlphaTex("External Alpha", 2D) = "white" {}
-    [PerRendererData] _EnableExternalAlpha("Enable External Alpha", Float) = 0
+        _MainTex("Sprite Texture", 2D) = "white" {}
+        _Color("Tint", Color) = (1,1,1,1)
+        PixelSnap("Pixel snap", Float) = 0
+        _RendererColor("RendererColor", Color) = (1,1,1,1)
+        _Flip("Flip", Vector) = (1,1,1,1)
+        _AlphaTex("External Alpha", 2D) = "white" {}
+        _EnableExternalAlpha("Enable External Alpha", Float) = 0
         _Cutoff("Alpha Cutoff", Range(0,1)) = 0.5
     }
 
