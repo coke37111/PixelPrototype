@@ -73,7 +73,7 @@ Material:
     - _CameraNearFadeDistance: 1
     - _ColorMode: 0
     - _Cull: 0
-    - _Cutoff: 0.5
+    - _Cutoff: 0.8
     - _DetailNormalMapScale: 1
     - _DirectionEnum: 1
     - _DistortionBlend: 0.5
