@@ -8,8 +8,8 @@ Shader "Sprites/Custom/SpriteShadow"
         _Color("Tint", Color) = (1,1,1,1)
         PixelSnap("Pixel snap", Float) = 0
         _RendererColor("RendererColor", Color) = (1,1,1,1)
-        _scrollX("U scroll input", float) = 1
-        _scrollY("V scroll input", float) = 1
+        _scrollX("U scroll input", float) = 0
+        _scrollY("V scroll input", float) = 0
         _Flip("Flip", Vector) = (1,1,1,1)
         _AlphaTex("External Alpha", 2D) = "white" {}
         _EnableExternalAlpha("Enable External Alpha", Float) = 0
