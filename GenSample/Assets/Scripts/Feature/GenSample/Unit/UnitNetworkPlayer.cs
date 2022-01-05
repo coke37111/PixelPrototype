@@ -194,7 +194,6 @@ namespace Assets.Scripts.Feature.GenSample
 
                         MakeHitEffect();
 
-                        Log.Print($"{senderViewId} attacked");
                         curHp -= GetFinalDamage(atk, GetDef());
                         if (curHp <= 0f && photonView.AmOwner)
                         {
@@ -276,7 +275,6 @@ namespace Assets.Scripts.Feature.GenSample
             if (!unitNetworkPlayer.GetComponent<PhotonView>().IsMine)
                 return;
 
-            Log.Print($"{PhotonNetwork.LocalPlayer.ActorNumber}={photonView.IsMine} attacked");
             PhotonEventManager.RaiseEvent(EventCodeType.Hit, ReceiverGroup.All, photonView.ViewID, unitNetworkPlayer.GetAtk());
         }
 

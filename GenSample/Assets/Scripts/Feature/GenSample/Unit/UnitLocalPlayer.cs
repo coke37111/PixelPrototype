@@ -123,8 +123,6 @@ namespace Assets.Scripts.Feature.GenSample
                     {
                         curAtkDelay = 0f;
 
-                        Log.Print($"no spine atk");
-
                         AttackReal();
                     }
                     else
@@ -140,8 +138,6 @@ namespace Assets.Scripts.Feature.GenSample
                     if (curAtkDelay >= playerUnitSetting.atkDelay)
                     {
                         curAtkDelay = 0f;
-
-                        Log.Print($"spine atk");
 
                         skelAnim.SetTrigger("isAtk");
                         isPlayingAtk = true;
@@ -372,8 +368,6 @@ namespace Assets.Scripts.Feature.GenSample
                 ShowAtkEff();
 
             isPlayingAtk = false;
-
-            Log.Print($"end atk real");
         }
     }
 }

@@ -19,7 +19,6 @@ namespace Assets.Scripts.Spine
                 return;
             }
 
-            Log.Print($"register listener");
             atkListener.Add(callback);
         }
 
@@ -27,8 +26,6 @@ namespace Assets.Scripts.Spine
         {
             if (atkListener.Contains(callback))
                 atkListener.Remove(callback);
-
-            Log.Print($"unregister listener");
         }
 
         void testEvent_attack_001()

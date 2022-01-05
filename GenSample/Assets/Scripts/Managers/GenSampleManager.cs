@@ -169,7 +169,6 @@ namespace Assets.Scripts.Managers
                         {
                             GenCountdownTimer.SetStartTime();
 
-                            Log.Print($"{PhotonNetwork.MasterClient.ActorNumber} = {PhotonNetwork.LocalPlayer.ActorNumber}");
                             if(PhotonNetwork.MasterClient.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
                                 GenerateMob();
                         }
