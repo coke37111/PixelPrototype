@@ -60,7 +60,9 @@ public class ChatHandler : MonoBehaviourPunCallbacks, IChatClientListener
     public override void OnConnected()
     {
         _chatClient.SetOnlineStatus(ChatUserStatus.Online);
-        _chatClient.Subscribe(new string[] { PhotonNetwork.CurrentRoom.Name }, 20);
+
+        if(PhotonNetwork.IsConnected)
+            _chatClient.Subscribe(new string[] { PhotonNetwork.CurrentRoom.Name }, 20);
     }
 
     public void OnDestroy()
