@@ -8,6 +8,8 @@ Shader "Sprites/Custom/SpriteShadow"
         _Color("Tint", Color) = (1,1,1,1)
         PixelSnap("Pixel snap", Float) = 0
         _RendererColor("RendererColor", Color) = (1,1,1,1)
+        _scrollX("U scroll input", float) = 1
+        _scrollY("V scroll input", float) = 1
         _Flip("Flip", Vector) = (1,1,1,1)
         _AlphaTex("External Alpha", 2D) = "white" {}
         _EnableExternalAlpha("Enable External Alpha", Float) = 0
@@ -36,6 +38,9 @@ Shader "Sprites/Custom/SpriteShadow"
 #pragma multi_compile _ ETC1_EXTERNAL_ALPHA
 #include "UnitySprites.cginc"
 
+        float _scrollX;
+        float _scrollY;
+
         struct Input
     {
         float2 uv_MainTex;
@@ -56,7 +61,7 @@ Shader "Sprites/Custom/SpriteShadow"
 
     void surf(Input IN, inout SurfaceOutput o)
     {
-        fixed4 c = SampleSpriteTexture(IN.uv_MainTex) * IN.color;
+        fixed4 c = tex2D(_MainTex, float2(IN.uv_MainTex.x + (_Time.x * _scrollX), IN.uv_MainTex.y + (_Time.y * _scrollY))) * IN.color;
         o.Albedo = c.rgb * c.a;
         o.Alpha = c.a;
     }
