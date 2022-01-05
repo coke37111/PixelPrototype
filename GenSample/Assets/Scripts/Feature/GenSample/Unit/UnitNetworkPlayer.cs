@@ -36,7 +36,9 @@ namespace Assets.Scripts.Feature.GenSample
 
         public void OnDisable()
         {
-            spineListener.UnregisterAtkListener(AttackReal);
+            if(spineListener != null)
+                spineListener.UnregisterAtkListener(AttackReal);
+
             PhotonNetwork.RemoveCallbackTarget(this);
         }
 

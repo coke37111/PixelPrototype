@@ -106,7 +106,8 @@ namespace Assets.Scripts.Feature.GenSample
 
         private void OnDisable()
         {
-            spineListener.UnregisterAtkListener(AttackReal);
+            if(spineListener != null)
+                spineListener.UnregisterAtkListener(AttackReal);
         }
 
         #endregion
