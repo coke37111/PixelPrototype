@@ -88,18 +88,8 @@ namespace Assets.Scripts.Feature.GenSample
             }
             else
             {
-                GameObject pfSpine = ResourceManager.LoadAsset<GameObject>(info.photonView.InstantiationData[2].ToString());
-                GameObject goSpine = Instantiate(pfSpine, transform);
-                skelAnim = goSpine.GetComponent<Animator>();
-                spineListener = goSpine.GetComponent<SpineEventListener>();
-                spineListener.RegisterAtkListener(AttackReal);
-
-                // Rotate Cam
-                Quaternion quaUnit = goSpine.transform.rotation;
-                float camRotX = Camera.main.transform.rotation.x;
-                quaUnit.x = camRotX;
-                goSpine.transform.rotation = quaUnit;
-                OnChangeDir(isLeftDir);
+                string spinePath = info.photonView.InstantiationData[2].ToString();
+                MakeSpine(spinePath);
             }
 
             atkType = (ATK_TYPE)((int)info.photonView.InstantiationData[1]);
