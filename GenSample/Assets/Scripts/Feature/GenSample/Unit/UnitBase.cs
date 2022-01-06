@@ -298,5 +298,10 @@ namespace Assets.Scripts.Feature.GenSample
 
             return this.teamNum == teamNum;
         }
+
+        public void SetControllable(bool canFlag)
+        {
+            controlable = canFlag;
+        }
     }
 }
