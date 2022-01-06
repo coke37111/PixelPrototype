@@ -13,7 +13,8 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
             Ice,
         }
 
-        public CUBE_TYPE cubeType = CUBE_TYPE.None;
+        [SerializeField]
+        private CUBE_TYPE cubeType = CUBE_TYPE.None;
 
         private bool isGuide;
         private List<Collider> collObjs = new List<Collider>();
@@ -69,6 +70,11 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
         private bool CanMakeRealCube()
         {
             return collObjs.Count <= 0;
+        }
+
+        public CUBE_TYPE GetCuBeType()
+        {
+            return cubeType;
         }
     }
 }

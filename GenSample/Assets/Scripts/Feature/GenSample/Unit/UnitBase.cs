@@ -1,10 +1,12 @@
-﻿using Assets.Scripts.Managers;
+﻿using Assets.Scripts.Feature.Sandbox.Cube;
+using Assets.Scripts.Managers;
 using Assets.Scripts.Settings.SO;
 using Assets.Scripts.Spine;
 using Assets.Scripts.Util;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static Assets.Scripts.Feature.Sandbox.Cube.CubeBase;
 
 namespace Assets.Scripts.Feature.GenSample
 {
@@ -80,12 +82,17 @@ namespace Assets.Scripts.Feature.GenSample
         protected Animator skelAnim;
         protected SpineEventListener spineListener;
 
+        public LayerMask cubeLayer;
+        protected CUBE_TYPE belowCube;
+
         #region UNITY
 
         protected virtual void Update()
         {
             if (!controlable)
                 return;
+
+            CheckCube();
 
             Move();
             Jump();
@@ -302,6 +309,24 @@ namespace Assets.Scripts.Feature.GenSample
         public void SetControllable(bool canFlag)
         {
             controlable = canFlag;
+        }
+
+        private void CheckCube()
+        {
+            Vector3 rayOrg = transform.position + GetComponent<BoxCollider>().center;
+            Vector3 rayDir = Vector3.down;
+            float rayDist = .26f;
+
+            Debug.DrawRay(rayOrg, rayDir * rayDist, Color.red);
+            RaycastHit hit;
+            if (Physics.Raycast(rayOrg, Vector3.down, out hit, rayDist, cubeLayer))
+            {
+                if (hit.collider.tag == "Cube")
+                {
+                    belowCube = hit.collider.GetComponent<CubeBase>().GetCuBeType();
+                    Log.Print(hit.collider.name, belowCube);
+                }
+            }
         }
     }
 }

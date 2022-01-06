@@ -49,6 +49,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc1a0d600adc99745b01ac092063c492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cubeLayer:
+    serializedVersion: 2
+    m_Bits: 512
   effContainerL: {fileID: 7163933714169049392}
   effContainerR: {fileID: 4758997846855564133}
 --- !u!114 &4800140194375321968

@@ -1,7 +1,5 @@
 ﻿using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.SO;
-using Assets.Scripts.Util;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,40 +39,40 @@ namespace Assets.Scripts.Feature.GenSample
         protected virtual void OnTriggerEnter(Collider other)
         {
             if (RoomSettings.roomType != RoomSettings.ROOM_TYPE.Pvp)
-                return;
-
-            if (other.gameObject.tag == "Player")
             {
-                if (targetUnitList == null)
-                    targetUnitList = new List<UnitBase>();
+                if (other.gameObject.tag == "Player")
+                {
+                    if (targetUnitList == null)
+                        targetUnitList = new List<UnitBase>();
 
-                UnitBase targetUnit = other.gameObject.GetComponent<UnitBase>();
-                if (IsSameTeam(targetUnit.teamNum))
-                    return;
+                    UnitBase targetUnit = other.gameObject.GetComponent<UnitBase>();
+                    if (IsSameTeam(targetUnit.teamNum))
+                        return;
 
-                canAtk = true;
-                if (targetUnitList.Contains(targetUnit))
-                    return;
-                targetUnitList.Add(targetUnit);
+                    canAtk = true;
+                    if (targetUnitList.Contains(targetUnit))
+                        return;
+                    targetUnitList.Add(targetUnit);
+                }
             }
         }
 
         protected virtual void OnTriggerExit(Collider other)
         {
             if (RoomSettings.roomType != RoomSettings.ROOM_TYPE.Pvp)
-                return;
-
-            if (other.gameObject.tag == "Player")
             {
-                if (targetUnitList == null)
-                    return;
+                if (other.gameObject.tag == "Player")
+                {
+                    if (targetUnitList == null)
+                        return;
 
-                UnitBase targetUnit = other.gameObject.GetComponent<UnitBase>();
-                if (targetUnitList.Contains(targetUnit))
-                    targetUnitList.Remove(targetUnit);
+                    UnitBase targetUnit = other.gameObject.GetComponent<UnitBase>();
+                    if (targetUnitList.Contains(targetUnit))
+                        targetUnitList.Remove(targetUnit);
+                }
+
+                CheckCanAtk();
             }
-
-            CheckCanAtk();
         }
 
         protected override void OnCollisionEnter(Collision coll)
