@@ -30,6 +30,7 @@ namespace Assets.Scripts.Managers
         private SANDBOX_STATE curState;
         private UnitBase unit;
 
+        public CUBE_TYPE nextCubeType;
         private CUBE_TYPE curCubeType;
 
         #region UNITY
@@ -92,7 +93,7 @@ namespace Assets.Scripts.Managers
                 sbCamCtrl.Init(this);
             }
 
-            curCubeType = CUBE_TYPE.Ground;
+            curCubeType = nextCubeType;
             objShowCube = null;
 
             GameObject pfGroundCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/GroundCube");
@@ -126,10 +127,15 @@ namespace Assets.Scripts.Managers
         {
             if (objShowCube == null)
             {
-                GameObject pfShowCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/{curCubeType}Cube");
-                GameObject goShowCube = Instantiate(pfShowCube, cubeContainer);
-                objShowCube = goShowCube.GetComponent<GroundCube>();
-                objShowCube.SetGuide(true);
+                MakeShowCube();
+            }
+
+            if (curCubeType != nextCubeType)
+            {
+                curCubeType = nextCubeType;
+
+                Destroy(objShowCube.gameObject);
+                MakeShowCube();
             }
 
             if (hit == objShowCube.transform) 
@@ -139,6 +145,14 @@ namespace Assets.Scripts.Managers
             Vector3 showPos = normal * objShowCube.transform.localScale.x;
 
             objShowCube.SetPosition(orgPos + showPos);
+        }
+
+        private void MakeShowCube()
+        {
+            GameObject pfShowCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/{curCubeType}Cube");
+            GameObject goShowCube = Instantiate(pfShowCube, cubeContainer);
+            objShowCube = goShowCube.GetComponent<CubeBase>();
+            objShowCube.SetGuide(true);
         }
 
         public PLAYER_TYPE GetPlayerType()

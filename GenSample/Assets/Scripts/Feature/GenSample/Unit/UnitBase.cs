@@ -157,6 +157,8 @@ namespace Assets.Scripts.Feature.GenSample
             teamNum = -1;
 
             isMove = false;
+
+            belowCube = CUBE_TYPE.None;
         }
 
         protected virtual void OnChangeDir(bool isLeft)
@@ -311,6 +313,8 @@ namespace Assets.Scripts.Feature.GenSample
             controlable = canFlag;
         }
 
+        protected Vector3 moveDir;
+        protected Vector3 accDelta;
         private void CheckCube()
         {
             Vector3 rayOrg = transform.position + GetComponent<BoxCollider>().center;
@@ -323,8 +327,19 @@ namespace Assets.Scripts.Feature.GenSample
             {
                 if (hit.collider.tag == "Cube")
                 {
-                    belowCube = hit.collider.GetComponent<CubeBase>().GetCuBeType();
-                    Log.Print(hit.collider.name, belowCube);
+                    CUBE_TYPE nextCubeType = hit.collider.GetComponent<CubeBase>().GetCubeType();
+                    if(nextCubeType != belowCube)
+                    {
+                        belowCube = nextCubeType;
+                        if(belowCube == CUBE_TYPE.Ice)
+                        {
+                            accDelta = moveDir * playerUnitSetting.speed;
+                        }
+                        else
+                        {
+                            accDelta = Vector3.zero;
+                        }
+                    }
                 }
             }
         }

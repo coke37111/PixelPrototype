@@ -363,6 +363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerType: 0
   cubeContainer: {fileID: 1490062483}
+  nextCubeType: 1
 --- !u!1 &1483486390
 GameObject:
   m_ObjectHideFlags: 0

@@ -72,7 +72,7 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
             return collObjs.Count <= 0;
         }
 
-        public CUBE_TYPE GetCuBeType()
+        public CUBE_TYPE GetCubeType()
         {
             return cubeType;
         }

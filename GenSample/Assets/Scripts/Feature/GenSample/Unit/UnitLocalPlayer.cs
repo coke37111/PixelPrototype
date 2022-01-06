@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Util;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,7 +26,6 @@ namespace Assets.Scripts.Feature.GenSample
         private bool canJump;
         protected string curEffColor;
 
-        protected Vector3 moveDir; // misile 발사 방향을 위한 변수
         private float curFireDelay;
         private bool canFire;
 
@@ -81,7 +81,7 @@ namespace Assets.Scripts.Feature.GenSample
 
             if (coll.gameObject.tag == "Ground" || coll.gameObject.tag == "Cube")
             {
-                canJump = true;
+                canJump = true;                
             }
             else if (coll.gameObject.tag == "Mob")
             {
@@ -171,6 +171,13 @@ namespace Assets.Scripts.Feature.GenSample
                 delta.x -= (playerUnitSetting.speed * Time.deltaTime);
             if (Input.GetKey(KeyCode.D))
                 delta.x += (playerUnitSetting.speed * Time.deltaTime);
+
+            if (belowCube == Sandbox.Cube.CubeBase.CUBE_TYPE.Ice)
+            {
+                Log.Print($"{accDelta} > {delta / Time.deltaTime}");
+                accDelta = Vector3.Lerp(accDelta, delta / Time.deltaTime, .001f);
+                transform.position += accDelta * Time.deltaTime;
+            }
 
             if (delta.x != 0)
                 isLeftDir = delta.x < 0;
