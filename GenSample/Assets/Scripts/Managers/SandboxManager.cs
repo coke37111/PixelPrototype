@@ -90,6 +90,11 @@ namespace Assets.Scripts.Managers
             curCubeType = CUBE_TYPE.Ground;
             objShowCube = null;
 
+            GameObject pfGroundCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/GroundCube");
+            GameObject goGroundCube = Instantiate(pfGroundCube, Vector3.zero, Quaternion.identity, cubeContainer);
+            CubeBase groundCube = goGroundCube.GetComponent<CubeBase>();
+            groundCube.SetGuide(false);
+
             SpawnPlayer();
         }
 
