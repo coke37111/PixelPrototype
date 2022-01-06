@@ -81,7 +81,7 @@ namespace Assets.Scripts.Feature.GenSample
         {
             Init();
 
-            if (UnitSettings.useSpine())
+            if (!UnitSettings.useSpine())
             {
                 Dictionary<string, string> unitPartList = (Dictionary<string, string>)info.photonView.InstantiationData[0];
                 SetSprite(unitPartList);
