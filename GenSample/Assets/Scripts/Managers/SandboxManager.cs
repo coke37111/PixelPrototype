@@ -120,7 +120,7 @@ namespace Assets.Scripts.Managers
                 return;
 
             Vector3 orgPos = hit.position;
-            Vector3 showPos = normal * .25f;
+            Vector3 showPos = normal * objShowCube.transform.localScale.x;
 
             objShowCube.SetPosition(orgPos + showPos);
         }
