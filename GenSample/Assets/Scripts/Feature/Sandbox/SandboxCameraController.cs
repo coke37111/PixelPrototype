@@ -145,5 +145,13 @@ namespace Assets.Scripts.Feature.Sandbox
 
             transform.LookAt(target);
         }
+
+        public void LookTarget()
+        {
+            if (target == null)
+                return;
+
+            transform.LookAt(target);
+        }
     }
 }

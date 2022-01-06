@@ -60,6 +60,11 @@ namespace Assets.Scripts.Managers
                             {
                                 objShowCube.MakeRealCube(cubeContainer);
                             }
+
+                            if (Input.GetKeyDown(KeyCode.F))
+                            {
+                                sbCamCtrl.LookTarget();
+                            }
                         }
 
                         unit.SetControllable(playerType == PLAYER_TYPE.Player);
