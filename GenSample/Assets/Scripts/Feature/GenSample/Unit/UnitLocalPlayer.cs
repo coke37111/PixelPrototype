@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Managers;
+﻿using Assets.Scripts.Feature.Sandbox.Cube;
+using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Util;
 using System;
@@ -164,18 +165,17 @@ namespace Assets.Scripts.Feature.GenSample
             Vector3 delta = Vector3.zero;
 
             if (Input.GetKey(KeyCode.W))
-                delta.z += (playerUnitSetting.speed * Time.deltaTime);
+                delta.z += playerUnitSetting.speed;
             if (Input.GetKey(KeyCode.S))
-                delta.z -= (playerUnitSetting.speed * Time.deltaTime);
+                delta.z -= playerUnitSetting.speed;
             if (Input.GetKey(KeyCode.A))
-                delta.x -= (playerUnitSetting.speed * Time.deltaTime);
+                delta.x -= playerUnitSetting.speed;
             if (Input.GetKey(KeyCode.D))
-                delta.x += (playerUnitSetting.speed * Time.deltaTime);
+                delta.x += playerUnitSetting.speed;
 
-            if (belowCube == Sandbox.Cube.CubeBase.CUBE_TYPE.Ice)
+            if (belowCubeNew.GetCubeType() == CubeBase.CUBE_TYPE.Ice)
             {
-                Log.Print($"{accDelta} > {delta / Time.deltaTime}");
-                accDelta = Vector3.Lerp(accDelta, delta / Time.deltaTime, .001f);
+                accDelta = Vector3.Lerp(accDelta, delta, belowCubeNew.GetComponent<IceCube>().dampRatio);
                 transform.position += accDelta * Time.deltaTime;
             }
 
@@ -184,7 +184,7 @@ namespace Assets.Scripts.Feature.GenSample
 
             if (delta != Vector3.zero)
             {
-                transform.position += delta;
+                transform.position += delta * Time.deltaTime;
 
                 moveDir = delta.normalized;
             }
