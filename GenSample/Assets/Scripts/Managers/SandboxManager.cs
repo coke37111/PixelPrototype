@@ -1,10 +1,12 @@
 ﻿using Assets.Scripts.Feature.GenSample;
 using Assets.Scripts.Feature.Sandbox;
+using Assets.Scripts.Feature.Sandbox.Cube;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
 using Assets.Scripts.Util;
 using System.Collections.Generic;
 using UnityEngine;
+using static Assets.Scripts.Feature.Sandbox.Cube.CubeBase;
 
 namespace Assets.Scripts.Managers
 {
@@ -24,9 +26,11 @@ namespace Assets.Scripts.Managers
         public Transform cubeContainer;
 
         private SandboxCameraController sbCamCtrl;
-        private ShowCube objShowCube;
+        private CubeBase objShowCube;
         private SANDBOX_STATE curState;
         private UnitBase unit;
+
+        private CUBE_TYPE curCubeType;
 
         #region UNITY
 
@@ -52,7 +56,7 @@ namespace Assets.Scripts.Managers
                     {
                         if (playerType == PLAYER_TYPE.Designer)
                         {
-                            if (Input.GetMouseButtonUp(0))
+                            if (Input.GetMouseButtonUp(0) && objShowCube != null)
                             {
                                 objShowCube.MakeRealCube(cubeContainer);
                             }
@@ -83,6 +87,7 @@ namespace Assets.Scripts.Managers
                 sbCamCtrl.Init(this);
             }
 
+            curCubeType = CUBE_TYPE.Ground;
             objShowCube = null;
 
             SpawnPlayer();
@@ -111,9 +116,10 @@ namespace Assets.Scripts.Managers
         {
             if (objShowCube == null)
             {
-                GameObject pfShowCube = ResourceManager.LoadAsset<GameObject>("Prefab/Sandbox/ShowCube");
+                GameObject pfShowCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/{curCubeType}Cube");
                 GameObject goShowCube = Instantiate(pfShowCube, cubeContainer);
-                objShowCube = goShowCube.GetComponent<ShowCube>();
+                objShowCube = goShowCube.GetComponent<GroundCube>();
+                objShowCube.SetGuide(true);
             }
 
             if (hit == objShowCube.transform) 

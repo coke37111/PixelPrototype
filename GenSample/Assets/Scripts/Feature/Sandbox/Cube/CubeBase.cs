@@ -1,13 +1,21 @@
 ﻿using Assets.Scripts.Managers;
-using Assets.Scripts.Util;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Feature.Sandbox
+namespace Assets.Scripts.Feature.Sandbox.Cube
 {
-    public class ShowCube : MonoBehaviour
+    public abstract class CubeBase : MonoBehaviour
     {
+        public enum CUBE_TYPE
+        {
+            None,
+            Ground,
+            Ice,
+        }
+
+        public CUBE_TYPE cubeType = CUBE_TYPE.None;
+
+        private bool isGuide;
         private List<Collider> collObjs = new List<Collider>();
 
         #region UNITY
@@ -32,6 +40,12 @@ namespace Assets.Scripts.Feature.Sandbox
 
         #endregion
 
+        public void SetGuide(bool flag)
+        {
+            isGuide = flag;
+            GetComponent<BoxCollider>().isTrigger = isGuide;
+        }
+
         public void SetPosition(Vector3 pos)
         {
             transform.position = pos;
@@ -47,8 +61,9 @@ namespace Assets.Scripts.Feature.Sandbox
             if (!CanMakeRealCube())
                 return;
 
-            GameObject pfRealCube = ResourceManager.LoadAsset<GameObject>("Prefab/Sandbox/RealCube");
-            Instantiate(pfRealCube, GetPosition(), Quaternion.identity, parent);
+            GameObject pfRealCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/{cubeType}Cube");
+            GameObject goRealCube = Instantiate(pfRealCube, GetPosition(), Quaternion.identity, parent);
+            goRealCube.GetComponent<BoxCollider>().isTrigger = false;
         }
 
         private bool CanMakeRealCube()
