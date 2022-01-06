@@ -81,7 +81,7 @@ namespace Assets.Scripts.Feature.GenSample
         {
             base.OnCollisionEnter(coll);
 
-            if (coll.gameObject.tag == "Ground")
+            if (coll.gameObject.tag == "Ground" || coll.gameObject.tag == "Cube")
             {
                 canJump = true;
             }
