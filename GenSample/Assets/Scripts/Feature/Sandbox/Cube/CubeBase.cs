@@ -12,6 +12,7 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
             Ground,
             Ice,
             Damage,
+            Climb,
         }
 
         protected abstract CUBE_TYPE cubeType
@@ -78,6 +79,11 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
         public CUBE_TYPE GetCubeType()
         {
             return cubeType;
+        }
+
+        public void ClearCollObjs()
+        {
+            collObjs.Clear();
         }
     }
 }

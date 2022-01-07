@@ -162,36 +162,47 @@ namespace Assets.Scripts.Feature.GenSample
 
         protected override void Move()
         {
-            Vector3 delta = Vector3.zero;
-
-            if (Input.GetKey(KeyCode.W))
-                delta.z += playerUnitSetting.speed;
-            if (Input.GetKey(KeyCode.S))
-                delta.z -= playerUnitSetting.speed;
-            if (Input.GetKey(KeyCode.A))
-                delta.x -= playerUnitSetting.speed;
-            if (Input.GetKey(KeyCode.D))
-                delta.x += playerUnitSetting.speed;
-
-            if (belowCube != null && belowCube.GetCubeType() == CubeBase.CUBE_TYPE.Ice)
+            if (isClimb)
             {
-                accDelta = Vector3.Lerp(accDelta, delta, belowCube.GetComponent<IceCube>().dampRatio);
-                transform.position += accDelta * Time.deltaTime;
+
             }
-
-            if (delta.x != 0)
-                isLeftDir = delta.x < 0;
-
-            if (delta != Vector3.zero)
+            else if (isRoof)
             {
-                transform.position += delta * Time.deltaTime;
 
-                moveDir = delta.normalized;
             }
+            else
+            {
+                Vector3 delta = Vector3.zero;
 
-            isMove = delta != Vector3.zero;
+                if (Input.GetKey(KeyCode.W))
+                    delta.z += playerUnitSetting.speed;
+                if (Input.GetKey(KeyCode.S))
+                    delta.z -= playerUnitSetting.speed;
+                if (Input.GetKey(KeyCode.A))
+                    delta.x -= playerUnitSetting.speed;
+                if (Input.GetKey(KeyCode.D))
+                    delta.x += playerUnitSetting.speed;
 
-            OnChnagePosition?.Invoke(transform.position);
+                if (belowCube != null && belowCube.GetCubeType() == CubeBase.CUBE_TYPE.Ice)
+                {
+                    accDelta = Vector3.Lerp(accDelta, delta, belowCube.GetComponent<IceCube>().dampRatio);
+                    transform.position += accDelta * Time.deltaTime;
+                }
+
+                if (delta.x != 0)
+                    isLeftDir = delta.x < 0;
+
+                if (delta != Vector3.zero)
+                {
+                    transform.position += delta * Time.deltaTime;
+
+                    moveDir = delta.normalized;
+                }
+
+                isMove = delta != Vector3.zero;
+
+                OnChnagePosition?.Invoke(transform.position);
+            }
         }
 
         #endregion

@@ -88,6 +88,9 @@ namespace Assets.Scripts.Feature.GenSample
         protected Vector3 moveDir;
         protected Vector3 accDelta;
 
+        protected bool isClimb = false;
+        protected bool isRoof = false;
+
         #region UNITY
 
         protected virtual void Update()
@@ -122,6 +125,36 @@ namespace Assets.Scripts.Feature.GenSample
 
         protected virtual void OnCollisionExit(Collision coll)
         {
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.tag == "Climb-Bottom")
+            {
+                isClimb = true;
+                rb.useGravity = false;
+                transform.Translate(Vector3.up * .2f);
+            }else if(other.tag == "Climb-Roof")
+            {
+                if (isClimb)
+                {
+                    isClimb = false;
+                    isRoof = true;
+                }
+
+            }else if(other.tag == "Climb-Floor")
+            {
+                if (isClimb)
+                    isClimb = false;
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if(other.tag == "Climb-Roof")
+            {
+                isRoof = false;
+            }
         }
 
         #endregion

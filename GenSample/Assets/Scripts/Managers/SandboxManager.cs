@@ -57,7 +57,8 @@ namespace Assets.Scripts.Managers
                     {
                         if (playerType == PLAYER_TYPE.Designer)
                         {
-                            if (Input.GetMouseButtonUp(0) && objShowCube != null)
+                            if (Input.GetMouseButtonUp(0) && 
+                                (objShowCube != null && objShowCube.gameObject.activeSelf))
                             {
                                 objShowCube.MakeRealCube(cubeContainer);
                             }
@@ -69,8 +70,8 @@ namespace Assets.Scripts.Managers
                         }
 
                         unit.SetControllable(playerType == PLAYER_TYPE.Player);
-                        if(objShowCube != null)
-                            objShowCube.gameObject.SetActive(playerType == PLAYER_TYPE.Designer);
+                        if (playerType == PLAYER_TYPE.Player && objShowCube != null)
+                            ActiveShowCube(false);
                         break;
                     }
             }            
@@ -144,7 +145,16 @@ namespace Assets.Scripts.Managers
             Vector3 orgPos = hit.position;
             Vector3 showPos = normal * objShowCube.transform.localScale.x;
 
+            objShowCube.ClearCollObjs();
             objShowCube.SetPosition(orgPos + showPos);
+        }
+
+        public void ActiveShowCube(bool isActive)
+        {
+            if (objShowCube == null)
+                return;
+
+            objShowCube.gameObject.SetActive(isActive);
         }
 
         private void MakeShowCube()

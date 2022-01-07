@@ -9,6 +9,9 @@ TagManager:
   - Indicator
   - Mob
   - Cube
+  - Climb-Floor
+  - Climb-Bottom
+  - Climb-Roof
   layers:
   - Default
   - TransparentFX

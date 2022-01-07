@@ -83,11 +83,16 @@ namespace Assets.Scripts.Feature.Sandbox
 
         private void ShowCube()
         {
+            sbManager.ActiveShowCube(false);
+
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 if (hit.collider.tag == "Cube")
+                {
                     sbManager.ShowCube(hit.transform, hit.normal);
+                    sbManager.ActiveShowCube(true);
+                }
             }
         }
 
