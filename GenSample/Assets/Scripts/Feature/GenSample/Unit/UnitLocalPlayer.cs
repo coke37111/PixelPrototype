@@ -157,6 +157,9 @@ namespace Assets.Scripts.Feature.GenSample
 
         protected override void Jump()
         {
+            if (isClimb)
+                return;
+
             if (Input.GetKeyDown(KeyCode.Space) && canJump)
             {
                 canJump = false;
@@ -170,60 +173,44 @@ namespace Assets.Scripts.Feature.GenSample
             {
                 Vector3 delta = Vector3.zero;
 
-                int newMoveDir = -1;
-                if (Input.GetKey(KeyCode.W))
+                if (Input.GetKey(KeyCode.Space))
                 {
-                    newMoveDir = 0;
+                    delta.y += playerUnitSetting.speed;
                 }
-                if (Input.GetKey(KeyCode.S))
+                if (Input.GetKey(KeyCode.X))
                 {
-                    newMoveDir = 1;
-                }
-                if (Input.GetKey(KeyCode.A))
-                {
-                    newMoveDir = 2;
-                }
-                if (Input.GetKey(KeyCode.D))
-                {
-                    newMoveDir = 3;
+                    delta.y -= playerUnitSetting.speed;
                 }
 
-                if (newMoveDir <= 0)
-                    return;
-
-                if(curMoveDir == newMoveDir)
+                if (delta != Vector3.zero)
                 {
-
+                    transform.position += delta * Time.deltaTime;
                 }
-            }
-            else if (isRoof)
-            {
-                Log.Print($"proc roof");
+
+                isMove = delta != Vector3.zero;
+
+                OnChnagePosition?.Invoke(transform.position);
+
             }
             else
             {
                 Vector3 delta = Vector3.zero;
-                curMoveDir = -1;
 
                 if (Input.GetKey(KeyCode.W))
                 {
                     delta.z += playerUnitSetting.speed;
-                    curMoveDir = 0;
                 }
                 if (Input.GetKey(KeyCode.S))
                 {
                     delta.z -= playerUnitSetting.speed;
-                    curMoveDir = 1;
                 }
                 if (Input.GetKey(KeyCode.A))
                 {
                     delta.x -= playerUnitSetting.speed;
-                    curMoveDir = 2;
                 }
                 if (Input.GetKey(KeyCode.D))
                 {
                     delta.x += playerUnitSetting.speed;
-                    curMoveDir = 3;
                 }
 
                 if (belowCube != null && belowCube.GetCubeType() == CubeBase.CUBE_TYPE.Ice)
