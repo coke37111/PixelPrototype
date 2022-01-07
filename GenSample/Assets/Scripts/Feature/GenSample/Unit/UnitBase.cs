@@ -88,6 +88,8 @@ namespace Assets.Scripts.Feature.GenSample
         protected Vector3 moveDir;
         protected Vector3 accDelta;
 
+        protected int curMoveDir;
+
         protected bool isClimb = false;
         protected bool isRoof = false;
 
@@ -127,13 +129,12 @@ namespace Assets.Scripts.Feature.GenSample
         {
         }
 
-        private void OnTriggerEnter(Collider other)
+        protected virtual void OnTriggerEnter(Collider other)
         {
             if(other.tag == "Climb-Bottom")
             {
                 isClimb = true;
                 rb.useGravity = false;
-                transform.Translate(Vector3.up * .2f);
             }else if(other.tag == "Climb-Roof")
             {
                 if (isClimb)
@@ -149,7 +150,7 @@ namespace Assets.Scripts.Feature.GenSample
             }
         }
 
-        private void OnTriggerExit(Collider other)
+        protected virtual void OnTriggerExit(Collider other)
         {
             if(other.tag == "Climb-Roof")
             {

@@ -37,8 +37,10 @@ namespace Assets.Scripts.Feature.GenSample
 
         #region UNITY
 
-        protected virtual void OnTriggerEnter(Collider other)
+        protected override void OnTriggerEnter(Collider other)
         {
+            base.OnTriggerEnter(other);
+
             if (RoomSettings.roomType != RoomSettings.ROOM_TYPE.Pvp)
             {
                 if (other.gameObject.tag == "Player")
@@ -58,8 +60,10 @@ namespace Assets.Scripts.Feature.GenSample
             }
         }
 
-        protected virtual void OnTriggerExit(Collider other)
+        protected override void OnTriggerExit(Collider other)
         {
+            base.OnTriggerExit(other);
+
             if (RoomSettings.roomType != RoomSettings.ROOM_TYPE.Pvp)
             {
                 if (other.gameObject.tag == "Player")
@@ -164,28 +168,70 @@ namespace Assets.Scripts.Feature.GenSample
         {
             if (isClimb)
             {
+                Vector3 delta = Vector3.zero;
 
+                int newMoveDir = -1;
+                if (Input.GetKey(KeyCode.W))
+                {
+                    newMoveDir = 0;
+                }
+                if (Input.GetKey(KeyCode.S))
+                {
+                    newMoveDir = 1;
+                }
+                if (Input.GetKey(KeyCode.A))
+                {
+                    newMoveDir = 2;
+                }
+                if (Input.GetKey(KeyCode.D))
+                {
+                    newMoveDir = 3;
+                }
+
+                if (newMoveDir <= 0)
+                    return;
+
+                if(curMoveDir == newMoveDir)
+                {
+
+                }
             }
             else if (isRoof)
             {
-
+                Log.Print($"proc roof");
             }
             else
             {
                 Vector3 delta = Vector3.zero;
+                curMoveDir = -1;
 
                 if (Input.GetKey(KeyCode.W))
+                {
                     delta.z += playerUnitSetting.speed;
+                    curMoveDir = 0;
+                }
                 if (Input.GetKey(KeyCode.S))
+                {
                     delta.z -= playerUnitSetting.speed;
+                    curMoveDir = 1;
+                }
                 if (Input.GetKey(KeyCode.A))
+                {
                     delta.x -= playerUnitSetting.speed;
+                    curMoveDir = 2;
+                }
                 if (Input.GetKey(KeyCode.D))
+                {
                     delta.x += playerUnitSetting.speed;
+                    curMoveDir = 3;
+                }
 
                 if (belowCube != null && belowCube.GetCubeType() == CubeBase.CUBE_TYPE.Ice)
                 {
                     accDelta = Vector3.Lerp(accDelta, delta, belowCube.GetComponent<IceCube>().dampRatio);
+                    transform.position += accDelta * Time.deltaTime;
+                }else if(belowCube == null && accDelta != Vector3.zero)
+                {
                     transform.position += accDelta * Time.deltaTime;
                 }
 
