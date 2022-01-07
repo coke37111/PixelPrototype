@@ -6,19 +6,26 @@ namespace Assets.Scripts.Feature.Sandbox
 {
     public class SandboxCameraController : MonoBehaviour
     {
-        [Header("- For Designer")]
-        public float rotateSpeed = 10.0f;
-        public float zoomSpeed = 10.0f;
-        public float moveSpeed = 10.0f;
+        // TODO : 키보드에 의한 카메라 이동일 시 사용
+        private float moveSpeed = 10.0f;
 
-        [Header("- For Player")]
+        public float rotSpeed = 100.0f;           // 회전속도
+        public float zoomSpeed = 10.0f;
+
+        [SerializeField]
+        private GameObject editTarget = null;       // 타겟이 될 게임오브젝트
+
+        [Header("- For Play"), Space(10)]
         public float dist = 10.0f;
         public float height = 5.0f;
         public float smoothRotate = 5.0f;
 
         private Camera mainCamera;
         private SandboxManager sbManager;
-        private Transform target;
+        private Transform playTarget;
+
+        private float rotationX = 0.0f;         // X축 회전값
+        private float rotationY = 0.0f;         // Y축 회전값
 
         private bool isInitialized = false;
 
@@ -34,12 +41,17 @@ namespace Assets.Scripts.Feature.Sandbox
             if (!isInitialized)
                 return;
 
-            if(sbManager.GetPlayerType() == SandboxManager.PLAYER_TYPE.Designer)
+            Zoom();
+            if (sbManager.GetPlayerType() == SandboxManager.PLAYER_TYPE.Designer)
             {
-                Zoom();
-                Rotate();
-                Move();
+                Rotate(editTarget.transform);
+                //Move();
                 ShowCube();
+            }
+            else
+            {
+                // TODO : 유닛의 이동이 카메라의 회전에 따라 변하지 않는다, 수정필요
+                //Rotate(target);
             }
         }
 
@@ -66,7 +78,7 @@ namespace Assets.Scripts.Feature.Sandbox
 
         public void SetTarget(Transform target)
         {
-            this.target = target;
+            this.playTarget = target;
         }
 
         private void ShowCube()
@@ -88,15 +100,24 @@ namespace Assets.Scripts.Feature.Sandbox
             }
         }
 
-        private void Rotate()
+        private void Rotate(Transform target)
         {
-            if(Input.GetMouseButton(1))
+            //transform.LookAt(Vector3.zero);
+
+            // 마우스가 눌러지면,
+            if (Input.GetMouseButton(1))
             {
-                Vector3 rot = transform.rotation.eulerAngles; // 현재 카메라의 각도를 Vector3로 반환
-                rot.y += Input.GetAxis("Mouse X") * rotateSpeed; // 마우스 X 위치 * 회전 스피드
-                rot.x += -1 * Input.GetAxis("Mouse Y") * rotateSpeed; // 마우스 Y 위치 * 회전 스피드
-                Quaternion q = Quaternion.Euler(rot); // Quaternion으로 변환
-                transform.rotation = Quaternion.Slerp(transform.rotation, q, 2f); // 자연스럽게 회전
+                // 마우스 변화량을 얻고, 그 값에 델타타임과 속도를 곱해서 회전값 구하기
+                rotationX = Input.GetAxis("Mouse X") * Time.deltaTime * rotSpeed;
+                rotationY = Input.GetAxis("Mouse Y") * Time.deltaTime * rotSpeed;
+
+                // 각 축으로 회전
+                // Y축은 마우스를 내릴때 카메라는 올라가야 하므로 반대로 적용
+                transform.RotateAround(target.position, Vector3.right, -rotationY);
+                transform.RotateAround(target.position, Vector3.up, rotationX);
+
+                // 회전후 타겟 바라보기
+                transform.LookAt(target);
             }
         }
 
@@ -132,26 +153,26 @@ namespace Assets.Scripts.Feature.Sandbox
 
         private void FollowTarget()
         {
-            if (target == null)
+            if (playTarget == null)
             {
                 return;
             }
 
-            float curYAngle = Mathf.LerpAngle(transform.eulerAngles.y, target.eulerAngles.y, smoothRotate * Time.deltaTime);
+            float curYAngle = Mathf.LerpAngle(transform.eulerAngles.y, playTarget.eulerAngles.y, smoothRotate * Time.deltaTime);
 
             Quaternion rot = Quaternion.Euler(0, curYAngle, 0);
 
-            transform.position = target.position - (rot * Vector3.forward * dist) + Vector3.up * height;
+            transform.position = playTarget.position - (rot * Vector3.forward * dist) + Vector3.up * height;
 
-            transform.LookAt(target);
+            transform.LookAt(playTarget);
         }
 
         public void LookTarget()
         {
-            if (target == null)
+            if (playTarget == null)
                 return;
 
-            transform.LookAt(target);
+            transform.LookAt(playTarget);
         }
     }
 }
