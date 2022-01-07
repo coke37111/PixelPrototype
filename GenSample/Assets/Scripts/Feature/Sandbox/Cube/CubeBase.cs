@@ -11,6 +11,7 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
             None,
             Ground,
             Ice,
+            Damage,
         }
 
         [SerializeField]

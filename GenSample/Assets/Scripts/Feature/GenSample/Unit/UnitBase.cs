@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Feature.Sandbox.Cube;
+﻿using Assets.Scripts.Feature.GenSample.Unit;
+using Assets.Scripts.Feature.Sandbox.Cube;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Settings.SO;
 using Assets.Scripts.Spine;
@@ -84,6 +85,8 @@ namespace Assets.Scripts.Feature.GenSample
 
         public LayerMask cubeLayer;
         protected CubeBase belowCube;
+        protected Vector3 moveDir;
+        protected Vector3 accDelta;
 
         #region UNITY
 
@@ -92,7 +95,8 @@ namespace Assets.Scripts.Feature.GenSample
             if (!controlable)
                 return;
 
-            CheckCube();
+            GetBelowCube();
+            CheckBelowCube();            
 
             Move();
             Jump();
@@ -202,10 +206,8 @@ namespace Assets.Scripts.Feature.GenSample
             spineListener = goSpine.GetComponent<SpineEventListener>();
 
             // Rotate Cam
-            Quaternion quaUnit = goSpine.transform.rotation;
-            float camRotX = Camera.main.transform.rotation.x;
-            quaUnit.x = camRotX;
-            goSpine.transform.rotation = quaUnit;
+            UnitSpineParts spineParts = goSpine.GetComponent<UnitSpineParts>();
+            spineParts.RotateSprite();
 
             OnChangeDir(isLeftDir);
         }
@@ -313,9 +315,7 @@ namespace Assets.Scripts.Feature.GenSample
             controlable = canFlag;
         }
 
-        protected Vector3 moveDir;
-        protected Vector3 accDelta;
-        private void CheckCube()
+        private void GetBelowCube()
         {
             Vector3 rayOrg = transform.position + GetComponent<BoxCollider>().center;
             Vector3 rayDir = Vector3.down;
@@ -342,6 +342,26 @@ namespace Assets.Scripts.Feature.GenSample
                         }
                     }
                 }
+            }
+            else
+            {
+                belowCube = null;
+            }
+        }
+
+        private void CheckBelowCube()
+        {
+            if (belowCube == null)
+            {
+                return;
+            }
+
+            switch (belowCube.GetCubeType())
+            {
+                case CUBE_TYPE.Damage:
+                    {
+                        break;
+                    }
             }
         }
     }

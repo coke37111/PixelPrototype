@@ -8,7 +8,17 @@ namespace Assets.Scripts.Feature.GenSample
     public class UnitParts : MonoBehaviour
     {
         private Dictionary<string, SpriteRenderer> srDict = new Dictionary<string, SpriteRenderer>();
-        
+
+
+        #region UNITY
+
+        private void Update()
+        {
+            RotateSprite();
+        }
+
+        #endregion
+
         public void RotateSprite()
         {
             Vector3 quaUnit = transform.rotation.eulerAngles;
