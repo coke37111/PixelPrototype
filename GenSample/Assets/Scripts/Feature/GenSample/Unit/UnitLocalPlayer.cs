@@ -173,9 +173,9 @@ namespace Assets.Scripts.Feature.GenSample
             if (Input.GetKey(KeyCode.D))
                 delta.x += playerUnitSetting.speed;
 
-            if (belowCubeNew.GetCubeType() == CubeBase.CUBE_TYPE.Ice)
+            if (belowCube != null && belowCube.GetCubeType() == CubeBase.CUBE_TYPE.Ice)
             {
-                accDelta = Vector3.Lerp(accDelta, delta, belowCubeNew.GetComponent<IceCube>().dampRatio);
+                accDelta = Vector3.Lerp(accDelta, delta, belowCube.GetComponent<IceCube>().dampRatio);
                 transform.position += accDelta * Time.deltaTime;
             }
 

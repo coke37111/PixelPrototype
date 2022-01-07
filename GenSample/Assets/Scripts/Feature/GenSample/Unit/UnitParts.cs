@@ -13,7 +13,9 @@ namespace Assets.Scripts.Feature.GenSample
         {
             Quaternion quaUnit = transform.rotation;
             float camRotX = Camera.main.transform.rotation.x;
+            float camRotY = Camera.main.transform.rotation.y;
             quaUnit.x = camRotX;
+            quaUnit.y = camRotY;
             transform.rotation = quaUnit;
         }
 

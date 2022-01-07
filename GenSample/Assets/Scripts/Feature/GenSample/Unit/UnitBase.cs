@@ -83,7 +83,7 @@ namespace Assets.Scripts.Feature.GenSample
         protected SpineEventListener spineListener;
 
         public LayerMask cubeLayer;
-        protected CubeBase belowCubeNew;
+        protected CubeBase belowCube;
 
         #region UNITY
 
@@ -158,7 +158,7 @@ namespace Assets.Scripts.Feature.GenSample
 
             isMove = false;
 
-            belowCubeNew = null;
+            belowCube = null;
         }
 
         protected virtual void OnChangeDir(bool isLeft)
@@ -328,11 +328,11 @@ namespace Assets.Scripts.Feature.GenSample
                 if (hit.collider.tag == "Cube")
                 {
                     CubeBase collCube = hit.collider.GetComponent<CubeBase>();
-                    if(belowCubeNew == null || 
-                        belowCubeNew.GetCubeType() != collCube.GetCubeType())
+                    if(belowCube == null || 
+                        belowCube.GetCubeType() != collCube.GetCubeType())
                     {
-                        belowCubeNew = collCube;
-                        if(belowCubeNew.GetCubeType() == CUBE_TYPE.Ice)
+                        belowCube = collCube;
+                        if(belowCube.GetCubeType() == CUBE_TYPE.Ice)
                         {
                             accDelta = moveDir * playerUnitSetting.speed;
                         }
