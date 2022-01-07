@@ -11,12 +11,12 @@ namespace Assets.Scripts.Feature.GenSample
         
         public void RotateSprite()
         {
-            Quaternion quaUnit = transform.rotation;
-            float camRotX = Camera.main.transform.rotation.x;
-            float camRotY = Camera.main.transform.rotation.y;
-            quaUnit.x = camRotX;
-            quaUnit.y = camRotY;
-            transform.rotation = quaUnit;
+            Vector3 quaUnit = transform.rotation.eulerAngles;
+            Vector3 quaCam = Camera.main.transform.rotation.eulerAngles;
+            quaUnit.x = quaCam.x;
+            quaUnit.y = quaCam.y;
+            Quaternion quaUnitNew = Quaternion.Euler(quaUnit);
+            transform.rotation = quaUnitNew;
         }
 
         public void SetSprite(string partsName, string spritePath)
