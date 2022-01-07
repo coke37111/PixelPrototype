@@ -7,43 +7,69 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
 {
     public class DamageCube : CubeBase
     {
+        protected override CUBE_TYPE cubeType => CUBE_TYPE.Damage;
+
         public class DamageListenerData
         {
             public float delay;
-            public UnityAction listener;
+            public UnityAction<DamageCube> listener;
 
-            public DamageListenerData(float delay, UnityAction listener)
+            public DamageListenerData(float delay, UnityAction<DamageCube> listener)
             {
                 this.delay = delay;
                 this.listener = listener;
             }
         }
 
-        public float damage;
-        public float damageDelay;
+        public float damage = 5.0f;
+        public float damageDelay = 0.5f;
 
-        private List<DamageListenerData> damageListener;
+        private List<DamageListenerData> damageListenerList;
 
-        public void RegisterDamageListener(UnityAction listener)
+        #region UNITY
+
+        private void Update()
         {
-            if (damageListener == null)
-                damageListener = new List<DamageListenerData>();
-
-            DamageListenerData dlData = damageListener.Find(e => e.listener == listener);
-            if (dlData != null)
+            if (damageListenerList == null || damageListenerList.Count <= 0)
                 return;
 
-            damageListener.Add(new DamageListenerData(0f, listener));
+            for(int i = 0; i < damageListenerList.Count; i++)
+            {
+                DamageListenerData dlData = damageListenerList[i];
+                if (dlData.delay >= damageDelay)
+                {
+                    dlData.delay = 0f;
+                    dlData.listener(this);
+                }
+                else
+                {
+                    dlData.delay += Time.deltaTime;
+                }
+            }
         }
 
-        public void UnregisterDamageListener(UnityAction listener)
+        #endregion
+
+        public void RegisterDamageListener(UnityAction<DamageCube> listener)
         {
-            if (damageListener == null)
+            if (damageListenerList == null)
+                damageListenerList = new List<DamageListenerData>();
+
+            DamageListenerData dlData = damageListenerList.Find(e => e.listener == listener);
+            if (dlData != null)
                 return;
 
-            DamageListenerData dlData = damageListener.Find(e => e.listener == listener);
+            damageListenerList.Add(new DamageListenerData(0f, listener));
+        }
+
+        public void UnregisterDamageListener(UnityAction<DamageCube> listener)
+        {
+            if (damageListenerList == null)
+                return;
+
+            DamageListenerData dlData = damageListenerList.Find(e => e.listener == listener);
             if (dlData != null)
-                damageListener.Remove(dlData);
+                damageListenerList.Remove(dlData);
         }
     }
 }

@@ -331,10 +331,17 @@ namespace Assets.Scripts.Feature.GenSample
                     if(belowCube == null || 
                         belowCube.GetCubeType() != collCube.GetCubeType())
                     {
+                        if (belowCube != null && belowCube.GetCubeType() == CUBE_TYPE.Damage)
+                            belowCube.GetComponent<DamageCube>().UnregisterDamageListener(AttackByCube);
+
                         belowCube = collCube;
                         if(belowCube.GetCubeType() == CUBE_TYPE.Ice)
                         {
                             accDelta = moveDir * playerUnitSetting.speed;
+                        }
+                        else if(belowCube.GetCubeType() == CUBE_TYPE.Damage)
+                        {
+                            belowCube.GetComponent<DamageCube>().RegisterDamageListener(AttackByCube);
                         }
                         else
                         {
@@ -345,23 +352,32 @@ namespace Assets.Scripts.Feature.GenSample
             }
             else
             {
+                if (belowCube != null && belowCube.GetCubeType() == CUBE_TYPE.Damage)
+                    belowCube.GetComponent<DamageCube>().UnregisterDamageListener(AttackByCube);
+
                 belowCube = null;
             }
         }
 
+        // TODO : 추후 작업을 위해 남겨놓음
         private void CheckBelowCube()
         {
             if (belowCube == null)
             {
                 return;
             }
+        }
 
-            switch (belowCube.GetCubeType())
+        private void AttackByCube(DamageCube cube)
+        {
+            MakeHitEffect();
+
+            curHp -= GetFinalDamage(cube.damage, GetDef());
+            if (curHp <= 0f)
             {
-                case CUBE_TYPE.Damage:
-                    {
-                        break;
-                    }
+                cube.UnregisterDamageListener(AttackByCube);
+
+                Destroy(gameObject);
             }
         }
     }

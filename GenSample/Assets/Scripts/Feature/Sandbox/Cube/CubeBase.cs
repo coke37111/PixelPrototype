@@ -14,8 +14,10 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
             Damage,
         }
 
-        [SerializeField]
-        private CUBE_TYPE cubeType = CUBE_TYPE.None;
+        protected abstract CUBE_TYPE cubeType
+        {
+            get;
+        }
 
         private bool isGuide;
         private List<Collider> collObjs = new List<Collider>();
