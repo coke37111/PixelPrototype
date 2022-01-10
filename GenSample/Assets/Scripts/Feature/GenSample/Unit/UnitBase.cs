@@ -359,7 +359,6 @@ namespace Assets.Scripts.Feature.GenSample
             Vector3 rayDir = Vector3.down;
             float rayDist = .26f;
 
-            Debug.DrawRay(rayOrg, rayDir * rayDist, Color.red);
             RaycastHit hit;
             if (Physics.Raycast(rayOrg, Vector3.down, out hit, rayDist, cubeLayer))
             {

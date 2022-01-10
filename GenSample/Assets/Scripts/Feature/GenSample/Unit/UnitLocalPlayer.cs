@@ -41,7 +41,7 @@ namespace Assets.Scripts.Feature.GenSample
         {
             base.OnTriggerEnter(other);
 
-            if (RoomSettings.roomType != RoomSettings.ROOM_TYPE.Pvp)
+            if (RoomSettings.roomType == RoomSettings.ROOM_TYPE.Pvp)
             {
                 if (other.gameObject.tag == "Player")
                 {
@@ -64,7 +64,7 @@ namespace Assets.Scripts.Feature.GenSample
         {
             base.OnTriggerExit(other);
 
-            if (RoomSettings.roomType != RoomSettings.ROOM_TYPE.Pvp)
+            if (RoomSettings.roomType == RoomSettings.ROOM_TYPE.Pvp)
             {
                 if (other.gameObject.tag == "Player")
                 {
