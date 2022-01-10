@@ -137,7 +137,7 @@ namespace Assets.Scripts.Feature.GenSample
             {
                 if (isClimb)
                 {
-                    transform.Translate(moveDir * 0.01f);
+                    transform.Translate(moveDir * 0.25f);
                     isClimb = false;
                     rb.useGravity = true;
                 }
