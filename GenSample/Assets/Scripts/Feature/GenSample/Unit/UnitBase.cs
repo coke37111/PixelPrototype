@@ -131,9 +131,12 @@ namespace Assets.Scripts.Feature.GenSample
         {
             if(other.tag == "Climb-Bottom")
             {
-                isClimb = true;
-                lockMove = true;
-                rb.useGravity = false;
+                if(!isClimb)
+                {
+                    isClimb = true;
+                    lockMove = true;
+                    rb.useGravity = false;
+                }
             }
             else if(other.tag == "Climb-Roof")
             {

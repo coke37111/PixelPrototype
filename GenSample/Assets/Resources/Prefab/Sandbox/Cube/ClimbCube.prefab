@@ -1,49 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1432599485695111738
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 440230161834963783}
-  - component: {fileID: 8108273374537708004}
-  m_Layer: 0
-  m_Name: Bottom2
-  m_TagString: Climb-Bottom
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &440230161834963783
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1432599485695111738}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 9104999162115407924}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8108273374537708004
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1432599485695111738}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.2, y: 0.1, z: 1.1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4186579332995460103
 GameObject:
   m_ObjectHideFlags: 0
@@ -55,7 +11,7 @@ GameObject:
   - component: {fileID: 7421275392502488451}
   - component: {fileID: 3001232997687712549}
   - component: {fileID: 1222861930563482795}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4261480720162755451}
   - component: {fileID: 4422917541933095362}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Floor
   m_TagString: Climb-Floor
   m_Icon: {fileID: 0}
@@ -200,7 +156,7 @@ Transform:
   m_Children:
   - {fileID: 7421275392502488451}
   - {fileID: 4261480720162755451}
-  - {fileID: 9104999162115407924}
+  - {fileID: 5904297909129632712}
   - {fileID: 3510588313202605987}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -230,44 +186,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42b88da4fa7c26e44b7bc362ac3a16ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roofColl: {fileID: 6971214451757192211}
-  bottomColl: {fileID: 6420104407209063539}
-  floorColl: {fileID: 4671428607017937029}
   cubeLayer:
     serializedVersion: 2
     m_Bits: 512
---- !u!1 &6420104407209063539
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9104999162115407924}
-  m_Layer: 0
-  m_Name: Bottom
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &9104999162115407924
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6420104407209063539}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 5904297909129632712}
-  - {fileID: 440230161834963783}
-  m_Father: {fileID: 5586264996223977333}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6971214451757192211
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,7 +199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3510588313202605987}
   - component: {fileID: 2532792051375853041}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Roof
   m_TagString: Climb-Roof
   m_Icon: {fileID: 0}
@@ -322,8 +243,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5904297909129632712}
   - component: {fileID: 7167495735741985858}
-  m_Layer: 0
-  m_Name: Bottom1
+  m_Layer: 12
+  m_Name: Bottom
   m_TagString: Climb-Bottom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -340,8 +261,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 9104999162115407924}
-  m_RootOrder: 0
+  m_Father: {fileID: 5586264996223977333}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &7167495735741985858
 BoxCollider:
@@ -354,5 +275,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.1, z: 0.2}
+  m_Size: {x: 1, y: 0.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}

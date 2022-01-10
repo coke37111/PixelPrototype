@@ -6,12 +6,15 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
 {
     public class ClimbCube : CubeBase
     {
-        public GameObject roofColl;
-        public GameObject bottomColl;
-        public GameObject floorColl;
+        private readonly string FloorObjName = "Floor";
+        private readonly string BottomObjName = "Bottom";
+        private readonly string RoofObjName = "Roof";
 
-        [SerializeField]
-        private LayerMask cubeLayer;
+        private GameObject roofColl;
+        private GameObject bottomColl;
+        private GameObject floorColl;
+
+        public LayerMask cubeLayer;
 
         protected override CUBE_TYPE cubeType => CUBE_TYPE.Climb;
 
@@ -19,10 +22,15 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
 
         private void Start()
         {
+            floorColl = transform.Find(FloorObjName).gameObject;
+            bottomColl = transform.Find(BottomObjName).gameObject;
+            roofColl = transform.Find(RoofObjName).gameObject;
+
             Vector3 rayOrg = transform.position + GetComponent<BoxCollider>().center;
             Vector3 rayDir = Vector3.down;
             float rayDist = .2f;
 
+            Debug.DrawRay(rayOrg, rayDir * rayDist, Color.red);
             RaycastHit hit;
             if (Physics.Raycast(rayOrg, rayDir, out hit, rayDist, cubeLayer))
             {
