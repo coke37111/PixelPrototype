@@ -142,6 +142,14 @@ namespace Assets.Scripts.Feature.GenSample
                     rb.useGravity = true;
                 }
             }
+            else if(other.tag == "Climb-Floor")
+            {
+                if (isClimb)
+                {
+                    isClimb = false;
+                    rb.useGravity = true;
+                }
+            }
         }
 
         protected virtual void OnTriggerExit(Collider other)

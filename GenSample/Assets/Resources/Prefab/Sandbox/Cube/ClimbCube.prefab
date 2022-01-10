@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 440230161834963783}
   - component: {fileID: 8108273374537708004}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Bottom2
   m_TagString: Climb-Bottom
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4261480720162755451}
   - component: {fileID: 4422917541933095362}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Floor
   m_TagString: Climb-Floor
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.1, y: 0.1, z: 1.1}
+  m_Size: {x: 1.5, y: 0.1, z: 1.5}
   m_Center: {x: 0, y: -0.5, z: 0}
 --- !u!1 &5586264996223977337
 GameObject:
@@ -199,6 +199,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42b88da4fa7c26e44b7bc362ac3a16ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roofColl: {fileID: 6971214451757192211}
+  floorColl: {fileID: 4671428607017937029}
+  cubeLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &6420104407209063539
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,7 +213,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9104999162115407924}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +246,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3510588313202605987}
   - component: {fileID: 2532792051375853041}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Roof
   m_TagString: Climb-Roof
   m_Icon: {fileID: 0}
@@ -273,7 +278,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.1, y: 0.1, z: 1.1}
+  m_Size: {x: 1.5, y: 0.1, z: 1.5}
   m_Center: {x: 0, y: 2.8, z: 0}
 --- !u!1 &8562375867483116637
 GameObject:
@@ -285,7 +290,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5904297909129632712}
   - component: {fileID: 7167495735741985858}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Bottom1
   m_TagString: Climb-Bottom
   m_Icon: {fileID: 0}
