@@ -133,6 +133,7 @@ namespace Assets.Scripts.Feature.GenSample
             {
                 if(!isClimb)
                 {
+                    transform.Translate(Vector3.up * 0.1f);
                     isClimb = true;
                     lockMove = true;
                     rb.useGravity = false;
@@ -142,7 +143,7 @@ namespace Assets.Scripts.Feature.GenSample
             {
                 if (isClimb)
                 {
-                    transform.Translate(moveDir * 0.15f);
+                    transform.Translate(moveDir * 0.1f);
                     isClimb = false;
                     lockMove = true;
                     rb.useGravity = true;
@@ -152,7 +153,7 @@ namespace Assets.Scripts.Feature.GenSample
             {
                 if (isClimb)
                 {
-                    transform.Translate(-moveDir * 0.15f);
+                    transform.Translate(-moveDir * 0.1f);
                     isClimb = false;
                     lockMove = true;
                     rb.useGravity = true;
