@@ -135,6 +135,7 @@ namespace Assets.Scripts.Feature.GenSample
                 {
                     transform.Translate(Vector3.up * 0.1f);
                     isClimb = true;
+                    isMove = false;
                     lockMove = true;
                     rb.useGravity = false;
                 }
@@ -143,9 +144,11 @@ namespace Assets.Scripts.Feature.GenSample
             {
                 if (isClimb)
                 {
-                    transform.Translate(moveDir * 0.1f);
+                    Vector3 dirToClimbCenter = other.transform.position - transform.position;
+                    transform.Translate(dirToClimbCenter.normalized * 0.1f);
                     isClimb = false;
                     lockMove = true;
+                    isMove = false;
                     rb.useGravity = true;
                 }
             }
@@ -156,6 +159,7 @@ namespace Assets.Scripts.Feature.GenSample
                     transform.Translate(-moveDir * 0.1f);
                     isClimb = false;
                     lockMove = true;
+                    isMove = false;
                     rb.useGravity = true;
                 }
             }
