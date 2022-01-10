@@ -89,6 +89,7 @@ namespace Assets.Scripts.Feature.GenSample
         protected Vector3 accDelta;
 
         protected bool isClimb = false;
+        protected bool lockMove = false;
 
         #region UNITY
 
@@ -131,14 +132,16 @@ namespace Assets.Scripts.Feature.GenSample
             if(other.tag == "Climb-Bottom")
             {
                 isClimb = true;
+                lockMove = true;
                 rb.useGravity = false;
             }
             else if(other.tag == "Climb-Roof")
             {
                 if (isClimb)
                 {
-                    transform.Translate(moveDir * 0.25f);
+                    transform.Translate(moveDir * 0.15f);
                     isClimb = false;
+                    lockMove = true;
                     rb.useGravity = true;
                 }
             }
@@ -146,7 +149,9 @@ namespace Assets.Scripts.Feature.GenSample
             {
                 if (isClimb)
                 {
+                    transform.Translate(-moveDir * 0.15f);
                     isClimb = false;
+                    lockMove = true;
                     rb.useGravity = true;
                 }
             }

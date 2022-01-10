@@ -7,6 +7,7 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
     public class ClimbCube : CubeBase
     {
         public GameObject roofColl;
+        public GameObject bottomColl;
         public GameObject floorColl;
 
         [SerializeField]
@@ -31,6 +32,7 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
                     if(collCube.GetCubeType() == CUBE_TYPE.Climb)
                     {
                         collCube.GetComponent<ClimbCube>().roofColl.SetActive(false);
+                        bottomColl.SetActive(false);
                         floorColl.SetActive(false);
                     }
                 }

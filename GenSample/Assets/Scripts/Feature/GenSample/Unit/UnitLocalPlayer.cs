@@ -169,15 +169,26 @@ namespace Assets.Scripts.Feature.GenSample
 
         protected override void Move()
         {
+            if (lockMove)
+            {
+                if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) ||
+                    Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+                {
+                    lockMove = false;
+                }
+
+                return;
+            }
+
             if (isClimb)
             {
                 Vector3 delta = Vector3.zero;
 
-                if (Input.GetKey(KeyCode.Space))
+                if (Input.GetKey(KeyCode.W))
                 {
                     delta.y += playerUnitSetting.speed;
                 }
-                if (Input.GetKey(KeyCode.X))
+                if (Input.GetKey(KeyCode.S))
                 {
                     delta.y -= playerUnitSetting.speed;
                 }
