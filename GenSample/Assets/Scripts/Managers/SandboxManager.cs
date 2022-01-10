@@ -68,10 +68,18 @@ namespace Assets.Scripts.Managers
                                 sbCamCtrl.LookTarget();
                             }
                         }
+                        else
+                        {
+                            if (objShowCube != null)
+                                ActiveShowCube(false);
 
-                        unit.SetControllable(playerType == PLAYER_TYPE.Player);
-                        if (playerType == PLAYER_TYPE.Player && objShowCube != null)
-                            ActiveShowCube(false);
+                            if (Input.GetKeyDown(KeyCode.R))
+                            {
+                                unit.ResetSpawnPos(Vector3.up);
+                            }
+                        }
+
+                        unit.SetControllable(playerType == PLAYER_TYPE.Player);                        
                         break;
                     }
             }            
