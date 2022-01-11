@@ -4,6 +4,7 @@
     {
         public enum EventCodeType
         {
+            // GenSample
             Knockback,
             MobAttackBy,
             MobDie,

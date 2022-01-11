@@ -352,7 +352,15 @@ namespace Photon.Pun.Demo.Asteroids
 
             Log.Print($"{PhotonNetwork.CurrentRoom.Name}");
 
-            PhotonNetwork.LoadLevel(GameSceneName);
+            if(RoomSettings.roomType == RoomSettings.ROOM_TYPE.Sandbox)
+            {
+                string SandBoxSceneName = "SandboxScene";
+                PhotonNetwork.LoadLevel(SandBoxSceneName);
+            }
+            else
+            {
+                PhotonNetwork.LoadLevel(GameSceneName);
+            }
         }
 
         public void ChangeGameTypeButtonClicked()
@@ -362,15 +370,14 @@ namespace Photon.Pun.Demo.Asteroids
                 return;
             }
 
-            RoomSettings.ROOM_TYPE nextRoomType;
-            if (RoomSettings.roomType == RoomSettings.ROOM_TYPE.Raid)
+            int curRoomTypeIdx = (int)RoomSettings.roomType;
+            int nextRoomTypeIdx = curRoomTypeIdx + 1;
+            if(nextRoomTypeIdx >= System.Enum.GetValues(typeof(RoomSettings.ROOM_TYPE)).Length)
             {
-                nextRoomType = RoomSettings.ROOM_TYPE.Pvp;
+                nextRoomTypeIdx = 0;
             }
-            else
-            {
-                nextRoomType = RoomSettings.ROOM_TYPE.Raid;
-            }
+
+            RoomSettings.ROOM_TYPE nextRoomType = (RoomSettings.ROOM_TYPE)nextRoomTypeIdx;
 
             Hashtable props = new Hashtable() { { RoomSettings.RoomTypeKey, nextRoomType } };
             PhotonNetwork.CurrentRoom.SetCustomProperties(props);

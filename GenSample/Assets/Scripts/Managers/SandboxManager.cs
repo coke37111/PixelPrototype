@@ -60,14 +60,16 @@ namespace Assets.Scripts.Managers
                     }
                 case SANDBOX_STATE.Play:
                     {
+                        if (PlayerSettings.IsConnectNetwork())
+                        {
+                            if (Input.GetKeyDown(KeyCode.Escape))
+                            {
+                                PhotonNetwork.LeaveRoom();
+                            }
+                        }
+
                         if (playerType == PLAYER_TYPE.Designer)
                         {
-                            if (Input.GetMouseButtonUp(0) && 
-                                (objShowCube != null && objShowCube.gameObject.activeSelf))
-                            {
-                                objShowCube.MakeRealCube(cubeContainer);
-                            }
-
                             if (Input.GetKeyDown(KeyCode.F))
                             {
                                 sbCamCtrl.LookTarget();
@@ -84,6 +86,12 @@ namespace Assets.Scripts.Managers
                             }
                         }
 
+                        if (Input.GetMouseButtonUp(0) &&
+                            (objShowCube != null && objShowCube.gameObject.activeSelf))
+                        {
+                            objShowCube.MakeRealCube(cubeContainer);
+                        }
+
                         unit.SetControllable(playerType == PLAYER_TYPE.Player);
                         break;
                     }
@@ -94,34 +102,57 @@ namespace Assets.Scripts.Managers
 
         #region PUN_CALLBACKS
 
+        public override void OnLeftRoom()
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("PhotonLobbySample");
+        }
+
+        public override void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            Log.Print($"Player {otherPlayer.ActorNumber} Left Room");
+
+            PhotonNetwork.DestroyPlayerObjects(otherPlayer);
+            CheckEndOfGame();
+        }
+
+        public override void OnMasterClientSwitched(Player newMasterClient)
+        {
+            Log.Print($"Master Switched {newMasterClient.ActorNumber}");
+        }
+
         public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
         {
-            if (PhotonNetwork.IsMasterClient)
+            if (changedProps.ContainsKey(PlayerSettings.PLAYER_DIE))
             {
-                if (changedProps.ContainsKey(PlayerSettings.PLAYER_LOADED_LEVEL))
-                {
-                    if (!CheckAllPlayerLoadedLevel())
-                    {
-                        // not all players loaded yet. wait:
-                        Log.Print("Waiting for other players...");
-                    }
-                    else
-                    {
-                        Log.Print("Players Loaded Complete!");
+                CheckEndOfGame();
+            }
 
-                        Hashtable props = new Hashtable
+            if (!PhotonNetwork.IsMasterClient)
+                return;
+
+            if (changedProps.ContainsKey(PlayerSettings.PLAYER_LOADED_LEVEL))
+            {
+                if (!CheckAllPlayerLoadedLevel())
+                {
+                    // not all players loaded yet. wait:
+                    Log.Print("Waiting for other players...");
+                }
+                else
+                {
+                    Log.Print("Players Loaded Complete!");
+
+                    Hashtable props = new Hashtable
                         {
                             {RoomSettings.StartRoom, true}
                         };
-                        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
-                    }
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(props);
                 }
             }
         }
 
         public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
         {
-            Debug.Log("CountdownTimer.OnRoomPropertiesUpdate " + propertiesThatChanged.ToStringFull());
+            Debug.Log("OnRoomPropertiesUpdate " + propertiesThatChanged.ToStringFull());
             
             if(propertiesThatChanged.TryGetValue(RoomSettings.StartRoom, out object isStart))
             {
@@ -158,6 +189,48 @@ namespace Assets.Scripts.Managers
             return true;
         }
 
+        private void CheckEndOfGame()
+        {
+            if (PhotonNetwork.NetworkClientState == ClientState.Leaving)
+                return;
+
+            bool allDestroyed = true;
+            foreach (Player p in PhotonNetwork.PlayerList)
+            {
+                if (!IsPlayerDie(p))
+                {
+                    allDestroyed = false;
+                    break;
+                }
+            }
+
+            if (allDestroyed)
+                LeaveRoom();
+        }
+
+        private bool IsPlayerDie(Player player)
+        {
+            object isDie;
+            if (player.CustomProperties.TryGetValue(PlayerSettings.PLAYER_DIE, out isDie))
+            {
+                return (bool)isDie;
+            }
+
+            return false;
+        }
+
+        private void LeaveRoom()
+        {
+            RoomSettings.roomName = PhotonNetwork.CurrentRoom.Name;
+            RoomSettings.isMaster = PhotonNetwork.IsMasterClient;
+
+            Hashtable props = new Hashtable();
+            props.Add(PlayerSettings.PLAYER_LOADED_LEVEL, false);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+            PhotonNetwork.LeaveRoom();
+        }
+
         #endregion
 
         private void SetState(SANDBOX_STATE state)
@@ -177,6 +250,7 @@ namespace Assets.Scripts.Managers
             {
                 Hashtable props = new Hashtable();
                 props.Add(PlayerSettings.PLAYER_LOADED_LEVEL, true);
+                props.Add(PlayerSettings.PLAYER_DIE, false);
 
                 PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
@@ -197,10 +271,10 @@ namespace Assets.Scripts.Managers
             curCubeType = nextCubeType;
             objShowCube = null;
 
-            GameObject pfGroundCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/GroundCube");
+            GameObject pfGroundCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/LocalCube");
             GameObject goGroundCube = Instantiate(pfGroundCube, Vector3.zero, Quaternion.identity, cubeContainer);
-            CubeBase groundCube = goGroundCube.GetComponent<CubeBase>();
-            groundCube.SetGuide(false);
+            CubeRoot groundCube = goGroundCube.GetComponent<CubeRoot>();
+            groundCube.Init(CUBE_TYPE.Ground);
 
             SpawnPlayer();
         }
@@ -242,6 +316,7 @@ namespace Assets.Scripts.Managers
 
                 // Set Spine
                 data.Add(playerUnitSetting.GetSpinePath());
+                data.Add(UnitSettings.useSpine());
 
                 // Set SpawnPos
                 Vector3 orgSpawnPos = initPos;

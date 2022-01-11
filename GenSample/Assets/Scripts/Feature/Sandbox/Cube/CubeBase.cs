@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.Managers;
+using Assets.Scripts.Settings;
+using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -66,9 +68,17 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
             if (!CanMakeRealCube())
                 return;
 
-            GameObject pfRealCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/{cubeType}Cube");
-            GameObject goRealCube = Instantiate(pfRealCube, GetPosition(), Quaternion.identity, parent);
-            goRealCube.GetComponent<BoxCollider>().isTrigger = false;
+            if (PlayerSettings.IsConnectNetwork())
+            {
+                PhotonNetwork.Instantiate($"Prefab/Sandbox/NetworkCube", GetPosition(), Quaternion.identity, 0, new object[] { cubeType });
+            }
+            else
+            {
+                GameObject pfCubeRoot = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/LocalCube");
+                GameObject goCubeRoot = Instantiate(pfCubeRoot, GetPosition(), Quaternion.identity, parent);
+                CubeRoot cubeRoot = goCubeRoot.GetComponent<CubeRoot>();
+                cubeRoot.Init(cubeType);
+            }
         }
 
         private bool CanMakeRealCube()

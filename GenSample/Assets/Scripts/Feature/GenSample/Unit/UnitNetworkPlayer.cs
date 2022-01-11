@@ -79,7 +79,8 @@ namespace Assets.Scripts.Feature.GenSample
         {
             Init();
 
-            if (!UnitSettings.useSpine())
+            bool useSpine = (bool)info.photonView.InstantiationData[3];
+            if (!useSpine)
             {
                 Dictionary<string, string> unitPartList = (Dictionary<string, string>)info.photonView.InstantiationData[0];
                 SetSprite(unitPartList);
@@ -102,7 +103,7 @@ namespace Assets.Scripts.Feature.GenSample
                     myTeamNum = (int)playerTeam;
                 }
 
-                teamNum = (int)info.photonView.InstantiationData[3];
+                teamNum = (int)info.photonView.InstantiationData[4];
                 if(!photonView.IsMine && !IsSameTeam(myTeamNum))
                 {
                     hpbar.SetGaugeBarColor(Color.yellow);

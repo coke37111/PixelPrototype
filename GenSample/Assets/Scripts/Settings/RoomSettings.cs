@@ -10,6 +10,7 @@ namespace Assets.Scripts.Settings
         {
             Raid,
             Pvp,
+            Sandbox,
         }
 
         public static ROOM_TYPE roomType;

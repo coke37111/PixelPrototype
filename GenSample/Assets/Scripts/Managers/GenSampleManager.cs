@@ -306,6 +306,7 @@ namespace Assets.Scripts.Managers
 
             // Set Spine
             data.Add(playerUnitSetting.GetSpinePath());
+            data.Add(UnitSettings.useSpine());
 
             // Set SpawnPos
             Vector3 orgSpawnPos = initSpawnPos;
