@@ -19,9 +19,10 @@ namespace Assets.Scripts.Settings.SO
         public float fireDelay;
         [Header("- 스킨목록")]
         public string[] unitTypes;
+        [Header("- 스파인목록")]
+        public string[] spineTypes;
 
         public static string path = "Setting/PlayerUnitSetting";
-        public static string spinePath = $"Spine/test_human_m/Spine_test_human_m";
 
         public string GetUnitType()
         {
@@ -30,6 +31,15 @@ namespace Assets.Scripts.Settings.SO
 
             int selectIdx = Random.Range(0, unitTypes.Length);
             return unitTypes[selectIdx];
+        }
+
+        public string GetSpinePath()
+        {
+            if (spineTypes.Length <= 0)
+                return null;
+
+            int selectIdx = Random.Range(0, spineTypes.Length);
+            return spineTypes[selectIdx];
         }
     }
 }

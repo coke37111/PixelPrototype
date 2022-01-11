@@ -120,14 +120,14 @@ namespace Assets.Scripts.Managers
             unit = goPlayer.GetComponent<UnitLocalPlayer>();
             unit.Init();
             unit.SetControllable(playerType == PLAYER_TYPE.Player);
+            PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
             if (!UnitSettings.useSpine())
-            {
-                PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
+            {                
                 Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
                 unit.SetSprite(selectUnitParts);
             }
             else
-                unit.MakeSpine(PlayerUnitSettingSO.spinePath);
+                unit.MakeSpine(playerUnitSetting.GetSpinePath());
 
             sbCamCtrl.SetTarget(unit.transform);
         }

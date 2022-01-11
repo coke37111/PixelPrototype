@@ -96,12 +96,14 @@ namespace Assets.Scripts.Managers
 
                 unitComp.Init();
 
-                PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
-                Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
+                PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);                
                 if(!UnitSettings.useSpine())
+                {
+                    Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
                     unitComp.SetSprite(selectUnitParts);
+                }
                 else
-                    unitComp.MakeSpine(PlayerUnitSettingSO.spinePath);
+                    unitComp.MakeSpine(playerUnitSetting.GetSpinePath());
             }
         }
 
@@ -137,17 +139,19 @@ namespace Assets.Scripts.Managers
         {
             Vector3 initPos = new Vector3(0, initSpawnHeight, -1f);
 
-            PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
-            Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
+            PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);            
 
             GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>("Prefab/Unit/LocalPlayer");
             GameObject goPlayer = Instantiate(pfPlayer, initPos, Quaternion.identity, unitContainer);
             unitLocalPlayer = goPlayer.GetComponent<UnitLocalPlayer>();
             unitLocalPlayer.Init();
             if (!UnitSettings.useSpine())
+            {
+                Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
                 unitLocalPlayer.SetSprite(selectUnitParts);
+            }
             else
-                unitLocalPlayer.MakeSpine(PlayerUnitSettingSO.spinePath);
+                unitLocalPlayer.MakeSpine(playerUnitSetting.GetSpinePath());
 
             CameraController.Instance.SetOwner(unitLocalPlayer);
         }
