@@ -19,6 +19,7 @@ namespace Assets.Scripts.Settings
 
         public const string RoomTypeKey = "GenSampleRoomType";
         public const string CountdownStartTime = "GenCountdownStartTime";
+        public const string StartRoom = "StartRoom";
 
         public static bool ExistPrevRoom()
         {

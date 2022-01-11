@@ -4,18 +4,24 @@ using Assets.Scripts.Feature.Sandbox.Cube;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
 using Assets.Scripts.Util;
+using ExitGames.Client.Photon;
+using Photon.Pun;
+using Photon.Realtime;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using static Assets.Scripts.Feature.Sandbox.Cube.CubeBase;
 
 namespace Assets.Scripts.Managers
 {
-    public class SandboxManager : MonoBehaviour
+    public class SandboxManager : MonoBehaviourPunCallbacks
     {
         public enum SANDBOX_STATE
         {
             Init,
             Play,
+            Idle,
         }
         public enum PLAYER_TYPE
         {
@@ -46,11 +52,10 @@ namespace Assets.Scripts.Managers
         {
             switch (curState)
             {
+                case SANDBOX_STATE.Idle: return;
                 case SANDBOX_STATE.Init:
                     {
                         Init();
-
-                        SetState(SANDBOX_STATE.Play);
                         break;
                     }
                 case SANDBOX_STATE.Play:
@@ -79,10 +84,78 @@ namespace Assets.Scripts.Managers
                             }
                         }
 
-                        unit.SetControllable(playerType == PLAYER_TYPE.Player);                        
+                        unit.SetControllable(playerType == PLAYER_TYPE.Player);
                         break;
                     }
             }            
+        }
+
+        #endregion
+
+        #region PUN_CALLBACKS
+
+        public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                if (changedProps.ContainsKey(PlayerSettings.PLAYER_LOADED_LEVEL))
+                {
+                    if (!CheckAllPlayerLoadedLevel())
+                    {
+                        // not all players loaded yet. wait:
+                        Log.Print("Waiting for other players...");
+                    }
+                    else
+                    {
+                        Log.Print("Players Loaded Complete!");
+
+                        Hashtable props = new Hashtable
+                        {
+                            {RoomSettings.StartRoom, true}
+                        };
+                        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
+                    }
+                }
+            }
+        }
+
+        public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+        {
+            Debug.Log("CountdownTimer.OnRoomPropertiesUpdate " + propertiesThatChanged.ToStringFull());
+            
+            if(propertiesThatChanged.TryGetValue(RoomSettings.StartRoom, out object isStart))
+            {
+                if((bool)isStart)
+                {
+                    InitValue();
+
+                    SetState(SANDBOX_STATE.Play);
+                }
+            }
+        }
+
+        #endregion
+
+        #region PUN_METHOD
+
+        private bool CheckAllPlayerLoadedLevel()
+        {
+            foreach (Player p in PhotonNetwork.PlayerList)
+            {
+                object playerLoadedLevel;
+
+                if (p.CustomProperties.TryGetValue(PlayerSettings.PLAYER_LOADED_LEVEL, out playerLoadedLevel))
+                {
+                    if ((bool)playerLoadedLevel)
+                    {
+                        continue;
+                    }
+                }
+
+                return false;
+            }
+
+            return true;
         }
 
         #endregion
@@ -93,6 +166,25 @@ namespace Assets.Scripts.Managers
         }
 
         private void Init()
+        {
+            if (!PlayerSettings.IsConnectNetwork())
+            {
+                InitValue();
+
+                SetState(SANDBOX_STATE.Play);
+            }
+            else
+            {
+                Hashtable props = new Hashtable();
+                props.Add(PlayerSettings.PLAYER_LOADED_LEVEL, true);
+
+                PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+                SetState(SANDBOX_STATE.Idle);
+            }
+        }
+
+        private void InitValue()
         {
             sbCamCtrl = FindObjectOfType<SandboxCameraController>();
             if (sbCamCtrl == null)
@@ -115,21 +207,51 @@ namespace Assets.Scripts.Managers
 
         private void SpawnPlayer()
         {
-            GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>("Prefab/Unit/LocalPlayer");
-            GameObject goPlayer = Instantiate(pfPlayer, Vector3.up, Quaternion.identity);
-            unit = goPlayer.GetComponent<UnitLocalPlayer>();
-            unit.Init();
-            unit.SetControllable(playerType == PLAYER_TYPE.Player);
-            PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
-            if (!UnitSettings.useSpine())
-            {                
-                Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
-                unit.SetSprite(selectUnitParts);
+            Vector3 initPos = Vector3.up;
+
+            if (!PlayerSettings.IsConnectNetwork())
+            {
+                GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>("Prefab/Unit/LocalPlayer");
+                GameObject goPlayer = Instantiate(pfPlayer, initPos, Quaternion.identity);
+                unit = goPlayer.GetComponent<UnitLocalPlayer>();
+                unit.Init();
+                unit.SetControllable(playerType == PLAYER_TYPE.Player);
+                PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
+                if (!UnitSettings.useSpine())
+                {
+                    Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
+                    unit.SetSprite(selectUnitParts);
+                }
+                else
+                    unit.MakeSpine(playerUnitSetting.GetSpinePath());
+
+                sbCamCtrl.SetTarget(unit.transform);
             }
             else
-                unit.MakeSpine(playerUnitSetting.GetSpinePath());
+            {
+                var data = new List<object>();
 
-            sbCamCtrl.SetTarget(unit.transform);
+                // Set Sprite
+                PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
+                Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
+                data.Add(selectUnitParts);
+
+                // Set AtkType
+                int atkTypeIdx = UnityEngine.Random.Range(0, Enum.GetValues(typeof(UnitBase.ATK_TYPE)).Length);
+                data.Add(atkTypeIdx);
+
+                // Set Spine
+                data.Add(playerUnitSetting.GetSpinePath());
+
+                // Set SpawnPos
+                Vector3 orgSpawnPos = initPos;
+
+                GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Unit/NetworkPlayer"), orgSpawnPos, Quaternion.identity, 0, data.ToArray());
+                unit = netGoPlayer.GetComponent<UnitNetworkPlayer>();
+                unit.SetControllable(playerType == PLAYER_TYPE.Player);
+
+                sbCamCtrl.SetTarget(unit.transform);
+            }
         }
 
         public void ShowCube(Transform hit, Vector3 normal)

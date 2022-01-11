@@ -491,7 +491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d3c4efc90b6a154594429451e086c95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerType: 0
+  playerType: 1
   cubeContainer: {fileID: 1490062483}
   nextCubeType: 1
 --- !u!1001 &920680425
