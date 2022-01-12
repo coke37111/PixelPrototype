@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.Managers;
+using Assets.Scripts.Settings.SO;
+using Assets.Scripts.Util;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,21 +12,8 @@ namespace Assets.Scripts.Feature.Sandbox.UI
         public int slotCnt = 8;
         public Transform slotContainer;
 
-        private readonly Dictionary<string, string> tileNameBySlotDict = new Dictionary<string, string>
-        {
-            {"ClimbCube", "Tile_grass_01"},
-            {"Cube_dirt_01", "Tile_dirt_01"},
-            {"Cube_dirt_02", "Tile_dirt_02"},
-            {"Cube_grass_01", "Tile_grass_01"},
-            {"Cube_grass_02", "Tile_grass_02"},
-            {"Cube_grass_03", "Tile_grass_03"},
-            {"Cube_grass_04", "Tile_grass_04"},
-            {"Cube_rock_01", "Tile_rock_01"},
-            {"Cube_rock_02", "Tile_rock_02"},
-            {"DamageCube", "Tile_grass_01"},
-            {"GroundCube", "Tile_grass_01"},
-            {"IceCube", "tile_ice_01"},
-        };
+        private readonly Dictionary<string, string> tileNameBySlotDict = 
+            new Dictionary<string, string>();
 
         private SandboxManager sbManager;
         private List<string> existCubeNames = new List<string>();
@@ -32,12 +21,13 @@ namespace Assets.Scripts.Feature.Sandbox.UI
         private int curPage;
         private int totalPage;
         private bool activeSlotUI;
+        private CubeTileSettingSO cubeTileSetting;
 
         #region UNITY
 
         private void Start()
         {
-            curPage = 0;
+            curPage = 0;            
         }
 
         private void Update()
@@ -87,6 +77,18 @@ namespace Assets.Scripts.Feature.Sandbox.UI
         public void Build(SandboxManager sbManager)
         {
             this.sbManager = sbManager;
+            cubeTileSetting = ResourceManager.LoadAsset<CubeTileSettingSO>($"Setting/CubeTileSetting");
+            foreach(CubeTileData cubeTileData in cubeTileSetting.cubeTileData)
+            {
+                if (tileNameBySlotDict.ContainsKey(cubeTileData.cubeName))
+                {
+                    Log.Error($"Already Exist Cube in Dict : {cubeTileData.cubeName}");
+                    continue;
+                }
+
+                tileNameBySlotDict.Add(cubeTileData.cubeName, cubeTileData.tileName);
+            }
+
             ShowSlotUI();
 
             CheckExistCubes();
