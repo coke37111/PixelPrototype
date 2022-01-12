@@ -29,7 +29,7 @@ namespace Assets.Scripts.Managers
             Player,
         }
         public PLAYER_TYPE playerType;
-        public Transform cubeContainer;
+        private Transform cubeContainer;
 
         private SandboxCameraController sbCamCtrl;
         private CubeBase objShowCube;
@@ -240,6 +240,8 @@ namespace Assets.Scripts.Managers
 
         private void Init()
         {
+            cubeContainer = FindObjectOfType<CubeContainer>().transform;
+
             if (!PlayerSettings.IsConnectNetwork())
             {
                 InitValue();
