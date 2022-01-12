@@ -31,6 +31,7 @@ namespace Assets.Scripts.Feature.Sandbox.UI
         private List<CubeSlot> curCubeSlots = new List<CubeSlot>();
         private int curPage;
         private int totalPage;
+        private bool activeSlotUI;
 
         #region UNITY
 
@@ -41,6 +42,9 @@ namespace Assets.Scripts.Feature.Sandbox.UI
 
         private void Update()
         {
+            if (!activeSlotUI)
+                return;
+
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 SelectSlot(0);
@@ -83,6 +87,7 @@ namespace Assets.Scripts.Feature.Sandbox.UI
         public void Build(SandboxManager sbManager)
         {
             this.sbManager = sbManager;
+            ShowSlotUI();
 
             CheckExistCubes();
 
@@ -163,6 +168,24 @@ namespace Assets.Scripts.Feature.Sandbox.UI
                 curPage = 0;
 
             RefreshSlots();
+        }
+
+        public void ShowSlotUI()
+        {
+            if (activeSlotUI)
+                return;
+
+            activeSlotUI = true;
+            gameObject.SetActive(activeSlotUI);
+        }
+
+        public void HideSlotUI()
+        {
+            if (!activeSlotUI)
+                return;
+
+            activeSlotUI = false;
+            gameObject.SetActive(activeSlotUI);
         }
     }
 }

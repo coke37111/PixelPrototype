@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using static Assets.Scripts.Feature.Sandbox.Cube.CubeBase;
 
 namespace Assets.Scripts.Managers
 {
@@ -72,6 +71,7 @@ namespace Assets.Scripts.Managers
 
                         if (playerType == PLAYER_TYPE.Designer)
                         {
+                            cubeSlotController.ShowSlotUI();
                             if (Input.GetKeyDown(KeyCode.F))
                             {
                                 sbCamCtrl.LookTarget();
@@ -79,6 +79,7 @@ namespace Assets.Scripts.Managers
                         }
                         else
                         {
+                            cubeSlotController.HideSlotUI();
                             if (objShowCube != null)
                                 ActiveShowCube(false);
 
