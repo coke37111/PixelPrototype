@@ -7,7 +7,7 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
 {
     public class DamageCube : CubeBase
     {
-        protected override CUBE_TYPE cubeType => CUBE_TYPE.Damage;
+        protected override CUBE_TYPE cubeType => CUBE_TYPE.DamageCube;
 
         public class DamageListenerData
         {

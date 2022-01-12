@@ -224,7 +224,7 @@ namespace Assets.Scripts.Feature.GenSample
                     delta.x += playerUnitSetting.speed;
                 }
 
-                if (belowCube != null && belowCube.GetCubeType() == CubeBase.CUBE_TYPE.Ice)
+                if (belowCube != null && belowCube.GetCubeType() == CubeBase.CUBE_TYPE.IceCube)
                 {
                     accDelta = Vector3.Lerp(accDelta, delta, belowCube.GetComponent<IceCube>().dampRatio);
                     transform.position += accDelta * Time.deltaTime;

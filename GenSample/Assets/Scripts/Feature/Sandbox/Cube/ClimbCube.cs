@@ -16,7 +16,7 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
 
         public LayerMask cubeLayer;
 
-        protected override CUBE_TYPE cubeType => CUBE_TYPE.Climb;
+        protected override CUBE_TYPE cubeType => CUBE_TYPE.ClimbCube;
 
         #region UNITY
 
@@ -37,7 +37,7 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
                 if (hit.collider.tag == "Cube")
                 {
                     CubeBase collCube = hit.collider.GetComponent<CubeBase>();
-                    if(collCube.GetCubeType() == CUBE_TYPE.Climb)
+                    if(collCube.GetCubeType() == CUBE_TYPE.ClimbCube)
                     {
                         collCube.GetComponent<ClimbCube>().roofColl.SetActive(false);
                         bottomColl.SetActive(false);

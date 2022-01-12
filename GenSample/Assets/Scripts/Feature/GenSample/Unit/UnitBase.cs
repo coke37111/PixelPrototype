@@ -376,15 +376,15 @@ namespace Assets.Scripts.Feature.GenSample
                     if(belowCube == null || 
                         belowCube.GetCubeType() != collCube.GetCubeType())
                     {
-                        if (belowCube != null && belowCube.GetCubeType() == CUBE_TYPE.Damage)
+                        if (belowCube != null && belowCube.GetCubeType() == CUBE_TYPE.DamageCube)
                             belowCube.GetComponent<DamageCube>().UnregisterDamageListener(AttackByCube);
 
                         belowCube = collCube;
-                        if(belowCube.GetCubeType() == CUBE_TYPE.Ice)
+                        if(belowCube.GetCubeType() == CUBE_TYPE.IceCube)
                         {
                             accDelta = moveDir * playerUnitSetting.speed;
                         }
-                        else if(belowCube.GetCubeType() == CUBE_TYPE.Damage)
+                        else if(belowCube.GetCubeType() == CUBE_TYPE.DamageCube)
                         {
                             belowCube.GetComponent<DamageCube>().RegisterDamageListener(AttackByCube);
                         }
@@ -397,7 +397,7 @@ namespace Assets.Scripts.Feature.GenSample
             }
             else
             {
-                if (belowCube != null && belowCube.GetCubeType() == CUBE_TYPE.Damage)
+                if (belowCube != null && belowCube.GetCubeType() == CUBE_TYPE.DamageCube)
                     belowCube.GetComponent<DamageCube>().UnregisterDamageListener(AttackByCube);
 
                 belowCube = null;

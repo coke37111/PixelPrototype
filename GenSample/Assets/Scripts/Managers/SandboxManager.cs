@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Feature.GenSample;
 using Assets.Scripts.Feature.Sandbox;
 using Assets.Scripts.Feature.Sandbox.Cube;
+using Assets.Scripts.Feature.Sandbox.UI;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
 using Assets.Scripts.Util;
@@ -30,6 +31,7 @@ namespace Assets.Scripts.Managers
         }
         public PLAYER_TYPE playerType;
         private Transform cubeContainer;
+        private CubeSlotController cubeSlotController;
 
         private SandboxCameraController sbCamCtrl;
         private CubeBase objShowCube;
@@ -241,6 +243,8 @@ namespace Assets.Scripts.Managers
         private void Init()
         {
             cubeContainer = FindObjectOfType<CubeContainer>().transform;
+            cubeSlotController = FindObjectOfType<CubeSlotController>();
+            cubeSlotController.Build(this);
 
             if (!PlayerSettings.IsConnectNetwork())
             {
@@ -366,7 +370,7 @@ namespace Assets.Scripts.Managers
 
         private void MakeShowCube()
         {
-            GameObject pfShowCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/{curCubeType}Cube");
+            GameObject pfShowCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/{curCubeType}");
             GameObject goShowCube = Instantiate(pfShowCube, cubeContainer);
             objShowCube = goShowCube.GetComponent<CubeBase>();
             objShowCube.SetGuide(true);
@@ -375,6 +379,14 @@ namespace Assets.Scripts.Managers
         public PLAYER_TYPE GetPlayerType()
         {
             return playerType;
+        }
+
+        public void SetNextCube(string cubeType)
+        {
+            if (Enum.TryParse<CUBE_TYPE>(cubeType, out CUBE_TYPE type))
+            {
+                nextCubeType = type;
+            }
         }
     }
 }

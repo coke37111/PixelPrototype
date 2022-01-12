@@ -24,7 +24,7 @@ namespace Assets.Scripts.Feature.Sandbox
 
         public virtual void Init(CUBE_TYPE cubeType)
         {
-            GameObject pfRealCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/{cubeType}Cube");
+            GameObject pfRealCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/{cubeType}");
             GameObject goRealCube = Instantiate(pfRealCube, transform.position, Quaternion.identity, transform);
             goRealCube.GetComponent<BoxCollider>().isTrigger = false;
         }

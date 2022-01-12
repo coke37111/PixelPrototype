@@ -10,11 +10,18 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
     {
         public enum CUBE_TYPE
         {
-            None,
-            Ground,
-            Ice,
-            Damage,
-            Climb,
+            ClimbCube,
+            //Cube_dirt_01,
+            //Cube_dirt_02,
+            //Cube_grass_01,
+            //Cube_grass_02,
+            //Cube_grass_03,
+            //Cube_grass_04,
+            //Cube_rock_01,
+            //Cube_rock_02,
+            DamageCube,
+            GroundCube,
+            IceCube,
         }
 
         protected abstract CUBE_TYPE cubeType
