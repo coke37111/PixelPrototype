@@ -22,9 +22,9 @@ namespace Assets.Scripts.Feature.Sandbox
 
         #endregion
 
-        public virtual void Init(CUBE_TYPE cubeType)
+        public virtual void Init(string cubeName)
         {
-            GameObject pfRealCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/{cubeType}");
+            GameObject pfRealCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/{cubeName}");
             GameObject goRealCube = Instantiate(pfRealCube, transform.position, Quaternion.identity, transform);
             goRealCube.GetComponent<BoxCollider>().isTrigger = false;
         }

@@ -38,8 +38,8 @@ namespace Assets.Scripts.Managers
         private SANDBOX_STATE curState;
         private UnitBase unit;
 
-        public CUBE_TYPE nextCubeType;
-        private CUBE_TYPE curCubeType;
+        public string nextCubeName = "GroundCube";
+        private string curCubeName;
 
         #region UNITY
 
@@ -91,7 +91,7 @@ namespace Assets.Scripts.Managers
                         if (Input.GetMouseButtonUp(0) &&
                             (objShowCube != null && objShowCube.gameObject.activeSelf))
                         {
-                            objShowCube.MakeRealCube(cubeContainer);
+                            objShowCube.MakeRealCube(curCubeName);
                         }
 
                         unit.SetControllable(playerType == PLAYER_TYPE.Player);
@@ -274,7 +274,7 @@ namespace Assets.Scripts.Managers
                 sbCamCtrl.Init(this);
             }
 
-            curCubeType = nextCubeType;
+            curCubeName = nextCubeName;
             objShowCube = null;
 
             //GameObject pfGroundCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/LocalCube");
@@ -342,9 +342,9 @@ namespace Assets.Scripts.Managers
                 MakeShowCube();
             }
 
-            if (curCubeType != nextCubeType)
+            if (curCubeName != nextCubeName)
             {
-                curCubeType = nextCubeType;
+                curCubeName = nextCubeName;
 
                 Destroy(objShowCube.gameObject);
                 MakeShowCube();
@@ -370,7 +370,7 @@ namespace Assets.Scripts.Managers
 
         private void MakeShowCube()
         {
-            GameObject pfShowCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/{curCubeType}");
+            GameObject pfShowCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/{curCubeName}");
             GameObject goShowCube = Instantiate(pfShowCube, cubeContainer);
             objShowCube = goShowCube.GetComponent<CubeBase>();
             objShowCube.SetGuide(true);
@@ -381,12 +381,9 @@ namespace Assets.Scripts.Managers
             return playerType;
         }
 
-        public void SetNextCube(string cubeType)
+        public void SetNextCube(string cubeName)
         {
-            if (Enum.TryParse<CUBE_TYPE>(cubeType, out CUBE_TYPE type))
-            {
-                nextCubeType = type;
-            }
+            nextCubeName = cubeName;
         }
     }
 }

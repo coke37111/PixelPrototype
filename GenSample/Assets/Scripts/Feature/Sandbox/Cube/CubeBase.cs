@@ -70,21 +70,22 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
             return transform.position;
         }
 
-        public void MakeRealCube(Transform parent)
+        public void MakeRealCube(string cubeName)
         {
             if (!CanMakeRealCube())
                 return;
 
             if (PlayerSettings.IsConnectNetwork())
             {
-                PhotonNetwork.Instantiate($"Prefab/Sandbox/NetworkCube", GetPosition(), Quaternion.identity, 0, new object[] { cubeType });
+                PhotonNetwork.Instantiate($"Prefab/Sandbox/NetworkCube", GetPosition(), Quaternion.identity, 0, new object[] { cubeName });
             }
             else
             {
+                Transform parent = FindObjectOfType<CubeContainer>().transform;
                 GameObject pfCubeRoot = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/LocalCube");
                 GameObject goCubeRoot = Instantiate(pfCubeRoot, GetPosition(), Quaternion.identity, parent);
                 CubeRoot cubeRoot = goCubeRoot.GetComponent<CubeRoot>();
-                cubeRoot.Init(cubeType);
+                cubeRoot.Init(cubeName);
             }
         }
 

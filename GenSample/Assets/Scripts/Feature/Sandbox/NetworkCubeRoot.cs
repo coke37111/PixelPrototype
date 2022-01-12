@@ -11,9 +11,9 @@ namespace Assets.Scripts.Feature.Sandbox
 
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
-            CUBE_TYPE cubeType = (CUBE_TYPE)info.photonView.InstantiationData[0];
+            string cubeName = info.photonView.InstantiationData[0].ToString();
 
-            base.Init(cubeType);
+            base.Init(cubeName);
         }
 
         #endregion
