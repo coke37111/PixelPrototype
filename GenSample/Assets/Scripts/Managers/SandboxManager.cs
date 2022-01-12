@@ -271,10 +271,10 @@ namespace Assets.Scripts.Managers
             curCubeType = nextCubeType;
             objShowCube = null;
 
-            GameObject pfGroundCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/LocalCube");
-            GameObject goGroundCube = Instantiate(pfGroundCube, Vector3.zero, Quaternion.identity, cubeContainer);
-            CubeRoot groundCube = goGroundCube.GetComponent<CubeRoot>();
-            groundCube.Init(CUBE_TYPE.Ground);
+            //GameObject pfGroundCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/LocalCube");
+            //GameObject goGroundCube = Instantiate(pfGroundCube, Vector3.zero, Quaternion.identity, cubeContainer);
+            //CubeRoot groundCube = goGroundCube.GetComponent<CubeRoot>();
+            //groundCube.Init(CUBE_TYPE.Ground);
 
             SpawnPlayer();
         }
