@@ -388,6 +388,10 @@ namespace Assets.Scripts.Feature.GenSample
                         {
                             belowCube.GetComponent<DamageCube>().RegisterDamageListener(AttackByCube);
                         }
+                        else if(belowCube.GetCubeType() == CUBE_TYPE.BreakCube)
+                        {
+                            belowCube.GetComponent<BreakCube>().CheckBreak();
+                        }
                         else
                         {
                             accDelta = Vector3.zero;

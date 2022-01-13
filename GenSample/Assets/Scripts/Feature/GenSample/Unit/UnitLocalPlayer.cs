@@ -160,10 +160,20 @@ namespace Assets.Scripts.Feature.GenSample
             if (isClimb)
                 return;
 
+            float jumpPower = 150f;
+            if(belowCube != null && belowCube.GetCubeType() == CubeBase.CUBE_TYPE.JumpCube)
+            {
+                JumpCube jumpCube = belowCube.GetComponent<JumpCube>();
+                if (jumpCube == null)
+                    return;
+
+                jumpPower *= jumpCube.jumpScale;
+            }
+
             if (Input.GetKeyDown(KeyCode.Space) && canJump)
             {
                 canJump = false;
-                rb.AddForce(Vector3.up * 150f);
+                rb.AddForce(Vector3.up * jumpPower);
             }
         }
 
