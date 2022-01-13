@@ -31,7 +31,8 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
             isBreaking = true;
             yield return new WaitForSeconds(timeToBreak);
 
-            Destroy(gameObject);
+            if(cubeRoot != null)
+                cubeRoot.DestroyCube();
         }
     }
 }

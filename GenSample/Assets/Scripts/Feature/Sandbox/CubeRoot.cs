@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Managers;
+﻿using Assets.Scripts.Feature.Sandbox.Cube;
+using Assets.Scripts.Managers;
 using UnityEngine;
 using static Assets.Scripts.Feature.Sandbox.Cube.CubeBase;
 
@@ -27,6 +28,12 @@ namespace Assets.Scripts.Feature.Sandbox
             GameObject pfRealCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/{cubeName}");
             GameObject goRealCube = Instantiate(pfRealCube, transform.position, Quaternion.identity, transform);
             goRealCube.GetComponent<BoxCollider>().isTrigger = false;
+            goRealCube.GetComponent<CubeBase>().SetCubeRoot(this);
+        }
+
+        public virtual void DestroyCube()
+        {
+            Destroy(gameObject);
         }
     }
 }

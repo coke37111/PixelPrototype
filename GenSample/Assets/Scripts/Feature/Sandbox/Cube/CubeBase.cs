@@ -26,6 +26,8 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
         private bool isGuide;
         private List<Collider> collObjs = new List<Collider>();
 
+        protected CubeRoot cubeRoot;
+
         #region UNITY
 
         private void OnTriggerEnter(Collider other)
@@ -78,7 +80,7 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
                 Transform parent = FindObjectOfType<CubeContainer>().transform;
                 GameObject pfCubeRoot = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/LocalCube");
                 GameObject goCubeRoot = Instantiate(pfCubeRoot, GetPosition(), Quaternion.identity, parent);
-                CubeRoot cubeRoot = goCubeRoot.GetComponent<CubeRoot>();
+                cubeRoot = goCubeRoot.GetComponent<CubeRoot>();
                 cubeRoot.Init(cubeName);
             }
         }
@@ -96,6 +98,19 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
         public void ClearCollObjs()
         {
             collObjs.Clear();
+        }
+
+        public void SetCubeRoot(CubeRoot cubeRoot)
+        {
+            this.cubeRoot = cubeRoot;
+        }
+        
+        public void DestroyCube()
+        {
+            if (cubeRoot == null)
+                return;
+
+            cubeRoot.DestroyCube();
         }
     }
 }

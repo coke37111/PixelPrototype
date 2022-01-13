@@ -36,6 +36,7 @@ namespace Assets.Scripts.Managers
         private CubeBase objShowCube;
         private SANDBOX_STATE curState;
         private UnitBase unit;
+        private GameObject hitCube;
 
         public string nextCubeName = "GroundCube";
         private string curCubeName;
@@ -69,6 +70,7 @@ namespace Assets.Scripts.Managers
                             }
                         }
 
+                        bool removeCube = false;
                         if (playerType == PLAYER_TYPE.Designer)
                         {
                             cubeSlotController.ShowSlotUI();
@@ -76,6 +78,13 @@ namespace Assets.Scripts.Managers
                             {
                                 sbCamCtrl.LookTarget();
                             }
+
+                            if (Input.GetKey(KeyCode.LeftControl))
+                            {
+                                removeCube = true;
+                            }
+
+                            ActiveShowCube(!removeCube);
                         }
                         else
                         {
@@ -88,11 +97,23 @@ namespace Assets.Scripts.Managers
                                 unit.ResetSpawnPos(Vector3.up);
                             }
                         }
+                        
 
-                        if (Input.GetMouseButtonUp(0) &&
-                            (objShowCube != null && objShowCube.gameObject.activeSelf))
+                        if (Input.GetMouseButtonUp(0))
                         {
-                            objShowCube.MakeRealCube(curCubeName);
+                            if (removeCube)
+                            {
+                                if(hitCube != null)
+                                {
+                                    hitCube.GetComponent<CubeBase>().DestroyCube();
+                                }
+                                    
+                            }
+                            else
+                            {
+                                if (objShowCube != null && objShowCube.gameObject.activeSelf)
+                                    objShowCube.MakeRealCube(curCubeName);
+                            }
                         }
 
                         unit.SetControllable(playerType == PLAYER_TYPE.Player);
@@ -278,11 +299,6 @@ namespace Assets.Scripts.Managers
             curCubeName = nextCubeName;
             objShowCube = null;
 
-            //GameObject pfGroundCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/LocalCube");
-            //GameObject goGroundCube = Instantiate(pfGroundCube, Vector3.zero, Quaternion.identity, cubeContainer);
-            //CubeRoot groundCube = goGroundCube.GetComponent<CubeRoot>();
-            //groundCube.Init(CUBE_TYPE.Ground);
-
             SpawnPlayer();
         }
 
@@ -353,6 +369,8 @@ namespace Assets.Scripts.Managers
 
             if (hit == objShowCube.transform) 
                 return;
+
+            hitCube = hit.gameObject;
 
             Vector3 orgPos = hit.position;
             Vector3 showPos = normal * objShowCube.transform.localScale.x;
