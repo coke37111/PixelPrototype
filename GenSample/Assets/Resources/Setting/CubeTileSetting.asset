@@ -13,12 +13,6 @@ MonoBehaviour:
   m_Name: CubeTileSetting
   m_EditorClassIdentifier: 
   cubeTileData:
-  - cubeName: GroundCube
-    tileName: Tile_grass_01
-  - cubeName: IceCube
-    tileName: tile_ice_01
-  - cubeName: DamageCube
-    tileName: Tile_grass_01
   - cubeName: ClimbCube
     tileName: Tile_grass_01
   - cubeName: Cube_dirt_01
@@ -37,3 +31,9 @@ MonoBehaviour:
     tileName: Tile_rock_01
   - cubeName: Cube_rock_02
     tileName: Tile_rock_02
+  - cubeName: DamageCube
+    tileName: Tile_grass_01
+  - cubeName: GroundCube
+    tileName: Tile_grass_01
+  - cubeName: IceCube
+    tileName: tile_ice_01

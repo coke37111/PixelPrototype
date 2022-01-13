@@ -159,6 +159,9 @@ namespace Assets.Scripts.Feature.Sandbox.UI
             if (curCubeSlots[num] == null)
                 return;
 
+            if (!curCubeSlots[num].gameObject.activeSelf)
+                return;
+
             curCubeSlots.ForEach(e => e.DeselectSlot());
             curCubeSlots[num].SelectSlot();
         }
