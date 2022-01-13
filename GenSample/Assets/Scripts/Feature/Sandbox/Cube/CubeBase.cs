@@ -48,7 +48,7 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
 
         #endregion
 
-        public void SetGuide(bool flag)
+        public virtual void SetGuide(bool flag)
         {
             isGuide = flag;
             GetComponent<BoxCollider>().isTrigger = isGuide;

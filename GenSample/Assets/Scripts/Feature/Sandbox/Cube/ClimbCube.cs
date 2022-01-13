@@ -48,5 +48,16 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
         }
 
         #endregion
+
+        public override void SetGuide(bool flag)
+        {
+            base.SetGuide(flag);
+
+            if (flag)
+            {
+                bottomColl = transform.Find(BottomObjName).gameObject;
+                bottomColl.SetActive(false);
+            }
+        }
     }
 }
