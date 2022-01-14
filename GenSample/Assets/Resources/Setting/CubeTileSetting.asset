@@ -43,3 +43,5 @@ MonoBehaviour:
     tileName: tile_ice_01
   - cubeName: GroundCubeNew
     tileName: Tile_grass_01
+  - cubeName: IceCubeNew
+    tileName: tile_ice_01

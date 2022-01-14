@@ -125,6 +125,11 @@ namespace Assets.Scripts.Managers
                             }
                         }
 
+                        if (Input.GetMouseButtonUp(0))
+                        {
+                            curMakeCubeTime = makeCubeTime;
+                        }
+
                         unit.SetControllable(playerType == PLAYER_TYPE.Player);
                         break;
                     }
@@ -277,7 +282,7 @@ namespace Assets.Scripts.Managers
             cubeSlotController = FindObjectOfType<CubeSlotController>();
             cubeSlotController.Build(this);
 
-            curMakeCubeTime = 0f;
+            curMakeCubeTime = makeCubeTime;
 
             if (!PlayerSettings.IsConnectNetwork())
             {
