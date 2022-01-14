@@ -143,7 +143,11 @@ namespace Assets.Scripts.Feature.Sandbox.UI
                 CubeSlot cubeSlot = curCubeSlots[curNum];
                 cubeSlot.gameObject.SetActive(true);
                 cubeSlot.Build(curNum, tileNameBySlotDict[cubeName]);
-                cubeSlot.RegisterSelectListener(cubeName, sbManager.SetNextCube);
+                cubeSlot.RegisterSelectListener(cubeName, (cubeName) =>
+                {
+                    curCubeSlots.ForEach(e => e.DeselectSlot());
+                    sbManager.SetNextCube(cubeName);
+                });
                 if (curNum == 0)
                     cubeSlot.SelectSlot();
 

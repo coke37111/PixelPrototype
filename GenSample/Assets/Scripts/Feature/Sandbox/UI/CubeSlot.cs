@@ -34,14 +34,13 @@ namespace Assets.Scripts.Feature.Sandbox.UI
 
         public void SelectSlot()
         {
-            imageSelect.gameObject.SetActive(true);
-
             selectListener?.Invoke(cubeType);
+            imageSelect.gameObject.SetActive(true);
         }
 
         public void DeselectSlot()
         {
             imageSelect.gameObject.SetActive(false);
-        }
+        }        
     }
 }
