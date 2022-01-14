@@ -98,7 +98,7 @@ namespace Assets.Scripts.Managers
                         }
                         
 
-                        if (Input.GetMouseButtonUp(0))
+                        if (Input.GetMouseButton(0))
                         {
                             if (removeCube)
                             {
