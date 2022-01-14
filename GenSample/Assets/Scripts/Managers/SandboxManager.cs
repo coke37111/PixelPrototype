@@ -41,6 +41,9 @@ namespace Assets.Scripts.Managers
         public string nextCubeName = "GroundCube";
         private string curCubeName;
 
+        public float makeCubeTime = .2f;
+        private float curMakeCubeTime;
+
         #region UNITY
 
         // Use this for initialization
@@ -109,8 +112,16 @@ namespace Assets.Scripts.Managers
                             }
                             else
                             {
-                                if (objShowCube != null && objShowCube.gameObject.activeSelf)
-                                    objShowCube.MakeRealCube(curCubeName);
+                                if(curMakeCubeTime >= makeCubeTime)
+                                {
+                                    curMakeCubeTime = 0f;
+                                    if (objShowCube != null && objShowCube.gameObject.activeSelf)
+                                        objShowCube.MakeRealCube(curCubeName);
+                                }
+                                else
+                                {
+                                    curMakeCubeTime += Time.deltaTime;
+                                }                                
                             }
                         }
 
@@ -265,6 +276,8 @@ namespace Assets.Scripts.Managers
             cubeContainer = FindObjectOfType<CubeContainer>().transform;
             cubeSlotController = FindObjectOfType<CubeSlotController>();
             cubeSlotController.Build(this);
+
+            curMakeCubeTime = 0f;
 
             if (!PlayerSettings.IsConnectNetwork())
             {

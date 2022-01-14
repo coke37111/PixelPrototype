@@ -695,6 +695,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerType: 0
   nextCubeName: GroundCube
+  makeCubeTime: 0.2
 --- !u!1001 &920680425
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ namespace Assets.Scripts.Feature.Sandbox.UI
         public Image imageSelect;
         public RawImage imageTile;
         public Text textSlotNum;
+        public Text textCubeName;
 
         private string cubeType;
         private UnityAction<string> selectListener;
@@ -30,6 +31,8 @@ namespace Assets.Scripts.Feature.Sandbox.UI
         {
             this.cubeType = cubeType;
             selectListener = listener;
+
+            textCubeName.text = cubeType;
         }
 
         public void SelectSlot()
