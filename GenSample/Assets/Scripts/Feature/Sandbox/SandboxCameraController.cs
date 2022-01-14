@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Managers;
 using Assets.Scripts.Util;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.Feature.Sandbox
 {
@@ -85,9 +86,13 @@ namespace Assets.Scripts.Feature.Sandbox
         {
             sbManager.ActiveShowCube(false);
 
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
+
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
+                Log.Print($"{hit.collider.name}");
                 if (hit.collider.tag == "Cube")
                 {
                     sbManager.ShowCube(hit.transform, hit.normal);

@@ -82,9 +82,8 @@ namespace Assets.Scripts.Managers
                             if (Input.GetKey(KeyCode.LeftControl))
                             {
                                 removeCube = true;
+                                ActiveShowCube(false);
                             }
-
-                            ActiveShowCube(!removeCube);
                         }
                         else
                         {
@@ -106,8 +105,7 @@ namespace Assets.Scripts.Managers
                                 if(hitCube != null)
                                 {
                                     hitCube.GetComponent<CubeBase>().DestroyCube();
-                                }
-                                    
+                                }                                    
                             }
                             else
                             {
