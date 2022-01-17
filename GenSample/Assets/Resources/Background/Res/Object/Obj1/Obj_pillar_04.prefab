@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4894643275262370383}
   - component: {fileID: 1339291782112315304}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: obj_08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ SpriteRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 54349616524716450}
   m_Enabled: 1
-  m_CastShadows: 0
+  m_CastShadows: 1
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -50,7 +50,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ec7b858caee502047b57f41319ba2489, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4897,7 +4897,7 @@ GameObject:
   - component: {fileID: 2893697088879624961}
   - component: {fileID: 2778327296969422016}
   - component: {fileID: 7682705422645462660}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Obj_pillar_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4953,7 +4953,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1784904092182552783}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ImageRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
