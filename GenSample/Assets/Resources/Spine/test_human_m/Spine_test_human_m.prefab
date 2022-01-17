@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5500441165732827829}
   - component: {fileID: 1713310794228344671}
   - component: {fileID: 302756420104333663}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Spine_test_human_m
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,8 +81,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1195023653
-  m_SortingLayer: 2
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!95 &5500441165732827830
