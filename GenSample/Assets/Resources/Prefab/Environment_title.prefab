@@ -220,7 +220,7 @@ GameObject:
   m_Component:
   - component: {fileID: 910758328085145266}
   m_Layer: 0
-  m_Name: Environment_Lobby
+  m_Name: Environment_title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
