@@ -25,8 +25,10 @@ namespace Assets.Scripts.Feature.Sandbox
         private SandboxManager sbManager;
         private Transform playTarget;
 
-        //private float rotationX = 0.0f;         // X축 회전값
-        //private float rotationY = 0.0f;         // Y축 회전값
+        private float rotationX = 0.0f;         // X축 회전값
+        private float rotationY = 0.0f;         // Y축 회전값
+        private Vector3 screenCenterToWorld;
+        private float rayDist;
 
         private bool isInitialized = false;
 
@@ -35,6 +37,7 @@ namespace Assets.Scripts.Feature.Sandbox
         void Start()
         {
             mainCamera = GetComponent<Camera>();
+            rayDist = Vector3.Distance(transform.position, Vector3.zero);
         }
 
         void Update()
@@ -46,7 +49,7 @@ namespace Assets.Scripts.Feature.Sandbox
             if (sbManager.GetPlayerType() == SandboxManager.PLAYER_TYPE.Designer)
             {
                 Rotate(editTarget.transform);
-                //Move();
+                Move();
                 ShowCube();
             }
             else
@@ -112,30 +115,74 @@ namespace Assets.Scripts.Feature.Sandbox
         private void Rotate(Transform target)
         {
             //transform.LookAt(Vector3.zero);
+            if (Input.GetMouseButtonDown(1))
+            {
+                Vector3 screenCenter = new Vector3(mainCamera.pixelWidth / 2, mainCamera.pixelHeight / 2);
+                Ray ray = mainCamera.ScreenPointToRay(screenCenter);
+                screenCenterToWorld = ray.GetPoint(rayDist);
+            }
 
             // 마우스가 눌러지면,
             if (Input.GetMouseButton(1))
             {
-                //// 마우스 변화량을 얻고, 그 값에 델타타임과 속도를 곱해서 회전값 구하기
-                //rotationX = Input.GetAxis("Mouse X") * Time.deltaTime * rotSpeed;
-                //rotationY = Input.GetAxis("Mouse Y") * Time.deltaTime * rotSpeed;
+                {
+                    // 마우스 변화량을 얻고, 그 값에 델타타임과 속도를 곱해서 회전값 구하기
+                    rotationX = Input.GetAxis("Mouse X") * Time.deltaTime * rotSpeed;
+                    rotationY = Input.GetAxis("Mouse Y") * Time.deltaTime * rotSpeed;
 
-                //// 각 축으로 회전
-                //// Y축은 마우스를 내릴때 카메라는 올라가야 하므로 반대로 적용
-                //transform.RotateAround(target.position, Vector3.right, -rotationY);
-                //transform.RotateAround(target.position, Vector3.up, rotationX);
+                    //// 각 축으로 회전
+                    //// Y축은 마우스를 내릴때 카메라는 올라가야 하므로 반대로 적용
+                    //transform.RotateAround(target.position, Vector3.right, -rotationY);
+                    //transform.RotateAround(target.position, Vector3.up, rotationX);
 
-                //// 회전후 타겟 바라보기
-                //transform.LookAt(target);
+                    //// 회전후 타겟 바라보기
+                    //transform.LookAt(target);
 
-                float x = Input.GetAxis("Mouse X");
-                float y = Input.GetAxis("Mouse Y");
+                    transform.RotateAround(screenCenterToWorld, Vector3.right, -rotationY);
+                    transform.RotateAround(screenCenterToWorld, Vector3.up, rotationX);
+                    transform.LookAt(screenCenterToWorld);
+                }
 
-                Vector3 camAngle = transform.rotation.eulerAngles;
-                camAngle.y += x * Time.deltaTime * rotSpeed;
-                camAngle.x -= y * Time.deltaTime * rotSpeed;
-                transform.rotation = Quaternion.Euler(camAngle);                
+                {
+                    //float x = Input.GetAxis("Mouse X");
+                    //float y = Input.GetAxis("Mouse Y");
+
+                    //Vector3 camAngle = transform.rotation.eulerAngles;
+                    //camAngle.y += x * Time.deltaTime * rotSpeed;
+                    //camAngle.x -= y * Time.deltaTime * rotSpeed;
+                    //transform.rotation = Quaternion.Euler(camAngle);   
+                }
             }
+        }
+
+        private void Move()
+        {
+            //Vector3 dir = Vector3.zero;
+            //if (Input.GetKey(KeyCode.W))
+            //{
+            //    dir += Vector3.forward;
+            //}else if(Input.GetKey(KeyCode.S))
+            //{
+            //    dir += Vector3.back;
+            //}
+
+            //if (Input.GetKey(KeyCode.A))
+            //{
+            //    dir += Vector3.left;
+            //}else if (Input.GetKey(KeyCode.D))
+            //{
+            //    dir += Vector3.right;
+            //}
+
+            //if (Input.GetKey(KeyCode.Space))
+            //{
+            //    dir += Vector3.up;
+            //}else if (Input.GetKey(KeyCode.X))
+            //{
+            //    dir += Vector3.down;
+            //}
+
+            //transform.Translate(dir * moveSpeed * Time.deltaTime);
 
             if (Input.GetMouseButton(2))
             {
@@ -143,37 +190,8 @@ namespace Assets.Scripts.Feature.Sandbox
                 float y = Input.GetAxis("Mouse Y");
 
                 transform.Translate(new Vector3(-x, -y, 0f) * Time.deltaTime * moveSpeed, Space.Self);
+                rayDist = Vector3.Distance(transform.position, Vector3.zero);
             }
-        }
-
-        private void Move()
-        {
-            Vector3 dir = Vector3.zero;
-            if (Input.GetKey(KeyCode.W))
-            {
-                dir += Vector3.forward;
-            }else if(Input.GetKey(KeyCode.S))
-            {
-                dir += Vector3.back;
-            }
-
-            if (Input.GetKey(KeyCode.A))
-            {
-                dir += Vector3.left;
-            }else if (Input.GetKey(KeyCode.D))
-            {
-                dir += Vector3.right;
-            }
-
-            if (Input.GetKey(KeyCode.Space))
-            {
-                dir += Vector3.up;
-            }else if (Input.GetKey(KeyCode.X))
-            {
-                dir += Vector3.down;
-            }
-
-            transform.Translate(dir * moveSpeed * Time.deltaTime);
         }
 
         private void FollowTarget()
