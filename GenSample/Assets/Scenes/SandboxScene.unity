@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7012714fcedae34489c52cabb89f772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotSpeed: 1000
+  rotSpeed: 500
   zoomSpeed: 10
   editTarget: {fileID: 1490062482}
   dist: 10

@@ -8,7 +8,7 @@ namespace Assets.Scripts.Feature.Sandbox
     public class SandboxCameraController : MonoBehaviour
     {
         // TODO : 키보드에 의한 카메라 이동일 시 사용
-        private float moveSpeed = 10.0f;
+        public float moveSpeed = 10.0f;
 
         public float rotSpeed = 100.0f;           // 회전속도
         public float zoomSpeed = 10.0f;
@@ -25,8 +25,8 @@ namespace Assets.Scripts.Feature.Sandbox
         private SandboxManager sbManager;
         private Transform playTarget;
 
-        private float rotationX = 0.0f;         // X축 회전값
-        private float rotationY = 0.0f;         // Y축 회전값
+        //private float rotationX = 0.0f;         // X축 회전값
+        //private float rotationY = 0.0f;         // Y축 회전값
 
         private bool isInitialized = false;
 
@@ -117,17 +117,33 @@ namespace Assets.Scripts.Feature.Sandbox
             // 마우스가 눌러지면,
             if (Input.GetMouseButton(1))
             {
-                // 마우스 변화량을 얻고, 그 값에 델타타임과 속도를 곱해서 회전값 구하기
-                rotationX = Input.GetAxis("Mouse X") * Time.deltaTime * rotSpeed;
-                rotationY = Input.GetAxis("Mouse Y") * Time.deltaTime * rotSpeed;
+                //// 마우스 변화량을 얻고, 그 값에 델타타임과 속도를 곱해서 회전값 구하기
+                //rotationX = Input.GetAxis("Mouse X") * Time.deltaTime * rotSpeed;
+                //rotationY = Input.GetAxis("Mouse Y") * Time.deltaTime * rotSpeed;
 
-                // 각 축으로 회전
-                // Y축은 마우스를 내릴때 카메라는 올라가야 하므로 반대로 적용
-                transform.RotateAround(target.position, Vector3.right, -rotationY);
-                transform.RotateAround(target.position, Vector3.up, rotationX);
+                //// 각 축으로 회전
+                //// Y축은 마우스를 내릴때 카메라는 올라가야 하므로 반대로 적용
+                //transform.RotateAround(target.position, Vector3.right, -rotationY);
+                //transform.RotateAround(target.position, Vector3.up, rotationX);
 
-                // 회전후 타겟 바라보기
-                transform.LookAt(target);
+                //// 회전후 타겟 바라보기
+                //transform.LookAt(target);
+
+                float x = Input.GetAxis("Mouse X");
+                float y = Input.GetAxis("Mouse Y");
+
+                Vector3 camAngle = transform.rotation.eulerAngles;
+                camAngle.y += x * Time.deltaTime * rotSpeed;
+                camAngle.x -= y * Time.deltaTime * rotSpeed;
+                transform.rotation = Quaternion.Euler(camAngle);                
+            }
+
+            if (Input.GetMouseButton(2))
+            {
+                float x = Input.GetAxis("Mouse X");
+                float y = Input.GetAxis("Mouse Y");
+
+                transform.Translate(new Vector3(-x, -y, 0f) * Time.deltaTime * moveSpeed, Space.Self);
             }
         }
 
