@@ -92,7 +92,6 @@ namespace Assets.Scripts.Feature.Sandbox
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                Log.Print($"{hit.collider.name}");
                 if (hit.collider.tag == "Cube")
                 {
                     sbManager.ShowCube(hit.transform, hit.normal);
