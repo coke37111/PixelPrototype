@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Util;
+﻿using Assets.Scripts.Managers;
+using Assets.Scripts.Util;
 using Spine.Unity;
 using System.Collections;
 using UnityEngine;
@@ -7,8 +8,15 @@ namespace Assets.Scripts.Feature.PxpCraft
 {
     public class Player : MonoBehaviour
     {
+        private Transform trSpine;
         private Animator skelAnim;
         private Rigidbody2D rBody;
+        private Transform effectContainerL;
+        private Transform effectContainerR;
+
+        private GameObject effL;
+        private GameObject effR;
+        private bool isLeft;
 
         public float jumpPower = 100f;
         public float speed = 5f;
@@ -16,9 +24,16 @@ namespace Assets.Scripts.Feature.PxpCraft
         // Use this for initialization
         void Start()
         {
+            trSpine = GetComponentInChildren<SkeletonMecanim>()
+                .transform;
             skelAnim = GetComponentInChildren<SkeletonMecanim>()
                 .GetComponent<Animator>();
             rBody = GetComponent<Rigidbody2D>();
+            effectContainerL = transform.Find("Effect/L");
+            effectContainerR = transform.Find("Effect/R");
+
+
+            isLeft = trSpine.localScale.x < 0f;
         }
 
         // Update is called once per frame
@@ -37,9 +52,17 @@ namespace Assets.Scripts.Feature.PxpCraft
 
             skelAnim.SetBool("isMove", axisX != 0f);
 
-            Vector3 trScale = transform.localScale;
-            trScale.x = axisX >= 0f ? -Mathf.Abs(trScale.x) : Mathf.Abs(trScale.x);
-            transform.localScale = trScale;
+            Vector3 trScale = trSpine.localScale;
+            if(axisX > 0f)
+            {
+                trScale.x = -Mathf.Abs(trScale.x);
+                isLeft = false;
+            }else if(axisX < 0f)
+            {
+                trScale.x = Mathf.Abs(trScale.x);
+                isLeft = true;
+            }
+            trSpine.localScale = trScale;
         }
 
         private void Jump()
@@ -55,6 +78,29 @@ namespace Assets.Scripts.Feature.PxpCraft
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
                 skelAnim.SetTrigger("isAtk");
+
+                if (isLeft)
+                {
+                    if(effL == null)
+                    {
+                        GameObject pfAtkEff =
+                       ResourceManager.LoadAsset<GameObject>($"Prefab/Effect/attack_slash_eff_red_L");
+                        effL = Instantiate(pfAtkEff, effectContainerL);
+                    }
+                    effL.transform.localPosition = Vector3.zero;
+                    effL.GetComponent<ParticleSystem>().Play();
+                }
+                else
+                {
+                    if(effR == null)
+                    {
+                        GameObject pfAtkEff =
+                          ResourceManager.LoadAsset<GameObject>($"Prefab/Effect/attack_slash_eff_red_R");
+                        effR = Instantiate(pfAtkEff, effectContainerR);
+                    }
+                    effR.transform.localPosition = Vector3.zero;
+                    effR.GetComponent<ParticleSystem>().Play();
+                }
             }
         }
     }
