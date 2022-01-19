@@ -133,8 +133,8 @@ namespace Assets.Scripts.Feature.Sandbox
             {
                 {
                     // 마우스 변화량을 얻고, 그 값에 델타타임과 속도를 곱해서 회전값 구하기
-                    rotationX = Input.GetAxis("Mouse X") * Time.deltaTime * rotSpeed;
-                    rotationY = Input.GetAxis("Mouse Y") * Time.deltaTime * rotSpeed;
+                    //rotationX = Input.GetAxis("Mouse X") * Time.deltaTime * rotSpeed;
+                    //rotationY = Input.GetAxis("Mouse Y") * Time.deltaTime * rotSpeed;
 
                     //// 각 축으로 회전
                     //// Y축은 마우스를 내릴때 카메라는 올라가야 하므로 반대로 적용
@@ -144,8 +144,9 @@ namespace Assets.Scripts.Feature.Sandbox
                     //// 회전후 타겟 바라보기
                     //transform.LookAt(target);
 
-                    transform.RotateAround(screenCenterToWorld, Vector3.right, -rotationY);
-                    transform.RotateAround(screenCenterToWorld, Vector3.up, rotationX);
+                    transform.RotateAround(screenCenterToWorld, transform.right, Input.GetAxis("Mouse Y") * Time.deltaTime * rotSpeed);
+                    transform.RotateAround(screenCenterToWorld, transform.up, Input.GetAxis("Mouse X") * Time.deltaTime * rotSpeed);
+                    //transform.RotateAround(screenCenterToWorld, Vector3.up, rotationX);
                     transform.LookAt(screenCenterToWorld);
                 }
 
