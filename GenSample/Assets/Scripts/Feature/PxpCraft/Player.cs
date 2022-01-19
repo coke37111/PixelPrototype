@@ -13,6 +13,7 @@ namespace Assets.Scripts.Feature.PxpCraft
         private Rigidbody2D rBody;
         private Transform effectContainerL;
         private Transform effectContainerR;
+        private CollisionEventListener collEventListener;
 
         private GameObject effL;
         private GameObject effR;
@@ -20,6 +21,8 @@ namespace Assets.Scripts.Feature.PxpCraft
 
         public float jumpPower = 100f;
         public float speed = 5f;
+
+        private bool isAttacked;
 
         // Use this for initialization
         void Start()
@@ -31,9 +34,12 @@ namespace Assets.Scripts.Feature.PxpCraft
             rBody = GetComponent<Rigidbody2D>();
             effectContainerL = transform.Find("Effect/L");
             effectContainerR = transform.Find("Effect/R");
+            collEventListener = GetComponentInChildren<CollisionEventListener>();
 
+            collEventListener.RegisterListner("Attack", AttackBy);
 
             isLeft = trSpine.localScale.x < 0f;
+            isAttacked = false;
         }
 
         // Update is called once per frame
@@ -102,6 +108,17 @@ namespace Assets.Scripts.Feature.PxpCraft
                     effR.GetComponent<ParticleSystem>().Play();
                 }
             }
+        }
+
+        public void AttackBy(params object[] param)
+        {
+            if (isAttacked)
+                return;
+            isAttacked = true;
+
+            Monster monster = (Monster)param[0];
+
+            Log.Print($"Attacked monster {monster.name}!");
         }
     }
 }
