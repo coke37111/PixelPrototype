@@ -1355,6 +1355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
+  knockbackPower: 100
 --- !u!1 &1180845904
 GameObject:
   m_ObjectHideFlags: 0
@@ -1961,6 +1962,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpPower: 230
   speed: 3
+  attackedDelay: 1
 --- !u!50 &1618204134
 Rigidbody2D:
   serializedVersion: 4

@@ -8,13 +8,17 @@ namespace Assets.Scripts.Feature.PxpCraft
     {
         private Transform target;
         private MonsterAttackCollision atkColl;
+        private Transform trImage;
 
         public float speed = 3f;
+        public float knockbackPower = 100f;
 
         // Use this for initialization
         void Start()
         {
             atkColl = GetComponentInChildren<MonsterAttackCollision>();
+            trImage = GetComponentInChildren<SpriteRenderer>()
+                .transform;
 
             atkColl.SetParent(this);
         }
@@ -54,16 +58,29 @@ namespace Assets.Scripts.Feature.PxpCraft
 
         private void Move()
         {
+            Vector3 dir = Vector3.zero;
+
             if (target == null)
             {
                 // TODO : AI
             }
             else
             {
-                Vector3 dir = target.position - transform.position;
+                dir = target.position - transform.position;
 
                 transform.Translate(Vector3.right * dir.normalized.x * speed * Time.deltaTime);
             }
+
+            Vector3 trScale = trImage.localScale;
+            if (dir.x > 0f)
+            {
+                trScale.x = -Mathf.Abs(trScale.x);
+            }
+            else if (dir.x < 0f)
+            {
+                trScale.x = Mathf.Abs(trScale.x);
+            }
+            trImage.localScale = trScale;
         }
     }
 }
