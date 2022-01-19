@@ -108,7 +108,13 @@ namespace Assets.Scripts.Feature.Sandbox
             float distance = Input.GetAxis("Mouse ScrollWheel") * -1 * zoomSpeed;
             if (distance != 0)
             {
-                mainCamera.fieldOfView += distance;
+                //mainCamera.fieldOfView += distance;
+
+                Vector3 pos = transform.position;
+                pos.y += distance;
+                transform.position = pos;
+
+                transform.LookAt(screenCenterToWorld);
             }
         }
 
