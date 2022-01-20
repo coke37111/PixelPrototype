@@ -12,6 +12,8 @@ TagManager:
   - Climb-Floor
   - Climb-Bottom
   - Climb-Roof
+  - Player-Hit
+  - Mob-Hit
   layers:
   - Default
   - TransparentFX

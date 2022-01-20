@@ -11,7 +11,7 @@ namespace Assets.Scripts.Feature.PxpCraft
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.tag == "Mob")
+            if (collision.tag == "Mob-Hit")
             {
                 CollisionEventListener collEvent = collision.GetComponent<CollisionEventListener>();
                 if (collEvent != null)
@@ -29,7 +29,7 @@ namespace Assets.Scripts.Feature.PxpCraft
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if(collision.tag == "Mob")
+            if(collision.tag == "Mob-Hit")
             {
                 CollisionEventListener collEvent = collision.GetComponent<CollisionEventListener>();
                 if (collEvent != null)

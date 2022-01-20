@@ -897,7 +897,7 @@ GameObject:
   - component: {fileID: 356634385}
   m_Layer: 6
   m_Name: Body
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1222,6 +1222,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1039851570}
   - component: {fileID: 1039851571}
+  - component: {fileID: 1039851572}
   m_Layer: 0
   m_Name: SearchRange
   m_TagString: Untagged
@@ -1259,6 +1260,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.25}
   serializedVersion: 2
   m_Radius: 2
+--- !u!114 &1039851572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039851569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22220daef248318458db5e9ee85eca5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1074662264
 GameObject:
   m_ObjectHideFlags: 0
@@ -1372,7 +1385,7 @@ GameObject:
   - component: {fileID: 1180845906}
   m_Layer: 0
   m_Name: Hit
-  m_TagString: Player
+  m_TagString: Player-Hit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1440,9 +1453,9 @@ GameObject:
   - component: {fileID: 1387680181}
   - component: {fileID: 1387680182}
   - component: {fileID: 1387680183}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: AttackRange
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2095,9 +2108,9 @@ GameObject:
   - component: {fileID: 1859972207}
   - component: {fileID: 1859972208}
   - component: {fileID: 1859972209}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Hit
-  m_TagString: Untagged
+  m_TagString: Mob-Hit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

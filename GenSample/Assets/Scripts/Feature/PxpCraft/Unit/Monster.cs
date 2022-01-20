@@ -6,12 +6,12 @@ namespace Assets.Scripts.Feature.PxpCraft
 {
     public class Monster : MonoBehaviour
     {        
-        private Transform target;
         private MonsterAttackCollision atkColl;
         private Transform trImage;
         private SkeletonMecanim skelMecanim;
         private Animator skelAnim;
         private CollisionEventListener collEventListener;
+        private MonsterSearchCollision collSearch;
 
         public float speed = 3f;
         public float knockbackPower = 100f;
@@ -30,6 +30,7 @@ namespace Assets.Scripts.Feature.PxpCraft
             trImage = skelMecanim.transform;
             effectContainer = transform.Find("Effect");
             collEventListener = GetComponentInChildren<CollisionEventListener>();
+            collSearch = GetComponentInChildren<MonsterSearchCollision>();
 
             collEventListener.RegisterListner("AttackBy", AttackBy);
 
@@ -42,35 +43,9 @@ namespace Assets.Scripts.Feature.PxpCraft
             Move();
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.tag == "Player")
-            {
-                target = collision.transform;
-            }
-        }
-
-        private void OnTriggerStay2D(Collider2D collision)
-        {
-            if(target == null)
-            {
-                if (collision.tag == "Player")
-                {
-                    target = collision.transform;
-                }
-            }
-        }
-
-        private void OnTriggerExit2D(Collider2D collision)
-        {
-            if(collision.tag == "Player")
-            {
-                target = null;
-            }
-        }
-
         private void Move()
         {
+            Transform target = collSearch.GetTarget();
             Vector3 dir = Vector3.zero;
 
             if (target == null)
