@@ -747,11 +747,11 @@ test_human_m_2/imgs/weapon_1/weapon_1_002/weapon_1_001
 bounds:2,1904,70,70
 test_human_m_2/imgs/weapon_1/weapon_1_003/weapon_1_001
 bounds:2,1832,70,70
-test_human_m_2/imgs/weapon_shild/weapon_shild_001/weapon_shild_001
+test_human_m_2/imgs/weapon_shield/weapon_shield_001/weapon_shield_001
 bounds:106,392,40,40
-test_human_m_2/imgs/weapon_shild/weapon_shild_002/weapon_shild_001
+test_human_m_2/imgs/weapon_shield/weapon_shield_002/weapon_shield_001
 bounds:106,350,40,40
-test_human_m_2/imgs/weapon_shild/weapon_shild_003/weapon_shild_001
+test_human_m_2/imgs/weapon_shield/weapon_shield_003/weapon_shield_001
 bounds:106,308,40,40
 test_human_m_3/imgs/cos_bottoms/bottoms_001/bottoms_body_001
 bounds:224,184,20,20
