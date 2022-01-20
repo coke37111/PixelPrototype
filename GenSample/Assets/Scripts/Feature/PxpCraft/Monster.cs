@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Util;
+using Spine.Unity;
 using System.Collections;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ namespace Assets.Scripts.Feature.PxpCraft
         private Transform target;
         private MonsterAttackCollision atkColl;
         private Transform trImage;
+        private SkeletonMecanim skelMecanim;
+        private Animator skelAnim;
 
         public float speed = 3f;
         public float knockbackPower = 100f;
@@ -16,9 +19,10 @@ namespace Assets.Scripts.Feature.PxpCraft
         // Use this for initialization
         void Start()
         {
+            skelMecanim = GetComponentInChildren<SkeletonMecanim>();
+            skelAnim = skelMecanim.GetComponent<Animator>();
             atkColl = GetComponentInChildren<MonsterAttackCollision>();
-            trImage = GetComponentInChildren<SpriteRenderer>()
-                .transform;
+            trImage = skelMecanim.transform;
 
             atkColl.SetParent(this);
         }
@@ -70,6 +74,8 @@ namespace Assets.Scripts.Feature.PxpCraft
 
                 transform.Translate(Vector3.right * dir.normalized.x * speed * Time.deltaTime);
             }
+
+            skelAnim.SetBool("isMove", dir != Vector3.zero);
 
             Vector3 trScale = trImage.localScale;
             if (dir.x > 0f)
