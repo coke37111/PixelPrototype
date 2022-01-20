@@ -1372,6 +1372,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   knockbackPower: 100
+  jumpPower: 230
+  jumpDelay: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8192
 --- !u!1 &1180845904
 GameObject:
   m_ObjectHideFlags: 0

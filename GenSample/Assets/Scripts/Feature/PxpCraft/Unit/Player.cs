@@ -34,6 +34,8 @@ namespace Assets.Scripts.Feature.PxpCraft
         public LayerMask groundLayer;
         private bool isGround;
 
+        private bool canJump;
+
         // Use this for initialization
         void Start()
         {
@@ -53,13 +55,21 @@ namespace Assets.Scripts.Feature.PxpCraft
             isLeft = trSpine.localScale.x < 0f;
             isAttacked = false;
             isGround = true;
+
+            canJump = false;
         }
 
         // Update is called once per frame
         void Update()
         {
             Move();
-            Jump();
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                canJump = true;
+            }
+            CheckGround();
+
             Attack();
 
             if (isAttacked)
@@ -78,6 +88,15 @@ namespace Assets.Scripts.Feature.PxpCraft
                 {
                     curAttackedDelay += Time.deltaTime;
                 }
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            if (canJump)
+            {
+                canJump = false;
+                Jump();
             }
         }
 
@@ -104,32 +123,35 @@ namespace Assets.Scripts.Feature.PxpCraft
 
         private void Jump()
         {
-            if(!isGround)
-            {
-                Vector3 rayOrg = transform.position +
+            if (!isGround)
+                return;
+
+            Log.Print("Jump!");
+            rBody.AddForce(Vector3.up * jumpPower);
+            isGround = false;
+
+            skelAnim.SetTrigger("isJump");
+            skelAnim.SetBool("isGround", isGround);
+        }
+
+        private void CheckGround()
+        {
+            if (isGround)
+                return;
+
+            Vector3 rayOrg = transform.position +
                 new Vector3(collBody.offset.x, collBody.offset.y, 0f);
-                Vector3 rayDir = Vector3.down;
-                float rayDist = .41f;
-                Debug.DrawRay(rayOrg, rayDir * rayDist, Color.red);
+            Vector3 rayDir = Vector3.down;
+            float rayDist = .45f;
+            Debug.DrawRay(rayOrg, rayDir * rayDist, Color.red);
 
-                RaycastHit2D hit = Physics2D.Raycast(rayOrg, rayDir, rayDist, groundLayer);
-                if (hit)
-                {
-                    if(rBody.velocity.y <= 0)
-                    {
-                        isGround = true;
-                        skelAnim.SetBool("isGround", isGround);
-                    }
-                }
-            }
-            else
+            RaycastHit2D hit = Physics2D.Raycast(rayOrg, rayDir, rayDist, groundLayer);
+            if (hit)
             {
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (rBody.velocity.y <= 0)
                 {
-                    rBody.AddForce(Vector3.up * jumpPower);
-                    isGround = false;
-
-                    skelAnim.SetTrigger("isJump");
+                    Log.Print(rBody.velocity.y);
+                    isGround = true;
                     skelAnim.SetBool("isGround", isGround);
                 }
             }
@@ -180,6 +202,7 @@ namespace Assets.Scripts.Feature.PxpCraft
             bool isLeftAttacked = monster.transform.position.x < transform.position.x;
             Vector3 knockbackDir = isLeftAttacked ? new Vector3(1, 1, 0) : new Vector3(-1, 1, 0);
             rBody.AddForce(knockbackDir * monster.knockbackPower);
+            skelAnim.SetTrigger("isKnockback");
 
             StartCoroutine(BlinkPlayer());
         }
