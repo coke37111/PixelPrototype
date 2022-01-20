@@ -101,15 +101,6 @@ namespace Assets.Scripts.Feature.PxpCraft
 
         private void Jump()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                rBody.AddForce(Vector3.up * jumpPower);
-                isGround = false;
-
-                skelAnim.SetTrigger("isJump");
-                skelAnim.SetBool("isGround", isGround);
-            }
-
             if(!isGround)
             {
                 Vector3 rayOrg = transform.position +
@@ -121,7 +112,21 @@ namespace Assets.Scripts.Feature.PxpCraft
                 RaycastHit2D hit = Physics2D.Raycast(rayOrg, rayDir, rayDist, groundLayer);
                 if (hit)
                 {
-                    isGround = true;
+                    if(rBody.velocity.y <= 0)
+                    {
+                        isGround = true;
+                        skelAnim.SetBool("isGround", isGround);
+                    }
+                }
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    rBody.AddForce(Vector3.up * jumpPower);
+                    isGround = false;
+
+                    skelAnim.SetTrigger("isJump");
                     skelAnim.SetBool("isGround", isGround);
                 }
             }
