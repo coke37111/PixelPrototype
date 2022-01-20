@@ -17,6 +17,7 @@ namespace Assets.Scripts.Feature.PxpCraft
         private CollisionEventListener collEventListener;
         private SkeletonMecanim skelMecanim;
         private BoxCollider2D collBody;
+        private PlayerAttackCollision atkColl;
 
         private GameObject effL;
         private GameObject effR;
@@ -44,8 +45,10 @@ namespace Assets.Scripts.Feature.PxpCraft
             effectContainerR = transform.Find("Effect/R");
             collEventListener = GetComponentInChildren<CollisionEventListener>();
             collBody = transform.Find("Collider/Body").GetComponent<BoxCollider2D>();
+            atkColl = GetComponentInChildren<PlayerAttackCollision>();
 
-            collEventListener.RegisterListner("Attack", AttackBy);
+            collEventListener.RegisterListner("AttackBy", AttackBy);
+            atkColl.SetParent(this);
 
             isLeft = trSpine.localScale.x < 0f;
             isAttacked = false;
@@ -160,6 +163,8 @@ namespace Assets.Scripts.Feature.PxpCraft
                     effR.transform.localPosition = Vector3.zero;
                     effR.GetComponent<ParticleSystem>().Play();
                 }
+
+                atkColl.Raise();
             }
         }
 

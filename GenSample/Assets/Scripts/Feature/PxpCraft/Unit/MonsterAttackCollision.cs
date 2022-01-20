@@ -15,7 +15,7 @@ namespace Assets.Scripts.Feature.PxpCraft
                 if(collEvent != null)
                 {
                     monster.PlayAttackAnim();
-                    collEvent.Raise("Attack", monster);
+                    collEvent.Raise("AttackBy", monster);
                 }
             }
         }
@@ -28,7 +28,7 @@ namespace Assets.Scripts.Feature.PxpCraft
                 if (collEvent != null)
                 {
                     monster.PlayAttackAnim();
-                    collEvent.Raise("Attack", monster);
+                    collEvent.Raise("AttackBy", monster);
                 }
             }
         }
