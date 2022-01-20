@@ -70,9 +70,13 @@ namespace Assets.Scripts.Feature.PxpCraft
             }
             else
             {
-                dir = target.position - transform.position;
+                Vector3 dist = target.position - transform.position;
+                if(dist.magnitude >= .2f)
+                {
+                    dir = dist.normalized;
 
-                transform.Translate(Vector3.right * dir.normalized.x * speed * Time.deltaTime);
+                    transform.Translate(Vector3.right * dir.x * speed * Time.deltaTime);
+                }
             }
 
             skelAnim.SetBool("isMove", dir != Vector3.zero);
@@ -87,6 +91,11 @@ namespace Assets.Scripts.Feature.PxpCraft
                 trScale.x = Mathf.Abs(trScale.x);
             }
             trImage.localScale = trScale;
+        }
+
+        public void PlayAttackAnim()
+        {
+            skelAnim.SetTrigger("isAtk");
         }
     }
 }

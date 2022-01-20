@@ -13,7 +13,10 @@ namespace Assets.Scripts.Feature.PxpCraft
             {
                 CollisionEventListener collEvent = collision.GetComponent<CollisionEventListener>();
                 if(collEvent != null)
+                {
+                    monster.PlayAttackAnim();
                     collEvent.Raise("Attack", monster);
+                }
             }
         }
 
@@ -23,7 +26,10 @@ namespace Assets.Scripts.Feature.PxpCraft
             {
                 CollisionEventListener collEvent = collision.GetComponent<CollisionEventListener>();
                 if (collEvent != null)
+                {
+                    monster.PlayAttackAnim();
                     collEvent.Raise("Attack", monster);
+                }
             }
         }
 

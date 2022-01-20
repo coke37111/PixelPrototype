@@ -25,8 +25,8 @@ namespace Assets.Scripts.Feature.Sandbox
         private SandboxManager sbManager;
         private Transform playTarget;
 
-        private float rotationX = 0.0f;         // X축 회전값
-        private float rotationY = 0.0f;         // Y축 회전값
+        //private float rotationX = 0.0f;         // X축 회전값
+        //private float rotationY = 0.0f;         // Y축 회전값
         private Vector3 screenCenterToWorld;
         private float rayDist;
 
