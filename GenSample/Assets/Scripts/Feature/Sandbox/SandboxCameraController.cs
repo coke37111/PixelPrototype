@@ -144,7 +144,7 @@ namespace Assets.Scripts.Feature.Sandbox
                     //// 회전후 타겟 바라보기
                     //transform.LookAt(target);
 
-                    transform.RotateAround(screenCenterToWorld, transform.right, Input.GetAxis("Mouse Y") * Time.deltaTime * rotSpeed);
+                    transform.RotateAround(screenCenterToWorld, transform.right, -Input.GetAxis("Mouse Y") * Time.deltaTime * rotSpeed);
                     transform.RotateAround(screenCenterToWorld, transform.up, Input.GetAxis("Mouse X") * Time.deltaTime * rotSpeed);
                     //transform.RotateAround(screenCenterToWorld, Vector3.up, rotationX);
                     transform.LookAt(screenCenterToWorld);
