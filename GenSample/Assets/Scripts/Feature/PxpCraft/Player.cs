@@ -16,6 +16,7 @@ namespace Assets.Scripts.Feature.PxpCraft
         private Transform effectContainerR;
         private CollisionEventListener collEventListener;
         private SkeletonMecanim skelMecanim;
+        private BoxCollider2D collBody;
 
         private GameObject effL;
         private GameObject effR;
@@ -29,6 +30,9 @@ namespace Assets.Scripts.Feature.PxpCraft
         public float attackedDelay = 3f;
         private float curAttackedDelay;
 
+        public LayerMask groundLayer;
+        private bool isGround;
+
         // Use this for initialization
         void Start()
         {
@@ -39,11 +43,13 @@ namespace Assets.Scripts.Feature.PxpCraft
             effectContainerL = transform.Find("Effect/L");
             effectContainerR = transform.Find("Effect/R");
             collEventListener = GetComponentInChildren<CollisionEventListener>();
+            collBody = transform.Find("Collider/Body").GetComponent<BoxCollider2D>();
 
             collEventListener.RegisterListner("Attack", AttackBy);
 
             isLeft = trSpine.localScale.x < 0f;
             isAttacked = false;
+            isGround = true;
         }
 
         // Update is called once per frame
@@ -98,6 +104,26 @@ namespace Assets.Scripts.Feature.PxpCraft
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 rBody.AddForce(Vector3.up * jumpPower);
+                isGround = false;
+
+                skelAnim.SetTrigger("isJump");
+                skelAnim.SetBool("isGround", isGround);
+            }
+
+            if(!isGround)
+            {
+                Vector3 rayOrg = transform.position +
+                new Vector3(collBody.offset.x, collBody.offset.y, 0f);
+                Vector3 rayDir = Vector3.down;
+                float rayDist = .41f;
+                Debug.DrawRay(rayOrg, rayDir * rayDist, Color.red);
+
+                RaycastHit2D hit = Physics2D.Raycast(rayOrg, rayDir, rayDist, groundLayer);
+                if (hit)
+                {
+                    isGround = true;
+                    skelAnim.SetBool("isGround", isGround);
+                }
             }
         }
 

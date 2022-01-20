@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 28650218}
   - component: {fileID: 28650217}
   - component: {fileID: 28650216}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Platform (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -472,7 +472,7 @@ GameObject:
   - component: {fileID: 268537122}
   - component: {fileID: 268537121}
   - component: {fileID: 268537120}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1439,7 +1439,7 @@ GameObject:
   - component: {fileID: 1389459259}
   - component: {fileID: 1389459261}
   - component: {fileID: 1389459256}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1881,6 +1881,9 @@ MonoBehaviour:
   jumpPower: 230
   speed: 3
   attackedDelay: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8192
 --- !u!50 &1618204134
 Rigidbody2D:
   serializedVersion: 4
@@ -2134,7 +2137,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2080259279}
   - component: {fileID: 2080259278}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}

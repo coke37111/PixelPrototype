@@ -71,7 +71,7 @@ namespace Assets.Scripts.Feature.PxpCraft
             else
             {
                 Vector3 dist = target.position - transform.position;
-                if(dist.magnitude >= .2f)
+                if(dist.magnitude >= .5f)
                 {
                     dir = dist.normalized;
 
