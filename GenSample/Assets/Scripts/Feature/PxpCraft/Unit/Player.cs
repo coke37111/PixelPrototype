@@ -25,6 +25,7 @@ namespace Assets.Scripts.Feature.PxpCraft
 
         public float jumpPower = 100f;
         public float speed = 5f;
+        public float knockbackPower = 100f;
 
         private bool isAttacked;
 
@@ -126,7 +127,6 @@ namespace Assets.Scripts.Feature.PxpCraft
             if (!isGround)
                 return;
 
-            Log.Print("Jump!");
             rBody.AddForce(Vector3.up * jumpPower);
             isGround = false;
 
@@ -150,7 +150,6 @@ namespace Assets.Scripts.Feature.PxpCraft
             {
                 if (rBody.velocity.y <= 0)
                 {
-                    Log.Print(rBody.velocity.y);
                     isGround = true;
                     skelAnim.SetBool("isGround", isGround);
                 }

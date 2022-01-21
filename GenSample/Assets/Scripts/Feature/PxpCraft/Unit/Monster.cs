@@ -91,9 +91,13 @@ namespace Assets.Scripts.Feature.PxpCraft
 
                     transform.Translate(Vector3.right * dir.x * speed * Time.deltaTime);
 
-                    if(dist.y >= .5f)
+                    if(dist.y >= .8f)
                     {
                         activeJump = true;
+                    }
+                    else
+                    {
+                        activeJump = false;
                     }
                 }
             }
@@ -120,6 +124,12 @@ namespace Assets.Scripts.Feature.PxpCraft
         public void AttackBy(params object[] param)
         {            
             Player player = (Player)param[0];
+
+            rBody.velocity = Vector3.zero;
+            bool isLeftAttacked = player.transform.position.x < transform.position.x;
+            Vector3 knockbackDir = isLeftAttacked ? new Vector3(1, 1, 0) : new Vector3(-1, 1, 0);
+            rBody.AddForce(knockbackDir * player.knockbackPower);
+            skelAnim.SetTrigger("isKnockback");
 
             MakeHitEffect();
         }
