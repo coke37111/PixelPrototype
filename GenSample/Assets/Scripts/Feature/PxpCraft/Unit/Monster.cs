@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Managers;
+﻿using Assets.Scripts.Feature.GenSample;
+using Assets.Scripts.Managers;
 using Assets.Scripts.Util;
 using Spine.Unity;
 using UnityEngine;
@@ -15,12 +16,15 @@ namespace Assets.Scripts.Feature.PxpCraft
         private MonsterSearchCollision collSearch;
         private Rigidbody2D rBody;
         private BoxCollider2D collBody;
+        private HpBar hpBar;
 
         public float speed = 3f;
         public float knockbackPower = 100f;
         public float jumpPower = 100f;
         public float jumpDelay = 1f;
         private float curJumpDelay;
+        public float hp = 100f;
+        private float curHp;
 
         private Transform effectContainer;
         private GameObject hitEffect;
@@ -32,6 +36,11 @@ namespace Assets.Scripts.Feature.PxpCraft
 
         private bool activeJump;
         private bool canJump;
+
+        private bool isAttacked;
+
+        public float attackedDelay = 3f;
+        private float curAttackedDelay;
 
         // Use this for initialization
         void Start()
@@ -45,6 +54,7 @@ namespace Assets.Scripts.Feature.PxpCraft
             collSearch = GetComponentInChildren<MonsterSearchCollision>();
             rBody = GetComponent<Rigidbody2D>();
             collBody = transform.Find("Collider/Body").GetComponent<BoxCollider2D>();
+            hpBar = GetComponentInChildren<HpBar>();
 
             collEventListener.RegisterListner("AttackBy", AttackBy);
 
@@ -54,6 +64,11 @@ namespace Assets.Scripts.Feature.PxpCraft
             curJumpDelay = jumpDelay;
             activeJump = false;
             canJump = false;
+            isAttacked = false;
+
+            curHp = hp;
+            float ratio = curHp / hp;
+            hpBar.SetGauge(ratio);
         }
 
         // Update is called once per frame
@@ -62,6 +77,19 @@ namespace Assets.Scripts.Feature.PxpCraft
             Move();
             CheckGround();
             CheckCanJump();
+
+            if (isAttacked)
+            {
+                if (curAttackedDelay >= attackedDelay)
+                {
+                    curAttackedDelay -= attackedDelay;
+                    isAttacked = false;
+                }
+                else
+                {
+                    curAttackedDelay += Time.deltaTime;
+                }
+            }
         }
 
         private void FixedUpdate()
@@ -122,8 +150,20 @@ namespace Assets.Scripts.Feature.PxpCraft
         }
 
         public void AttackBy(params object[] param)
-        {            
+        {
+            if (isAttacked)
+                return;
+            isAttacked = true;
+
             Player player = (Player)param[0];
+
+            float damage = player.atk;
+            curHp -= damage;
+            if (curHp <= 0)
+                curHp = hp;
+
+            float ratio = curHp / hp;
+            hpBar.SetGauge(ratio);
 
             rBody.velocity = Vector3.zero;
             bool isLeftAttacked = player.transform.position.x < transform.position.x;

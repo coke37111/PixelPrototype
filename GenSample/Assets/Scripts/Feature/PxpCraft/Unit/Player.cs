@@ -26,6 +26,7 @@ namespace Assets.Scripts.Feature.PxpCraft
         public float jumpPower = 100f;
         public float speed = 5f;
         public float knockbackPower = 100f;
+        public float atk = 5f;
 
         private bool isAttacked;
 
