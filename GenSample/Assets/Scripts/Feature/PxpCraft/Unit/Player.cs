@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Managers;
+﻿using Assets.Scripts.Feature.GenSample;
+using Assets.Scripts.Managers;
 using Assets.Scripts.Util;
 using Spine;
 using Spine.Unity;
@@ -18,6 +19,7 @@ namespace Assets.Scripts.Feature.PxpCraft
         private SkeletonMecanim skelMecanim;
         private BoxCollider2D collBody;
         private PlayerAttackCollision atkColl;
+        private HpBar hpBar;
 
         private GameObject effL;
         private GameObject effR;
@@ -27,6 +29,8 @@ namespace Assets.Scripts.Feature.PxpCraft
         public float speed = 5f;
         public float knockbackPower = 100f;
         public float atk = 5f;
+        public float hp = 100f;
+        private float curHp;
 
         private bool isAttacked;
 
@@ -50,6 +54,7 @@ namespace Assets.Scripts.Feature.PxpCraft
             collEventListener = GetComponentInChildren<CollisionEventListener>();
             collBody = transform.Find("Collider/Body").GetComponent<BoxCollider2D>();
             atkColl = GetComponentInChildren<PlayerAttackCollision>();
+            hpBar = GetComponentInChildren<HpBar>();
 
             collEventListener.RegisterListner("AttackBy", AttackBy);
             atkColl.SetParent(this);
@@ -59,6 +64,10 @@ namespace Assets.Scripts.Feature.PxpCraft
             isGround = true;
 
             canJump = false;
+
+            curHp = hp;
+            float ratio = curHp / hp;
+            hpBar.SetGauge(ratio);
         }
 
         // Update is called once per frame
@@ -197,6 +206,14 @@ namespace Assets.Scripts.Feature.PxpCraft
             isAttacked = true;
 
             Monster monster = (Monster)param[0];
+
+            float damage = monster.atk;
+            curHp -= damage;
+            if (curHp <= 0)
+                curHp = hp;
+
+            float ratio = curHp / hp;
+            hpBar.SetGauge(ratio);
 
             rBody.velocity = Vector3.zero;
             bool isLeftAttacked = monster.transform.position.x < transform.position.x;

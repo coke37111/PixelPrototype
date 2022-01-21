@@ -25,6 +25,7 @@ namespace Assets.Scripts.Feature.PxpCraft
         private float curJumpDelay;
         public float hp = 100f;
         private float curHp;
+        public float atk = 5f;
 
         private Transform effectContainer;
         private GameObject hitEffect;
