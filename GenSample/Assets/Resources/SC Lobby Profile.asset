@@ -128,19 +128,19 @@ MonoBehaviour:
     value: 1
   amount:
     overrideState: 1
-    value: 1
+    value: 0.5
   mode:
     overrideState: 1
-    value: 0
+    value: 1
   quality:
     overrideState: 1
     value: 1
   areaSize:
     overrideState: 1
-    value: 0.1
+    value: 0.2
   areaFalloff:
     overrideState: 1
-    value: 1
+    value: 0.7
   offset:
     overrideState: 1
     value: 0.2
