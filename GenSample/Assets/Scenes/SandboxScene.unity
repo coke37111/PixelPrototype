@@ -220,6 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7012714fcedae34489c52cabb89f772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 10
   rotSpeed: 500
   zoomSpeed: 10
   editTarget: {fileID: 1490062482}
@@ -695,7 +696,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerType: 0
   nextCubeName: GroundCube
-  makeCubeTime: 0.2
 --- !u!1001 &920680425
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -749,22 +749,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4625690808386249985, guid: 32ba2407f3076e449b9fb6c940dba917, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8439727020120916873, guid: 32ba2407f3076e449b9fb6c940dba917, type: 3}
-      propertyPath: m_Intensity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8439727020120916873, guid: 32ba2407f3076e449b9fb6c940dba917, type: 3}
-      propertyPath: m_Shadows.m_Bias
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8439727020120916873, guid: 32ba2407f3076e449b9fb6c940dba917, type: 3}
-      propertyPath: m_Shadows.m_NearPlane
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8439727020120916873, guid: 32ba2407f3076e449b9fb6c940dba917, type: 3}
-      propertyPath: m_Shadows.m_NormalBias
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
