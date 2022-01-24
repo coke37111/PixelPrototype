@@ -3501,7 +3501,7 @@ MonoBehaviour:
   StartGameButton: {fileID: 800069350}
   PlayerListEntryPrefab: {fileID: 195212, guid: fe6e28714e95f884c9c2accc93efffc7, type: 3}
   RoomTypeText: {fileID: 521352403}
-  GameSceneName: BombermanScene
+  GameSceneName: GenSampleScene
 --- !u!222 &1310044698
 CanvasRenderer:
   m_ObjectHideFlags: 0
