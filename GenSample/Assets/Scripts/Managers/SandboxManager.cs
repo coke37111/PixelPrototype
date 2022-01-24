@@ -41,8 +41,8 @@ namespace Assets.Scripts.Managers
         public string nextCubeName = "GroundCube";
         private string curCubeName;
 
-        public float makeCubeTime = .2f;
-        private float curMakeCubeTime;
+        private float prevCubeHeight;
+
 
         #region UNITY
 
@@ -99,7 +99,15 @@ namespace Assets.Scripts.Managers
                                 unit.ResetSpawnPos(Vector3.up);
                             }
                         }
-                        
+
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            if (!removeCube && objShowCube != null && objShowCube.gameObject.activeSelf)
+                            {
+                                objShowCube.MakeRealCube(curCubeName);
+                                prevCubeHeight = objShowCube.GetPosition().y;
+                            }
+                        }
 
                         if (Input.GetMouseButton(0))
                         {
@@ -112,22 +120,12 @@ namespace Assets.Scripts.Managers
                             }
                             else
                             {
-                                if(curMakeCubeTime >= makeCubeTime)
+                                if (objShowCube != null && objShowCube.gameObject.activeSelf)
                                 {
-                                    curMakeCubeTime = 0f;
-                                    if (objShowCube != null && objShowCube.gameObject.activeSelf)
+                                    if(prevCubeHeight == objShowCube.GetPosition().y)
                                         objShowCube.MakeRealCube(curCubeName);
                                 }
-                                else
-                                {
-                                    curMakeCubeTime += Time.deltaTime;
-                                }                                
                             }
-                        }
-
-                        if (Input.GetMouseButtonUp(0))
-                        {
-                            curMakeCubeTime = makeCubeTime;
                         }
 
                         unit.SetControllable(playerType == PLAYER_TYPE.Player);
@@ -281,8 +279,6 @@ namespace Assets.Scripts.Managers
             cubeContainer = FindObjectOfType<CubeContainer>().transform;
             cubeSlotController = FindObjectOfType<CubeSlotController>();
             cubeSlotController.Build(this);
-
-            curMakeCubeTime = makeCubeTime;
 
             if (!PlayerSettings.IsConnectNetwork())
             {
