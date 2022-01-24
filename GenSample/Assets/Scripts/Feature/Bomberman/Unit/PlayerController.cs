@@ -1,13 +1,14 @@
 ﻿using Assets.Scripts.Feature.GenSample;
 using Assets.Scripts.Feature.PxpCraft;
 using Assets.Scripts.Managers;
+using Photon.Pun;
 using Spine.Unity;
 using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.Feature.Bomberman.Unit
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
     {
         public float speed = 3f;
         public int bombPower = 6;
@@ -26,15 +27,7 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         // Use this for initialization
         void Start()
         {
-            SkeletonMecanim skelM = GetComponentInChildren<SkeletonMecanim>();
-            trSpine = skelM.transform;
-            anim = skelM.GetComponent<Animator>();
-
-            pfBomb = ResourceManager.LoadAsset<GameObject>("Prefab/BomberMan/Bomb/BombRoot");
-            unitContainer = FindObjectOfType<UnitContainer>().transform;
-
-            collListener = GetComponentInChildren<CollisionEventListener>();
-            collListener.RegisterListner("HitExplosion", HitExplosion);
+            Init();
         }
 
         // Update is called once per frame
@@ -45,6 +38,28 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         }
 
         #endregion
+
+        #region PUN_METHOD
+
+        public void OnPhotonInstantiate(PhotonMessageInfo info)
+        {
+            Init();
+        }
+
+        #endregion
+
+        private void Init()
+        {
+            SkeletonMecanim skelM = GetComponentInChildren<SkeletonMecanim>();
+            trSpine = skelM.transform;
+            anim = skelM.GetComponent<Animator>();
+
+            pfBomb = ResourceManager.LoadAsset<GameObject>("Prefab/BomberMan/Bomb/BombRoot");
+            unitContainer = FindObjectOfType<UnitContainer>().transform;
+
+            collListener = GetComponentInChildren<CollisionEventListener>();
+            collListener.RegisterListner("HitExplosion", HitExplosion);
+        }
 
         public void SetBomberManMapController(BombermanMapController mapCtrl)
         {
