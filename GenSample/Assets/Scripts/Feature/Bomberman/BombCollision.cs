@@ -14,6 +14,19 @@ namespace Assets.Scripts.Feature.Bomberman
 
         private void OnTriggerEnter(Collider other)
         {
+            Log.Print($"Enter {name} {other.transform.position} {other.contactOffset}");
+            CheckCollider(other);
+        }
+
+        #endregion
+
+        public void SetBombCallback(UnityAction bombCallback)
+        {
+            callback = bombCallback;
+        }
+
+        private void CheckCollider(Collider other)
+        {
             if (other.tag == "Bomb-Range")
                 return;
 
@@ -24,13 +37,6 @@ namespace Assets.Scripts.Feature.Bomberman
             }
 
             callback?.Invoke();
-        }
-
-        #endregion
-
-        public void SetBomb(UnityAction bombCallback)
-        {
-            callback = bombCallback;
         }
     }
 }

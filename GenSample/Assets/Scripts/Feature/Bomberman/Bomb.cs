@@ -24,6 +24,8 @@ namespace Assets.Scripts.Feature.Bomberman
         private Coroutine corExpL, corExpR, corExpU, corExpD;
         private CollisionEventListener collListener;
 
+        private float expDelay = 2f;
+
         #region UNITY
 
         // Use this for initialization
@@ -58,6 +60,8 @@ namespace Assets.Scripts.Feature.Bomberman
 
         public void Explosion(params object[] param)
         {
+            Log.Print($"Explosion {name}");
+
             collListener.UnregisterListener("Explosion");
             basePrefab.SetActive(false);
 
@@ -85,10 +89,10 @@ namespace Assets.Scripts.Feature.Bomberman
             upCollider.gameObject.SetActive(false);
             downCollider.gameObject.SetActive(false);
 
-            leftCollider.GetComponent<BombCollision>().SetBomb(EndExpL);
-            rightCollider.GetComponent<BombCollision>().SetBomb(EndExpR);
-            upCollider.GetComponent<BombCollision>().SetBomb(EndExpU);
-            downCollider.GetComponent<BombCollision>().SetBomb(EndExpD);
+            leftCollider.GetComponent<BombCollision>().SetBombCallback(EndExpL);
+            rightCollider.GetComponent<BombCollision>().SetBombCallback(EndExpR);
+            upCollider.GetComponent<BombCollision>().SetBombCallback(EndExpU);
+            downCollider.GetComponent<BombCollision>().SetBombCallback(EndExpD);
 
             curTime = 0f;
             isExplosion = false;
@@ -111,8 +115,9 @@ namespace Assets.Scripts.Feature.Bomberman
             Vector3 colScale = leftCollider.localScale;
             while(colScale.x < power.x * .98f)
             {
-                colScale.x = Mathf.Lerp(colScale.x, power.x, Time.deltaTime / 0.1f);
+                colScale.x += power.x * expDelay * Time.deltaTime;
                 leftCollider.localScale = colScale;
+                Log.Print($"{colScale}");
                 yield return null;
             }
 
@@ -126,7 +131,7 @@ namespace Assets.Scripts.Feature.Bomberman
             Vector3 colScale = rightCollider.localScale;
             while (colScale.x < power.x * .98f)
             {
-                colScale.x = Mathf.Lerp(colScale.x, power.x, Time.deltaTime / 0.1f);
+                colScale.x += power.x * expDelay * Time.deltaTime;
                 rightCollider.localScale = colScale;
                 yield return null;
             }
@@ -141,7 +146,7 @@ namespace Assets.Scripts.Feature.Bomberman
             Vector3 colScale = upCollider.localScale;
             while (colScale.x < power.x * .98f)
             {
-                colScale.x = Mathf.Lerp(colScale.x, power.x, Time.deltaTime / 0.1f);
+                colScale.x += power.x * expDelay * Time.deltaTime;
                 upCollider.localScale = colScale;
                 yield return null;
             }
@@ -156,7 +161,7 @@ namespace Assets.Scripts.Feature.Bomberman
             Vector3 colScale = downCollider.localScale;
             while (colScale.x < power.x * .98f)
             {
-                colScale.x = Mathf.Lerp(colScale.x, power.x, Time.deltaTime / 0.1f);
+                colScale.x += power.x * expDelay * Time.deltaTime;
                 downCollider.localScale = colScale;
                 yield return null;
             }
@@ -167,6 +172,7 @@ namespace Assets.Scripts.Feature.Bomberman
 
         public void EndExpL()
         {
+            Log.Print($"EndExpL");
             StopCoroutine(corExpL);
             endExpL = true;
         }
