@@ -11,7 +11,7 @@ namespace Assets.Scripts.Feature.Sandbox.UI
     {
         public Image imageSelect;
         public RawImage imageTile;
-        public Text textSlotNum;
+        //public Text textSlotNum;
         public Text textCubeName;
 
         private string cubeType;
@@ -19,7 +19,7 @@ namespace Assets.Scripts.Feature.Sandbox.UI
 
         public void Build(int num, string tileName)
         {
-            textSlotNum.text = (num + 1).ToString();
+            //textSlotNum.text = (num + 1).ToString();
 
             Texture2D TextureTile = ResourceManager.LoadAsset<Texture2D>($"Image/Texture/Sandbox/Cube/{tileName}");
             imageTile.texture = TextureTile;
