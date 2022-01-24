@@ -8,7 +8,16 @@ namespace Assets.Scripts.Feature.Bomberman
 {
     public class BombermanManager : MonoBehaviour
     {
+        public enum GameState
+        {
+            Init,
+            Play,
+
+        }
+        private GameState gameState;
+
         private BombermanCameraController camCtrl;
+        private BombermanMapController mapCtrl;
         private PlayerController player;
 
         #region UNITY
@@ -16,24 +25,45 @@ namespace Assets.Scripts.Feature.Bomberman
         // Use this for initialization
         void Start()
         {
-            camCtrl = FindObjectOfType<BombermanCameraController>();
-
-            MakePlayer();
+            gameState = GameState.Init;
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.F1))
+            switch (gameState)
             {
-                if(player == null)
-                {
-                    MakePlayer();
-                }
+                case GameState.Init:
+                    {
+                        camCtrl = FindObjectOfType<BombermanCameraController>();
+                        mapCtrl = FindObjectOfType<BombermanMapController>();
+                        mapCtrl.Init();
+
+                        MakePlayer();
+
+                        SetGameState(GameState.Play);
+                        break;
+                    }
+                case GameState.Play:
+                    {
+                        if (Input.GetKeyDown(KeyCode.F1))
+                        {
+                            if (player == null)
+                            {
+                                MakePlayer();
+                            }
+                        }
+                        break;
+                    }
             }
         }
 
         #endregion
+
+        private void SetGameState(GameState gameState)
+        {
+            this.gameState = gameState;
+        }
 
         private void MakePlayer()
         {
@@ -43,6 +73,7 @@ namespace Assets.Scripts.Feature.Bomberman
                 Transform unitContainer = FindObjectOfType<UnitContainer>().transform;
                 GameObject goPlayer = Instantiate(pfPlayer, unitContainer);
                 player = goPlayer.GetComponent<PlayerController>();
+                player.SetBomberManMapController(mapCtrl);
 
                 if (camCtrl != null)
                     camCtrl.SetTarget(goPlayer.transform);

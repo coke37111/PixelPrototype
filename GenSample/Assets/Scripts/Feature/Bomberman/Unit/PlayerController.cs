@@ -10,6 +10,10 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
     public class PlayerController : MonoBehaviour
     {
         public float speed = 3f;
+        public int bombPower = 6;
+        public float bombTime = 3f;
+
+        private BombermanMapController mapCtrl;
 
         private Transform trSpine;
         private Animator anim;
@@ -26,7 +30,7 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             trSpine = skelM.transform;
             anim = skelM.GetComponent<Animator>();
 
-            pfBomb = ResourceManager.LoadAsset<GameObject>("Prefab/BomberMan/Bomb/Bomb");
+            pfBomb = ResourceManager.LoadAsset<GameObject>("Prefab/BomberMan/Bomb/BombRoot");
             unitContainer = FindObjectOfType<UnitContainer>().transform;
 
             collListener = GetComponentInChildren<CollisionEventListener>();
@@ -41,6 +45,11 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         }
 
         #endregion
+
+        public void SetBomberManMapController(BombermanMapController mapCtrl)
+        {
+            this.mapCtrl = mapCtrl;
+        }
 
         private void Move()
         {
@@ -90,9 +99,17 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             if (Input.GetKeyDown(KeyCode.Space))
             {                
                 Vector3 bombPos = new Vector3(Mathf.RoundToInt(transform.position.x), 0.5f, Mathf.RoundToInt(transform.position.z));
+                if(mapCtrl.GetBlockInPos(new Vector2Int((int)bombPos.x, (int)bombPos.z)) != null)
+                {
+                    return;
+                }
+
                 GameObject goBomb = Instantiate(pfBomb, bombPos, Quaternion.identity, unitContainer);
                 Bomb bomb = goBomb.GetComponent<Bomb>();
-                bomb.Build(new Vector2(6f, 6f), 3f);
+                bomb.SetMapCtrl(mapCtrl);
+                bomb.Build(bombPower, bombTime);
+
+                mapCtrl.RegisterBlock(bomb);
             }
         }
 
