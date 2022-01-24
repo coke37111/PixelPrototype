@@ -3,14 +3,16 @@ using Assets.Scripts.Feature.PxpCraft;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using Photon.Pun;
+using Photon.Realtime;
 using Spine.Unity;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using PunHashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Assets.Scripts.Feature.Bomberman.Unit
 {
-    public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback, IPunObservable
+    public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback, IPunObservable, IOnEventCallback
     {
         public float speed = 3f;
         public int bombPower = 6;
@@ -42,6 +44,9 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         // Update is called once per frame
         void Update()
         {
+            if (PlayerSettings.IsConnectNetwork() && !photonView.IsMine)
+                return;
+
             Move();
             MakeBomb();
         }
@@ -62,6 +67,12 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
             Init();
+
+            SetBomberManMapController(FindObjectOfType<BombermanMapController>());
+
+            BombermanCameraController camCtrl = FindObjectOfType<BombermanCameraController>();
+            if (camCtrl != null && photonView.IsMine)
+                camCtrl.SetTarget(transform);
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -78,6 +89,11 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
                 this.isLeftDir = (bool)stream.ReceiveNext();
                 this.isMove = (bool)stream.ReceiveNext();
             }
+        }
+
+        public void OnEvent(ExitGames.Client.Photon.EventData photonEvent)
+        {
+
         }
 
         #endregion
@@ -150,19 +166,31 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         private void MakeBomb()
         {
             if (Input.GetKeyDown(KeyCode.Space))
-            {                
+            {
                 Vector3 bombPos = new Vector3(Mathf.RoundToInt(transform.position.x), 0.5f, Mathf.RoundToInt(transform.position.z));
-                if(mapCtrl.GetBlockInPos(new Vector2Int((int)bombPos.x, (int)bombPos.z)) != null)
+
+                if (PlayerSettings.IsConnectNetwork())
                 {
-                    return;
+                    var data = new List<object>();
+                    data.Add(bombPower);
+                    data.Add(bombTime);
+
+                    PhotonNetwork.Instantiate("Prefab/BomberMan/Bomb/BombRoot", bombPos, Quaternion.identity, 0, data.ToArray());
                 }
+                else
+                {
+                    if (mapCtrl.GetBlockInPos(new Vector2Int((int)bombPos.x, (int)bombPos.z)) != null)
+                    {
+                        return;
+                    }
 
-                GameObject goBomb = Instantiate(pfBomb, bombPos, Quaternion.identity, unitContainer);
-                Bomb bomb = goBomb.GetComponent<Bomb>();
-                bomb.SetMapCtrl(mapCtrl);
-                bomb.Build(bombPower, bombTime);
+                    GameObject goBomb = Instantiate(pfBomb, bombPos, Quaternion.identity, unitContainer);
+                    Bomb bomb = goBomb.GetComponent<Bomb>();
+                    bomb.SetMapCtrl(mapCtrl);
+                    bomb.Build(bombPower, bombTime);
 
-                mapCtrl.RegisterBlock(bomb);
+                    mapCtrl.RegisterBlock(bomb);
+                }
             }
         }
 

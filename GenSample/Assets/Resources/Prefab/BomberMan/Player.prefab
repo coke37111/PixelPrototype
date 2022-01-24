@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1596266130576281603}
   - component: {fileID: 1596266130576281604}
   - component: {fileID: 1596266130576281605}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Body
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 1596266131352889006}
   - component: {fileID: 1596266131352889007}
   - component: {fileID: 8800476152745297945}
+  - component: {fileID: 6695606870226062888}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -173,10 +174,28 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 1596266131352889007}
+  - {fileID: 6695606870226062888}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &6695606870226062888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1596266131352889004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 0
+  m_TeleportEnabled: 0
+  m_TeleportIfDistanceGreaterThan: 3
 --- !u!1001 &1596266130899698747
 PrefabInstance:
   m_ObjectHideFlags: 0

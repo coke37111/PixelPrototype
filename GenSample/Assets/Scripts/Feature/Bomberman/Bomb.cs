@@ -1,11 +1,12 @@
 ﻿using Assets.Scripts.Feature.PxpCraft;
 using Assets.Scripts.Util;
+using Photon.Pun;
 using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.Feature.Bomberman
 {
-    public class Bomb : BomberManBlock
+    public class Bomb : BomberManBlock, IPunInstantiateMagicCallback
     {
         public GameObject basePrefab;
         private BombCollision bombColl;
@@ -42,6 +43,21 @@ namespace Assets.Scripts.Feature.Bomberman
                     curTime += Time.deltaTime;
                 }
             }
+        }
+
+        #endregion
+
+        #region PUN_METHOD
+
+        public void OnPhotonInstantiate(PhotonMessageInfo info)
+        {
+            int bombPower = (int)info.photonView.InstantiationData[0];
+            float bombTime = (float)info.photonView.InstantiationData[1];
+
+            SetMapCtrl(FindObjectOfType<BombermanMapController>());
+            Build(bombPower, bombTime);
+
+            mapCtrl.RegisterBlock(this);
         }
 
         #endregion

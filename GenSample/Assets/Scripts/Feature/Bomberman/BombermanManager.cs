@@ -174,12 +174,7 @@ namespace Assets.Scripts.Feature.Bomberman
             {
                 var data = new List<object>();
 
-                GameObject goPlayer = PhotonNetwork.Instantiate($"Prefab/BomberMan/Player", Vector3.zero, Quaternion.identity, 0, data.ToArray());                
-                player = goPlayer.GetComponent<PlayerController>();
-                player.SetBomberManMapController(mapCtrl);
-
-                if (camCtrl != null)
-                    camCtrl.SetTarget(goPlayer.transform);
+                PhotonNetwork.Instantiate($"Prefab/BomberMan/Player", Vector3.zero, Quaternion.identity, 0, data.ToArray());
             }
             else
             {
