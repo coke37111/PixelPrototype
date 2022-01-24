@@ -1,14 +1,16 @@
 ﻿using Assets.Scripts.Feature.GenSample;
 using Assets.Scripts.Feature.PxpCraft;
 using Assets.Scripts.Managers;
+using Assets.Scripts.Settings;
 using Photon.Pun;
 using Spine.Unity;
 using System.Collections;
 using UnityEngine;
+using PunHashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Assets.Scripts.Feature.Bomberman.Unit
 {
-    public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
+    public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback, IPunObservable
     {
         public float speed = 3f;
         public int bombPower = 6;
@@ -21,12 +23,19 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         private GameObject pfBomb;
         private Transform unitContainer; // TODO : SetParent를 위한 Component
         private CollisionEventListener collListener;
-        
+        private bool isMove;
+        private bool isLeftDir;
+        private PhotonView photonView;
+        private bool raiseDieCall = false;
+
         #region UNITY
 
         // Use this for initialization
         void Start()
         {
+            if (PlayerSettings.IsConnectNetwork())
+                return;
+
             Init();
         }
 
@@ -36,6 +45,15 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             Move();
             MakeBomb();
         }
+        public void OnEnable()
+        {
+            PhotonNetwork.AddCallbackTarget(this);
+        }
+
+        public void OnDisable()
+        {
+            PhotonNetwork.RemoveCallbackTarget(this);
+        }
 
         #endregion
 
@@ -44,6 +62,22 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
             Init();
+        }
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+            {
+                // We own this player: send the others our data
+                stream.SendNext(isLeftDir);
+                stream.SendNext(isMove);
+            }
+            else
+            {
+                // Network player, receive data
+                this.isLeftDir = (bool)stream.ReceiveNext();
+                this.isMove = (bool)stream.ReceiveNext();
+            }
         }
 
         #endregion
@@ -59,6 +93,8 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
             collListener = GetComponentInChildren<CollisionEventListener>();
             collListener.RegisterListner("HitExplosion", HitExplosion);
+
+            photonView = GetComponent<PhotonView>();
         }
 
         public void SetBomberManMapController(BombermanMapController mapCtrl)
@@ -94,17 +130,19 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
                 if (dir.x > 0)
                 {
                     spineScale.x = -Mathf.Abs(spineScale.x);
+                    isLeftDir = false;
                 }
                 else if (dir.x < 0)
                 {
                     spineScale.x = Mathf.Abs(spineScale.x);
+                    isLeftDir = true;
                 }
                 trSpine.localScale = spineScale;
             }
 
             // TODO : animation
             {
-                bool isMove = dir != Vector3.zero;
+                isMove = dir != Vector3.zero;
                 anim.SetBool("isMove", isMove);
             }            
         }
@@ -130,7 +168,26 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
         public void HitExplosion(params object[] param)
         {
-            Destroy(gameObject);
+            if (PlayerSettings.IsConnectNetwork())
+                RaiseDie();
+            else
+                Destroy(gameObject);
+        }
+
+        private void RaiseDie()
+        {
+            if (raiseDieCall)
+                return;
+            raiseDieCall = true;
+
+            // 게임 종료 체크 처리를 위한 호출(=>GenSampleManager)
+            PunHashtable props = new PunHashtable
+                    {
+                        { PlayerSettings.PLAYER_DIE, true },
+                    };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+            PhotonNetwork.Destroy(photonView);
         }
     }
 }

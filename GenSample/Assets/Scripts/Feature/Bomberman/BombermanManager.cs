@@ -3,12 +3,10 @@ using Assets.Scripts.Feature.GenSample;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Util;
-using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using PunHashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -123,7 +121,7 @@ namespace Assets.Scripts.Feature.Bomberman
             Log.Print($"Player {otherPlayer.ActorNumber} Left Room");
 
             PhotonNetwork.DestroyPlayerObjects(otherPlayer);
-            CheckEndOfGame();
+            CheckEndOfGame(true);
         }
 
         public override void OnMasterClientSwitched(Player newMasterClient)
@@ -199,8 +197,11 @@ namespace Assets.Scripts.Feature.Bomberman
             }
         }
 
-        private void CheckEndOfGame()
+        private void CheckEndOfGame(bool isForced = false)
         {
+            if (!isForced && gameState != GameState.Play)
+                return;
+
             bool allDestroyed = true;
             foreach (Player p in PhotonNetwork.PlayerListOthers)
             {                
