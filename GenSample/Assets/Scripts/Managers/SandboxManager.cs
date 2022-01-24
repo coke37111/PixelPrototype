@@ -42,7 +42,7 @@ namespace Assets.Scripts.Managers
         private string curCubeName;
 
         private float prevCubeHeight;
-
+        private Vector3 prevMousePos;
 
         #region UNITY
 
@@ -106,6 +106,7 @@ namespace Assets.Scripts.Managers
                             {
                                 objShowCube.MakeRealCube(curCubeName);
                                 prevCubeHeight = objShowCube.GetPosition().y;
+                                prevMousePos = Input.mousePosition;                                
                             }
                         }
 
@@ -122,7 +123,8 @@ namespace Assets.Scripts.Managers
                             {
                                 if (objShowCube != null && objShowCube.gameObject.activeSelf)
                                 {
-                                    if(prevCubeHeight == objShowCube.GetPosition().y)
+                                    float distMousePos = Vector3.Distance(Input.mousePosition, prevMousePos);
+                                    if(distMousePos >= .2f && prevCubeHeight == objShowCube.GetPosition().y)
                                         objShowCube.MakeRealCube(curCubeName);
                                 }
                             }
