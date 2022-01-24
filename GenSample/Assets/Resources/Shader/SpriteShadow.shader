@@ -29,7 +29,7 @@ Shader "Sprites/Custom/SpriteShadow"
 
         Cull Off
         Lighting Off
-        ZWrite Off
+        ZWrite On
         Blend One OneMinusSrcAlpha
 
         CGPROGRAM
