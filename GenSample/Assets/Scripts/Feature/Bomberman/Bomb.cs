@@ -60,8 +60,6 @@ namespace Assets.Scripts.Feature.Bomberman
 
         public void Explosion(params object[] param)
         {
-            Log.Print($"Explosion {name}");
-
             collListener.UnregisterListener("Explosion");
             basePrefab.SetActive(false);
 
@@ -117,7 +115,6 @@ namespace Assets.Scripts.Feature.Bomberman
             {
                 colScale.x += power.x * expDelay * Time.deltaTime;
                 leftCollider.localScale = colScale;
-                Log.Print($"{colScale}");
                 yield return null;
             }
 
@@ -172,7 +169,6 @@ namespace Assets.Scripts.Feature.Bomberman
 
         public void EndExpL()
         {
-            Log.Print($"EndExpL");
             StopCoroutine(corExpL);
             endExpL = true;
         }

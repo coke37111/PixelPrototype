@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Feature.GenSample;
+using Assets.Scripts.Feature.PxpCraft;
 using Assets.Scripts.Managers;
 using Spine.Unity;
 using System.Collections;
@@ -14,6 +15,7 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         private Animator anim;
         private GameObject pfBomb;
         private Transform unitContainer; // TODO : SetParent를 위한 Component
+        private CollisionEventListener collListener;
         
         #region UNITY
 
@@ -26,6 +28,9 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
             pfBomb = ResourceManager.LoadAsset<GameObject>("Prefab/BomberMan/Bomb/Bomb");
             unitContainer = FindObjectOfType<UnitContainer>().transform;
+
+            collListener = GetComponentInChildren<CollisionEventListener>();
+            collListener.RegisterListner("HitExplosion", HitExplosion);
         }
 
         // Update is called once per frame
@@ -84,11 +89,16 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {                
-                Vector3 bombPos = new Vector3(Mathf.RoundToInt(transform.position.x), 0.75f, Mathf.RoundToInt(transform.position.z));
+                Vector3 bombPos = new Vector3(Mathf.RoundToInt(transform.position.x), 0.5f, Mathf.RoundToInt(transform.position.z));
                 GameObject goBomb = Instantiate(pfBomb, bombPos, Quaternion.identity, unitContainer);
                 Bomb bomb = goBomb.GetComponent<Bomb>();
                 bomb.Build(new Vector2(6f, 6f), 3f);
             }
+        }
+
+        public void HitExplosion(params object[] param)
+        {
+            Destroy(gameObject);
         }
     }
 }

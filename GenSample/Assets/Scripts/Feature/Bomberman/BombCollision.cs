@@ -14,7 +14,6 @@ namespace Assets.Scripts.Feature.Bomberman
 
         private void OnTriggerEnter(Collider other)
         {
-            Log.Print($"Enter {name} {other.transform.position} {other.contactOffset}");
             CheckCollider(other);
         }
 
@@ -27,16 +26,20 @@ namespace Assets.Scripts.Feature.Bomberman
 
         private void CheckCollider(Collider other)
         {
-            if (other.tag == "Bomb-Range")
-                return;
+            if (other.tag == "Cube")
+                callback?.Invoke();
 
             if (other.tag == "Bomb")
             {
+                callback?.Invoke();
                 other.GetComponent<CollisionEventListener>().Raise("Explosion");
                 return;
             }
 
-            callback?.Invoke();
+            if(other.tag == "Player")
+            {
+                other.GetComponent<CollisionEventListener>().Raise("HitExplosion");
+            }
         }
     }
 }
