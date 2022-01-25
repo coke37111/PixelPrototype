@@ -49,6 +49,10 @@ namespace Assets.Scripts.Feature.Bomberman
                 case GameState.Idle: return;
                 case GameState.ConnectServer:
                     {
+                        camCtrl = FindObjectOfType<BombermanCameraController>();
+                        mapCtrl = FindObjectOfType<BombermanMapController>();
+                        mapCtrl.Init();
+
                         if (PlayerSettings.IsConnectNetwork())
                         {
                             PunHashtable props = new PunHashtable();
@@ -68,10 +72,6 @@ namespace Assets.Scripts.Feature.Bomberman
                     }
                 case GameState.Init:
                     {
-                        camCtrl = FindObjectOfType<BombermanCameraController>();
-                        mapCtrl = FindObjectOfType<BombermanMapController>();
-                        mapCtrl.Init();
-
                         if (!PlayerSettings.IsConnectNetwork())
                         {
                             GenerateNormalBlock();
