@@ -29,3 +29,6 @@ MonoBehaviour:
   spineTypes:
   - Spine/test_human_m/Spine_test_human_m
   - Spine/test_human_m_2/Spine_test_human_m_2
+  - Spine/test_human_m_2/Spine_test_human_m_2_2
+  - Spine/test_human_m_2/Spine_test_human_m_2_3
+  - Spine/test_human_m_2/Spine_test_human_m_2_custom_1

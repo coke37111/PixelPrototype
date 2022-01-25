@@ -2,6 +2,7 @@
 using Assets.Scripts.Feature.PxpCraft;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.SO;
 using Assets.Scripts.Util;
 using Photon.Pun;
 using Photon.Realtime;
@@ -56,6 +57,10 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             if (PlayerSettings.IsConnectNetwork())
                 return;
 
+            PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
+            string spinePath = playerUnitSetting.GetSpinePath();
+            MakeSpine(spinePath);
+
             Init();
         }
 
@@ -87,6 +92,9 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
+            string spinePath = info.photonView.InstantiationData[0].ToString();
+            MakeSpine(spinePath);
+
             Init();
 
             transform.SetParent(unitContainer);
@@ -256,6 +264,16 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
             if(photonView.IsMine)
                 PhotonNetwork.Destroy(photonView);
+        }
+
+        public void MakeSpine(string spinePath)
+        {
+            GameObject spineBase = ResourceManager.LoadAsset<GameObject>(spinePath);
+            GameObject goSpine = Instantiate(spineBase, transform);
+            Vector3 scale = goSpine.transform.localScale;
+            scale.x *= 2f;
+            scale.y *= 3f;
+            goSpine.transform.localScale = scale;
         }
     }
 }

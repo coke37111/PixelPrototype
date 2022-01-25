@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Settings;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.Feature.GenSample.Unit
@@ -10,6 +11,9 @@ namespace Assets.Scripts.Feature.GenSample.Unit
 
         private void Update()
         {
+            if (RoomSettings.roomType == RoomSettings.ROOM_TYPE.Bomberman)
+                return;
+
             RotateSprite();
         }
 

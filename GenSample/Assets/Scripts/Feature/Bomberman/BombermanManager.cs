@@ -2,6 +2,7 @@
 using Assets.Scripts.Feature.GenSample;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.SO;
 using Assets.Scripts.Util;
 using Photon.Pun;
 using Photon.Realtime;
@@ -59,6 +60,7 @@ namespace Assets.Scripts.Feature.Bomberman
                         }
                         else
                         {
+                            RoomSettings.roomType = RoomSettings.ROOM_TYPE.Bomberman;
                             SetGameState(GameState.Init);
                         }
                         break;
@@ -194,9 +196,16 @@ namespace Assets.Scripts.Feature.Bomberman
             Vector2Int spawnPos = mapCtrl.GetRandomSpawnPos();
             Vector3 spawnPosTo3 = new Vector3(spawnPos.x, 0f, spawnPos.y);
 
+           
+
             if (PlayerSettings.IsConnectNetwork())
             {
                 var data = new List<object>();
+
+                // Set Spine
+                PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
+                string spinePath = playerUnitSetting.GetSpinePath();
+                data.Add(spinePath);
 
                 PhotonNetwork.Instantiate($"Prefab/BomberMan/Player", spawnPosTo3, Quaternion.identity, 0, data.ToArray());
             }
