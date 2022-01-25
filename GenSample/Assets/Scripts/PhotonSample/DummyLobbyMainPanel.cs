@@ -350,16 +350,25 @@ namespace Photon.Pun.Demo.Asteroids
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
 
-            Log.Print($"{PhotonNetwork.CurrentRoom.Name}");
-
-            if(RoomSettings.roomType == RoomSettings.ROOM_TYPE.Sandbox)
+            switch (RoomSettings.roomType)
             {
-                string SandBoxSceneName = "SandboxScene";
-                PhotonNetwork.LoadLevel(SandBoxSceneName);
-            }
-            else
-            {
-                PhotonNetwork.LoadLevel(GameSceneName);
+                case RoomSettings.ROOM_TYPE.Pvp:
+                case RoomSettings.ROOM_TYPE.Raid:
+                    {
+                        PhotonNetwork.LoadLevel(GameSceneName);
+                        break;
+                    }
+                case RoomSettings.ROOM_TYPE.Sandbox:
+                    {
+                        string SandBoxSceneName = "SandboxScene";
+                        PhotonNetwork.LoadLevel(SandBoxSceneName);
+                        break;
+                    }
+                case RoomSettings.ROOM_TYPE.Bomberman:
+                    {
+                        PhotonNetwork.LoadLevel("BombermanScene");
+                        break;
+                    }
             }
         }
 

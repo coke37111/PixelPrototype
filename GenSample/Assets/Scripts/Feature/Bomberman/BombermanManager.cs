@@ -76,11 +76,22 @@ namespace Assets.Scripts.Feature.Bomberman
                     }
                 case GameState.Play:
                     {
-                        if (!PlayerSettings.IsConnectNetwork() && Input.GetKeyDown(KeyCode.F1))
+                        if (PlayerSettings.IsConnectNetwork())
                         {
-                            if (player == null)
+                            if (Input.GetKeyDown(KeyCode.Escape))
                             {
-                                MakePlayer();
+                                LeaveRoom();
+                            }
+                        }
+                        else
+                        {
+                            if (Input.GetKeyDown(KeyCode.F1))
+                            {
+                                if (player == null)
+                                {
+                                    MakePlayer();
+                                }
+
                             }
                         }
                         break;
@@ -230,6 +241,9 @@ namespace Assets.Scripts.Feature.Bomberman
 
         private void LeaveRoom()
         {
+            RoomSettings.roomName = PhotonNetwork.CurrentRoom.Name;
+            RoomSettings.isMaster = PhotonNetwork.IsMasterClient;
+
             PunHashtable props = new PunHashtable();
             props.Add(PlayerSettings.PLAYER_LOADED_LEVEL, false);
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
