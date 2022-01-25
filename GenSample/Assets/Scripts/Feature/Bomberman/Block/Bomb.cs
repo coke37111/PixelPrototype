@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Feature.GenSample;
 using Assets.Scripts.Feature.PxpCraft;
+using Assets.Scripts.Settings;
 using Assets.Scripts.Util;
 using Photon.Pun;
 using System.Collections;
@@ -13,6 +14,7 @@ namespace Assets.Scripts.Feature.Bomberman
         private BombCollision bombColl;
         private BombermanMapController mapCtrl;
         private BombermanManager manager;
+        private PhotonView photonView;
 
         private float time;
         private float curTime;
@@ -67,14 +69,19 @@ namespace Assets.Scripts.Feature.Bomberman
 
         #endregion
 
-        private void Init()
+        public override void Init()
         {
+            base.Init();
+
             manager = FindObjectOfType<BombermanManager>();
+            photonView = GetComponent<PhotonView>();
 
             basePrefab.SetActive(true);
             bombColl = GetComponentInChildren<BombCollision>();
             curTime = 0f;
-            isExplosion = false;            
+            isExplosion = false;
+            canExplosion = true;
+            canPenetrate = true;
         }
 
         public void SetMapCtrl(BombermanMapController mapCtrl)
@@ -92,8 +99,10 @@ namespace Assets.Scripts.Feature.Bomberman
             completeBuild = true;
         }
 
-        public void Explosion()
+        public override void Explosion()
         {
+            base.Explosion();
+
             if (manager.IsEndGame())
                 return;
 
@@ -106,12 +115,18 @@ namespace Assets.Scripts.Feature.Bomberman
             bombColl.GetComponent<BoxCollider>().enabled = false;
 
             Vector2Int bombPos = GetPosition();
-            mapCtrl.MakeExplosion(bombPos);
-            mapCtrl.MakeExplosion(bombPos, power);
+            mapCtrl.MakeExplosion(bombPos, "EffExplosion");
+            mapCtrl.MakeExplosion(bombPos, power, "EffExplosion");
 
             mapCtrl.UnregisterBlock(this);
 
-            Destroy(gameObject);
+            if (PlayerSettings.IsConnectNetwork())
+            {
+                if (photonView.IsMine)
+                    PhotonNetwork.Destroy(photonView);
+            }
+            else
+                Destroy(gameObject);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Feature.Bomberman.Unit;
+﻿using Assets.Scripts.Feature.Bomberman.Block;
+using Assets.Scripts.Feature.Bomberman.Unit;
 using Assets.Scripts.Feature.GenSample;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
@@ -71,6 +72,10 @@ namespace Assets.Scripts.Feature.Bomberman
                         mapCtrl = FindObjectOfType<BombermanMapController>();
                         mapCtrl.Init();
 
+                        if (!PlayerSettings.IsConnectNetwork())
+                        {
+                            GenerateNormalBlock();
+                        }
                         MakePlayer();
 
                         SetGameState(GameState.Play);
@@ -173,6 +178,9 @@ namespace Assets.Scripts.Feature.Bomberman
                         if (!startTimeIsSet)
                         {
                             GenCountdownTimer.SetStartTime();
+
+                            if (PhotonNetwork.MasterClient.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
+                                GenerateNormalBlock();
                         }
                     }
                 }
@@ -194,9 +202,7 @@ namespace Assets.Scripts.Feature.Bomberman
         private void MakePlayer()
         {
             Vector2Int spawnPos = mapCtrl.GetRandomSpawnPos();
-            Vector3 spawnPosTo3 = new Vector3(spawnPos.x, 0f, spawnPos.y);
-
-           
+            Vector3 spawnPosTo3 = new Vector3(spawnPos.x, 0f, spawnPos.y);           
 
             if (PlayerSettings.IsConnectNetwork())
             {
@@ -313,6 +319,44 @@ namespace Assets.Scripts.Feature.Bomberman
             }
 
             LeaveRoom();
-        }        
+        }
+
+        private void GenerateNormalBlock()
+        {
+            string blockPath = $"Prefab/BomberMan/Block/Normal/NormalBlock";
+            int mapSize = mapCtrl.GetMapSize();
+            for (int col = -mapSize; col <= mapSize; col++)
+            {
+                if (col % 2 != 0)
+                    continue;
+
+                for (int row = -mapSize; row <= mapSize; row++)
+                {
+                    if (row % 2 == 0)
+                        continue;
+
+                    if (mapCtrl.isEndOfMap(new Vector2Int(col, row)))
+                        continue;
+
+                    if (Random.Range(0f, 1f) >= .5f)
+                        continue;
+
+                    if (PlayerSettings.IsConnectNetwork())
+                    {
+                        var data = new List<object>();
+                        PhotonNetwork.Instantiate(blockPath, new Vector3(col, 0f, row), Quaternion.identity, 0, data.ToArray());
+                    }
+                    else
+                    {
+                        GameObject pfNormalBlock = ResourceManager.LoadAsset<GameObject>(blockPath);
+                        if (pfNormalBlock == null)
+                            break;
+
+                        GameObject goNormalB = Instantiate(pfNormalBlock, new Vector3(col, 0f, row), Quaternion.identity);
+                        goNormalB.GetComponent<NormalBlock>().Init();
+                    }
+                }
+            }
+        }
     }
 }

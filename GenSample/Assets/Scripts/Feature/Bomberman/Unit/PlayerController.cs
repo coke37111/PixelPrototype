@@ -49,6 +49,8 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         private bool raiseDieCall = false;
         private bool isControllable;
 
+        private readonly string bombPath = "Prefab/BomberMan/Block/Bomb/BombRoot";
+
         #region UNITY
 
         // Use this for initialization
@@ -137,7 +139,7 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             trSpine = skelM.transform;
             anim = skelM.GetComponent<Animator>();
 
-            pfBomb = ResourceManager.LoadAsset<GameObject>("Prefab/BomberMan/Bomb/BombRoot");
+            pfBomb = ResourceManager.LoadAsset<GameObject>(bombPath);
             unitContainer = FindObjectOfType<UnitContainer>().transform;
 
             collListener = GetComponentInChildren<CollisionEventListener>();
@@ -219,7 +221,7 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
                     data.Add(bombPower);
                     data.Add(bombTime);
 
-                    PhotonNetwork.Instantiate("Prefab/BomberMan/Bomb/BombRoot", bombPos, Quaternion.identity, 0, data.ToArray());
+                    PhotonNetwork.Instantiate(bombPath, bombPos, Quaternion.identity, 0, data.ToArray());
                 }
                 else
                 {
@@ -235,15 +237,17 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
         public void HitExplosion(params object[] param)
         {
+            bool isConnectServer = PlayerSettings.IsConnectNetwork();
+
             if (manager.IsEndGame())
                 return;
 
-            if (!photonView.IsMine)
+            if (isConnectServer && !photonView.IsMine)
                 return;
 
             isControllable = false;
 
-            if (PlayerSettings.IsConnectNetwork())
+            if (isConnectServer)
                 RaiseDie();
             else
                 Destroy(gameObject);

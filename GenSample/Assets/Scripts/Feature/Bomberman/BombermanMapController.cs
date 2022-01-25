@@ -49,20 +49,20 @@ namespace Assets.Scripts.Feature.Bomberman
             return Mathf.Abs(pos.x) >= mapSize || Mathf.Abs(pos.y) >= mapSize;
         }
 
-        public void MakeExplosion(Vector2Int pos)
+        public void MakeExplosion(Vector2Int pos, string effId)
         {
-            MakeExplosionEff(pos);
+            MakeExplosionEff(pos, effId);
         }
 
-        public void MakeExplosion(Vector2Int pos, int power)
+        public void MakeExplosion(Vector2Int pos, int power, string effId)
         {
-            StartCoroutine(StartExplosion(pos, Vector2Int.left, power));
-            StartCoroutine(StartExplosion(pos, Vector2Int.up, power));
-            StartCoroutine(StartExplosion(pos, Vector2Int.right, power));
-            StartCoroutine(StartExplosion(pos, Vector2Int.down, power));
+            StartCoroutine(StartExplosion(pos, Vector2Int.left, power, effId));
+            StartCoroutine(StartExplosion(pos, Vector2Int.up, power, effId));
+            StartCoroutine(StartExplosion(pos, Vector2Int.right, power, effId));
+            StartCoroutine(StartExplosion(pos, Vector2Int.down, power, effId));
         }
 
-        private IEnumerator StartExplosion(Vector2Int pos, Vector2Int dir, float power)
+        private IEnumerator StartExplosion(Vector2Int pos, Vector2Int dir, float power, string effId)
         {
             for (int i = 1; i < power; i++)
             {
@@ -73,22 +73,27 @@ namespace Assets.Scripts.Feature.Bomberman
                 BomberManBlock nextBlock = GetBlockInPos(newPos);
                 if(nextBlock != null)
                 {
-                    if (nextBlock.GetComponent<Bomb>() != null)
-                        nextBlock.GetComponent<Bomb>().Explosion();
+                    if (nextBlock.canExplosion)
+                    {
+                        nextBlock.Explosion();                        
+                    }
                     else 
+                        break;
+
+                    if (!nextBlock.canPenetrate)
                         break;
                 }
 
-                MakeExplosionEff(pos + dir * i);
+                MakeExplosionEff(pos + dir * i, effId);
                 yield return new WaitForSeconds(.05f);
             }
 
             yield return null;
         }
 
-        private void MakeExplosionEff(Vector2Int pos)
+        private void MakeExplosionEff(Vector2Int pos, string effId)
         {
-            GameObject pfExpEff = ResourceManager.LoadAsset<GameObject>("Prefab/BomberMan/Effect/EffExplosion");
+            GameObject pfExpEff = ResourceManager.LoadAsset<GameObject>($"Prefab/BomberMan/Effect/{effId}");
             GameObject goExpEff = Instantiate(pfExpEff, new Vector3(pos.x, .5f, pos.y), Quaternion.identity, null);
             Destroy(goExpEff, .1f);
         }
@@ -110,6 +115,11 @@ namespace Assets.Scripts.Feature.Bomberman
             int x = Random.Range(-mapSize + 1, mapSize);
             int y = Random.Range(-mapSize + 1, mapSize);
             return new Vector2Int(x, y);
+        }
+
+        public int GetMapSize()
+        {
+            return mapSize;
         }
     }
 }

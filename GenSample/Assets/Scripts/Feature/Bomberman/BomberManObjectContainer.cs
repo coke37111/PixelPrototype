@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Util;
+﻿using Assets.Scripts.Feature.Bomberman.Block;
+using Assets.Scripts.Util;
 using System.Collections;
 using UnityEngine;
 
@@ -31,6 +32,7 @@ namespace Assets.Scripts.Feature.Bomberman
                 }
 
                 mapCtrl.RegisterBlock(block);
+                block.Init();
             }
         }
     }
