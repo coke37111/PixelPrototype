@@ -258,15 +258,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1134108172065950250, guid: 3d6a589a2931f5c4ca10f3b015292dc2, type: 3}
       propertyPath: startDelay.scalar
-      value: 0.3
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 1135753848026966580, guid: 3d6a589a2931f5c4ca10f3b015292dc2, type: 3}
       propertyPath: startDelay.scalar
-      value: 0.3
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 1135763507601523676, guid: 3d6a589a2931f5c4ca10f3b015292dc2, type: 3}
       propertyPath: startDelay.scalar
-      value: 0.3
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 3834092567614127773, guid: 3d6a589a2931f5c4ca10f3b015292dc2, type: 3}
       propertyPath: ShapeModule.type
@@ -274,7 +274,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3834092567614127773, guid: 3d6a589a2931f5c4ca10f3b015292dc2, type: 3}
       propertyPath: startDelay.scalar
-      value: 0.25
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 3834092567614127773, guid: 3d6a589a2931f5c4ca10f3b015292dc2, type: 3}
       propertyPath: ShapeModule.radiusThickness
