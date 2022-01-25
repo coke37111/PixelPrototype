@@ -191,11 +191,14 @@ namespace Assets.Scripts.Feature.Bomberman
 
         private void MakePlayer()
         {
+            Vector2Int spawnPos = mapCtrl.GetRandomSpawnPos();
+            Vector3 spawnPosTo3 = new Vector3(spawnPos.x, 0f, spawnPos.y);
+
             if (PlayerSettings.IsConnectNetwork())
             {
                 var data = new List<object>();
 
-                PhotonNetwork.Instantiate($"Prefab/BomberMan/Player", Vector3.zero, Quaternion.identity, 0, data.ToArray());
+                PhotonNetwork.Instantiate($"Prefab/BomberMan/Player", spawnPosTo3, Quaternion.identity, 0, data.ToArray());
             }
             else
             {
@@ -203,7 +206,7 @@ namespace Assets.Scripts.Feature.Bomberman
                 if (pfPlayer != null)
                 {
                     Transform unitContainer = FindObjectOfType<UnitContainer>().transform;
-                    GameObject goPlayer = Instantiate(pfPlayer, unitContainer);
+                    GameObject goPlayer = Instantiate(pfPlayer, spawnPosTo3, Quaternion.identity, unitContainer);
                     player = goPlayer.GetComponent<PlayerController>();
                     player.SetBomberManMapController(mapCtrl);
 

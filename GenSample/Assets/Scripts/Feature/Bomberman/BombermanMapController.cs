@@ -92,5 +92,24 @@ namespace Assets.Scripts.Feature.Bomberman
             GameObject goExpEff = Instantiate(pfExpEff, new Vector3(pos.x, .5f, pos.y), Quaternion.identity, null);
             Destroy(goExpEff, .1f);
         }
+
+        public Vector2Int GetRandomSpawnPos()
+        {
+            Vector2Int spawnPos = GetRandomPos();
+            BomberManBlock block = GetBlockInPos(spawnPos);
+            while(block != null)
+            {
+                spawnPos = GetRandomPos();
+                block = GetBlockInPos(spawnPos);
+            }
+            return spawnPos;
+        }
+
+        private Vector2Int GetRandomPos()
+        {
+            int x = Random.Range(-mapSize + 1, mapSize);
+            int y = Random.Range(-mapSize + 1, mapSize);
+            return new Vector2Int(x, y);
+        }
     }
 }

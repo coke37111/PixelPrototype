@@ -200,6 +200,11 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             {
                 Vector3 bombPos = new Vector3(Mathf.RoundToInt(transform.position.x), 0.5f, Mathf.RoundToInt(transform.position.z));
 
+                if (mapCtrl.GetBlockInPos(new Vector2Int((int)bombPos.x, (int)bombPos.z)) != null)
+                {
+                    return;
+                }
+
                 if (PlayerSettings.IsConnectNetwork())
                 {
                     var data = new List<object>();
@@ -210,11 +215,6 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
                 }
                 else
                 {
-                    if (mapCtrl.GetBlockInPos(new Vector2Int((int)bombPos.x, (int)bombPos.z)) != null)
-                    {
-                        return;
-                    }
-
                     GameObject goBomb = Instantiate(pfBomb, bombPos, Quaternion.identity, unitContainer);
                     Bomb bomb = goBomb.GetComponent<Bomb>();
                     bomb.SetMapCtrl(mapCtrl);
