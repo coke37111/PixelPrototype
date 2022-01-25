@@ -14,6 +14,10 @@
             Clear,
             Fail,
             Hit,
+
+            // Bomberman
+            MakeBomb,
+            MakeNormalBlock,
         }
 
         public const string PLAYER_LOADED_LEVEL = "GenPlayerLoadedLevel"; // 모든 player 씬 로드 체크 후 player 생성

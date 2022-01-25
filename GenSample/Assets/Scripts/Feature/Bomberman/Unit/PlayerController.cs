@@ -10,6 +10,7 @@ using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Assets.Scripts.Settings.PlayerSettings;
 using PunHashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Assets.Scripts.Feature.Bomberman.Unit
@@ -123,7 +124,30 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
         public void OnEvent(ExitGames.Client.Photon.EventData photonEvent)
         {
+            EventCodeType eventCodeType = (EventCodeType)photonEvent.Code;
+            object[] data = (photonEvent.CustomData != null) ? photonEvent.CustomData as object[] : null;
 
+            switch (eventCodeType)
+            {
+                case EventCodeType.MakeBomb:
+                    {
+                        int senderViewId = (int)data[0];
+                        if (photonView.ViewID != senderViewId)
+                            return;
+
+                        Vector3 bombPos = (Vector3)data[1];
+                        int power = (int)data[2];
+                        float time = (float)data[3];
+
+                        GameObject goBomb = Instantiate(pfBomb, bombPos, Quaternion.identity, unitContainer);
+                        Bomb bomb = goBomb.GetComponent<Bomb>();
+                        bomb.SetMapCtrl(mapCtrl);
+                        bomb.Build(power, time);
+
+                        mapCtrl.RegisterBlock(bomb);
+                        break;
+                    }
+            }
         }
 
         #endregion
@@ -218,11 +242,10 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
                 if (PlayerSettings.IsConnectNetwork())
                 {
-                    var data = new List<object>();
-                    data.Add(bombPower);
-                    data.Add(bombTime);
-
-                    PhotonNetwork.Instantiate(bombPath, bombPos, Quaternion.identity, 0, data.ToArray());
+                    PhotonEventManager.RaiseEvent(EventCodeType.MakeBomb, ReceiverGroup.All, new object[]
+                    {
+                        photonView.ViewID, bombPos, bombPower, bombTime
+                    });                    
                 }
                 else
                 {

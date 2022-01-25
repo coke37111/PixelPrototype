@@ -1,8 +1,11 @@
 ﻿using Assets.Scripts.Managers;
 using Assets.Scripts.Util;
+using ExitGames.Client.Photon;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Assets.Scripts.Settings.PlayerSettings;
 
 namespace Assets.Scripts.Feature.Bomberman
 {    
@@ -10,7 +13,7 @@ namespace Assets.Scripts.Feature.Bomberman
     {
         private int mapSize = 5;
         private List<BomberManBlock> blocks = new List<BomberManBlock>();
-        
+
         public void Init()
         {
             BomberManObjectContainer objContainer = FindObjectOfType<BomberManObjectContainer>();

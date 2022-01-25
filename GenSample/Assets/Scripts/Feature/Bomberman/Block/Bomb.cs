@@ -1,20 +1,13 @@
-﻿using Assets.Scripts.Feature.GenSample;
-using Assets.Scripts.Feature.PxpCraft;
-using Assets.Scripts.Settings;
-using Assets.Scripts.Util;
-using Photon.Pun;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Feature.Bomberman
 {
-    public class Bomb : BomberManBlock, IPunInstantiateMagicCallback
+    public class Bomb : BomberManBlock
     {
         public GameObject basePrefab;
         private BombCollision bombColl;
         private BombermanMapController mapCtrl;
         private BombermanManager manager;
-        private PhotonView photonView;
 
         private float time;
         private float curTime;
@@ -51,30 +44,11 @@ namespace Assets.Scripts.Feature.Bomberman
 
         #endregion
 
-        #region PUN_METHOD
-
-        public void OnPhotonInstantiate(PhotonMessageInfo info)
-        {
-            Transform unitContainer = FindObjectOfType<UnitContainer>().transform;
-            transform.SetParent(unitContainer);
-
-            int bombPower = (int)info.photonView.InstantiationData[0];
-            float bombTime = (float)info.photonView.InstantiationData[1];
-
-            SetMapCtrl(FindObjectOfType<BombermanMapController>());
-            Build(bombPower, bombTime);
-
-            mapCtrl.RegisterBlock(this);
-        }
-
-        #endregion
-
         public override void Init()
         {
             base.Init();
 
             manager = FindObjectOfType<BombermanManager>();
-            photonView = GetComponent<PhotonView>();
 
             basePrefab.SetActive(true);
             bombColl = GetComponentInChildren<BombCollision>();
@@ -119,14 +93,7 @@ namespace Assets.Scripts.Feature.Bomberman
             mapCtrl.MakeExplosion(bombPos, power, "EffExplosion");
 
             mapCtrl.UnregisterBlock(this);
-
-            if (PlayerSettings.IsConnectNetwork())
-            {
-                if (photonView.IsMine)
-                    PhotonNetwork.Destroy(photonView);
-            }
-            else
-                Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 }
