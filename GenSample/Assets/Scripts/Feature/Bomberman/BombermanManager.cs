@@ -220,7 +220,7 @@ namespace Assets.Scripts.Feature.Bomberman
 
             bool allDestroyed = true;
             foreach (Player p in PhotonNetwork.PlayerListOthers)
-            {                
+            {
                 if (!IsPlayerDie(p))
                 {
                     allDestroyed = false;

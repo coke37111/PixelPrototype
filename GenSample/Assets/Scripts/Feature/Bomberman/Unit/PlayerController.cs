@@ -230,6 +230,9 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             if (manager.IsEndGame())
                 return;
 
+            if (!photonView.IsMine)
+                return;
+
             isControllable = false;
 
             if (PlayerSettings.IsConnectNetwork())
