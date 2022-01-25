@@ -232,6 +232,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1256945147459219473}
     m_Modifications:
+    - target: {fileID: 937104748801850814, guid: 3d6a589a2931f5c4ca10f3b015292dc2, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 937983287854639180, guid: 3d6a589a2931f5c4ca10f3b015292dc2, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 938612299135953356, guid: 3d6a589a2931f5c4ca10f3b015292dc2, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 940348381625071052, guid: 3d6a589a2931f5c4ca10f3b015292dc2, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.45
@@ -331,6 +343,10 @@ PrefabInstance:
     - target: {fileID: 4003376083437002107, guid: 3d6a589a2931f5c4ca10f3b015292dc2, type: 3}
       propertyPath: m_Name
       value: Explosion_block
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003376083437002107, guid: 3d6a589a2931f5c4ca10f3b015292dc2, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4003376083437002107, guid: 3d6a589a2931f5c4ca10f3b015292dc2, type: 3}
       propertyPath: m_IsActive
