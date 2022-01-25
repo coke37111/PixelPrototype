@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Feature.PxpCraft;
+﻿using Assets.Scripts.Feature.GenSample;
+using Assets.Scripts.Feature.PxpCraft;
 using Assets.Scripts.Util;
 using Photon.Pun;
 using System.Collections;
@@ -11,6 +12,7 @@ namespace Assets.Scripts.Feature.Bomberman
         public GameObject basePrefab;
         private BombCollision bombColl;
         private BombermanMapController mapCtrl;
+        private BombermanManager manager;
 
         private float time;
         private float curTime;
@@ -51,6 +53,9 @@ namespace Assets.Scripts.Feature.Bomberman
 
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
+            Transform unitContainer = FindObjectOfType<UnitContainer>().transform;
+            transform.SetParent(unitContainer);
+
             int bombPower = (int)info.photonView.InstantiationData[0];
             float bombTime = (float)info.photonView.InstantiationData[1];
 
@@ -64,10 +69,12 @@ namespace Assets.Scripts.Feature.Bomberman
 
         private void Init()
         {
+            manager = FindObjectOfType<BombermanManager>();
+
             basePrefab.SetActive(true);
             bombColl = GetComponentInChildren<BombCollision>();
             curTime = 0f;
-            isExplosion = false;
+            isExplosion = false;            
         }
 
         public void SetMapCtrl(BombermanMapController mapCtrl)
@@ -87,6 +94,9 @@ namespace Assets.Scripts.Feature.Bomberman
 
         public void Explosion()
         {
+            if (manager.IsEndGame())
+                return;
+
             if (isExplosion)
                 return;
 

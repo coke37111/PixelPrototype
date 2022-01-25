@@ -21,6 +21,7 @@ namespace Assets.Scripts.Feature.Bomberman
             Init,
             Play,
             End,
+            EndWait,
         }
         private GameState gameState;
 
@@ -87,7 +88,11 @@ namespace Assets.Scripts.Feature.Bomberman
                 case GameState.End:
                     {
                         StartCoroutine(EndOfGame());
-                        SetGameState(GameState.Idle);
+                        SetGameState(GameState.EndWait);
+                        break;
+                    }
+                case GameState.EndWait:
+                    {
                         break;
                     }
             }
@@ -166,6 +171,11 @@ namespace Assets.Scripts.Feature.Bomberman
         private void SetGameState(GameState gameState)
         {
             this.gameState = gameState;
+        }
+
+        public bool IsEndGame()
+        {
+            return gameState >= GameState.End;
         }
 
         private void MakePlayer()
@@ -277,6 +287,6 @@ namespace Assets.Scripts.Feature.Bomberman
             }
 
             LeaveRoom();
-        }
+        }        
     }
 }

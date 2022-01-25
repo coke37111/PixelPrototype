@@ -2,6 +2,7 @@
 using Assets.Scripts.Feature.PxpCraft;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Util;
 using Photon.Pun;
 using Photon.Realtime;
 using Spine.Unity;
@@ -19,16 +20,33 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         public float bombTime = 3f;
 
         private BombermanMapController mapCtrl;
+        private BombermanManager manager;
 
         private Transform trSpine;
         private Animator anim;
         private GameObject pfBomb;
         private Transform unitContainer; // TODO : SetParent를 위한 Component
         private CollisionEventListener collListener;
-        private bool isMove;
-        private bool isLeftDir;
+        private bool _isMove;
+        private bool isMove {
+            get => _isMove;
+            set {
+                _isMove = value;
+                if (anim != null)
+                    anim.SetBool("isMove", value);
+            }
+        }
+        private bool _isLeftDir;
+        private bool isLeftDir {
+            get => _isLeftDir;
+            set {
+                _isLeftDir = value;
+                ChangeDir(value);
+            }
+        }
         private PhotonView photonView;
         private bool raiseDieCall = false;
+        private bool isControllable;
 
         #region UNITY
 
@@ -45,6 +63,9 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         void Update()
         {
             if (PlayerSettings.IsConnectNetwork() && !photonView.IsMine)
+                return;
+
+            if (!isControllable)
                 return;
 
             Move();
@@ -67,6 +88,8 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
             Init();
+
+            transform.SetParent(unitContainer);
 
             SetBomberManMapController(FindObjectOfType<BombermanMapController>());
 
@@ -100,6 +123,8 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
         private void Init()
         {
+            manager = FindObjectOfType<BombermanManager>();
+
             SkeletonMecanim skelM = GetComponentInChildren<SkeletonMecanim>();
             trSpine = skelM.transform;
             anim = skelM.GetComponent<Animator>();
@@ -111,6 +136,7 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             collListener.RegisterListner("HitExplosion", HitExplosion);
 
             photonView = GetComponent<PhotonView>();
+            isControllable = true;
         }
 
         public void SetBomberManMapController(BombermanMapController mapCtrl)
@@ -142,25 +168,30 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
             // TODO : 좌우전환
             {
-                Vector3 spineScale = trSpine.localScale;
-                if (dir.x > 0)
+                if(dir.x > 0f || dir.x < 0f)
                 {
-                    spineScale.x = -Mathf.Abs(spineScale.x);
-                    isLeftDir = false;
+                    isLeftDir = dir.x < 0f;
                 }
-                else if (dir.x < 0)
-                {
-                    spineScale.x = Mathf.Abs(spineScale.x);
-                    isLeftDir = true;
-                }
-                trSpine.localScale = spineScale;
             }
 
             // TODO : animation
             {
                 isMove = dir != Vector3.zero;
-                anim.SetBool("isMove", isMove);
             }            
+        }
+
+        private void ChangeDir(bool isLeftDir)
+        {
+            Vector3 spineScale = trSpine.localScale;
+            if (!isLeftDir)
+            {
+                spineScale.x = -Mathf.Abs(spineScale.x);
+            }
+            else if (isLeftDir)
+            {
+                spineScale.x = Mathf.Abs(spineScale.x);
+            }
+            trSpine.localScale = spineScale;
         }
 
         private void MakeBomb()
@@ -196,6 +227,11 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
         public void HitExplosion(params object[] param)
         {
+            if (manager.IsEndGame())
+                return;
+
+            isControllable = false;
+
             if (PlayerSettings.IsConnectNetwork())
                 RaiseDie();
             else
@@ -215,7 +251,8 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
                     };
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
-            PhotonNetwork.Destroy(photonView);
+            if(photonView.IsMine)
+                PhotonNetwork.Destroy(photonView);
         }
     }
 }
