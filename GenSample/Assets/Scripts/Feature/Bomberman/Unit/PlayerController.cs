@@ -103,10 +103,6 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             transform.SetParent(unitContainer);
 
             SetBomberManMapController(FindObjectOfType<BombermanMapController>());
-
-            camCtrl = FindObjectOfType<BombermanCameraController>();
-            if (camCtrl != null && photonView.IsMine)
-                camCtrl.SetTarget(transform);
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -148,6 +144,10 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
             photonView = GetComponent<PhotonView>();
             isControllable = true;
+
+            camCtrl = FindObjectOfType<BombermanCameraController>();
+            if (camCtrl != null && photonView.IsMine)
+                camCtrl.SetTarget(transform);
         }
 
         public void SetBomberManMapController(BombermanMapController mapCtrl)
