@@ -35,5 +35,11 @@ namespace Assets.Scripts.Feature.Bomberman
         {
             this.target = target;
         }
+
+        public void ResetPos()
+        {
+            target = null;
+            transform.position = Vector3.zero - distToTarget;
+        }
     }
 }

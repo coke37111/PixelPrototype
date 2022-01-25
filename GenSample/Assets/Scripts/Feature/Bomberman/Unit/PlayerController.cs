@@ -22,6 +22,7 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
         private BombermanMapController mapCtrl;
         private BombermanManager manager;
+        private BombermanCameraController camCtrl;
 
         private Transform trSpine;
         private Animator anim;
@@ -103,7 +104,7 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
             SetBomberManMapController(FindObjectOfType<BombermanMapController>());
 
-            BombermanCameraController camCtrl = FindObjectOfType<BombermanCameraController>();
+            camCtrl = FindObjectOfType<BombermanCameraController>();
             if (camCtrl != null && photonView.IsMine)
                 camCtrl.SetTarget(transform);
         }
@@ -251,6 +252,8 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
                 RaiseDie();
             else
                 Destroy(gameObject);
+
+            camCtrl.ResetPos();
         }
 
         private void RaiseDie()
