@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b405b50632984c345b98287212a52a5a, type: 3}
   m_Name: PlayerUnitSetting
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 5
   atk: 10
   atkDelay: 0.2
   def: 5
   hp: 100
   fireDelay: 0.5
-  jumpPower: 150
+  jumpPower: 230
   unitTypes:
   - char_st_01
   - char_st_01_human_l

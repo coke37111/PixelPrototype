@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Feature.Sandbox;
+﻿using Assets.Scripts.Feature.Main.Cube;
+using Assets.Scripts.Feature.Sandbox;
 using Assets.Scripts.Feature.Sandbox.Cube;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,18 @@ namespace Assets.Scripts.Settings
                 CubeData newData = new CubeData(cubeBase.name.Replace("(Clone)", "").Trim(), cubeBase.GetPosition());
                 cubeData.Add(newData);
             }            
+        }
+
+        public void SetData(List<Cube> cubes)
+        {
+            if (cubeData == null)
+                cubeData = new List<CubeData>();
+
+            foreach (Cube cube in cubes)
+            {
+                CubeData newData = new CubeData(cube.GetCubeId(), cube.transform.position);
+                cubeData.Add(newData);
+            }
         }
     }
 

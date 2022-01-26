@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Feature.Bomberman.Block;
 using Assets.Scripts.Feature.Bomberman.Unit;
 using Assets.Scripts.Feature.GenSample;
+using Assets.Scripts.Feature.Sandbox;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
@@ -30,14 +31,23 @@ namespace Assets.Scripts.Feature.Bomberman
         private BombermanCameraController camCtrl;
         private BombermanMapController mapCtrl;
         private PlayerController player;
+        private CubeContainer cubeContainer;
 
         public TMPro.TextMeshProUGUI infoText;
+        public SandboxMapDataSO mapData;
 
         #region UNITY
 
         // Use this for initialization
         void Start()
         {
+            cubeContainer = FindObjectOfType<CubeContainer>();
+            cubeContainer.GenerateCubes(mapData);
+
+            camCtrl = FindObjectOfType<BombermanCameraController>();
+            mapCtrl = FindObjectOfType<BombermanMapController>();
+            mapCtrl.Init();
+
             gameState = GameState.ConnectServer;
         }
 
@@ -49,10 +59,6 @@ namespace Assets.Scripts.Feature.Bomberman
                 case GameState.Idle: return;
                 case GameState.ConnectServer:
                     {
-                        camCtrl = FindObjectOfType<BombermanCameraController>();
-                        mapCtrl = FindObjectOfType<BombermanMapController>();
-                        mapCtrl.Init();
-
                         if (PlayerSettings.IsConnectNetwork())
                         {
                             PunHashtable props = new PunHashtable();

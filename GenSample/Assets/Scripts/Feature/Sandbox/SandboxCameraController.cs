@@ -13,9 +13,6 @@ namespace Assets.Scripts.Feature.Sandbox
         public float rotSpeed = 100.0f;           // 회전속도
         public float zoomSpeed = 10.0f;
 
-        [SerializeField]
-        private GameObject editTarget = null;       // 타겟이 될 게임오브젝트
-
         [Header("- For Play"), Space(10)]
         public float dist = 10.0f;
         public float height = 5.0f;
@@ -31,6 +28,8 @@ namespace Assets.Scripts.Feature.Sandbox
         private float rayDist;
 
         private bool isInitialized = false;
+
+        public LayerMask editCubeLayer;
 
         #region UNITY
 
@@ -48,7 +47,7 @@ namespace Assets.Scripts.Feature.Sandbox
             Zoom();
             if (sbManager.GetPlayerType() == SandboxManager.PLAYER_TYPE.Designer)
             {
-                Rotate(editTarget.transform);
+                Rotate();
                 Move();
                 ShowCube();
             }
@@ -93,13 +92,10 @@ namespace Assets.Scripts.Feature.Sandbox
                 return;
 
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                if (hit.collider.tag == "Cube")
-                {
-                    sbManager.ShowCube(hit.transform, hit.normal);
-                    sbManager.ActiveShowCube(true);
-                }
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, editCubeLayer))
+            {              
+                sbManager.ShowCube(hit.transform, hit.normal);
+                sbManager.ActiveShowCube(true);
             }
         }
 
@@ -118,7 +114,7 @@ namespace Assets.Scripts.Feature.Sandbox
             }
         }
 
-        private void Rotate(Transform target)
+        private void Rotate()
         {
             //transform.LookAt(Vector3.zero);
             if (Input.GetMouseButtonDown(1))

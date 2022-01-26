@@ -1,24 +1,25 @@
-﻿using Assets.Scripts.Feature.Sandbox.Cube;
-using Assets.Scripts.Managers;
+﻿using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Feature.Sandbox
+namespace Assets.Scripts.Feature.Main.Cube
 {
     public class CubeContainer : MonoBehaviour
     {
-        public List<CubeRoot> GetAllCubes()
-        {
-            List<CubeRoot> results = new List<CubeRoot>();
+        private readonly string cubePath = "Prefab/Main/Cube/Cube";
 
-            for(int i = 0; i < transform.childCount; i++)
+        public List<Cube> GetAllCubes()
+        {
+            List<Cube> results = new List<Cube>();
+
+            for (int i = 0; i < transform.childCount; i++)
             {
                 Transform child = transform.GetChild(i);
-                if (child.GetComponent<CubeRoot>())
+                if (child.GetComponent<Cube>())
                 {
-                    results.Add(child.GetComponent<CubeRoot>());
+                    results.Add(child.GetComponent<Cube>());
                 }
             }
 
@@ -30,7 +31,7 @@ namespace Assets.Scripts.Feature.Sandbox
             for (int i = 0; i < transform.childCount; i++)
             {
                 Transform child = transform.GetChild(i);
-                if (child.GetComponent<CubeRoot>())
+                if (child.GetComponent<Cube>())
                 {
                     Destroy(child.gameObject);
                 }
@@ -41,10 +42,10 @@ namespace Assets.Scripts.Feature.Sandbox
         {
             foreach (CubeData cubeData in mapData.cubeData)
             {
-                GameObject pfCubeRoot = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/LocalCube");
-                GameObject goCubeRoot = Instantiate(pfCubeRoot, cubeData.pos, Quaternion.identity, transform);
-                CubeRoot cubeRoot = goCubeRoot.GetComponent<CubeRoot>();
-                cubeRoot.Init(cubeData.prefabName);
+                GameObject pfCube = ResourceManager.LoadAsset<GameObject>(cubePath);
+                GameObject goCube = Instantiate(pfCube, cubeData.pos, Quaternion.identity, transform);
+                Cube cube = goCube.GetComponent<Cube>();
+                cube.Build(cubeData.prefabName);
             }
         }
     }

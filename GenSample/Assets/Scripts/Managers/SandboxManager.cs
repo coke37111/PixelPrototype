@@ -1,6 +1,6 @@
 ﻿using Assets.Scripts.Feature.GenSample;
+using Assets.Scripts.Feature.Main.Cube;
 using Assets.Scripts.Feature.Sandbox;
-using Assets.Scripts.Feature.Sandbox.Cube;
 using Assets.Scripts.Feature.Sandbox.UI;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using MainCubeContainer = Assets.Scripts.Feature.Main.Cube.CubeContainer;
 
 namespace Assets.Scripts.Managers
 {
@@ -33,11 +34,11 @@ namespace Assets.Scripts.Managers
         public GameObject DefaultCube;
         public SandboxMapDataSO LoadMapData;
 
-        private Transform cubeContainer;
         private CubeSlotController cubeSlotController;
+        private MainCubeContainer cubeContainerNew;
 
         private SandboxCameraController sbCamCtrl;
-        private CubeBase objShowCube;
+        private Cube objShowCubeNew;
         private SANDBOX_STATE curState;
         private UnitBase unit;
         private GameObject hitCube;
@@ -94,8 +95,8 @@ namespace Assets.Scripts.Managers
                         }
                         else
                         {
-                            cubeSlotController.HideSlotUI();
-                            if (objShowCube != null)
+                            cubeSlotController.HideSlotUI();                            
+                            if (objShowCubeNew != null)
                                 ActiveShowCube(false);
 
                             if (Input.GetKeyDown(KeyCode.R))
@@ -106,10 +107,10 @@ namespace Assets.Scripts.Managers
 
                         if (Input.GetMouseButtonDown(0))
                         {
-                            if (!removeCube && objShowCube != null && objShowCube.gameObject.activeSelf)
+                            if (!removeCube && objShowCubeNew != null && objShowCubeNew.gameObject.activeSelf)
                             {
-                                objShowCube.MakeRealCube(curCubeName);
-                                prevCubeHeight = objShowCube.GetPosition().y;
+                                objShowCubeNew.MakeRealCube();
+                                prevCubeHeight = objShowCubeNew.GetPosition().y;
                                 prevMousePos = Input.mousePosition;                                
                             }
                         }
@@ -120,16 +121,19 @@ namespace Assets.Scripts.Managers
                             {
                                 if(hitCube != null)
                                 {
-                                    hitCube.GetComponent<CubeBase>().DestroyCube();
+                                    Log.Print(hitCube.name, hitCube.transform.position);
+                                    float distMousePos = Vector3.Distance(Input.mousePosition, prevMousePos);
+                                    if (distMousePos >= .2f)
+                                        hitCube.GetComponent<Cube>().DestroyCube();
                                 }                                    
                             }
                             else
                             {
-                                if (objShowCube != null && objShowCube.gameObject.activeSelf)
+                                if (objShowCubeNew != null && objShowCubeNew.gameObject.activeSelf)
                                 {
                                     float distMousePos = Vector3.Distance(Input.mousePosition, prevMousePos);
-                                    if(distMousePos >= .2f && prevCubeHeight == objShowCube.GetPosition().y)
-                                        objShowCube.MakeRealCube(curCubeName);
+                                    if(distMousePos >= .2f && prevCubeHeight == objShowCubeNew.GetPosition().y)
+                                        objShowCubeNew.MakeRealCube();
                                 }
                             }
                         }
@@ -282,9 +286,9 @@ namespace Assets.Scripts.Managers
 
         private void Init()
         {
-            cubeContainer = FindObjectOfType<CubeContainer>().transform;
             cubeSlotController = FindObjectOfType<CubeSlotController>();
             cubeSlotController.Build(this);
+            cubeContainerNew = FindObjectOfType<MainCubeContainer>();
 
             if (!PlayerSettings.IsConnectNetwork())
             {
@@ -315,7 +319,7 @@ namespace Assets.Scripts.Managers
             }
 
             curCubeName = nextCubeName;
-            objShowCube = null;
+            objShowCubeNew = null;
 
             if(playerType == PLAYER_TYPE.Designer)
             {
@@ -335,10 +339,10 @@ namespace Assets.Scripts.Managers
                 for (int row = 0; row < DefaultMapSize.y; row++)
                 {
                     Vector3 pos = new Vector3(col - ofsX / 2f, 0, row - ofsY / 2f);
-                    GameObject pfCubeRoot = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/LocalCube");
-                    GameObject goCubeRoot = Instantiate(pfCubeRoot, pos, Quaternion.identity, cubeContainer);
-                    CubeRoot cubeRoot = goCubeRoot.GetComponent<CubeRoot>();
-                    cubeRoot.Init(DefaultCube.name);
+                    GameObject pfCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Main/Cube/Cube");
+                    GameObject goCube = Instantiate(pfCube, pos, Quaternion.identity, cubeContainerNew.transform);
+                    Cube cube = goCube.GetComponent<Cube>();
+                    cube.Build(DefaultCube.name);
                 }
             }
         }
@@ -395,7 +399,7 @@ namespace Assets.Scripts.Managers
 
         public void ShowCube(Transform hit, Vector3 normal)
         {
-            if (objShowCube == null)
+            if (objShowCubeNew == null)
             {
                 MakeShowCube();
             }
@@ -404,11 +408,11 @@ namespace Assets.Scripts.Managers
             {
                 curCubeName = nextCubeName;
 
-                Destroy(objShowCube.gameObject);
+                Destroy(objShowCubeNew.gameObject);
                 MakeShowCube();
             }
 
-            if (hit == objShowCube.transform) 
+            if (hit == objShowCubeNew.transform) 
                 return;
 
             hitCube = hit.gameObject;
@@ -417,35 +421,35 @@ namespace Assets.Scripts.Managers
             float posOffset = 0f;
             if(normal == Vector3.left || normal == Vector3.right)
             {
-                posOffset = objShowCube.transform.localScale.x;
+                posOffset = objShowCubeNew.transform.localScale.x;
             }else if(normal == Vector3.forward || normal == Vector3.back)
             {
-                posOffset = objShowCube.transform.localScale.z;
+                posOffset = objShowCubeNew.transform.localScale.z;
             }
             else if(normal == Vector3.up || normal == Vector3.down)
             {
-                posOffset = objShowCube.transform.localScale.y;
+                posOffset = objShowCubeNew.transform.localScale.y;
             }
             Vector3 showPos = normal * posOffset;
 
-            objShowCube.ClearCollObjs();
-            objShowCube.SetPosition(orgPos + showPos);
+            objShowCubeNew.ClearCollObjs();
+            objShowCubeNew.SetPosition(orgPos + showPos);
         }
 
         public void ActiveShowCube(bool isActive)
         {
-            if (objShowCube == null)
+            if (objShowCubeNew == null)
                 return;
 
-            objShowCube.gameObject.SetActive(isActive);
+            objShowCubeNew.gameObject.SetActive(isActive);
         }
 
         private void MakeShowCube()
         {
-            GameObject pfShowCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/{curCubeName}");
-            GameObject goShowCube = Instantiate(pfShowCube, cubeContainer);
-            objShowCube = goShowCube.GetComponent<CubeBase>();
-            objShowCube.SetGuide(true);
+            GameObject pfShowCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Main/Cube/Cube");
+            GameObject goShowCube = Instantiate(pfShowCube);
+            objShowCubeNew = goShowCube.GetComponent<Cube>();
+            objShowCubeNew.Build(curCubeName);
         }
 
         public PLAYER_TYPE GetPlayerType()
@@ -468,8 +472,8 @@ namespace Assets.Scripts.Managers
                 return;
             }
 
-            CubeContainer container = FindObjectOfType<CubeContainer>();
-            List<CubeRoot> cubes = container.GetAllCubes();
+            MainCubeContainer container = FindObjectOfType<MainCubeContainer>();
+            List<Cube> cubes = container.GetAllCubes();
 
             CreateSO.CreateSandboxData(cubes);
         }
@@ -490,16 +494,10 @@ namespace Assets.Scripts.Managers
                 return;
             }
 
-            CubeContainer container = FindObjectOfType<CubeContainer>();
+            MainCubeContainer container = FindObjectOfType<MainCubeContainer>();
             container.DestroyAllCubes();
 
-            foreach(CubeData cubeData in LoadMapData.cubeData)
-            {
-                GameObject pfCubeRoot = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/LocalCube");
-                GameObject goCubeRoot = Instantiate(pfCubeRoot, cubeData.pos, Quaternion.identity, container.transform);
-                CubeRoot cubeRoot = goCubeRoot.GetComponent<CubeRoot>();
-                cubeRoot.Init(cubeData.prefabName);
-            }
+            container.GenerateCubes(LoadMapData);
         }
     }
 }

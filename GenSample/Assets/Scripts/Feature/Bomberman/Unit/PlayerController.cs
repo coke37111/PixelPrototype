@@ -17,7 +17,6 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 {
     public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback, IPunObservable, IOnEventCallback
     {
-        public float speed = 3f;
         public int bombPower = 6;
         public float bombTime = 3f;
 
@@ -28,8 +27,6 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         private Transform trSpine;
         private Animator anim;
         private GameObject pfBomb;
-        private Transform unitContainer; // TODO : SetParent를 위한 Component
-        private CollisionEventListener collListener;
         private bool _isMove;
         private bool isMove {
             get => _isMove;
@@ -52,6 +49,10 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         private bool isControllable;
 
         private readonly string bombPath = "Prefab/BomberMan/Block/Bomb/BombRoot";
+
+        private PlayerUnitSettingSO playerUnitSetting;
+        private Rigidbody rb;
+        private bool canJump;
 
         #region UNITY
 
@@ -78,6 +79,7 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
                 return;
 
             Move();
+            Jump();
             MakeBomb();
         }
         public void OnEnable()
@@ -90,6 +92,14 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             PhotonNetwork.RemoveCallbackTarget(this);
         }
 
+        private void OnCollisionEnter(Collision coll)
+        {
+            if (coll.gameObject.tag == "Cube")
+            {
+                canJump = true;
+            }
+        }
+
         #endregion
 
         #region PUN_METHOD
@@ -100,8 +110,6 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             MakeSpine(spinePath);
 
             Init();
-
-            transform.SetParent(unitContainer);
 
             SetBomberManMapController(FindObjectOfType<BombermanMapController>());
         }
@@ -139,7 +147,7 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
                         int power = (int)data[2];
                         float time = (float)data[3];
 
-                        GameObject goBomb = Instantiate(pfBomb, bombPos, Quaternion.identity, unitContainer);
+                        GameObject goBomb = Instantiate(pfBomb, bombPos, Quaternion.identity);
                         Bomb bomb = goBomb.GetComponent<Bomb>();
                         bomb.SetMapCtrl(mapCtrl);
                         bomb.Build(power, time);
@@ -161,10 +169,6 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             anim = skelM.GetComponent<Animator>();
 
             pfBomb = ResourceManager.LoadAsset<GameObject>(bombPath);
-            unitContainer = FindObjectOfType<UnitContainer>().transform;
-
-            collListener = GetComponentInChildren<CollisionEventListener>();
-            collListener.RegisterListner("HitExplosion", HitExplosion);
 
             photonView = GetComponent<PhotonView>();
             isControllable = true;
@@ -172,6 +176,10 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             camCtrl = FindObjectOfType<BombermanCameraController>();
             if (camCtrl != null && photonView.IsMine)
                 camCtrl.SetTarget(transform);
+
+            playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
+            rb = GetComponent<Rigidbody>();
+            canJump = true;
         }
 
         public void SetBomberManMapController(BombermanMapController mapCtrl)
@@ -182,14 +190,6 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         private void Move()
         {
             Vector3 dir = Vector3.zero;
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                dir += Vector3.left;
-            }
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                dir += Vector3.right;
-            }
             if (Input.GetKey(KeyCode.UpArrow))
             {
                 dir += Vector3.forward;
@@ -197,9 +197,17 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             if (Input.GetKey(KeyCode.DownArrow))
             {
                 dir = Vector3.back;
-            }            
+            }
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                dir += Vector3.right;
+            }
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                dir += Vector3.left;
+            }
 
-            transform.Translate(dir * speed * Time.deltaTime);
+            transform.Translate(dir * playerUnitSetting.speed * Time.deltaTime);
 
             // TODO : 좌우전환
             {
@@ -231,7 +239,7 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
         private void MakeBomb()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Z))
             {
                 Vector3 bombPos = new Vector3(Mathf.RoundToInt(transform.position.x), 0.5f, Mathf.RoundToInt(transform.position.z));
 
@@ -249,7 +257,7 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
                 }
                 else
                 {
-                    GameObject goBomb = Instantiate(pfBomb, bombPos, Quaternion.identity, unitContainer);
+                    GameObject goBomb = Instantiate(pfBomb, bombPos, Quaternion.identity);
                     Bomb bomb = goBomb.GetComponent<Bomb>();
                     bomb.SetMapCtrl(mapCtrl);
                     bomb.Build(bombPower, bombTime);
@@ -304,6 +312,15 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             scale.x *= 2f;
             scale.y *= 3f;
             goSpine.transform.localScale = scale;
+        }
+
+        private void Jump()
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && canJump)
+            {
+                canJump = false;
+                rb.AddForce(Vector3.up * playerUnitSetting.jumpPower);
+            }
         }
     }
 }
