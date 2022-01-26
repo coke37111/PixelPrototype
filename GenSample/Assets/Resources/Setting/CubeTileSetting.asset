@@ -47,3 +47,7 @@ MonoBehaviour:
     tileName: tile_ice_01
   - cubeName: Cube_water_01
     tileName: Cube_water_01
+  - cubeName: Cube_brick_01
+    tileName: Cube_brick_01
+  - cubeName: Cube_unbreakable
+    tileName: Cube_unbreakable
