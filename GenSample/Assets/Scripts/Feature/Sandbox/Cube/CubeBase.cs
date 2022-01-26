@@ -16,6 +16,7 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
             IceCube,
             JumpCube,
             BreakCube,
+            BombCube,
         }
 
         protected abstract CUBE_TYPE cubeType
