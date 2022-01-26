@@ -387,7 +387,19 @@ namespace Assets.Scripts.Managers
             hitCube = hit.gameObject;
 
             Vector3 orgPos = hit.position;
-            Vector3 showPos = normal * objShowCube.transform.localScale.x;
+            float posOffset = 0f;
+            if(normal == Vector3.left || normal == Vector3.right)
+            {
+                posOffset = objShowCube.transform.localScale.x;
+            }else if(normal == Vector3.forward || normal == Vector3.back)
+            {
+                posOffset = objShowCube.transform.localScale.z;
+            }
+            else if(normal == Vector3.up || normal == Vector3.down)
+            {
+                posOffset = objShowCube.transform.localScale.y;
+            }
+            Vector3 showPos = normal * posOffset;
 
             objShowCube.ClearCollObjs();
             objShowCube.SetPosition(orgPos + showPos);
