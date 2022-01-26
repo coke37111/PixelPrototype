@@ -7,6 +7,8 @@ namespace Assets.Scripts.Feature.Sandbox
 {
     public class CubeRoot : MonoBehaviour
     {
+        private CubeBase cubeBase;
+
         #region UNITY
 
         // Use this for initialization
@@ -28,12 +30,19 @@ namespace Assets.Scripts.Feature.Sandbox
             GameObject pfRealCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/Cube/{cubeName}");
             GameObject goRealCube = Instantiate(pfRealCube, transform.position, Quaternion.identity, transform);
             goRealCube.GetComponent<BoxCollider>().isTrigger = false;
-            goRealCube.GetComponent<CubeBase>().SetCubeRoot(this);
+
+            cubeBase = goRealCube.GetComponent<CubeBase>();
+            cubeBase.SetCubeRoot(this);
         }
 
         public virtual void DestroyCube()
         {
             Destroy(gameObject);
+        }
+
+        public CubeBase GetCubeBase()
+        {
+            return cubeBase;
         }
     }
 }

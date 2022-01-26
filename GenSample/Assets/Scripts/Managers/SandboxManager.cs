@@ -29,6 +29,10 @@ namespace Assets.Scripts.Managers
             Player,
         }
         public PLAYER_TYPE playerType;
+        public Vector2 DefaultMapSize;
+        public GameObject DefaultCube;
+        public SandboxMapDataSO LoadMapData;
+
         private Transform cubeContainer;
         private CubeSlotController cubeSlotController;
 
@@ -38,7 +42,7 @@ namespace Assets.Scripts.Managers
         private UnitBase unit;
         private GameObject hitCube;
 
-        public string nextCubeName = "GroundCube";
+        private string nextCubeName = "GroundCube";
         private string curCubeName;
 
         private float prevCubeHeight;
@@ -313,7 +317,30 @@ namespace Assets.Scripts.Managers
             curCubeName = nextCubeName;
             objShowCube = null;
 
+            if(playerType == PLAYER_TYPE.Designer)
+            {
+                MakeDefaultMap();
+            }
+
             SpawnPlayer();
+        }
+
+        private void MakeDefaultMap()
+        {            
+            Vector3 defaultCubeScale = DefaultCube.transform.localScale;
+            float ofsX = DefaultMapSize.x - defaultCubeScale.x;
+            float ofsY = DefaultMapSize.y - defaultCubeScale.z;
+            for (int col = 0; col < DefaultMapSize.x; col++)
+            {
+                for (int row = 0; row < DefaultMapSize.y; row++)
+                {
+                    Vector3 pos = new Vector3(col - ofsX / 2f, 0, row - ofsY / 2f);
+                    GameObject pfCubeRoot = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/LocalCube");
+                    GameObject goCubeRoot = Instantiate(pfCubeRoot, pos, Quaternion.identity, cubeContainer);
+                    CubeRoot cubeRoot = goCubeRoot.GetComponent<CubeRoot>();
+                    cubeRoot.Init(DefaultCube.name);
+                }
+            }
         }
 
         private void SpawnPlayer()
@@ -429,6 +456,50 @@ namespace Assets.Scripts.Managers
         public void SetNextCube(string cubeName)
         {
             nextCubeName = cubeName;
+        }
+
+        public void SaveMap()
+        {
+            Log.Print("Save");
+
+            if(!Application.isPlaying)
+            {
+                Log.Error($"게임을 실행해주세요!");
+                return;
+            }
+
+            CubeContainer container = FindObjectOfType<CubeContainer>();
+            List<CubeRoot> cubes = container.GetAllCubes();
+
+            CreateSO.CreateSandboxData(cubes);
+        }
+
+        public void LoadMap()
+        {
+            Log.Print("Load");
+
+            if (!Application.isPlaying)
+            {
+                Log.Error($"게임을 실행해주세요!");
+                return;
+            }
+
+            if(LoadMapData == null)
+            {
+                Log.Error($"LoadMapData가 할당되있지 않습니다!");
+                return;
+            }
+
+            CubeContainer container = FindObjectOfType<CubeContainer>();
+            container.DestroyAllCubes();
+
+            foreach(CubeData cubeData in LoadMapData.cubeData)
+            {
+                GameObject pfCubeRoot = ResourceManager.LoadAsset<GameObject>($"Prefab/Sandbox/LocalCube");
+                GameObject goCubeRoot = Instantiate(pfCubeRoot, cubeData.pos, Quaternion.identity, container.transform);
+                CubeRoot cubeRoot = goCubeRoot.GetComponent<CubeRoot>();
+                cubeRoot.Init(cubeData.prefabName);
+            }
         }
     }
 }
