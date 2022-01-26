@@ -26,7 +26,7 @@ namespace Assets.Scripts.Feature.Sandbox.Editor
             GUILayout.Space(10);
             if (GUILayout.Button("Load Map", style))
             {
-                if(EditorUtility.DisplayDialog("Load Map", "맵을 로드하시겠습니까? 기영님?ㅋ", "로드", "취소"))
+                if(EditorUtility.DisplayDialog("Load Map", "맵을 로드하시겠습니까?", "로드", "취소"))
                 {
                     manager.LoadMap();
                 }
