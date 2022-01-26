@@ -17,6 +17,8 @@ namespace Assets.Scripts.Settings.SO
         public float hp;
         [Header("- 미사일 발사 딜레이")]
         public float fireDelay;
+        [Header("- 점프 파워")]
+        public float jumpPower;
         [Header("- 스킨목록")]
         public string[] unitTypes;
         [Header("- 스파인목록")]

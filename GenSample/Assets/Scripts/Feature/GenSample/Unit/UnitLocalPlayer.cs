@@ -160,7 +160,7 @@ namespace Assets.Scripts.Feature.GenSample
             if (isClimb)
                 return;
 
-            float jumpPower = 150f;
+            float jumpPower = playerUnitSetting.jumpPower;
             if(belowCube != null && belowCube.GetCubeType() == CubeBase.CUBE_TYPE.JumpCube)
             {
                 JumpCube jumpCube = belowCube.GetComponent<JumpCube>();
