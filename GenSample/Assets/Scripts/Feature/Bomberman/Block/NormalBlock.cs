@@ -1,12 +1,17 @@
 ﻿using Assets.Scripts.Feature.GenSample;
+using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Util;
+using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using UnityEngine;
+using static Assets.Scripts.Settings.PlayerSettings;
 
 namespace Assets.Scripts.Feature.Bomberman.Block
 {
-    public class NormalBlock : BomberManBlock, IPunInstantiateMagicCallback
+    public class NormalBlock : BomberManBlock, IPunInstantiateMagicCallback, IOnEventCallback
     {
         private BombermanMapController mapCtrl;
         private BombermanManager manager;
@@ -29,6 +34,16 @@ namespace Assets.Scripts.Feature.Bomberman.Block
 
         }
 
+        public void OnEnable()
+        {
+            PhotonNetwork.AddCallbackTarget(this);
+        }
+
+        public void OnDisable()
+        {
+            PhotonNetwork.RemoveCallbackTarget(this);
+        }
+
         #endregion
 
         #region PUN_METHOD
@@ -36,6 +51,29 @@ namespace Assets.Scripts.Feature.Bomberman.Block
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
             Init();
+        }
+
+        public void OnEvent(EventData photonEvent)
+        {
+            EventCodeType eventCodeType = (EventCodeType)photonEvent.Code;
+            object[] data = (photonEvent.CustomData != null) ? photonEvent.CustomData as object[] : null;
+
+            switch (eventCodeType)
+            {
+                case EventCodeType.DestroyNormalBlock:
+                    {
+                        int senderViewId = (int)data[0];
+                        Log.Print(senderViewId, photonView.ViewID, photonView.IsMine);
+                        if (photonView.ViewID != senderViewId)
+                            return;
+
+                        mapCtrl.UnregisterBlock(this);
+
+                        if(photonView.IsMine)
+                            PhotonNetwork.Destroy(photonView);
+                        break;
+                    }
+            }
         }
 
         #endregion
@@ -80,15 +118,18 @@ namespace Assets.Scripts.Feature.Bomberman.Block
 
         public void EndDestroyAnim()
         {
-            mapCtrl.UnregisterBlock(this);
-
             if (PlayerSettings.IsConnectNetwork())
             {
-                if (photonView.IsMine)
-                    PhotonNetwork.Destroy(photonView);
+                PhotonEventManager.RaiseEvent(PlayerSettings.EventCodeType.DestroyNormalBlock, ReceiverGroup.All, new object[]
+                {
+                    photonView.ViewID
+                });
             }
             else
+            {
+                mapCtrl.UnregisterBlock(this);
                 Destroy(gameObject);
+            }
         }
     }
 }
