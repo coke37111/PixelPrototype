@@ -297,13 +297,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 70963122}
-  m_LocalRotation: {x: 0.25000006, y: -0.24999997, z: 0.066987306, w: 0.9330127}
-  m_LocalPosition: {x: 3, y: 3.5, z: -5}
+  m_LocalRotation: {x: 0.3420201, y: 0, z: 0, w: 0.9396927}
+  m_LocalPosition: {x: 0, y: 24, z: -30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 30, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 40, y: 0, z: 0}
 --- !u!114 &70963126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,9 +316,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7012714fcedae34489c52cabb89f772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
+  moveSpeed: 100
   rotSpeed: 500
-  zoomSpeed: 10
+  zoomSpeed: 40
   editTarget: {fileID: 1490062482}
   dist: 10
   height: 5
@@ -821,8 +821,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerType: 0
-  DefaultMapSize: {x: 5, y: 5}
+  DefaultMapSize: {x: 15, y: 15}
   DefaultCube: {fileID: 5586264996223977337, guid: 000701b311e44874aa977c08c0ee1502, type: 3}
+  LoadMapData: {fileID: 0}
 --- !u!1 &792750307
 GameObject:
   m_ObjectHideFlags: 0
