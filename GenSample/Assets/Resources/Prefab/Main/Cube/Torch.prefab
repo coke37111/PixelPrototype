@@ -9829,6 +9829,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8992987008695477287}
   - component: {fileID: 8992987008695477281}
+  - component: {fileID: 845874834385076868}
   m_Layer: 8
   m_Name: torch
   m_TagString: Untagged
@@ -9902,6 +9903,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &845874834385076868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8992987008695477284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8692dcea25a1f244cba03476e198b08a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9108947953815173387
 GameObject:
   m_ObjectHideFlags: 0
@@ -9912,7 +9925,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2813906290691394471}
   - component: {fileID: 5408125030057460198}
-  - component: {fileID: 3336726178559937613}
+  - component: {fileID: 6284199436846758992}
   m_Layer: 8
   m_Name: Torch
   m_TagString: Untagged
@@ -9948,7 +9961,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3336726178559937613
+--- !u!114 &6284199436846758992
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9957,6 +9970,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 9108947953815173387}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8692dcea25a1f244cba03476e198b08a, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d6c16a39efd4b541a0be52d440dfed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
