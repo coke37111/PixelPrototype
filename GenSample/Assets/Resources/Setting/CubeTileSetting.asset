@@ -51,3 +51,5 @@ MonoBehaviour:
     tileName: Cube_brick_01
   - cubeName: Cube_unbreakable
     tileName: Cube_unbreakable
+  - cubeName: Torch
+    tileName: Torch
