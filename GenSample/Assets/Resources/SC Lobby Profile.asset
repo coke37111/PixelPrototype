@@ -131,7 +131,7 @@ MonoBehaviour:
     value: 0.5
   mode:
     overrideState: 1
-    value: 1
+    value: 0
   quality:
     overrideState: 1
     value: 1
