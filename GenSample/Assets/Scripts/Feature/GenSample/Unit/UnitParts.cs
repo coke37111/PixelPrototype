@@ -23,7 +23,7 @@ namespace Assets.Scripts.Feature.GenSample
         {
             Vector3 quaUnit = transform.rotation.eulerAngles;
             Vector3 quaCam = Camera.main.transform.rotation.eulerAngles;
-            quaUnit.x = quaCam.x;
+            //quaUnit.x = quaCam.x;
             quaUnit.y = quaCam.y;
             Quaternion quaUnitNew = Quaternion.Euler(quaUnit);
             transform.rotation = quaUnitNew;
