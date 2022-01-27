@@ -99,7 +99,7 @@ namespace Assets.Scripts.Feature.Sandbox.UI
 
         private void CheckExistCubes()
         {
-            GameObject[] pfCubes = ResourceManager.LoadAssets<GameObject>("Prefab/Sandbox/Cube");
+            GameObject[] pfCubes = ResourceManager.LoadAssets<GameObject>("Prefab/Main/Cube");
             foreach (GameObject pfCube in pfCubes)
             {
                 if (tileNameBySlotDict.ContainsKey(pfCube.name))

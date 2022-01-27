@@ -1,5 +1,7 @@
 ﻿using Assets.Scripts.Managers;
-using System.Collections;
+using Assets.Scripts.Settings;
+using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -19,8 +21,9 @@ namespace Assets.Scripts.Feature.Sandbox.Editor
 
             GUILayout.Space(10);
             if (GUILayout.Button("Save Map", style))
-            {                
-                manager.SaveMap();
+            {           
+                if(manager.CanSaveMap())
+                    SaveData(manager.GetCubes());
             }
 
             GUILayout.Space(10);
@@ -31,6 +34,20 @@ namespace Assets.Scripts.Feature.Sandbox.Editor
                     manager.LoadMap();
                 }
             }            
+        }
+
+        private void SaveData(List<Main.Cube.Cube> cubes)
+        {
+            SandboxMapDataSO asset = CreateInstance<SandboxMapDataSO>();
+
+            asset.SetData(cubes);
+
+            AssetDatabase.CreateAsset(asset, $"Assets/Resources/Data/SandboxMap/SandboxMapData_{DateTime.Now.ToString("yyyyMMddHHmmss")}.asset");
+            AssetDatabase.SaveAssets();
+
+            EditorUtility.FocusProjectWindow();
+
+            Selection.activeObject = asset;
         }
     }
 }

@@ -462,20 +462,24 @@ namespace Assets.Scripts.Managers
             nextCubeName = cubeName;
         }
 
-        public void SaveMap()
+        public bool CanSaveMap()
         {
-            Log.Print("Save");
-
-            if(!Application.isPlaying)
+            if (!Application.isPlaying)
             {
                 Log.Error($"게임을 실행해주세요!");
-                return;
             }
+
+            return Application.isPlaying;
+        }
+
+        public List<Cube> GetCubes()
+        {
+            Log.Print("Save");
 
             MainCubeContainer container = FindObjectOfType<MainCubeContainer>();
             List<Cube> cubes = container.GetAllCubes();
 
-            CreateSO.CreateSandboxData(cubes);
+            return cubes;
         }
 
         public void LoadMap()
