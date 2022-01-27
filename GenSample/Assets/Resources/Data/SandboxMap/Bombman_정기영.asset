@@ -1,0 +1,1241 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa89eb52d698fb348bd1f4abc8245c3c, type: 3}
+  m_Name: "Bombman_\uC815\uAE30\uC601"
+  m_EditorClassIdentifier: 
+  cubeData:
+  - prefabName: GroundCubeTest
+    pos: {x: -2, y: 0, z: -2}
+  - prefabName: GroundCubeTest
+    pos: {x: -2, y: 0, z: 2}
+  - prefabName: GroundCubeTest
+    pos: {x: -1, y: 0, z: -1}
+  - prefabName: GroundCubeTest
+    pos: {x: -1, y: 0, z: 1}
+  - prefabName: GroundCubeTest
+    pos: {x: 0, y: 0, z: 0}
+  - prefabName: GroundCubeTest
+    pos: {x: 0, y: 0, z: 2}
+  - prefabName: GroundCubeTest
+    pos: {x: 1, y: 0, z: -1}
+  - prefabName: GroundCubeTest
+    pos: {x: 1, y: 0, z: 1}
+  - prefabName: GroundCubeTest
+    pos: {x: 2, y: 0, z: -2}
+  - prefabName: GroundCubeTest
+    pos: {x: 2, y: 0, z: 0}
+  - prefabName: Cube_grass_01
+    pos: {x: -1, y: 0, z: -3}
+  - prefabName: Cube_grass_01
+    pos: {x: 1, y: 0, z: -3}
+  - prefabName: Cube_grass_01
+    pos: {x: 1, y: 0, z: 3}
+  - prefabName: Cube_grass_01
+    pos: {x: -1, y: 0, z: 3}
+  - prefabName: Cube_grass_01
+    pos: {x: -3, y: 0, z: 1}
+  - prefabName: Cube_grass_01
+    pos: {x: -3, y: 0, z: -1}
+  - prefabName: Cube_grass_01
+    pos: {x: 3, y: 0, z: -1}
+  - prefabName: Cube_grass_01
+    pos: {x: 3, y: 0, z: 1}
+  - prefabName: Cube_grass_01
+    pos: {x: -3, y: 0, z: 3}
+  - prefabName: Cube_grass_01
+    pos: {x: -3, y: 0, z: -3}
+  - prefabName: Cube_grass_01
+    pos: {x: -4, y: 0, z: 2}
+  - prefabName: Cube_grass_01
+    pos: {x: -4, y: 0, z: 0}
+  - prefabName: Cube_grass_01
+    pos: {x: -4, y: 0, z: -2}
+  - prefabName: Cube_grass_01
+    pos: {x: 3, y: 0, z: 3}
+  - prefabName: Cube_grass_01
+    pos: {x: -2, y: 0, z: 4}
+  - prefabName: Cube_grass_01
+    pos: {x: 0, y: 0, z: 4}
+  - prefabName: Cube_grass_01
+    pos: {x: 4, y: 0, z: 2}
+  - prefabName: Cube_grass_01
+    pos: {x: 4, y: 0, z: 0}
+  - prefabName: Cube_grass_01
+    pos: {x: 4, y: 0, z: -2}
+  - prefabName: Cube_grass_01
+    pos: {x: 3, y: 0, z: -3}
+  - prefabName: Cube_grass_01
+    pos: {x: -2, y: 0, z: -4}
+  - prefabName: Cube_grass_01
+    pos: {x: 0, y: 0, z: -4}
+  - prefabName: Cube_grass_01
+    pos: {x: 2, y: 0, z: -4}
+  - prefabName: Cube_grass_01
+    pos: {x: 1, y: 0, z: 5}
+  - prefabName: Cube_grass_01
+    pos: {x: -1, y: 0, z: 5}
+  - prefabName: Cube_grass_01
+    pos: {x: 5, y: 0, z: -1}
+  - prefabName: Cube_grass_01
+    pos: {x: 5, y: 0, z: 1}
+  - prefabName: Cube_grass_01
+    pos: {x: -1, y: 0, z: -5}
+  - prefabName: Cube_grass_01
+    pos: {x: 1, y: 0, z: -5}
+  - prefabName: Cube_grass_01
+    pos: {x: -5, y: 0, z: 1}
+  - prefabName: Cube_grass_01
+    pos: {x: -5, y: 0, z: -1}
+  - prefabName: Cube_grass_01
+    pos: {x: -5, y: 0, z: -3}
+  - prefabName: Cube_grass_01
+    pos: {x: -3, y: 0, z: -5}
+  - prefabName: Cube_grass_01
+    pos: {x: 3, y: 0, z: -5}
+  - prefabName: Cube_grass_01
+    pos: {x: 5, y: 0, z: -3}
+  - prefabName: Cube_grass_01
+    pos: {x: 5, y: 0, z: 3}
+  - prefabName: Cube_grass_01
+    pos: {x: 3, y: 0, z: 5}
+  - prefabName: Cube_grass_01
+    pos: {x: -3, y: 0, z: 5}
+  - prefabName: Cube_grass_01
+    pos: {x: -5, y: 0, z: 3}
+  - prefabName: Cube_grass_01
+    pos: {x: 6, y: 0, z: -2}
+  - prefabName: Cube_grass_01
+    pos: {x: 6, y: 0, z: 0}
+  - prefabName: Cube_grass_01
+    pos: {x: 6, y: 0, z: 2}
+  - prefabName: Cube_grass_01
+    pos: {x: 2, y: 0, z: 6}
+  - prefabName: Cube_grass_01
+    pos: {x: -6, y: 0, z: 0}
+  - prefabName: Cube_grass_01
+    pos: {x: -6, y: 0, z: -2}
+  - prefabName: Cube_grass_01
+    pos: {x: -2, y: 0, z: -6}
+  - prefabName: Cube_grass_01
+    pos: {x: 0, y: 0, z: -6}
+  - prefabName: Cube_grass_01
+    pos: {x: 2, y: 0, z: -6}
+  - prefabName: Cube_grass_01
+    pos: {x: -4, y: 0, z: -6}
+  - prefabName: Cube_grass_01
+    pos: {x: -6, y: 0, z: -4}
+  - prefabName: Cube_grass_01
+    pos: {x: 4, y: 0, z: -6}
+  - prefabName: Cube_grass_01
+    pos: {x: -4, y: 0, z: 6}
+  - prefabName: Cube_grass_01
+    pos: {x: -6, y: 0, z: 4}
+  - prefabName: Cube_grass_01
+    pos: {x: 4, y: 0, z: 6}
+  - prefabName: Cube_grass_01
+    pos: {x: 6, y: 0, z: 4}
+  - prefabName: Cube_grass_01
+    pos: {x: 6, y: 0, z: -4}
+  - prefabName: Cube_grass_01
+    pos: {x: -5, y: 0, z: -5}
+  - prefabName: Cube_grass_01
+    pos: {x: 5, y: 0, z: -5}
+  - prefabName: Cube_grass_01
+    pos: {x: 5, y: 0, z: 5}
+  - prefabName: Cube_grass_01
+    pos: {x: -5, y: 0, z: 5}
+  - prefabName: Cube_grass_01
+    pos: {x: 4, y: 0, z: 8}
+  - prefabName: Cube_grass_01
+    pos: {x: 3, y: 0, z: 8}
+  - prefabName: Cube_grass_01
+    pos: {x: 2, y: 0, z: 8}
+  - prefabName: Cube_grass_01
+    pos: {x: 1, y: 0, z: 7}
+  - prefabName: Cube_grass_01
+    pos: {x: 1, y: 0, z: 8}
+  - prefabName: Cube_grass_01
+    pos: {x: 0, y: 0, z: 8}
+  - prefabName: Cube_grass_01
+    pos: {x: -1, y: 0, z: 7}
+  - prefabName: Cube_grass_01
+    pos: {x: -1, y: 0, z: 8}
+  - prefabName: Cube_grass_01
+    pos: {x: -2, y: 0, z: 8}
+  - prefabName: Cube_grass_01
+    pos: {x: -3, y: 0, z: 7}
+  - prefabName: Cube_grass_01
+    pos: {x: -3, y: 0, z: 8}
+  - prefabName: Cube_grass_01
+    pos: {x: -4, y: 0, z: 8}
+  - prefabName: Cube_grass_01
+    pos: {x: 3, y: 0, z: 7}
+  - prefabName: Cube_grass_01
+    pos: {x: 7, y: 0, z: 5}
+  - prefabName: Cube_grass_01
+    pos: {x: 7, y: 0, z: 3}
+  - prefabName: Cube_grass_01
+    pos: {x: 7, y: 0, z: 1}
+  - prefabName: Cube_grass_01
+    pos: {x: 7, y: 0, z: -1}
+  - prefabName: Cube_grass_01
+    pos: {x: 7, y: 0, z: -3}
+  - prefabName: Cube_grass_01
+    pos: {x: 5, y: 0, z: -7}
+  - prefabName: Cube_grass_01
+    pos: {x: 3, y: 0, z: -7}
+  - prefabName: Cube_grass_01
+    pos: {x: 1, y: 0, z: -7}
+  - prefabName: Cube_grass_01
+    pos: {x: -1, y: 0, z: -7}
+  - prefabName: Cube_grass_01
+    pos: {x: -3, y: 0, z: -7}
+  - prefabName: Cube_grass_01
+    pos: {x: -5, y: 0, z: -7}
+  - prefabName: Cube_grass_01
+    pos: {x: -7, y: 0, z: -5}
+  - prefabName: Cube_grass_01
+    pos: {x: -7, y: 0, z: -3}
+  - prefabName: Cube_grass_01
+    pos: {x: -7, y: 0, z: -1}
+  - prefabName: Cube_grass_01
+    pos: {x: -7, y: 0, z: 1}
+  - prefabName: Cube_grass_01
+    pos: {x: -7, y: 0, z: 3}
+  - prefabName: Cube_grass_01
+    pos: {x: -7, y: 0, z: 5}
+  - prefabName: Cube_grass_01
+    pos: {x: -6, y: 0, z: 6}
+  - prefabName: Cube_grass_01
+    pos: {x: -7, y: 0, z: 6}
+  - prefabName: Cube_grass_01
+    pos: {x: 7, y: 0, z: 6}
+  - prefabName: Cube_grass_01
+    pos: {x: 6, y: 0, z: 6}
+  - prefabName: Cube_grass_01
+    pos: {x: 5, y: 0, z: 8}
+  - prefabName: Cube_grass_01
+    pos: {x: -5, y: 0, z: 7}
+  - prefabName: Cube_grass_01
+    pos: {x: -5, y: 0, z: 8}
+  - prefabName: Cube_grass_01
+    pos: {x: 6, y: 0, z: 7}
+  - prefabName: Cube_grass_01
+    pos: {x: -6, y: 0, z: 7}
+  - prefabName: Cube_grass_01
+    pos: {x: -6, y: 0, z: -6}
+  - prefabName: Cube_unbreakable
+    pos: {x: -1, y: 1, z: 1}
+  - prefabName: Cube_unbreakable
+    pos: {x: 1, y: 1, z: 1}
+  - prefabName: Cube_unbreakable
+    pos: {x: 1, y: 1, z: -1}
+  - prefabName: Cube_unbreakable
+    pos: {x: -1, y: 1, z: -1}
+  - prefabName: Cube_unbreakable
+    pos: {x: -1, y: 1, z: -3}
+  - prefabName: Cube_unbreakable
+    pos: {x: -1, y: 1, z: -5}
+  - prefabName: Cube_unbreakable
+    pos: {x: 1, y: 1, z: -3}
+  - prefabName: Cube_unbreakable
+    pos: {x: 1, y: 1, z: -5}
+  - prefabName: Cube_unbreakable
+    pos: {x: -3, y: 1, z: -5}
+  - prefabName: Cube_unbreakable
+    pos: {x: -5, y: 1, z: -5}
+  - prefabName: Cube_unbreakable
+    pos: {x: -5, y: 1, z: -3}
+  - prefabName: Cube_unbreakable
+    pos: {x: -3, y: 1, z: -3}
+  - prefabName: Cube_unbreakable
+    pos: {x: 3, y: 1, z: -3}
+  - prefabName: Cube_unbreakable
+    pos: {x: 3, y: 1, z: -5}
+  - prefabName: Cube_unbreakable
+    pos: {x: 5, y: 1, z: -5}
+  - prefabName: Cube_unbreakable
+    pos: {x: 5, y: 1, z: -3}
+  - prefabName: Cube_unbreakable
+    pos: {x: 3, y: 1, z: -1}
+  - prefabName: Cube_unbreakable
+    pos: {x: 5, y: 1, z: -1}
+  - prefabName: Cube_unbreakable
+    pos: {x: 5, y: 1, z: 1}
+  - prefabName: Cube_unbreakable
+    pos: {x: 3, y: 1, z: 1}
+  - prefabName: Cube_unbreakable
+    pos: {x: -3, y: 1, z: -1}
+  - prefabName: Cube_unbreakable
+    pos: {x: -5, y: 1, z: -1}
+  - prefabName: Cube_unbreakable
+    pos: {x: -5, y: 1, z: 1}
+  - prefabName: Cube_unbreakable
+    pos: {x: -3, y: 1, z: 1}
+  - prefabName: Cube_unbreakable
+    pos: {x: -3, y: 1, z: 3}
+  - prefabName: Cube_unbreakable
+    pos: {x: -1, y: 1, z: 3}
+  - prefabName: Cube_unbreakable
+    pos: {x: 1, y: 1, z: 3}
+  - prefabName: Cube_unbreakable
+    pos: {x: 3, y: 1, z: 3}
+  - prefabName: Cube_unbreakable
+    pos: {x: 5, y: 1, z: 3}
+  - prefabName: Cube_unbreakable
+    pos: {x: 5, y: 1, z: 5}
+  - prefabName: Cube_unbreakable
+    pos: {x: 3, y: 1, z: 5}
+  - prefabName: Cube_unbreakable
+    pos: {x: 1, y: 1, z: 5}
+  - prefabName: Cube_unbreakable
+    pos: {x: -1, y: 1, z: 5}
+  - prefabName: Cube_unbreakable
+    pos: {x: -3, y: 1, z: 5}
+  - prefabName: Cube_unbreakable
+    pos: {x: -5, y: 1, z: 5}
+  - prefabName: Cube_unbreakable
+    pos: {x: -3, y: 1, z: 7}
+  - prefabName: Cube_unbreakable
+    pos: {x: -1, y: 1, z: 7}
+  - prefabName: Cube_unbreakable
+    pos: {x: 1, y: 1, z: 7}
+  - prefabName: Cube_unbreakable
+    pos: {x: 3, y: 1, z: 7}
+  - prefabName: Cube_unbreakable
+    pos: {x: -1, y: 1, z: -7}
+  - prefabName: Cube_unbreakable
+    pos: {x: 1, y: 1, z: -7}
+  - prefabName: Cube_unbreakable
+    pos: {x: 3, y: 1, z: -7}
+  - prefabName: Cube_unbreakable
+    pos: {x: -3, y: 1, z: -7}
+  - prefabName: Cube_unbreakable
+    pos: {x: -7, y: 1, z: 3}
+  - prefabName: Cube_unbreakable
+    pos: {x: -7, y: 1, z: 1}
+  - prefabName: Cube_unbreakable
+    pos: {x: -7, y: 1, z: -1}
+  - prefabName: Cube_unbreakable
+    pos: {x: -7, y: 1, z: -3}
+  - prefabName: Cube_unbreakable
+    pos: {x: 7, y: 1, z: -3}
+  - prefabName: Cube_unbreakable
+    pos: {x: 7, y: 1, z: -1}
+  - prefabName: Cube_unbreakable
+    pos: {x: 7, y: 1, z: 1}
+  - prefabName: Cube_unbreakable
+    pos: {x: 7, y: 1, z: 3}
+  - prefabName: Cube_grass_01
+    pos: {x: 8, y: 0, z: -3}
+  - prefabName: Cube_grass_01
+    pos: {x: 8, y: 0, z: -2}
+  - prefabName: Cube_grass_01
+    pos: {x: 8, y: 0, z: -1}
+  - prefabName: Cube_grass_01
+    pos: {x: 8, y: 0, z: 0}
+  - prefabName: Cube_grass_01
+    pos: {x: 8, y: 0, z: 1}
+  - prefabName: Cube_grass_01
+    pos: {x: 8, y: 0, z: 2}
+  - prefabName: Cube_grass_01
+    pos: {x: 8, y: 0, z: 3}
+  - prefabName: Cube_grass_01
+    pos: {x: 8, y: 0, z: 4}
+  - prefabName: Cube_grass_01
+    pos: {x: 8, y: 0, z: 5}
+  - prefabName: Cube_grass_01
+    pos: {x: 8, y: 0, z: -4}
+  - prefabName: Cube_grass_01
+    pos: {x: 8, y: 0, z: -5}
+  - prefabName: Cube_grass_01
+    pos: {x: 7, y: 0, z: -6}
+  - prefabName: Cube_grass_01
+    pos: {x: 6, y: 0, z: -7}
+  - prefabName: Cube_grass_01
+    pos: {x: 5, y: 0, z: -8}
+  - prefabName: Cube_grass_01
+    pos: {x: 4, y: 0, z: -8}
+  - prefabName: Cube_grass_01
+    pos: {x: 3, y: 0, z: -8}
+  - prefabName: Cube_grass_01
+    pos: {x: 2, y: 0, z: -8}
+  - prefabName: Cube_grass_01
+    pos: {x: 1, y: 0, z: -8}
+  - prefabName: Cube_grass_01
+    pos: {x: 0, y: 0, z: -8}
+  - prefabName: Cube_grass_01
+    pos: {x: -1, y: 0, z: -8}
+  - prefabName: Cube_grass_01
+    pos: {x: -2, y: 0, z: -8}
+  - prefabName: Cube_grass_01
+    pos: {x: -3, y: 0, z: -8}
+  - prefabName: Cube_grass_01
+    pos: {x: -4, y: 0, z: -8}
+  - prefabName: Cube_grass_01
+    pos: {x: -5, y: 0, z: -8}
+  - prefabName: Cube_grass_01
+    pos: {x: -8, y: 0, z: 5}
+  - prefabName: Cube_grass_01
+    pos: {x: -8, y: 0, z: 4}
+  - prefabName: Cube_grass_01
+    pos: {x: -8, y: 0, z: 3}
+  - prefabName: Cube_grass_01
+    pos: {x: -8, y: 0, z: 2}
+  - prefabName: Cube_grass_01
+    pos: {x: -8, y: 0, z: 1}
+  - prefabName: Cube_grass_01
+    pos: {x: -8, y: 0, z: 0}
+  - prefabName: Cube_grass_01
+    pos: {x: -8, y: 0, z: -1}
+  - prefabName: Cube_grass_01
+    pos: {x: -8, y: 0, z: -2}
+  - prefabName: Cube_grass_01
+    pos: {x: -8, y: 0, z: -3}
+  - prefabName: Cube_grass_01
+    pos: {x: -8, y: 0, z: -4}
+  - prefabName: Cube_grass_01
+    pos: {x: -8, y: 0, z: -5}
+  - prefabName: Cube_grass_01
+    pos: {x: -7, y: 0, z: -6}
+  - prefabName: Cube_grass_01
+    pos: {x: -6, y: 0, z: -7}
+  - prefabName: Cube_grass_01
+    pos: {x: -2, y: 0, z: 0}
+  - prefabName: Cube_grass_03
+    pos: {x: -1, y: 0, z: 0}
+  - prefabName: Cube_grass_03
+    pos: {x: 1, y: 0, z: 0}
+  - prefabName: Cube_grass_03
+    pos: {x: -1, y: 0, z: 2}
+  - prefabName: Cube_grass_03
+    pos: {x: 1, y: 0, z: 2}
+  - prefabName: Cube_grass_03
+    pos: {x: 0, y: 0, z: 1}
+  - prefabName: Cube_grass_03
+    pos: {x: 0, y: 0, z: -1}
+  - prefabName: Cube_grass_03
+    pos: {x: -1, y: 0, z: -2}
+  - prefabName: Cube_grass_03
+    pos: {x: 0, y: 0, z: -3}
+  - prefabName: Cube_grass_03
+    pos: {x: 1, y: 0, z: -2}
+  - prefabName: Cube_grass_01
+    pos: {x: 0, y: 0, z: -2}
+  - prefabName: Cube_grass_01
+    pos: {x: 2, y: 0, z: 2}
+  - prefabName: Cube_grass_03
+    pos: {x: 2, y: 0, z: 1}
+  - prefabName: Cube_grass_03
+    pos: {x: 2, y: 0, z: -1}
+  - prefabName: Cube_grass_03
+    pos: {x: 2, y: 0, z: -3}
+  - prefabName: Cube_grass_03
+    pos: {x: -2, y: 0, z: 1}
+  - prefabName: Cube_grass_03
+    pos: {x: -2, y: 0, z: -1}
+  - prefabName: Cube_grass_03
+    pos: {x: -2, y: 0, z: -3}
+  - prefabName: Cube_grass_03
+    pos: {x: -3, y: 0, z: -2}
+  - prefabName: Cube_grass_03
+    pos: {x: -3, y: 0, z: 0}
+  - prefabName: Cube_grass_03
+    pos: {x: 3, y: 0, z: -2}
+  - prefabName: Cube_grass_03
+    pos: {x: 3, y: 0, z: 0}
+  - prefabName: Cube_grass_03
+    pos: {x: 1, y: 0, z: -4}
+  - prefabName: Cube_grass_03
+    pos: {x: -1, y: 0, z: -4}
+  - prefabName: Cube_grass_03
+    pos: {x: 4, y: 0, z: 1}
+  - prefabName: Cube_grass_03
+    pos: {x: 4, y: 0, z: -1}
+  - prefabName: Cube_grass_03
+    pos: {x: 3, y: 0, z: 2}
+  - prefabName: Cube_grass_03
+    pos: {x: 4, y: 0, z: -3}
+  - prefabName: Cube_grass_03
+    pos: {x: -3, y: 0, z: -4}
+  - prefabName: Cube_grass_03
+    pos: {x: -3, y: 0, z: 2}
+  - prefabName: Cube_grass_03
+    pos: {x: -4, y: 0, z: 1}
+  - prefabName: Cube_grass_03
+    pos: {x: -4, y: 0, z: -1}
+  - prefabName: Cube_grass_03
+    pos: {x: -4, y: 0, z: -3}
+  - prefabName: Cube_grass_01
+    pos: {x: 7, y: 0, z: -5}
+  - prefabName: Cube_grass_01
+    pos: {x: 6, y: 0, z: -6}
+  - prefabName: Cube_grass_03
+    pos: {x: -7, y: 0, z: -4}
+  - prefabName: Cube_grass_03
+    pos: {x: -5, y: 0, z: -4}
+  - prefabName: Cube_grass_03
+    pos: {x: -6, y: 0, z: -5}
+  - prefabName: Cube_grass_03
+    pos: {x: -4, y: 0, z: -5}
+  - prefabName: Cube_grass_03
+    pos: {x: -5, y: 0, z: -6}
+  - prefabName: Cube_grass_03
+    pos: {x: -3, y: 0, z: -6}
+  - prefabName: Cube_grass_03
+    pos: {x: -2, y: 0, z: -5}
+  - prefabName: Cube_grass_03
+    pos: {x: 0, y: 0, z: -5}
+  - prefabName: Cube_grass_03
+    pos: {x: -1, y: 0, z: -6}
+  - prefabName: Cube_grass_03
+    pos: {x: 1, y: 0, z: -6}
+  - prefabName: Cube_grass_03
+    pos: {x: 2, y: 0, z: -5}
+  - prefabName: Cube_grass_03
+    pos: {x: 3, y: 0, z: -6}
+  - prefabName: Cube_grass_03
+    pos: {x: 4, y: 0, z: -5}
+  - prefabName: Cube_grass_03
+    pos: {x: 5, y: 0, z: -6}
+  - prefabName: Cube_grass_03
+    pos: {x: 6, y: 0, z: -5}
+  - prefabName: Cube_grass_03
+    pos: {x: 3, y: 0, z: -4}
+  - prefabName: Cube_grass_03
+    pos: {x: 5, y: 0, z: -4}
+  - prefabName: Cube_grass_03
+    pos: {x: 2, y: 0, z: -7}
+  - prefabName: Cube_unbreakable
+    pos: {x: -5, y: 1, z: 3}
+  - prefabName: Cube_grass_01
+    pos: {x: 5, y: 0, z: 7}
+  - prefabName: Cube_grass_03
+    pos: {x: 4, y: 0, z: 3}
+  - prefabName: Cube_grass_03
+    pos: {x: 4, y: 0, z: 5}
+  - prefabName: Cube_grass_03
+    pos: {x: 4, y: 0, z: 7}
+  - prefabName: Cube_grass_03
+    pos: {x: 2, y: 0, z: 7}
+  - prefabName: Cube_grass_03
+    pos: {x: 3, y: 0, z: 6}
+  - prefabName: Cube_grass_03
+    pos: {x: 1, y: 0, z: 6}
+  - prefabName: Cube_grass_03
+    pos: {x: -1, y: 0, z: 6}
+  - prefabName: Cube_grass_03
+    pos: {x: 2, y: 0, z: 3}
+  - prefabName: Cube_grass_03
+    pos: {x: 0, y: 0, z: 5}
+  - prefabName: Cube_grass_03
+    pos: {x: 1, y: 0, z: 4}
+  - prefabName: Cube_grass_03
+    pos: {x: 0, y: 0, z: 3}
+  - prefabName: Cube_grass_03
+    pos: {x: 3, y: 0, z: 4}
+  - prefabName: Cube_grass_03
+    pos: {x: -3, y: 0, z: 4}
+  - prefabName: Cube_grass_03
+    pos: {x: -1, y: 0, z: 4}
+  - prefabName: Cube_grass_03
+    pos: {x: -2, y: 0, z: 3}
+  - prefabName: Cube_grass_03
+    pos: {x: -4, y: 0, z: 3}
+  - prefabName: Cube_grass_03
+    pos: {x: -5, y: 0, z: 4}
+  - prefabName: Cube_grass_03
+    pos: {x: -6, y: 0, z: 5}
+  - prefabName: Cube_grass_03
+    pos: {x: -5, y: 0, z: 6}
+  - prefabName: Cube_grass_03
+    pos: {x: -4, y: 0, z: 5}
+  - prefabName: Cube_grass_03
+    pos: {x: -4, y: 0, z: 7}
+  - prefabName: Cube_grass_03
+    pos: {x: -3, y: 0, z: 6}
+  - prefabName: Cube_grass_03
+    pos: {x: -2, y: 0, z: 5}
+  - prefabName: Cube_grass_03
+    pos: {x: 0, y: 0, z: 7}
+  - prefabName: Cube_grass_03
+    pos: {x: 2, y: 0, z: 5}
+  - prefabName: Cube_grass_03
+    pos: {x: -7, y: 0, z: 4}
+  - prefabName: Cube_grass_03
+    pos: {x: -6, y: 0, z: 3}
+  - prefabName: Cube_grass_03
+    pos: {x: -5, y: 0, z: 2}
+  - prefabName: Cube_grass_03
+    pos: {x: -7, y: 0, z: 2}
+  - prefabName: Cube_grass_03
+    pos: {x: -6, y: 0, z: 1}
+  - prefabName: Cube_grass_03
+    pos: {x: -6, y: 0, z: -1}
+  - prefabName: Cube_grass_03
+    pos: {x: -6, y: 0, z: -3}
+  - prefabName: Cube_grass_03
+    pos: {x: -5, y: 0, z: -2}
+  - prefabName: Cube_grass_03
+    pos: {x: -7, y: 0, z: -2}
+  - prefabName: Cube_grass_03
+    pos: {x: -7, y: 0, z: 0}
+  - prefabName: Cube_grass_03
+    pos: {x: -5, y: 0, z: 0}
+  - prefabName: Cube_grass_01
+    pos: {x: -6, y: 0, z: 2}
+  - prefabName: Cube_grass_03
+    pos: {x: -4, y: 0, z: -7}
+  - prefabName: Cube_grass_03
+    pos: {x: -2, y: 0, z: -7}
+  - prefabName: Cube_grass_03
+    pos: {x: 0, y: 0, z: -7}
+  - prefabName: Cube_grass_03
+    pos: {x: 4, y: 0, z: -7}
+  - prefabName: Cube_grass_03
+    pos: {x: 5, y: 0, z: -2}
+  - prefabName: Cube_grass_03
+    pos: {x: 5, y: 0, z: 0}
+  - prefabName: Cube_grass_03
+    pos: {x: 5, y: 0, z: 2}
+  - prefabName: Cube_grass_03
+    pos: {x: 5, y: 0, z: 4}
+  - prefabName: Cube_grass_03
+    pos: {x: 6, y: 0, z: 5}
+  - prefabName: Cube_grass_03
+    pos: {x: 7, y: 0, z: 2}
+  - prefabName: Cube_grass_03
+    pos: {x: 7, y: 0, z: -2}
+  - prefabName: Cube_grass_03
+    pos: {x: 6, y: 0, z: 3}
+  - prefabName: Cube_grass_03
+    pos: {x: 6, y: 0, z: 1}
+  - prefabName: Cube_grass_03
+    pos: {x: 6, y: 0, z: -3}
+  - prefabName: Cube_grass_03
+    pos: {x: 6, y: 0, z: -1}
+  - prefabName: Cube_grass_03
+    pos: {x: 7, y: 0, z: -4}
+  - prefabName: Cube_grass_03
+    pos: {x: 7, y: 0, z: 0}
+  - prefabName: Cube_grass_03
+    pos: {x: 7, y: 0, z: 4}
+  - prefabName: Cube_grass_03
+    pos: {x: 5, y: 0, z: 6}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 0, z: 5}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 0, z: 4}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 0, z: 3}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 0, z: 2}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 0, z: 1}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 0, z: 0}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 0, z: -1}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 0, z: -2}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 0, z: -3}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 0, z: -4}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 0, z: -5}
+  - prefabName: Cube_rock_01
+    pos: {x: -8, y: 0, z: -6}
+  - prefabName: Cube_rock_01
+    pos: {x: -7, y: 0, z: -7}
+  - prefabName: Cube_rock_01
+    pos: {x: -6, y: 0, z: -8}
+  - prefabName: Cube_rock_01
+    pos: {x: -5, y: 0, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: -4, y: 0, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: -3, y: 0, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: -2, y: 0, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: -1, y: 0, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: 0, y: 0, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: 1, y: 0, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: 2, y: 0, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: 3, y: 0, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: 4, y: 0, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: 5, y: 0, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: 6, y: 0, z: -8}
+  - prefabName: Cube_rock_01
+    pos: {x: 7, y: 0, z: -7}
+  - prefabName: Cube_rock_01
+    pos: {x: 8, y: 0, z: -6}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 0, z: -5}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 0, z: -4}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 0, z: -3}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 0, z: -2}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 0, z: -1}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 0, z: 0}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 0, z: 1}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 0, z: 2}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 0, z: 3}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 0, z: 4}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 0, z: 5}
+  - prefabName: Cube_rock_01
+    pos: {x: 8, y: 0, z: 6}
+  - prefabName: Cube_rock_01
+    pos: {x: 7, y: 0, z: 7}
+  - prefabName: Cube_rock_01
+    pos: {x: 6, y: 0, z: 8}
+  - prefabName: Cube_rock_01
+    pos: {x: 5, y: 0, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: 4, y: 0, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: 3, y: 0, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: 2, y: 0, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: 1, y: 0, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: -3, y: 0, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: -2, y: 0, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: -1, y: 0, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: 0, y: 0, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: -4, y: 0, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: -5, y: 0, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: -6, y: 0, z: 8}
+  - prefabName: Cube_rock_01
+    pos: {x: -7, y: 0, z: 7}
+  - prefabName: Cube_rock_01
+    pos: {x: -8, y: 0, z: 6}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 1, z: 5}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 1, z: 4}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 1, z: 3}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 1, z: 2}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 1, z: 1}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 1, z: 0}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 1, z: -1}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 1, z: -2}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 1, z: -3}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 1, z: -4}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 1, z: -5}
+  - prefabName: Cube_rock_01
+    pos: {x: -8, y: 1, z: -6}
+  - prefabName: Cube_rock_01
+    pos: {x: -7, y: 1, z: -7}
+  - prefabName: Cube_rock_01
+    pos: {x: -6, y: 1, z: -8}
+  - prefabName: Cube_rock_01
+    pos: {x: -5, y: 1, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: -4, y: 1, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: -3, y: 1, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: -2, y: 1, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: -1, y: 1, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: 0, y: 1, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: 1, y: 1, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: 2, y: 1, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: 3, y: 1, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: 4, y: 1, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: 5, y: 1, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: 6, y: 1, z: -8}
+  - prefabName: Cube_rock_01
+    pos: {x: 7, y: 1, z: -7}
+  - prefabName: Cube_rock_01
+    pos: {x: 8, y: 1, z: -6}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 1, z: -5}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 1, z: -4}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 1, z: -3}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 1, z: -2}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 1, z: -1}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 1, z: 0}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 1, z: 1}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 1, z: 2}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 1, z: 3}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 1, z: 4}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 1, z: 5}
+  - prefabName: Cube_rock_01
+    pos: {x: 8, y: 1, z: 6}
+  - prefabName: Cube_rock_01
+    pos: {x: 7, y: 1, z: 7}
+  - prefabName: Cube_rock_01
+    pos: {x: 6, y: 1, z: 8}
+  - prefabName: Cube_rock_01
+    pos: {x: 5, y: 1, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: 4, y: 1, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: 3, y: 1, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: 2, y: 1, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: 1, y: 1, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: 0, y: 1, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: -1, y: 1, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: -2, y: 1, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: -3, y: 1, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: -4, y: 1, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: -5, y: 1, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: -6, y: 1, z: 8}
+  - prefabName: Cube_rock_01
+    pos: {x: -7, y: 1, z: 7}
+  - prefabName: Cube_rock_01
+    pos: {x: -8, y: 1, z: 6}
+  - prefabName: ClimbCube
+    pos: {x: 3, y: 1, z: -8}
+  - prefabName: ClimbCube
+    pos: {x: 3, y: 1, z: 8}
+  - prefabName: ClimbCube
+    pos: {x: 8, y: 1, z: 3}
+  - prefabName: ClimbCube
+    pos: {x: 8, y: 1, z: -3}
+  - prefabName: ClimbCube
+    pos: {x: -3, y: 1, z: -8}
+  - prefabName: ClimbCube
+    pos: {x: -3, y: 1, z: 8}
+  - prefabName: ClimbCube
+    pos: {x: -8, y: 1, z: 3}
+  - prefabName: ClimbCube
+    pos: {x: -8, y: 1, z: -3}
+  - prefabName: Cube_grass_01
+    pos: {x: -2, y: 0, z: 6}
+  - prefabName: Cube_grass_01
+    pos: {x: 0, y: 0, z: 6}
+  - prefabName: Cube_grass_03
+    pos: {x: -2, y: 0, z: 7}
+  - prefabName: Cube_grass_01
+    pos: {x: 2, y: 0, z: 4}
+  - prefabName: JumpCube
+    pos: {x: 4, y: 0, z: 4}
+  - prefabName: JumpCube
+    pos: {x: 4, y: 0, z: -4}
+  - prefabName: JumpCube
+    pos: {x: -4, y: 0, z: -4}
+  - prefabName: JumpCube
+    pos: {x: -4, y: 0, z: 4}
+  - prefabName: ClimbCube
+    pos: {x: -3, y: 2, z: 8}
+  - prefabName: ClimbCube
+    pos: {x: 3, y: 2, z: 8}
+  - prefabName: ClimbCube
+    pos: {x: 8, y: 2, z: 3}
+  - prefabName: ClimbCube
+    pos: {x: 8, y: 2, z: -3}
+  - prefabName: ClimbCube
+    pos: {x: 3, y: 2, z: -8}
+  - prefabName: ClimbCube
+    pos: {x: -3, y: 2, z: -8}
+  - prefabName: Cube_rock_02
+    pos: {x: 5, y: 0, z: 10}
+  - prefabName: Cube_rock_02
+    pos: {x: 4, y: 0, z: 10}
+  - prefabName: Cube_rock_02
+    pos: {x: 3, y: 0, z: 10}
+  - prefabName: Cube_rock_02
+    pos: {x: 2, y: 0, z: 10}
+  - prefabName: Cube_rock_02
+    pos: {x: 1, y: 0, z: 10}
+  - prefabName: Cube_rock_02
+    pos: {x: 0, y: 0, z: 10}
+  - prefabName: Cube_rock_02
+    pos: {x: -1, y: 0, z: 10}
+  - prefabName: Cube_rock_02
+    pos: {x: -2, y: 0, z: 10}
+  - prefabName: Cube_rock_02
+    pos: {x: -3, y: 0, z: 10}
+  - prefabName: Cube_rock_02
+    pos: {x: -5, y: 0, z: 10}
+  - prefabName: Cube_rock_02
+    pos: {x: -4, y: 0, z: 10}
+  - prefabName: Cube_rock_02
+    pos: {x: -6, y: 0, z: 9}
+  - prefabName: Cube_rock_02
+    pos: {x: -7, y: 0, z: 8}
+  - prefabName: Cube_rock_02
+    pos: {x: -8, y: 0, z: 7}
+  - prefabName: Cube_rock_02
+    pos: {x: -9, y: 0, z: 6}
+  - prefabName: Cube_rock_02
+    pos: {x: -10, y: 0, z: 5}
+  - prefabName: Cube_rock_02
+    pos: {x: -10, y: 0, z: 4}
+  - prefabName: Cube_rock_02
+    pos: {x: -10, y: 0, z: 3}
+  - prefabName: Cube_rock_02
+    pos: {x: -10, y: 0, z: 2}
+  - prefabName: Cube_rock_02
+    pos: {x: -10, y: 0, z: 1}
+  - prefabName: Cube_rock_02
+    pos: {x: -10, y: 0, z: 0}
+  - prefabName: Cube_rock_02
+    pos: {x: -10, y: 0, z: -1}
+  - prefabName: Cube_rock_02
+    pos: {x: -10, y: 0, z: -2}
+  - prefabName: Cube_rock_02
+    pos: {x: -10, y: 0, z: -3}
+  - prefabName: Cube_rock_02
+    pos: {x: -10, y: 0, z: -4}
+  - prefabName: Cube_rock_02
+    pos: {x: -10, y: 0, z: -5}
+  - prefabName: Cube_rock_02
+    pos: {x: -9, y: 0, z: -6}
+  - prefabName: Cube_rock_02
+    pos: {x: -8, y: 0, z: -7}
+  - prefabName: Cube_rock_02
+    pos: {x: -7, y: 0, z: -8}
+  - prefabName: Cube_rock_02
+    pos: {x: -6, y: 0, z: -9}
+  - prefabName: Cube_rock_02
+    pos: {x: -5, y: 0, z: -10}
+  - prefabName: Cube_rock_02
+    pos: {x: -4, y: 0, z: -10}
+  - prefabName: Cube_rock_02
+    pos: {x: -3, y: 0, z: -10}
+  - prefabName: Cube_rock_02
+    pos: {x: -2, y: 0, z: -10}
+  - prefabName: Cube_rock_02
+    pos: {x: -1, y: 0, z: -10}
+  - prefabName: Cube_rock_02
+    pos: {x: 0, y: 0, z: -10}
+  - prefabName: Cube_rock_02
+    pos: {x: 1, y: 0, z: -10}
+  - prefabName: Cube_rock_02
+    pos: {x: 2, y: 0, z: -10}
+  - prefabName: Cube_rock_02
+    pos: {x: 3, y: 0, z: -10}
+  - prefabName: Cube_rock_02
+    pos: {x: 4, y: 0, z: -10}
+  - prefabName: Cube_rock_02
+    pos: {x: 5, y: 0, z: -10}
+  - prefabName: Cube_rock_02
+    pos: {x: 6, y: 0, z: -9}
+  - prefabName: Cube_rock_02
+    pos: {x: 7, y: 0, z: -8}
+  - prefabName: Cube_rock_02
+    pos: {x: 8, y: 0, z: -7}
+  - prefabName: Cube_rock_02
+    pos: {x: 9, y: 0, z: -6}
+  - prefabName: Cube_rock_02
+    pos: {x: 10, y: 0, z: -5}
+  - prefabName: Cube_rock_02
+    pos: {x: 10, y: 0, z: -4}
+  - prefabName: Cube_rock_02
+    pos: {x: 10, y: 0, z: -3}
+  - prefabName: Cube_rock_02
+    pos: {x: 10, y: 0, z: -2}
+  - prefabName: Cube_rock_02
+    pos: {x: 10, y: 0, z: -1}
+  - prefabName: Cube_rock_02
+    pos: {x: 10, y: 0, z: 0}
+  - prefabName: Cube_rock_02
+    pos: {x: 10, y: 0, z: 1}
+  - prefabName: Cube_rock_02
+    pos: {x: 10, y: 0, z: 2}
+  - prefabName: Cube_rock_02
+    pos: {x: 10, y: 0, z: 3}
+  - prefabName: Cube_rock_02
+    pos: {x: 10, y: 0, z: 4}
+  - prefabName: Cube_rock_02
+    pos: {x: 10, y: 0, z: 5}
+  - prefabName: Cube_rock_02
+    pos: {x: 9, y: 0, z: 6}
+  - prefabName: Cube_rock_02
+    pos: {x: 8, y: 0, z: 7}
+  - prefabName: Cube_rock_02
+    pos: {x: 7, y: 0, z: 8}
+  - prefabName: Cube_rock_02
+    pos: {x: 6, y: 0, z: 9}
+  - prefabName: Cube_rock_02
+    pos: {x: 6, y: 0, z: -10}
+  - prefabName: Cube_rock_02
+    pos: {x: 7, y: 0, z: -9}
+  - prefabName: Cube_rock_02
+    pos: {x: 8, y: 0, z: -8}
+  - prefabName: Cube_rock_02
+    pos: {x: 9, y: 0, z: -7}
+  - prefabName: Cube_rock_02
+    pos: {x: 10, y: 0, z: -6}
+  - prefabName: Cube_rock_02
+    pos: {x: 10, y: 0, z: 6}
+  - prefabName: Cube_rock_02
+    pos: {x: 9, y: 0, z: 7}
+  - prefabName: Cube_rock_02
+    pos: {x: 8, y: 0, z: 8}
+  - prefabName: Cube_rock_02
+    pos: {x: 7, y: 0, z: 9}
+  - prefabName: Cube_rock_02
+    pos: {x: 6, y: 0, z: 10}
+  - prefabName: Cube_rock_02
+    pos: {x: -6, y: 0, z: 10}
+  - prefabName: Cube_rock_02
+    pos: {x: -7, y: 0, z: 9}
+  - prefabName: Cube_rock_02
+    pos: {x: -8, y: 0, z: 8}
+  - prefabName: Cube_rock_02
+    pos: {x: -9, y: 0, z: 7}
+  - prefabName: Cube_rock_02
+    pos: {x: -10, y: 0, z: 6}
+  - prefabName: Cube_rock_02
+    pos: {x: -10, y: 0, z: -6}
+  - prefabName: Cube_rock_02
+    pos: {x: -9, y: 0, z: -7}
+  - prefabName: Cube_rock_02
+    pos: {x: -8, y: 0, z: -8}
+  - prefabName: Cube_rock_02
+    pos: {x: -7, y: 0, z: -9}
+  - prefabName: Cube_rock_02
+    pos: {x: -6, y: 0, z: -10}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 1, z: -6}
+  - prefabName: Cube_rock_01
+    pos: {x: -8, y: 1, z: -7}
+  - prefabName: Cube_rock_01
+    pos: {x: -7, y: 1, z: -8}
+  - prefabName: Cube_rock_01
+    pos: {x: -6, y: 1, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: 6, y: 1, z: -9}
+  - prefabName: Cube_rock_01
+    pos: {x: 7, y: 1, z: -8}
+  - prefabName: Cube_rock_01
+    pos: {x: 8, y: 1, z: -7}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 1, z: -6}
+  - prefabName: Cube_rock_01
+    pos: {x: 9, y: 1, z: 6}
+  - prefabName: Cube_rock_01
+    pos: {x: 8, y: 1, z: 7}
+  - prefabName: Cube_rock_01
+    pos: {x: 7, y: 1, z: 8}
+  - prefabName: Cube_rock_01
+    pos: {x: 6, y: 1, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: -6, y: 1, z: 9}
+  - prefabName: Cube_rock_01
+    pos: {x: -7, y: 1, z: 8}
+  - prefabName: Cube_rock_01
+    pos: {x: -8, y: 1, z: 7}
+  - prefabName: Cube_rock_01
+    pos: {x: -9, y: 1, z: 6}
+  - prefabName: Cube_unbreakable
+    pos: {x: -7, y: 1, z: 9}
+  - prefabName: Cube_unbreakable
+    pos: {x: -8, y: 1, z: 8}
+  - prefabName: Cube_unbreakable
+    pos: {x: -9, y: 1, z: 7}
+  - prefabName: Cube_unbreakable
+    pos: {x: -9, y: 1, z: -7}
+  - prefabName: Cube_unbreakable
+    pos: {x: -8, y: 1, z: -8}
+  - prefabName: Cube_unbreakable
+    pos: {x: -7, y: 1, z: -9}
+  - prefabName: Cube_unbreakable
+    pos: {x: 7, y: 1, z: -9}
+  - prefabName: Cube_unbreakable
+    pos: {x: 8, y: 1, z: -8}
+  - prefabName: Cube_unbreakable
+    pos: {x: 9, y: 1, z: -7}
+  - prefabName: Cube_unbreakable
+    pos: {x: 9, y: 1, z: 7}
+  - prefabName: Cube_unbreakable
+    pos: {x: 8, y: 1, z: 8}
+  - prefabName: Cube_unbreakable
+    pos: {x: 7, y: 1, z: 9}
+  - prefabName: Cube_unbreakable
+    pos: {x: 10, y: 1, z: -6}
+  - prefabName: Cube_unbreakable
+    pos: {x: 10, y: 1, z: -5}
+  - prefabName: Cube_unbreakable
+    pos: {x: 10, y: 1, z: -4}
+  - prefabName: Cube_unbreakable
+    pos: {x: 10, y: 1, z: -3}
+  - prefabName: Cube_unbreakable
+    pos: {x: 10, y: 1, z: -2}
+  - prefabName: Cube_unbreakable
+    pos: {x: 10, y: 1, z: -1}
+  - prefabName: Cube_unbreakable
+    pos: {x: 10, y: 1, z: 0}
+  - prefabName: Cube_unbreakable
+    pos: {x: 10, y: 1, z: 1}
+  - prefabName: Cube_unbreakable
+    pos: {x: 10, y: 1, z: 2}
+  - prefabName: Cube_unbreakable
+    pos: {x: 10, y: 1, z: 3}
+  - prefabName: Cube_unbreakable
+    pos: {x: 10, y: 1, z: 4}
+  - prefabName: Cube_unbreakable
+    pos: {x: 10, y: 1, z: 5}
+  - prefabName: Cube_unbreakable
+    pos: {x: 10, y: 1, z: 6}
+  - prefabName: Cube_unbreakable
+    pos: {x: 6, y: 1, z: 10}
+  - prefabName: Cube_unbreakable
+    pos: {x: 5, y: 1, z: 10}
+  - prefabName: Cube_unbreakable
+    pos: {x: 4, y: 1, z: 10}
+  - prefabName: Cube_unbreakable
+    pos: {x: 3, y: 1, z: 10}
+  - prefabName: Cube_unbreakable
+    pos: {x: 2, y: 1, z: 10}
+  - prefabName: Cube_unbreakable
+    pos: {x: 1, y: 1, z: 10}
+  - prefabName: Cube_unbreakable
+    pos: {x: 0, y: 1, z: 10}
+  - prefabName: Cube_unbreakable
+    pos: {x: -1, y: 1, z: 10}
+  - prefabName: Cube_unbreakable
+    pos: {x: -2, y: 1, z: 10}
+  - prefabName: Cube_unbreakable
+    pos: {x: -3, y: 1, z: 10}
+  - prefabName: Cube_unbreakable
+    pos: {x: -4, y: 1, z: 10}
+  - prefabName: Cube_unbreakable
+    pos: {x: -5, y: 1, z: 10}
+  - prefabName: Cube_unbreakable
+    pos: {x: -6, y: 1, z: 10}
+  - prefabName: Cube_unbreakable
+    pos: {x: -10, y: 1, z: 6}
+  - prefabName: Cube_unbreakable
+    pos: {x: -10, y: 1, z: 5}
+  - prefabName: Cube_unbreakable
+    pos: {x: -10, y: 1, z: 4}
+  - prefabName: Cube_unbreakable
+    pos: {x: -10, y: 1, z: 3}
+  - prefabName: Cube_unbreakable
+    pos: {x: -10, y: 1, z: 2}
+  - prefabName: Cube_unbreakable
+    pos: {x: -10, y: 1, z: 1}
+  - prefabName: Cube_unbreakable
+    pos: {x: -10, y: 1, z: 0}
+  - prefabName: Cube_unbreakable
+    pos: {x: -10, y: 1, z: -1}
+  - prefabName: Cube_unbreakable
+    pos: {x: -10, y: 1, z: -2}
+  - prefabName: Cube_unbreakable
+    pos: {x: -10, y: 1, z: -3}
+  - prefabName: Cube_unbreakable
+    pos: {x: -10, y: 1, z: -4}
+  - prefabName: Cube_unbreakable
+    pos: {x: -10, y: 1, z: -5}
+  - prefabName: Cube_unbreakable
+    pos: {x: -10, y: 1, z: -6}
+  - prefabName: Cube_unbreakable
+    pos: {x: -6, y: 1, z: -10}
+  - prefabName: Cube_unbreakable
+    pos: {x: -5, y: 1, z: -10}
+  - prefabName: Cube_unbreakable
+    pos: {x: -4, y: 1, z: -10}
+  - prefabName: Cube_unbreakable
+    pos: {x: -3, y: 1, z: -10}
+  - prefabName: Cube_unbreakable
+    pos: {x: -2, y: 1, z: -10}
+  - prefabName: Cube_unbreakable
+    pos: {x: -1, y: 1, z: -10}
+  - prefabName: Cube_unbreakable
+    pos: {x: 0, y: 1, z: -10}
+  - prefabName: Cube_unbreakable
+    pos: {x: 1, y: 1, z: -10}
+  - prefabName: Cube_unbreakable
+    pos: {x: 2, y: 1, z: -10}
+  - prefabName: Cube_unbreakable
+    pos: {x: 3, y: 1, z: -10}
+  - prefabName: Cube_unbreakable
+    pos: {x: 4, y: 1, z: -10}
+  - prefabName: Cube_unbreakable
+    pos: {x: 5, y: 1, z: -10}
+  - prefabName: Cube_unbreakable
+    pos: {x: 6, y: 1, z: -10}
+  - prefabName: ClimbCube
+    pos: {x: -8, y: 2, z: -3}
+  - prefabName: ClimbCube
+    pos: {x: -8, y: 2, z: 3}
+  - prefabName: ClimbCube
+    pos: {x: -8, y: 3, z: 3}
+  - prefabName: ClimbCube
+    pos: {x: -8, y: 3, z: -3}
+  - prefabName: ClimbCube
+    pos: {x: -3, y: 3, z: -8}
+  - prefabName: ClimbCube
+    pos: {x: 3, y: 3, z: -8}
+  - prefabName: ClimbCube
+    pos: {x: 8, y: 3, z: -3}
+  - prefabName: ClimbCube
+    pos: {x: 8, y: 3, z: 3}
+  - prefabName: ClimbCube
+    pos: {x: 3, y: 3, z: 8}
+  - prefabName: ClimbCube
+    pos: {x: -3, y: 3, z: 8}
