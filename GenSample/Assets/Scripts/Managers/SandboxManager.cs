@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Feature.GenSample;
+﻿using Assets.Scripts.Feature.Bomberman.Unit;
+using Assets.Scripts.Feature.GenSample;
 using Assets.Scripts.Feature.Main.Cube;
 using Assets.Scripts.Feature.Sandbox;
 using Assets.Scripts.Feature.Sandbox.UI;
@@ -8,9 +9,7 @@ using Assets.Scripts.Util;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using MainCubeContainer = Assets.Scripts.Feature.Main.Cube.CubeContainer;
 
@@ -40,7 +39,7 @@ namespace Assets.Scripts.Managers
         private SandboxCameraController sbCamCtrl;
         private Cube objShowCubeNew;
         private SANDBOX_STATE curState;
-        private UnitBase unit;
+        private PlayerController player;
         private GameObject hitCube;
 
         private string nextCubeName = "GroundCube";
@@ -101,7 +100,7 @@ namespace Assets.Scripts.Managers
 
                             if (Input.GetKeyDown(KeyCode.R))
                             {
-                                unit.ResetSpawnPos(Vector3.up);
+                                player.transform.position = Vector3.up;
                             }
                         }
 
@@ -138,7 +137,7 @@ namespace Assets.Scripts.Managers
                             }
                         }
 
-                        unit.SetControllable(playerType == PLAYER_TYPE.Player);
+                        player.SetControllable(playerType == PLAYER_TYPE.Player);
                         break;
                     }
             }            
@@ -349,51 +348,30 @@ namespace Assets.Scripts.Managers
 
         private void SpawnPlayer()
         {
-            Vector3 initPos = Vector3.up;
+            Vector3 spawnPosTo3 = Vector3.zero;
 
-            if (!PlayerSettings.IsConnectNetwork())
-            {
-                GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>("Prefab/Unit/LocalPlayer");
-                GameObject goPlayer = Instantiate(pfPlayer, initPos, Quaternion.identity);
-                unit = goPlayer.GetComponent<UnitLocalPlayer>();
-                unit.Init();
-                unit.SetControllable(playerType == PLAYER_TYPE.Player);
-                PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
-                if (!UnitSettings.useSpine())
-                {
-                    Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
-                    unit.SetSprite(selectUnitParts);
-                }
-                else
-                    unit.MakeSpine(playerUnitSetting.GetSpinePath());
-
-                sbCamCtrl.SetTarget(unit.transform);
-            }
-            else
+            if (PlayerSettings.IsConnectNetwork())
             {
                 var data = new List<object>();
 
-                // Set Sprite
-                PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
-                Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
-                data.Add(selectUnitParts);
-
-                // Set AtkType
-                int atkTypeIdx = UnityEngine.Random.Range(0, Enum.GetValues(typeof(UnitBase.ATK_TYPE)).Length);
-                data.Add(atkTypeIdx);
-
                 // Set Spine
-                data.Add(playerUnitSetting.GetSpinePath());
-                data.Add(UnitSettings.useSpine());
+                PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
+                string spinePath = playerUnitSetting.GetSpinePath();
+                data.Add(spinePath);
 
-                // Set SpawnPos
-                Vector3 orgSpawnPos = initPos;
-
-                GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Unit/NetworkPlayer"), orgSpawnPos, Quaternion.identity, 0, data.ToArray());
-                unit = netGoPlayer.GetComponent<UnitNetworkPlayer>();
-                unit.SetControllable(playerType == PLAYER_TYPE.Player);
-
-                sbCamCtrl.SetTarget(unit.transform);
+                PhotonNetwork.Instantiate($"Prefab/BomberMan/Player", spawnPosTo3, Quaternion.identity, 0, data.ToArray());
+            }
+            else
+            {
+                GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>($"Prefab/BomberMan/Player");
+                if (pfPlayer != null)
+                {
+                    Transform unitContainer = FindObjectOfType<UnitContainer>().transform;
+                    GameObject goPlayer = Instantiate(pfPlayer, spawnPosTo3, Quaternion.identity, unitContainer);
+                    player = goPlayer.GetComponent<PlayerController>();
+                    player.SetControllable(false);
+                    sbCamCtrl.SetTarget(goPlayer.transform);
+                }
             }
         }
 

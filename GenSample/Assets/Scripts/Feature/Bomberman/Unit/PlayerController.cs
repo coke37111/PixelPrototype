@@ -322,5 +322,10 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
                 rb.AddForce(Vector3.up * playerUnitSetting.jumpPower);
             }
         }
+
+        public void SetControllable(bool flag)
+        {
+            isControllable = flag;
+        }
     }
 }
