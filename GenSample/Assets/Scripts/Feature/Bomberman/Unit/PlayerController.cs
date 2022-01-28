@@ -1,14 +1,9 @@
-﻿using Assets.Scripts.Feature.GenSample;
-using Assets.Scripts.Feature.PxpCraft;
-using Assets.Scripts.Managers;
+﻿using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
-using Assets.Scripts.Util;
 using Photon.Pun;
 using Photon.Realtime;
 using Spine.Unity;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static Assets.Scripts.Settings.PlayerSettings;
 using PunHashtable = ExitGames.Client.Photon.Hashtable;
@@ -306,12 +301,14 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
         public void MakeSpine(string spinePath)
         {
+            Transform root = transform.Find("SpineRoot");
             GameObject spineBase = ResourceManager.LoadAsset<GameObject>(spinePath);
-            GameObject goSpine = Instantiate(spineBase, transform);
-            Vector3 scale = goSpine.transform.localScale;
+            Instantiate(spineBase, root);
+
+            Vector3 scale = root.localScale;
             scale.x *= 2f;
             scale.y *= 3f;
-            goSpine.transform.localScale = scale;
+            root.localScale = scale;
         }
 
         private void Jump()
