@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 8118957173509518980}
   - component: {fileID: 7646330567735712708}
   - component: {fileID: 4540493718997025609}
-  - component: {fileID: 1901140805834296014}
   m_Layer: 6
   m_Name: Spine_test_human_m_2_custom_5
   m_TagString: Untagged
@@ -156,17 +155,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dce704556acbd3c4bb31a9ab655940fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1901140805834296014
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1601569273676903144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf925f9550a333e4a9c2edfe69ddfc57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

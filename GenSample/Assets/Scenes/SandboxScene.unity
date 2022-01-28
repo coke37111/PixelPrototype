@@ -321,7 +321,7 @@ MonoBehaviour:
   rotSpeed: 500
   zoomSpeed: 40
   dist: 15
-  height: 10
+  height: 15
   smoothRotate: 5
   editCubeLayer:
     serializedVersion: 2
@@ -725,7 +725,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 792750309}
   m_HandleRect: {fileID: 792750308}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -886,8 +886,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerType: 0
   DefaultMapSize: {x: 1, y: 1}
-  DefaultCube: {fileID: 5586264996223977337, guid: 39e433cb1f4fbac4081d673842b6d723, type: 3}
-  LoadMapData: {fileID: 11400000, guid: 6d5b65e3228ce8244badaab4968678b6, type: 2}
+  DefaultCube: {fileID: 5586264996223977337, guid: ea56816b037cffd48b5820eac9c9e771, type: 3}
+  LoadMapData: {fileID: 0}
 --- !u!1 &792750307
 GameObject:
   m_ObjectHideFlags: 0
