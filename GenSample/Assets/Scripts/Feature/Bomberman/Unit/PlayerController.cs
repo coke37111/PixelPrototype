@@ -301,7 +301,7 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
         public void MakeSpine(string spinePath)
         {
-            Transform root = transform.Find("SpineRoot");
+            Transform root = transform.Find("UnitBase/SpineRoot");
             GameObject spineBase = ResourceManager.LoadAsset<GameObject>(spinePath);
             Instantiate(spineBase, root);
 
