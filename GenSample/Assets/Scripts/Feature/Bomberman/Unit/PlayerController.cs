@@ -305,10 +305,10 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             GameObject spineBase = ResourceManager.LoadAsset<GameObject>(spinePath);
             Instantiate(spineBase, root);
 
-            Vector3 scale = root.localScale;
-            scale.x *= 2f;
-            scale.y *= 3f;
-            root.localScale = scale;
+            //Vector3 scale = root.localScale;
+            //scale.x *= 2f;
+            //scale.y *= 3f;
+            //root.localScale = scale;
         }
 
         private void Jump()
