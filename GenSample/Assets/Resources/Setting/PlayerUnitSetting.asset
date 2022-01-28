@@ -18,7 +18,7 @@ MonoBehaviour:
   def: 5
   hp: 100
   fireDelay: 0.5
-  jumpPower: 200
+  jumpPower: 150
   unitTypes:
   - char_st_01
   - char_st_01_human_l
