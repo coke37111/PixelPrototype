@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4686831024968525653}
   - component: {fileID: 1878278527925122964}
   - component: {fileID: 620307869654361393}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Gauge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9134865024746813576}
   - component: {fileID: 6783883904712671993}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: HpBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -210,7 +210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4613228614507077821}
   - component: {fileID: 5154728276639731877}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -335,7 +335,7 @@ GameObject:
   - component: {fileID: 5502492319517586752}
   - component: {fileID: 7250521089313641624}
   - component: {fileID: 2868461475355193359}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -435,7 +435,7 @@ GameObject:
   - component: {fileID: 2351897165020411045}
   - component: {fileID: 2175901126762846281}
   - component: {fileID: 7205088871619387873}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Bg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -543,7 +543,7 @@ GameObject:
   - component: {fileID: 8078988814128811735}
   - component: {fileID: 4645233862050534906}
   - component: {fileID: 329777375787834037}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Image Melee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -662,7 +662,7 @@ GameObject:
   - component: {fileID: 2120439591434232314}
   - component: {fileID: 718349006970332751}
   - component: {fileID: 6820308263301014373}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Image Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -736,7 +736,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2624056102321647726}
   - component: {fileID: 7116810781641577103}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: AtkType
   m_TagString: Untagged
   m_Icon: {fileID: 0}
