@@ -80,6 +80,9 @@ namespace Assets.Scripts.Feature.BombermanNew
                     }
                 case MANAGER_STATE.End when procState == PROC_STATE.Start:
                     {
+                        if (player != null)
+                            player.SetControllable(false);
+
                         StartCoroutine(EndOfGame());
                         SetState(MANAGER_STATE.End, PROC_STATE.Proc);
                         break;
@@ -87,8 +90,8 @@ namespace Assets.Scripts.Feature.BombermanNew
                 case MANAGER_STATE.End when procState == PROC_STATE.Proc: break;
                 case MANAGER_STATE.End when procState == PROC_STATE.Complete:
                     {
-                        LeaveRoom();
                         SetState(MANAGER_STATE.End, PROC_STATE.Proc);
+                        LeaveRoom();
                         break;
                     }
             }
@@ -133,7 +136,7 @@ namespace Assets.Scripts.Feature.BombermanNew
         public override void OnPlayerPropertiesUpdate(Player targetPlayer, PunHashtable changedProps)
         {
             if (changedProps.ContainsKey(PlayerSettings.PLAYER_DIE))
-            {
+            {                
                 CheckEndOfGame();
             }
 
@@ -206,7 +209,6 @@ namespace Assets.Scripts.Feature.BombermanNew
             {
                 PunHashtable props = new PunHashtable();
                 props.Add(PlayerSettings.PLAYER_LOADED_LEVEL, true);
-                props.Add(PlayerSettings.PLAYER_DIE, false);
 
                 PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
@@ -253,17 +255,17 @@ namespace Assets.Scripts.Feature.BombermanNew
 
         private void CheckEndOfGame()
         {
-            bool allDestroyed = true;
-            foreach (Player p in PhotonNetwork.PlayerListOthers)
+            int livePlayerCnt = 0;
+
+            foreach (Player p in PhotonNetwork.PlayerList)
             {
                 if (!IsPlayerDie(p))
                 {
-                    allDestroyed = false;
-                    break;
+                    livePlayerCnt++;
                 }
             }
 
-            if (allDestroyed)
+            if (livePlayerCnt <= 1)
             {
                 if (PhotonNetwork.IsMasterClient)
                 {

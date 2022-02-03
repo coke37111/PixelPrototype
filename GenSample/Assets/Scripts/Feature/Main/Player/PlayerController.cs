@@ -50,7 +50,15 @@ namespace Assets.Scripts.Feature.Main.Player
         private Vector3 moveDir;
         private Vector3 accDir;
 
-        private float curHp;
+        private float _curHp;
+        private float curHp {
+            get => _curHp;
+            set {
+                _curHp = value;
+                if (hpBar != null)
+                    hpBar.SetGauge(curHp / playerUnitSetting.hp);
+            }
+        }
         private HpBar hpBar;
 
         #region UNITY
@@ -119,12 +127,14 @@ namespace Assets.Scripts.Feature.Main.Player
                 // We own this player: send the others our data
                 stream.SendNext(isLeftDir);
                 stream.SendNext(isMove);
+                stream.SendNext(curHp);
             }
             else
             {
                 // Network player, receive data
                 this.isLeftDir = (bool)stream.ReceiveNext();
                 this.isMove = (bool)stream.ReceiveNext();
+                this.curHp = (float)stream.ReceiveNext();
             }
         }
 
@@ -294,7 +304,6 @@ namespace Assets.Scripts.Feature.Main.Player
                 return;
             raiseDieCall = true;
 
-            // 게임 종료 체크 처리를 위한 호출(=>GenSampleManager)
             PunHashtable props = new PunHashtable
                     {
                         { PlayerSettings.PLAYER_DIE, true },
