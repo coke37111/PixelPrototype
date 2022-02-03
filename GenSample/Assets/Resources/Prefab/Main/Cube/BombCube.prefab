@@ -59,9 +59,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   expTime: 3
-  expRange: {x: 2, y: 0, z: 2}
+  expRange: {x: 3, y: 0, z: 3}
   expDamage: 10
-  expDelayTime: 0.05
+  expDelayTime: 0.2
   rayCastLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -75,6 +75,18 @@ PrefabInstance:
     - target: {fileID: 3573463547395626318, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3573463547395626318, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3573463547395626318, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3573463547395626318, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3573463547395626318, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
       propertyPath: m_LocalPosition.x
