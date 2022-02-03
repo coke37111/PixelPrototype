@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Feature.Main.Cube;
+﻿using Assets.Scripts.Feature.GenSample;
+using Assets.Scripts.Feature.Main.Cube;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
@@ -18,7 +19,6 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         public float bombTime = 3f;
 
         private BombermanMapController mapCtrl;
-        private BombermanManager manager;
         private BombermanCameraController camCtrl;
 
         private Transform trSpine;
@@ -56,6 +56,9 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
         private Vector3 moveDir;
         private Vector3 accDir;
+
+        private float curHp;
+        private HpBar hpBar;
 
         #region UNITY
 
@@ -166,8 +169,6 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
         private void Init()
         {
-            manager = FindObjectOfType<BombermanManager>();
-
             SkeletonMecanim skelM = GetComponentInChildren<SkeletonMecanim>();
             trSpine = skelM.transform;
             anim = skelM.GetComponent<Animator>();
@@ -187,6 +188,11 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
             moveDir = Vector3.zero;
             accDir = Vector3.zero;
+
+            curHp = playerUnitSetting.hp;
+
+            hpBar = GetComponentInChildren<HpBar>();            
+            hpBar.SetGauge(curHp / playerUnitSetting.hp);
         }
 
         public void SetBomberManMapController(BombermanMapController mapCtrl)
@@ -289,20 +295,27 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         {
             bool isConnectServer = PlayerSettings.IsConnectNetwork();
 
-            if (manager.IsEndGame())
-                return;
-
             if (isConnectServer && !photonView.IsMine)
                 return;
 
-            isControllable = false;
+            float damage = (float)param[0];
+            curHp -= damage;
+            if (curHp <= 0f)
+            {
+                curHp = 0f;
 
-            if (isConnectServer)
-                RaiseDie();
-            else
-                Destroy(gameObject);
+                isControllable = false;
 
-            camCtrl.ResetPos();
+                if (isConnectServer)
+                    RaiseDie();
+                else
+                    Destroy(gameObject);
+
+                if (camCtrl != null)
+                    camCtrl.ResetPos();
+            }
+
+            hpBar.SetGauge(curHp / playerUnitSetting.hp);
         }
 
         private void RaiseDie()
