@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.Scripts.Feature.Main
+namespace Assets.Scripts.Feature.Main.Camera
 {
-    public class BombermanCameraController : MonoBehaviour
+    public class TopViewCamCtrl : MonoBehaviour
     {
         [Header("- target과의 거리설정값")]
         public float dist = 20f;
@@ -14,19 +13,13 @@ namespace Assets.Scripts.Feature.Main
 
         #region UNITY
 
-        // Use this for initialization
-        void Start()
-        {
-            distToTarget = new Vector3(0f, -height, dist);
-        }
-
         // Update is called once per frame
         void Update()
         {
             if (target == null)
                 return;
 
-            transform.position = target.position - distToTarget;
+            transform.position = target.position - new Vector3(0f, -height, dist);
         }
 
         #endregion

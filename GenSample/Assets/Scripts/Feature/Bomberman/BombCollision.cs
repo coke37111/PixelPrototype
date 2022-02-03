@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Assets.Scripts.Feature.Bomberman
+namespace Assets.Scripts.Feature.Main
 {
     public class BombCollision : MonoBehaviour
     {

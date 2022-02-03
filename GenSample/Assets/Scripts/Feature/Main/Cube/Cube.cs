@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Assets.Scripts.Feature.Main.Cube
+namespace Assets.Scripts.Feature.Main.nsCube
 {
     public class Cube : MonoBehaviour
     {

@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.Feature.Bomberman;
-using Assets.Scripts.Feature.Main.Cube;
+﻿using Assets.Scripts.Feature.Main;
+using Assets.Scripts.Feature.Main.nsCube;
 using Assets.Scripts.Settings;
 using UnityEngine;
 
@@ -27,7 +27,7 @@ namespace Assets.Scripts.Managers
 
             // Make Player
             {
-                GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>($"Prefab/BomberMan/Player");
+                GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>($"Prefab/Main/Player");
                 if (pfPlayer != null)
                 {
                     GameObject goPlayer = Instantiate(pfPlayer, Vector3.up, Quaternion.identity);

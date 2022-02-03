@@ -1,6 +1,6 @@
-﻿using Assets.Scripts.Feature.Bomberman.Unit;
+﻿using Assets.Scripts.Feature.Main.Player;
 using Assets.Scripts.Feature.GenSample;
-using Assets.Scripts.Feature.Main.Cube;
+using Assets.Scripts.Feature.Main.nsCube;
 using Assets.Scripts.Feature.Sandbox;
 using Assets.Scripts.Feature.Sandbox.UI;
 using Assets.Scripts.Settings;
@@ -11,7 +11,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
-using MainCubeContainer = Assets.Scripts.Feature.Main.Cube.CubeContainer;
+using MainCubeContainer = Assets.Scripts.Feature.Main.nsCube.CubeContainer;
 
 namespace Assets.Scripts.Managers
 {
@@ -359,11 +359,11 @@ namespace Assets.Scripts.Managers
                 string spinePath = playerUnitSetting.GetSpinePath();
                 data.Add(spinePath);
 
-                PhotonNetwork.Instantiate($"Prefab/BomberMan/Player", spawnPosTo3, Quaternion.identity, 0, data.ToArray());
+                PhotonNetwork.Instantiate($"Prefab/Main/Player", spawnPosTo3, Quaternion.identity, 0, data.ToArray());
             }
             else
             {
-                GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>($"Prefab/BomberMan/Player");
+                GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>($"Prefab/Main/Player");
                 if (pfPlayer != null)
                 {
                     Transform unitContainer = FindObjectOfType<UnitContainer>().transform;

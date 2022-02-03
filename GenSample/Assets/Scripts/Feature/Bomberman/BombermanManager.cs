@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.Feature.Bomberman.Block;
-using Assets.Scripts.Feature.Bomberman.Unit;
+﻿using Assets.Scripts.Feature.Main.Block;
+using Assets.Scripts.Feature.Main.Player;
 using Assets.Scripts.Feature.GenSample;
 using Assets.Scripts.Feature.Sandbox;
 using Assets.Scripts.Managers;
@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PunHashtable = ExitGames.Client.Photon.Hashtable;
 
-namespace Assets.Scripts.Feature.Bomberman
+namespace Assets.Scripts.Feature.Main
 {
     public class BombermanManager : MonoBehaviourPunCallbacks
     {
@@ -145,7 +145,7 @@ namespace Assets.Scripts.Feature.Bomberman
             UnityEngine.SceneManagement.SceneManager.LoadScene("PhotonLobbySample");
         }
 
-        public override void OnPlayerLeftRoom(Player otherPlayer)
+        public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
         {
             Log.Print($"Player {otherPlayer.ActorNumber} Left Room");
 
@@ -153,12 +153,12 @@ namespace Assets.Scripts.Feature.Bomberman
             CheckEndOfGame(true);
         }
 
-        public override void OnMasterClientSwitched(Player newMasterClient)
+        public override void OnMasterClientSwitched(Photon.Realtime.Player newMasterClient)
         {
             Log.Print($"Switch MasterClient {newMasterClient.ActorNumber}");
         }
 
-        public override void OnPlayerPropertiesUpdate(Player targetPlayer, PunHashtable changedProps)
+        public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, PunHashtable changedProps)
         {
             if (changedProps.ContainsKey(PlayerSettings.PLAYER_DIE))
             {
@@ -219,11 +219,11 @@ namespace Assets.Scripts.Feature.Bomberman
                 string spinePath = playerUnitSetting.GetSpinePath();
                 data.Add(spinePath);
 
-                PhotonNetwork.Instantiate($"Prefab/BomberMan/Player", spawnPosTo3, Quaternion.identity, 0, data.ToArray());
+                PhotonNetwork.Instantiate($"Prefab/Main/Player", spawnPosTo3, Quaternion.identity, 0, data.ToArray());
             }
             else
             {
-                GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>($"Prefab/BomberMan/Player");
+                GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>($"Prefab/Main/Player");
                 if (pfPlayer != null)
                 {
                     Transform unitContainer = FindObjectOfType<UnitContainer>().transform;
@@ -242,7 +242,7 @@ namespace Assets.Scripts.Feature.Bomberman
                 return;
 
             bool allDestroyed = true;
-            foreach (Player p in PhotonNetwork.PlayerListOthers)
+            foreach (Photon.Realtime.Player p in PhotonNetwork.PlayerListOthers)
             {
                 if (!IsPlayerDie(p))
                 {
@@ -274,7 +274,7 @@ namespace Assets.Scripts.Feature.Bomberman
             PhotonNetwork.LeaveRoom();
         }
 
-        private bool IsPlayerDie(Player player)
+        private bool IsPlayerDie(Photon.Realtime.Player player)
         {
             object isDie;
             if (player.CustomProperties.TryGetValue(PlayerSettings.PLAYER_DIE, out isDie))
@@ -287,7 +287,7 @@ namespace Assets.Scripts.Feature.Bomberman
 
         private bool CheckAllPlayerLoadedLevel()
         {
-            foreach (Player p in PhotonNetwork.PlayerList)
+            foreach (Photon.Realtime.Player p in PhotonNetwork.PlayerList)
             {
                 object playerLoadedLevel;
 

@@ -1,9 +1,9 @@
-﻿using Assets.Scripts.Feature.Bomberman.Unit;
-using Assets.Scripts.Feature.Main.Cube;
+﻿using Assets.Scripts.Feature.Main.Player;
+using Assets.Scripts.Feature.Main.nsCube;
 using Assets.Scripts.Util;
 using UnityEngine;
 
-namespace Assets.Scripts.Feature.Bomberman
+namespace Assets.Scripts.Feature.Main
 {
     public class BombermanExplosion : MonoBehaviour
     {

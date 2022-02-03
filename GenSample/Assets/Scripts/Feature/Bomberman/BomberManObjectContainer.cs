@@ -1,9 +1,9 @@
-﻿using Assets.Scripts.Feature.Bomberman.Block;
+﻿using Assets.Scripts.Feature.Main.Block;
 using Assets.Scripts.Util;
 using System.Collections;
 using UnityEngine;
 
-namespace Assets.Scripts.Feature.Bomberman
+namespace Assets.Scripts.Feature.Main
 {
     public class BomberManObjectContainer : MonoBehaviour
     {

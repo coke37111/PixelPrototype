@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.Feature.Bomberman
+namespace Assets.Scripts.Feature.Main
 {
     public class Bomb : BomberManBlock
     {

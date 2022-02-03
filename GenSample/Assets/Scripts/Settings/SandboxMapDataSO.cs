@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Feature.Main.Cube;
+﻿using Assets.Scripts.Feature.Main.nsCube;
 using Assets.Scripts.Feature.Sandbox;
 using Assets.Scripts.Feature.Sandbox.Cube;
 using System;

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Assets.Scripts.Settings.PlayerSettings;
 
-namespace Assets.Scripts.Feature.Bomberman
+namespace Assets.Scripts.Feature.Main
 {    
     public class BombermanMapController : MonoBehaviour
     {

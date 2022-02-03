@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Feature.GenSample;
-using Assets.Scripts.Feature.Main.Cube;
+using Assets.Scripts.Feature.Main.nsCube;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
@@ -10,7 +10,7 @@ using UnityEngine;
 using static Assets.Scripts.Settings.PlayerSettings;
 using PunHashtable = ExitGames.Client.Photon.Hashtable;
 
-namespace Assets.Scripts.Feature.Bomberman.Unit
+namespace Assets.Scripts.Feature.Main.Player
 {
     public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback, IPunObservable, IOnEventCallback
     {

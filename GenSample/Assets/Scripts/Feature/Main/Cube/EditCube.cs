@@ -3,7 +3,7 @@ using Assets.Scripts.Settings;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Feature.Main.Cube
+namespace Assets.Scripts.Feature.Main.nsCube
 {
     public class EditCube : MonoBehaviour
     {

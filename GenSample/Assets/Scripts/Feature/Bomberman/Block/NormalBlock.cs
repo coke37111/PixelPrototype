@@ -9,7 +9,7 @@ using System.Collections;
 using UnityEngine;
 using static Assets.Scripts.Settings.PlayerSettings;
 
-namespace Assets.Scripts.Feature.Bomberman.Block
+namespace Assets.Scripts.Feature.Main.Block
 {
     public class NormalBlock : BomberManBlock, IPunInstantiateMagicCallback, IOnEventCallback
     {

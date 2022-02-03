@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Feature.Main.Cube
+namespace Assets.Scripts.Feature.Main.nsCube
 {
     public class CubeContainer : MonoBehaviour
     {

@@ -1,11 +1,11 @@
-﻿using Assets.Scripts.Feature.Bomberman;
+﻿using Assets.Scripts.Feature.Main;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Util;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Feature.Main.Cube
+namespace Assets.Scripts.Feature.Main.nsCube
 {
     public class BombCube : Cube
     {
