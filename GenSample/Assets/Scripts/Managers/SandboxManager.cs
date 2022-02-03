@@ -1,6 +1,6 @@
 ﻿using Assets.Scripts.Feature.Main.Player;
 using Assets.Scripts.Feature.GenSample;
-using Assets.Scripts.Feature.Main.nsCube;
+using Assets.Scripts.Feature.Main.Cubes;
 using Assets.Scripts.Feature.Sandbox;
 using Assets.Scripts.Feature.Sandbox.UI;
 using Assets.Scripts.Settings;
@@ -11,7 +11,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
-using MainCubeContainer = Assets.Scripts.Feature.Main.nsCube.CubeContainer;
+using MainCubeContainer = Assets.Scripts.Feature.Main.Cubes.CubeContainer;
 
 namespace Assets.Scripts.Managers
 {
@@ -479,7 +479,7 @@ namespace Assets.Scripts.Managers
             MainCubeContainer container = FindObjectOfType<MainCubeContainer>();
             container.DestroyAllCubes();
 
-            container.GenerateCubes(LoadMapData);
+            container.GenerateCubes(LoadMapData, true);
         }
     }
 }

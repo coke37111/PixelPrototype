@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Feature.Main;
-using Assets.Scripts.Feature.Main.nsCube;
+using Assets.Scripts.Feature.Main.Cubes;
 using Assets.Scripts.Settings;
 using UnityEngine;
 

@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Feature.Main.nsCube
+namespace Assets.Scripts.Feature.Main.Cubes
 {
     public class BombCube : Cube
     {

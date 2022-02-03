@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Feature.GenSample;
-using Assets.Scripts.Feature.Main.nsCube;
+using Assets.Scripts.Feature.Main.Cubes;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
