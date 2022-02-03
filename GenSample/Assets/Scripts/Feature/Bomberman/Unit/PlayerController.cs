@@ -3,7 +3,6 @@ using Assets.Scripts.Feature.Main.Cube;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
-using Assets.Scripts.Util;
 using Photon.Pun;
 using Photon.Realtime;
 using Spine.Unity;
@@ -15,9 +14,6 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 {
     public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback, IPunObservable, IOnEventCallback
     {
-        public int bombPower = 6;
-        public float bombTime = 3f;
-
         private BombermanMapController mapCtrl;
         private BombermanCameraController camCtrl;
 
@@ -117,8 +113,6 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             MakeSpine(spinePath);
 
             Init();
-
-            SetBomberManMapController(FindObjectOfType<BombermanMapController>());
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -151,15 +145,7 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
                             return;
 
                         Vector3 bombPos = (Vector3)data[1];
-                        int power = (int)data[2];
-                        float time = (float)data[3];
-
-                        GameObject goBomb = Instantiate(pfBomb, bombPos, Quaternion.identity);
-                        Bomb bomb = goBomb.GetComponent<Bomb>();
-                        bomb.SetMapCtrl(mapCtrl);
-                        bomb.Build(power, time);
-
-                        mapCtrl.RegisterBlock(bomb);
+                        // TODO : MakeBomb
                         break;
                     }
             }
@@ -193,11 +179,6 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
 
             hpBar = GetComponentInChildren<HpBar>();            
             hpBar.SetGauge(curHp / playerUnitSetting.hp);
-        }
-
-        public void SetBomberManMapController(BombermanMapController mapCtrl)
-        {
-            this.mapCtrl = mapCtrl;
         }
 
         private void Move()
@@ -265,28 +246,22 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         {
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                Vector3 bombPos = new Vector3(Mathf.RoundToInt(transform.position.x), 0.5f, Mathf.RoundToInt(transform.position.z));
-
-                if (mapCtrl.GetBlockInPos(new Vector2Int((int)bombPos.x, (int)bombPos.z)) != null)
-                {
-                    return;
-                }
-
+                Vector3 bombPos = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.CeilToInt(transform.position.y), Mathf.RoundToInt(transform.position.z));                
+                    
                 if (PlayerSettings.IsConnectNetwork())
                 {
                     PhotonEventManager.RaiseEvent(EventCodeType.MakeBomb, ReceiverGroup.All, new object[]
                     {
-                        photonView.ViewID, bombPos, bombPower, bombTime
+                        photonView.ViewID, bombPos
                     });                    
                 }
                 else
                 {
-                    GameObject goBomb = Instantiate(pfBomb, bombPos, Quaternion.identity);
-                    Bomb bomb = goBomb.GetComponent<Bomb>();
-                    bomb.SetMapCtrl(mapCtrl);
-                    bomb.Build(bombPower, bombTime);
-
-                    mapCtrl.RegisterBlock(bomb);
+                    Transform parent = FindObjectOfType<CubeContainer>().transform;
+                    GameObject pfCubeRoot = ResourceManager.LoadAsset<GameObject>(PrefabPath.EditCubePath);
+                    GameObject goCubeRoot = Instantiate(pfCubeRoot, bombPos, Quaternion.identity, parent);
+                    EditCube cubeRoot = goCubeRoot.GetComponent<EditCube>();
+                    cubeRoot.Build("BombCube");
                 }
             }
         }

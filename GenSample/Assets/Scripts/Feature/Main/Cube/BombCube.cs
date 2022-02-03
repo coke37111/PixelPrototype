@@ -2,6 +2,7 @@
 using Assets.Scripts.Managers;
 using Assets.Scripts.Util;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Feature.Main.Cube
@@ -19,6 +20,7 @@ namespace Assets.Scripts.Feature.Main.Cube
         private BoxCollider coll;
 
         private bool endExpF, endExpB, endExpU, endExpD, endExpL, endExpR = false;
+        private List<Collider> enterColl = new List<Collider>();
 
         #region UNITY
 
@@ -41,7 +43,9 @@ namespace Assets.Scripts.Feature.Main.Cube
             if (endExpF && endExpB &&
                 endExpU && endExpD &&
                 endExpL && endExpR)
-                Destroy(gameObject);
+            {
+                DestroyCube();
+            }
 
             // TODO : FOR Test
             //if (Input.GetKeyDown(KeyCode.A))
@@ -76,6 +80,27 @@ namespace Assets.Scripts.Feature.Main.Cube
             //}
         }
 
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.tag == "Player")
+            {
+                if (!enterColl.Contains(other))
+                    enterColl.Add(other);
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if(other.tag == "Player")
+            {
+                if (enterColl.Contains(other))
+                    enterColl.Remove(other);
+
+                if (enterColl.Count <= 0)
+                    coll.isTrigger = false;
+            }
+        }
+
         #endregion
 
         private void Init()
@@ -84,6 +109,7 @@ namespace Assets.Scripts.Feature.Main.Cube
 
             curExpTime = 0f;
             isExplosion = false;
+            coll.isTrigger = true;
         }
 
         private void Explosion()

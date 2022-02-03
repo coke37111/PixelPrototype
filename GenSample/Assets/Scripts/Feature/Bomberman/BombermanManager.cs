@@ -229,7 +229,6 @@ namespace Assets.Scripts.Feature.Bomberman
                     Transform unitContainer = FindObjectOfType<UnitContainer>().transform;
                     GameObject goPlayer = Instantiate(pfPlayer, spawnPosTo3, Quaternion.identity, unitContainer);
                     player = goPlayer.GetComponent<PlayerController>();
-                    player.SetBomberManMapController(mapCtrl);
 
                     if (camCtrl != null)
                         camCtrl.SetTarget(goPlayer.transform);

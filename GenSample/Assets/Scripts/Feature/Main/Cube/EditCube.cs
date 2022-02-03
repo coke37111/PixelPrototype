@@ -31,7 +31,10 @@ namespace Assets.Scripts.Feature.Main.Cube
             this.cubeId = cubeId;
 
             GameObject pfRealCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Main/Cube/{cubeId}");
-            Instantiate(pfRealCube, transform.position, Quaternion.identity, transform);
+            GameObject goRealCube = Instantiate(pfRealCube, transform.position, Quaternion.identity, transform);
+
+            Cube realCube = goRealCube.GetComponent<Cube>();
+            realCube.SetDestroyCallback(DestroyCube);
         }
 
         public string GetCubeId()
