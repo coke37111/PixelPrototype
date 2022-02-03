@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5416941179563813103}
   - component: {fileID: 2079020573854941792}
+  - component: {fileID: 3108990526258739357}
   m_Layer: 9
   m_Name: BombCube
   m_TagString: Cube
@@ -40,11 +41,23 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1932040785487429327}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3108990526258739357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932040785487429327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8d76592a68bd1c4e8a25068c3ab0844, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4880719964497407417
 PrefabInstance:
   m_ObjectHideFlags: 0
