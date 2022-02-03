@@ -8,10 +8,10 @@ namespace Assets.Scripts.Settings
     {
         public enum ROOM_TYPE
         {
+            Bomberman,
             Raid,
             Pvp,
             Sandbox,
-            Bomberman,
         }
 
         public static ROOM_TYPE roomType;

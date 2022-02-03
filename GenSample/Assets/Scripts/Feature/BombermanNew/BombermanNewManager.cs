@@ -40,6 +40,7 @@ namespace Assets.Scripts.Feature.BombermanNew
         private TopViewCamCtrl camCtrl;
 
         private PlayerController player;
+        private bool isEndGame;
 
         #region UNITY
 
@@ -72,6 +73,9 @@ namespace Assets.Scripts.Feature.BombermanNew
                     }
                 case MANAGER_STATE.Play:
                     {
+                        if (isEndGame)
+                            SetState(MANAGER_STATE.End, PROC_STATE.Start);
+
                         break;
                     }
                 case MANAGER_STATE.End when procState == PROC_STATE.Start:
@@ -84,6 +88,7 @@ namespace Assets.Scripts.Feature.BombermanNew
                 case MANAGER_STATE.End when procState == PROC_STATE.Complete:
                     {
                         LeaveRoom();
+                        SetState(MANAGER_STATE.End, PROC_STATE.Proc);
                         break;
                     }
             }
@@ -176,6 +181,8 @@ namespace Assets.Scripts.Feature.BombermanNew
         {
             cubeContainer = FindObjectOfType<CubeContainer>();
             camCtrl = FindObjectOfType<TopViewCamCtrl>();
+
+            isEndGame = false;
         }
 
         private void GenerateMap()
@@ -263,7 +270,7 @@ namespace Assets.Scripts.Feature.BombermanNew
                     StopAllCoroutines();
                 }
 
-                SetState(MANAGER_STATE.End, PROC_STATE.Start);
+                isEndGame = true;
             }
         }
 
@@ -271,10 +278,6 @@ namespace Assets.Scripts.Feature.BombermanNew
         {
             RoomSettings.roomName = PhotonNetwork.CurrentRoom.Name;
             RoomSettings.isMaster = PhotonNetwork.IsMasterClient;
-
-            PunHashtable props = new PunHashtable();
-            props.Add(PlayerSettings.PLAYER_LOADED_LEVEL, false);
-            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
             PhotonNetwork.LeaveRoom();
         }

@@ -189,7 +189,8 @@ namespace Photon.Pun.Demo.Asteroids
 
             Hashtable props = new Hashtable
             {
-                {AsteroidsGame.PLAYER_LOADED_LEVEL, false}
+                {AsteroidsGame.PLAYER_LOADED_LEVEL, false},
+                {PlayerSettings.PLAYER_LOADED_LEVEL, false },
             };
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
@@ -374,6 +375,9 @@ namespace Photon.Pun.Demo.Asteroids
 
         public void ChangeGameTypeButtonClicked()
         {
+            // TODO : 리팩토링 전까지 막아두기
+            return;
+
             if (!PhotonNetwork.IsMasterClient)
             {
                 return;
