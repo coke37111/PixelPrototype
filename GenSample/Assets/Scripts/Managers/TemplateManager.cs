@@ -27,7 +27,7 @@ namespace Assets.Scripts.Managers
 
             // Make Player
             {
-                GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>($"Prefab/Main/Player");
+                GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>(PrefabPath.PlayerPath);
                 if (pfPlayer != null)
                 {
                     GameObject goPlayer = Instantiate(pfPlayer, Vector3.up, Quaternion.identity);

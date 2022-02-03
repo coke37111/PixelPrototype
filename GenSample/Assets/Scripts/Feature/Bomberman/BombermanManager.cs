@@ -219,11 +219,11 @@ namespace Assets.Scripts.Feature.Main
                 string spinePath = playerUnitSetting.GetSpinePath();
                 data.Add(spinePath);
 
-                PhotonNetwork.Instantiate($"Prefab/Main/Player", spawnPosTo3, Quaternion.identity, 0, data.ToArray());
+                PhotonNetwork.Instantiate(PrefabPath.PlayerPath, spawnPosTo3, Quaternion.identity, 0, data.ToArray());
             }
             else
             {
-                GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>($"Prefab/Main/Player");
+                GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>(PrefabPath.PlayerPath);
                 if (pfPlayer != null)
                 {
                     Transform unitContainer = FindObjectOfType<UnitContainer>().transform;
