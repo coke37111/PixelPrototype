@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.Feature.Bomberman.Unit;
+using Assets.Scripts.Feature.Main.Cube;
+using Assets.Scripts.Util;
 using UnityEngine;
 
 namespace Assets.Scripts.Feature.Bomberman
@@ -19,6 +21,14 @@ namespace Assets.Scripts.Feature.Bomberman
                 PlayerController player = other.GetComponent<PlayerController>();
                 if (player != null)
                     player.HitExplosion(damage);
+            }
+            if(other.tag == "Cube")
+            {                
+                BombCube bombCube = other.GetComponent<BombCube>();
+                if (bombCube != null)
+                {
+                    bombCube.Explosion();
+                }
             }
         }
     }

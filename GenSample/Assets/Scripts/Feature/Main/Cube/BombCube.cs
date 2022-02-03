@@ -112,7 +112,7 @@ namespace Assets.Scripts.Feature.Main.Cube
             coll.isTrigger = true;
         }
 
-        private void Explosion()
+        public void Explosion()
         {
             if (isExplosion)
             {
@@ -216,8 +216,14 @@ namespace Assets.Scripts.Feature.Main.Cube
                     curExpRange = expRange.x;
                 }
 
+                newRange = curExpRange;
                 if (Physics.Raycast(rayOrg, dir, out RaycastHit hit, curExpRange, rayCastLayer))
                 {
+                    if(hit.collider.GetComponent<BombCube>())
+                    {
+                        continue;
+                    }
+
                     if (dir == Vector3.forward || dir == Vector3.back)
                     {
                         newRange = Mathf.Abs(hit.point.z - transform.position.z);
@@ -232,8 +238,6 @@ namespace Assets.Scripts.Feature.Main.Cube
                     }
                     break;
                 }
-
-                newRange = curExpRange;
             }
 
             return newRange;
