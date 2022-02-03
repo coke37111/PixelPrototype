@@ -1,6 +1,8 @@
-﻿using Assets.Scripts.Managers;
+﻿using Assets.Scripts.Feature.Main.Cube;
+using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
+using Assets.Scripts.Util;
 using Photon.Pun;
 using Photon.Realtime;
 using Spine.Unity;
@@ -49,6 +51,12 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         private Rigidbody rb;
         private bool canJump;
 
+        public LayerMask cubeLayer;
+        private Cube belowCube;
+
+        private Vector3 moveDir;
+        private Vector3 accDir;
+
         #region UNITY
 
         // Use this for initialization
@@ -76,6 +84,7 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             Move();
             Jump();
             MakeBomb();
+            GetBelowCube();
         }
         public void OnEnable()
         {
@@ -175,6 +184,9 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
             playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
             rb = GetComponent<Rigidbody>();
             canJump = true;
+
+            moveDir = Vector3.zero;
+            accDir = Vector3.zero;
         }
 
         public void SetBomberManMapController(BombermanMapController mapCtrl)
@@ -202,7 +214,18 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
                 dir += Vector3.left;
             }
 
-            transform.Translate(dir * playerUnitSetting.speed * Time.deltaTime);
+            if(belowCube != null)
+            {
+                if (belowCube.GetComponent<IceCube>())
+                {
+                    accDir = Vector3.Lerp(accDir, dir, belowCube.GetComponent<IceCube>().dampRatio);
+                    transform.position += accDir * Time.deltaTime;
+                }
+            }            
+
+            moveDir = dir;
+
+            transform.Translate(moveDir * playerUnitSetting.speed * Time.deltaTime);
 
             // TODO : 좌우전환
             {
@@ -323,6 +346,71 @@ namespace Assets.Scripts.Feature.Bomberman.Unit
         public void SetControllable(bool flag)
         {
             isControllable = flag;
+        }
+
+        private void GetBelowCube()
+        {
+            CapsuleCollider coll = GetComponent<CapsuleCollider>();
+
+            Vector3 rayOrg = transform.position + GetComponent<CapsuleCollider>().center;
+            Vector3 rayDir = Vector3.down;
+            float rayDist = coll.height / 2f;
+
+            RaycastHit hit;
+            if (Physics.Raycast(rayOrg, rayDir, out hit, rayDist, cubeLayer))
+            {
+                Cube cube = hit.collider.GetComponent<Cube>();
+                if (cube != null)
+                {
+                    if(belowCube == null || !belowCube.Equals(cube))
+                    {
+                        belowCube = cube;
+
+                        if (belowCube.GetComponent<IceCube>())
+                        {
+                            if(accDir == Vector3.zero)
+                                accDir = moveDir * playerUnitSetting.speed;
+                        }
+                        else
+                        {
+                            accDir = Vector3.zero;
+                        }
+                    }
+                }
+
+                //CubeBase collCube = hit.collider.GetComponent<CubeBase>();
+                //if (belowCube == null ||
+                //    belowCube.GetCubeType() != collCube.GetCubeType())
+                //{
+                //    if (belowCube != null && belowCube.GetCubeType() == CUBE_TYPE.DamageCube)
+                //        belowCube.GetComponent<DamageCube>().UnregisterDamageListener(AttackByCube);
+
+                //    belowCube = collCube;
+                //    if (belowCube.GetCubeType() == CUBE_TYPE.IceCube)
+                //    {
+                //        accDelta = moveDir * playerUnitSetting.speed;
+                //    }
+                //    else if (belowCube.GetCubeType() == CUBE_TYPE.DamageCube)
+                //    {
+                //        belowCube.GetComponent<DamageCube>().RegisterDamageListener(AttackByCube);
+                //    }
+                //    else if (belowCube.GetCubeType() == CUBE_TYPE.BreakCube)
+                //    {
+                //        belowCube.GetComponent<BreakCube>().CheckBreak();
+                //    }
+                //    else
+                //    {
+                //        accDelta = Vector3.zero;
+                //    }
+                //}
+            }
+            else
+            {
+                //if (belowCube != null && belowCube.GetCubeType() == CUBE_TYPE.DamageCube)
+                //    belowCube.GetComponent<DamageCube>().UnregisterDamageListener(AttackByCube);
+
+                belowCube = null;
+            }
         }
     }
 }
