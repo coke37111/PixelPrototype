@@ -366,7 +366,7 @@ namespace Photon.Pun.Demo.Asteroids
                     }
                 case RoomSettings.ROOM_TYPE.Bomberman:
                     {
-                        PhotonNetwork.LoadLevel("BombermanScene");
+                        PhotonNetwork.LoadLevel("BombermanSceneNew");
                         break;
                     }
             }
