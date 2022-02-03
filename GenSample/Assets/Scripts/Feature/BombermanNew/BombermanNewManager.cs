@@ -1,6 +1,6 @@
 ﻿using Assets.Scripts.Feature.GenSample;
 using Assets.Scripts.Feature.Main.Camera;
-using Assets.Scripts.Feature.Main.nsCube;
+using Assets.Scripts.Feature.Main.Cubes;
 using Assets.Scripts.Feature.Main.Player;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
@@ -225,7 +225,7 @@ namespace Assets.Scripts.Feature.BombermanNew
 
         private void SpawnPlayer()
         {
-            Vector3 spawnPosTo3 = Vector3.zero;
+            Vector3 spawnPosTo3 = cubeContainer.GetRandomSpawnPos();
 
             if (PlayerSettings.IsConnectNetwork())
             {

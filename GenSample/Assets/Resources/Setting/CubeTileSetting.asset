@@ -55,3 +55,5 @@ MonoBehaviour:
     tileName: Torch
   - cubeName: Question
     tileName: Question
+  - cubeName: SpawnCube
+    tileName: Tile_grass_01
