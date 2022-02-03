@@ -36,7 +36,7 @@ namespace Assets.Scripts.Feature.Sandbox.Editor
             }            
         }
 
-        private void SaveData(List<Main.Cube.Cube> cubes)
+        private void SaveData(List<Main.Cube.EditCube> cubes)
         {
             SandboxMapDataSO asset = CreateInstance<SandboxMapDataSO>();
 

@@ -8,18 +8,16 @@ namespace Assets.Scripts.Feature.Main.Cube
 {
     public class CubeContainer : MonoBehaviour
     {
-        private readonly string cubePath = "Prefab/Main/Cube/Cube";
-
-        public List<Cube> GetAllCubes()
+        public List<EditCube> GetAllCubes()
         {
-            List<Cube> results = new List<Cube>();
+            List<EditCube> results = new List<EditCube>();
 
             for (int i = 0; i < transform.childCount; i++)
             {
                 Transform child = transform.GetChild(i);
-                if (child.GetComponent<Cube>())
+                if (child.GetComponent<EditCube>())
                 {
-                    results.Add(child.GetComponent<Cube>());
+                    results.Add(child.GetComponent<EditCube>());
                 }
             }
 
@@ -31,7 +29,7 @@ namespace Assets.Scripts.Feature.Main.Cube
             for (int i = 0; i < transform.childCount; i++)
             {
                 Transform child = transform.GetChild(i);
-                if (child.GetComponent<Cube>())
+                if (child.GetComponent<EditCube>())
                 {
                     Destroy(child.gameObject);
                 }
@@ -42,9 +40,9 @@ namespace Assets.Scripts.Feature.Main.Cube
         {
             foreach (CubeData cubeData in mapData.cubeData)
             {
-                GameObject pfCube = ResourceManager.LoadAsset<GameObject>(cubePath);
+                GameObject pfCube = ResourceManager.LoadAsset<GameObject>(PrefabPath.EditCubePath);
                 GameObject goCube = Instantiate(pfCube, cubeData.pos, Quaternion.identity, transform);
-                Cube cube = goCube.GetComponent<Cube>();
+                EditCube cube = goCube.GetComponent<EditCube>();
                 cube.Build(cubeData.prefabName);
             }
         }

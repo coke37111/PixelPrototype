@@ -1,10 +1,11 @@
 ﻿using Assets.Scripts.Managers;
+using Assets.Scripts.Settings;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Feature.Main.Cube
 {
-    public class Cube : MonoBehaviour
+    public class EditCube : MonoBehaviour
     {
         private string cubeId;
         private List<Collider> collObjs = new List<Collider>();
@@ -44,9 +45,9 @@ namespace Assets.Scripts.Feature.Main.Cube
                 return;
 
             Transform parent = FindObjectOfType<CubeContainer>().transform;
-            GameObject pfCubeRoot = ResourceManager.LoadAsset<GameObject>($"Prefab/Main/Cube/Cube");
+            GameObject pfCubeRoot = ResourceManager.LoadAsset<GameObject>(PrefabPath.EditCubePath);
             GameObject goCubeRoot = Instantiate(pfCubeRoot, GetPosition(), Quaternion.identity, parent);
-            Cube cubeRoot = goCubeRoot.GetComponent<Cube>();
+            EditCube cubeRoot = goCubeRoot.GetComponent<EditCube>();
             cubeRoot.Build(cubeId);
         }
 

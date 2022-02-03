@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Managers;
+using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
 using Assets.Scripts.Util;
 using System.Collections;
@@ -99,7 +100,7 @@ namespace Assets.Scripts.Feature.Sandbox.UI
 
         private void CheckExistCubes()
         {
-            GameObject[] pfCubes = ResourceManager.LoadAssets<GameObject>("Prefab/Main/Cube");
+            GameObject[] pfCubes = ResourceManager.LoadAssets<GameObject>(PrefabPath.EditCubePath);
             foreach (GameObject pfCube in pfCubes)
             {
                 if (tileNameBySlotDict.ContainsKey(pfCube.name))

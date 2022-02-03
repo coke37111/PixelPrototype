@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8384959574020598071}
   - component: {fileID: 331713708079758272}
   m_Layer: 14
-  m_Name: Cube
+  m_Name: EditCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,7 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5233213651265399859}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8d76592a68bd1c4e8a25068c3ab0844, type: 3}
+  m_Script: {fileID: 11500000, guid: 557d73af9e3a6f4409dbb0da442503cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!65 &331713708079758272

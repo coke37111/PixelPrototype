@@ -37,7 +37,7 @@ namespace Assets.Scripts.Managers
         private MainCubeContainer cubeContainerNew;
 
         private SandboxCameraController sbCamCtrl;
-        private Cube objShowCubeNew;
+        private EditCube objShowCubeNew;
         private SANDBOX_STATE curState;
         private PlayerController player;
         private GameObject hitCube;
@@ -123,7 +123,7 @@ namespace Assets.Scripts.Managers
                                     Log.Print(hitCube.name, hitCube.transform.position);
                                     float distMousePos = Vector3.Distance(Input.mousePosition, prevMousePos);
                                     if (distMousePos >= .2f)
-                                        hitCube.GetComponent<Cube>().DestroyCube();
+                                        hitCube.GetComponent<EditCube>().DestroyCube();
                                 }                                    
                             }
                             else
@@ -338,9 +338,9 @@ namespace Assets.Scripts.Managers
                 for (int row = 0; row < DefaultMapSize.y; row++)
                 {
                     Vector3 pos = new Vector3(col - ofsX / 2f, 0, row - ofsY / 2f);
-                    GameObject pfCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Main/Cube/Cube");
+                    GameObject pfCube = ResourceManager.LoadAsset<GameObject>(PrefabPath.EditCubePath);
                     GameObject goCube = Instantiate(pfCube, pos, Quaternion.identity, cubeContainerNew.transform);
-                    Cube cube = goCube.GetComponent<Cube>();
+                    EditCube cube = goCube.GetComponent<EditCube>();
                     cube.Build(DefaultCube.name);
                 }
             }
@@ -424,9 +424,9 @@ namespace Assets.Scripts.Managers
 
         private void MakeShowCube()
         {
-            GameObject pfShowCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Main/Cube/Cube");
+            GameObject pfShowCube = ResourceManager.LoadAsset<GameObject>(PrefabPath.EditCubePath);
             GameObject goShowCube = Instantiate(pfShowCube);
-            objShowCubeNew = goShowCube.GetComponent<Cube>();
+            objShowCubeNew = goShowCube.GetComponent<EditCube>();
             objShowCubeNew.Build(curCubeName);
         }
 
@@ -450,12 +450,12 @@ namespace Assets.Scripts.Managers
             return Application.isPlaying;
         }
 
-        public List<Cube> GetCubes()
+        public List<EditCube> GetCubes()
         {
             Log.Print("Save");
 
             MainCubeContainer container = FindObjectOfType<MainCubeContainer>();
-            List<Cube> cubes = container.GetAllCubes();
+            List<EditCube> cubes = container.GetAllCubes();
 
             return cubes;
         }

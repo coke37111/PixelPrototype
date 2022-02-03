@@ -25,12 +25,12 @@ namespace Assets.Scripts.Settings
             }            
         }
 
-        public void SetData(List<Cube> cubes)
+        public void SetData(List<EditCube> cubes)
         {
             if (cubeData == null)
                 cubeData = new List<CubeData>();
 
-            foreach (Cube cube in cubes)
+            foreach (EditCube cube in cubes)
             {
                 CubeData newData = new CubeData(cube.GetCubeId(), cube.transform.position);
                 cubeData.Add(newData);
