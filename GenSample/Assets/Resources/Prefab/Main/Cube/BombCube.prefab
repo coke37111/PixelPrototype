@@ -61,6 +61,7 @@ MonoBehaviour:
   expTime: 3
   expRange: {x: 2, y: 0, z: 2}
   expDamage: 10
+  expDelayTime: 0.05
   rayCastLayer:
     serializedVersion: 2
     m_Bits: 512

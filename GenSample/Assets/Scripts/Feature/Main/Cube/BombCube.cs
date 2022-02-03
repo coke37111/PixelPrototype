@@ -9,9 +9,14 @@ namespace Assets.Scripts.Feature.Main.nsCube
 {
     public class BombCube : Cube
     {
+        [Header("- 폭탄이 터질때까지의 시간")]
         public float expTime;
+        [Header("- 폭발 범위")]
         public Vector3 expRange;
+        [Header("- 폭발 데미지")]
         public float expDamage;
+        [Header("- 폭발이 번져나가는 시간")]
+        public float expDelayTime;
         public LayerMask rayCastLayer;
 
         private float curExpTime;
@@ -139,7 +144,7 @@ namespace Assets.Scripts.Feature.Main.nsCube
                 for (int i = 0; i < rangeToInt; i++)
                 {
                     MakeExpEff(transform.position + dir * (i + 1));
-                    yield return new WaitForSeconds(.05f);
+                    yield return new WaitForSeconds(expDelayTime);
                 }
             }
 
