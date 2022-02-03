@@ -500,6 +500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapData: {fileID: 11400000, guid: 1f34aa75f3cd1ee4d9f710d8e652215b, type: 2}
+  infoText: {fileID: 1570957382}
 --- !u!1 &1089522550
 GameObject:
   m_ObjectHideFlags: 0
