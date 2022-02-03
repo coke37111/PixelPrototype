@@ -14,9 +14,6 @@ namespace Assets.Scripts.Feature.Main.Player
 {
     public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback, IPunObservable, IOnEventCallback
     {
-        private BombermanMapController mapCtrl;
-        private BombermanCameraController camCtrl;
-
         private Transform trSpine;
         private Animator anim;
         private GameObject pfBomb;
@@ -145,7 +142,12 @@ namespace Assets.Scripts.Feature.Main.Player
                             return;
 
                         Vector3 bombPos = (Vector3)data[1];
-                        // TODO : MakeBomb
+
+                        Transform parent = FindObjectOfType<CubeContainer>().transform;
+                        GameObject pfCubeRoot = ResourceManager.LoadAsset<GameObject>(PrefabPath.EditCubePath);
+                        GameObject goCubeRoot = Instantiate(pfCubeRoot, bombPos, Quaternion.identity, parent);
+                        EditCube cubeRoot = goCubeRoot.GetComponent<EditCube>();
+                        cubeRoot.Build("BombCube");
                         break;
                     }
             }
@@ -164,10 +166,6 @@ namespace Assets.Scripts.Feature.Main.Player
             photonView = GetComponent<PhotonView>();
             isControllable = true;
 
-            camCtrl = FindObjectOfType<BombermanCameraController>();
-            if (camCtrl != null && photonView.IsMine)
-                camCtrl.SetTarget(transform);
-
             playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
             rb = GetComponent<Rigidbody>();
             canJump = true;
@@ -177,7 +175,7 @@ namespace Assets.Scripts.Feature.Main.Player
 
             curHp = playerUnitSetting.hp;
 
-            hpBar = GetComponentInChildren<HpBar>();            
+            hpBar = GetComponentInChildren<HpBar>();
             hpBar.SetGauge(curHp / playerUnitSetting.hp);
         }
 
@@ -285,9 +283,6 @@ namespace Assets.Scripts.Feature.Main.Player
                     RaiseDie();
                 else
                     Destroy(gameObject);
-
-                if (camCtrl != null)
-                    camCtrl.ResetPos();
             }
 
             hpBar.SetGauge(curHp / playerUnitSetting.hp);
@@ -315,11 +310,6 @@ namespace Assets.Scripts.Feature.Main.Player
             Transform root = transform.Find("UnitBase/SpineRoot");
             GameObject spineBase = ResourceManager.LoadAsset<GameObject>(spinePath);
             Instantiate(spineBase, root);
-
-            //Vector3 scale = root.localScale;
-            //scale.x *= 2f;
-            //scale.y *= 3f;
-            //root.localScale = scale;
         }
 
         private void Jump()
