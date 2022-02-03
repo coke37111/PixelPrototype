@@ -21,7 +21,7 @@ Material:
     m_TexEnvs:
     - _BumpMap:
         m_Texture: {fileID: 2800000, guid: 704941090b27a0544af62078d90590d1, type: 3}
-        m_Scale: {x: 10, y: 10}
+        m_Scale: {x: 150, y: 150}
         m_Offset: {x: 0, y: 0}
     - _Cube:
         m_Texture: {fileID: 0}
@@ -99,5 +99,5 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpColor: {r: 0.4669811, g: 0.73845536, b: 1, a: 1}
-    - _Tint: {r: 0.41037738, g: 0.41037738, b: 1, a: 1}
+    - _Tint: {r: 0.08962262, g: 0.08962262, b: 1, a: 1}
   m_BuildTextureStacks: []
