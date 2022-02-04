@@ -12,19 +12,6 @@ namespace Assets.Scripts.Settings
     {
         public List<CubeData> cubeData;
 
-        public void SetData(List<CubeRoot> cubes)
-        {
-            if (cubeData == null)
-                cubeData = new List<CubeData>();
-
-            foreach(CubeRoot cube in cubes)
-            {
-                CubeBase cubeBase = cube.GetCubeBase();
-                CubeData newData = new CubeData(cubeBase.name.Replace("(Clone)", "").Trim(), cubeBase.GetPosition());
-                cubeData.Add(newData);
-            }            
-        }
-
         public void SetData(List<EditCube> cubes)
         {
             if (cubeData == null)

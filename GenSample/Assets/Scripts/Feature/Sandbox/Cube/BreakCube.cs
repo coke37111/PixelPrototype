@@ -3,10 +3,8 @@ using UnityEngine;
 
 namespace Assets.Scripts.Feature.Sandbox.Cube
 {
-    public class BreakCube : CubeBase
+    public class BreakCube : MonoBehaviour
     {
-        protected override CUBE_TYPE cubeType => CUBE_TYPE.BreakCube;
-
         public int cntToBreak = 1;
         public float timeToBreak = .5f;
 
@@ -31,8 +29,8 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
             isBreaking = true;
             yield return new WaitForSeconds(timeToBreak);
 
-            if(cubeRoot != null)
-                cubeRoot.DestroyCube();
+            //if(cubeRoot != null)
+            //    cubeRoot.DestroyCube();
         }
     }
 }

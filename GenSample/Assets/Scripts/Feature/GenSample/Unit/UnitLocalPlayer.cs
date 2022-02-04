@@ -161,14 +161,14 @@ namespace Assets.Scripts.Feature.GenSample
                 return;
 
             float jumpPower = playerUnitSetting.jumpPower;
-            if(belowCube != null && belowCube.GetCubeType() == CubeBase.CUBE_TYPE.JumpCube)
-            {
-                JumpCube jumpCube = belowCube.GetComponent<JumpCube>();
-                if (jumpCube == null)
-                    return;
+            //if(belowCube != null && belowCube.GetCubeType() == CubeBase.CUBE_TYPE.JumpCube)
+            //{
+            //    JumpCube jumpCube = belowCube.GetComponent<JumpCube>();
+            //    if (jumpCube == null)
+            //        return;
 
-                jumpPower *= jumpCube.jumpScale;
-            }
+            //    jumpPower *= jumpCube.jumpScale;
+            //}
 
             if (Input.GetKeyDown(KeyCode.Space) && canJump)
             {
@@ -234,14 +234,14 @@ namespace Assets.Scripts.Feature.GenSample
                     delta.x += playerUnitSetting.speed;
                 }
 
-                if (belowCube != null && belowCube.GetCubeType() == CubeBase.CUBE_TYPE.IceCube)
-                {
-                    accDelta = Vector3.Lerp(accDelta, delta, belowCube.GetComponent<IceCube>().dampRatio);
-                    transform.position += accDelta * Time.deltaTime;
-                }else if(belowCube == null && accDelta != Vector3.zero)
-                {
-                    transform.position += accDelta * Time.deltaTime;
-                }
+                //if (belowCube != null && belowCube.GetCubeType() == CubeBase.CUBE_TYPE.IceCube)
+                //{
+                //    accDelta = Vector3.Lerp(accDelta, delta, belowCube.GetComponent<IceCube>().dampRatio);
+                //    transform.position += accDelta * Time.deltaTime;
+                //}else if(belowCube == null && accDelta != Vector3.zero)
+                //{
+                //    transform.position += accDelta * Time.deltaTime;
+                //}
 
                 if (delta.x != 0)
                     isLeftDir = delta.x < 0;

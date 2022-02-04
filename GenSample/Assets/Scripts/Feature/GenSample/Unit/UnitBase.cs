@@ -7,7 +7,6 @@ using Assets.Scripts.Util;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static Assets.Scripts.Feature.Sandbox.Cube.CubeBase;
 
 namespace Assets.Scripts.Feature.GenSample
 {
@@ -84,7 +83,7 @@ namespace Assets.Scripts.Feature.GenSample
         protected SpineEventListener spineListener;
 
         public LayerMask cubeLayer;
-        protected CubeBase belowCube;
+        //protected CubeBase belowCube;
         protected Vector3 moveDir;
         protected Vector3 accDelta;
 
@@ -208,7 +207,7 @@ namespace Assets.Scripts.Feature.GenSample
 
             isMove = false;
 
-            belowCube = null;
+            //belowCube = null;
         }
 
         protected virtual void OnChangeDir(bool isLeft)
@@ -363,71 +362,71 @@ namespace Assets.Scripts.Feature.GenSample
 
         private void GetBelowCube()
         {
-            Vector3 rayOrg = transform.position + GetComponent<BoxCollider>().center;
-            Vector3 rayDir = Vector3.down;
-            float rayDist = .26f;
+            //Vector3 rayOrg = transform.position + GetComponent<BoxCollider>().center;
+            //Vector3 rayDir = Vector3.down;
+            //float rayDist = .26f;
 
-            RaycastHit hit;
-            if (Physics.Raycast(rayOrg, Vector3.down, out hit, rayDist, cubeLayer))
-            {
-                if (hit.collider.tag == "Cube")
-                {
-                    CubeBase collCube = hit.collider.GetComponent<CubeBase>();
-                    if(belowCube == null || 
-                        belowCube.GetCubeType() != collCube.GetCubeType())
-                    {
-                        if (belowCube != null && belowCube.GetCubeType() == CUBE_TYPE.DamageCube)
-                            belowCube.GetComponent<DamageCube>().UnregisterDamageListener(AttackByCube);
+            //RaycastHit hit;
+            //if (Physics.Raycast(rayOrg, Vector3.down, out hit, rayDist, cubeLayer))
+            //{
+            //    if (hit.collider.tag == "Cube")
+            //    {
+            //        CubeBase collCube = hit.collider.GetComponent<CubeBase>();
+            //        if(belowCube == null || 
+            //            belowCube.GetCubeType() != collCube.GetCubeType())
+            //        {
+            //            if (belowCube != null && belowCube.GetCubeType() == CUBE_TYPE.DamageCube)
+            //                belowCube.GetComponent<DamageCube>().UnregisterDamageListener(AttackByCube);
 
-                        belowCube = collCube;
-                        if(belowCube.GetCubeType() == CUBE_TYPE.IceCube)
-                        {
-                            accDelta = moveDir * playerUnitSetting.speed;
-                        }
-                        else if(belowCube.GetCubeType() == CUBE_TYPE.DamageCube)
-                        {
-                            belowCube.GetComponent<DamageCube>().RegisterDamageListener(AttackByCube);
-                        }
-                        else if(belowCube.GetCubeType() == CUBE_TYPE.BreakCube)
-                        {
-                            belowCube.GetComponent<BreakCube>().CheckBreak();
-                        }
-                        else
-                        {
-                            accDelta = Vector3.zero;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (belowCube != null && belowCube.GetCubeType() == CUBE_TYPE.DamageCube)
-                    belowCube.GetComponent<DamageCube>().UnregisterDamageListener(AttackByCube);
+            //            belowCube = collCube;
+            //            if(belowCube.GetCubeType() == CUBE_TYPE.IceCube)
+            //            {
+            //                accDelta = moveDir * playerUnitSetting.speed;
+            //            }
+            //            else if(belowCube.GetCubeType() == CUBE_TYPE.DamageCube)
+            //            {
+            //                belowCube.GetComponent<DamageCube>().RegisterDamageListener(AttackByCube);
+            //            }
+            //            else if(belowCube.GetCubeType() == CUBE_TYPE.BreakCube)
+            //            {
+            //                belowCube.GetComponent<BreakCube>().CheckBreak();
+            //            }
+            //            else
+            //            {
+            //                accDelta = Vector3.zero;
+            //            }
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    if (belowCube != null && belowCube.GetCubeType() == CUBE_TYPE.DamageCube)
+            //        belowCube.GetComponent<DamageCube>().UnregisterDamageListener(AttackByCube);
 
-                belowCube = null;
-            }
+            //    belowCube = null;
+            //}
         }
 
         // TODO : 추후 작업을 위해 남겨놓음
         private void CheckBelowCube()
         {
-            if (belowCube == null)
-            {
-                return;
-            }
+            //if (belowCube == null)
+            //{
+            //    return;
+            //}
         }
 
         private void AttackByCube(DamageCube cube)
         {
             MakeHitEffect();
 
-            curHp -= GetFinalDamage(cube.damage, GetDef());
-            if (curHp <= 0f)
-            {
-                cube.UnregisterDamageListener(AttackByCube);
+            //curHp -= GetFinalDamage(cube.damage, GetDef());
+            //if (curHp <= 0f)
+            //{
+            //    cube.UnregisterDamageListener(AttackByCube);
 
-                Destroy(gameObject);
-            }
+            //    Destroy(gameObject);
+            //}
         }
     }
 }
