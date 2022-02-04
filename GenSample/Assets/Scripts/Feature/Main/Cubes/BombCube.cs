@@ -158,7 +158,7 @@ namespace Assets.Scripts.Feature.Main.Cubes
 
         private void MakeExpEff(Vector3 pos)
         {
-            GameObject pfExpEff = ResourceManager.LoadAsset<GameObject>($"Prefab/BomberMan/Effect/EffExplosion");
+            GameObject pfExpEff = ResourceManager.LoadAsset<GameObject>($"Prefab/Effect/Explosion/EffExplosion");
             GameObject goExpEff = Instantiate(pfExpEff, pos, Quaternion.identity, null);
             BombermanExplosion bExp = goExpEff.GetComponent<BombermanExplosion>();
             bExp.SetDamage(expDamage);

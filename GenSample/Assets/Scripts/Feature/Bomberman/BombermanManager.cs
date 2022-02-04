@@ -328,7 +328,7 @@ namespace Assets.Scripts.Feature.Main
 
         private void GenerateNormalBlock()
         {
-            string blockPath = $"Prefab/BomberMan/Block/Normal/NormalBlock";
+            string blockPath = $"Prefab/Main/NormalBlock/NormalBlock";
             int mapSize = mapCtrl.GetMapSize();
             for (int col = -mapSize; col <= mapSize; col++)
             {

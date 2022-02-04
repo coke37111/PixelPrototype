@@ -16,7 +16,6 @@ namespace Assets.Scripts.Feature.Main.Player
     {
         private Transform trSpine;
         private Animator anim;
-        private GameObject pfBomb;
         private bool _isMove;
         private bool isMove {
             get => _isMove;
@@ -37,8 +36,6 @@ namespace Assets.Scripts.Feature.Main.Player
         private PhotonView photonView;
         private bool raiseDieCall = false;
         private bool isControllable;
-
-        private readonly string bombPath = "Prefab/BomberMan/Block/Bomb/BombRoot";
 
         private PlayerUnitSettingSO playerUnitSetting;
         private Rigidbody rb;
@@ -170,8 +167,6 @@ namespace Assets.Scripts.Feature.Main.Player
             SkeletonMecanim skelM = GetComponentInChildren<SkeletonMecanim>();
             trSpine = skelM.transform;
             anim = skelM.GetComponent<Animator>();
-
-            pfBomb = ResourceManager.LoadAsset<GameObject>(bombPath);
 
             photonView = GetComponent<PhotonView>();
             isControllable = true;

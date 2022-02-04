@@ -96,7 +96,7 @@ namespace Assets.Scripts.Feature.Main
 
         private void MakeExplosionEff(Vector2Int pos, string effId)
         {
-            GameObject pfExpEff = ResourceManager.LoadAsset<GameObject>($"Prefab/BomberMan/Effect/{effId}");
+            GameObject pfExpEff = ResourceManager.LoadAsset<GameObject>($"Prefab/Effect/Explosion/{effId}");
             GameObject goExpEff = Instantiate(pfExpEff, new Vector3(pos.x, .5f, pos.y), Quaternion.identity, null);
             Destroy(goExpEff, .1f);
         }

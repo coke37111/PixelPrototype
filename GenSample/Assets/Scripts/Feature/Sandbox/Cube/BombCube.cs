@@ -127,7 +127,7 @@ namespace Assets.Scripts.Feature.Sandbox.Cube
 
         private void MakeExplosionEff(Vector3 pos, string effId)
         {
-            GameObject pfExpEff = ResourceManager.LoadAsset<GameObject>($"Prefab/BomberMan/Effect/{effId}");
+            GameObject pfExpEff = ResourceManager.LoadAsset<GameObject>($"Prefab/Effect/Explosion/{effId}");
             GameObject goExpEff = Instantiate(pfExpEff, pos, Quaternion.identity, null);
             Destroy(goExpEff, 1f);
         }
