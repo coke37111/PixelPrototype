@@ -27,6 +27,8 @@ namespace Assets.Scripts.Feature.Main.Cubes
         private bool endExpF, endExpB, endExpU, endExpD, endExpL, endExpR = false;
         private List<Collider> enterColl = new List<Collider>();
 
+        private bool isInitialized = false;
+
         #region UNITY
 
         private void Start()
@@ -115,10 +117,14 @@ namespace Assets.Scripts.Feature.Main.Cubes
             curExpTime = 0f;
             isExplosion = false;
             coll.isTrigger = true;
+            isInitialized = true;
         }
 
         public void Explosion()
         {
+            if (!isInitialized)
+                return;
+
             if (isExplosion)
             {
                 return;
