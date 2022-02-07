@@ -76,6 +76,26 @@ namespace Assets.Scripts.Feature.Main.Cubes
             return spawnPosList[idx];
         }
 
+        public Vector3 GetRandomSpawnPosEdit()
+        {
+            List<Vector3> spawnPosListEdit = new List<Vector3>();
+            List<EditCube> cubes = GetAllCubes();
+            foreach (EditCube eCube in cubes)
+            {
+                SpawnCube spawnCube = eCube.GetComponentInChildren<SpawnCube>();
+                if (spawnCube != null)
+                {
+                    spawnPosListEdit.Add(spawnCube.transform.position);
+                }
+            }
+
+            if (spawnPosListEdit.Count <= 0)
+                return Vector3.zero;
+
+            int idx = Random.Range(0, spawnPosListEdit.Count);
+            return spawnPosListEdit[idx];
+        }
+
         public void ShowGuardCube()
         {
             List<EditCube> cubes = GetAllCubes();

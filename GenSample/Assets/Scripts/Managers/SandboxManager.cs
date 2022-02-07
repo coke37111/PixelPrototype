@@ -137,18 +137,26 @@ namespace Assets.Scripts.Managers
                             }
                         }
 
-                        if(player != null)
-                        {
-                            bool isPlayerMode = playerType == PLAYER_TYPE.Player;
-                            player.SetControllable(isPlayerMode);
+                        bool isPlayerMode = playerType == PLAYER_TYPE.Player;
 
+                        if (player != null)
+                        {
                             if (isPlayerMode)
                             {
                                 player.SetPlayMode();
+                                player.SetControllable(isPlayerMode);
                             }
                             else
                             {
-                                player.SetEditMode();
+                                Destroy(player.gameObject);
+                                sbCamCtrl.ResetPos();
+                            }
+                        }
+                        else
+                        {
+                            if (isPlayerMode)
+                            {
+                                SpawnPlayer();
                             }
                         }
                         break;
@@ -338,7 +346,7 @@ namespace Assets.Scripts.Managers
                 MakeDefaultMap();
             }
 
-            SpawnPlayer();
+            //SpawnPlayer();
         }
 
         private void MakeDefaultMap()
@@ -365,7 +373,7 @@ namespace Assets.Scripts.Managers
 
         private void SpawnPlayer()
         {
-            Vector3 spawnPosTo3 = new Vector3(1f, 1f, -1f);
+            Vector3 spawnPosTo3 = cubeContainer.GetRandomSpawnPosEdit();
 
             if (PlayerSettings.IsConnectNetwork())
             {

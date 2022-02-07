@@ -31,6 +31,9 @@ namespace Assets.Scripts.Feature.Sandbox
 
         public LayerMask editCubeLayer;
 
+        private Vector3 InitPos;
+        private Quaternion InitRot;
+
         #region UNITY
 
         void Start()
@@ -75,6 +78,9 @@ namespace Assets.Scripts.Feature.Sandbox
         {
             mainCamera = GetComponent<Camera>();
             this.sbManager = sbManager;
+
+            InitPos = transform.position;
+            InitRot = transform.rotation;
 
             isInitialized = true;
         }
@@ -219,6 +225,12 @@ namespace Assets.Scripts.Feature.Sandbox
                 return;
 
             transform.LookAt(playTarget);
+        }
+
+        public void ResetPos()
+        {
+            transform.position = InitPos;
+            transform.rotation = InitRot;
         }
     }
 }
