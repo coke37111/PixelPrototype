@@ -57,3 +57,5 @@ MonoBehaviour:
     tileName: Question
   - cubeName: SpawnCube
     tileName: Tile_grass_01
+  - cubeName: GuardCube
+    tileName: Tile_grass_01

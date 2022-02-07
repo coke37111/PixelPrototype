@@ -28,8 +28,7 @@ namespace Assets.Scripts.Managers
             Designer,
             Player,
         }
-        // TODO : Player 위치 로직 수정시까지 Designer모드로 강제
-        private PLAYER_TYPE playerType = PLAYER_TYPE.Designer;
+        public PLAYER_TYPE playerType;
         public Vector3 DefaultMapSize;
         public GameObject DefaultCube;
         public SandboxMapDataSO LoadMapData;
@@ -139,7 +138,11 @@ namespace Assets.Scripts.Managers
                         }
 
                         if(player != null)
-                            player.SetControllable(playerType == PLAYER_TYPE.Player);
+                        {
+                            bool isPlayerMode = playerType == PLAYER_TYPE.Player;
+                            player.SetControllable(isPlayerMode);
+                            player.GetComponent<Rigidbody>().useGravity = isPlayerMode;
+                        }
                         break;
                     }
             }            
@@ -327,7 +330,7 @@ namespace Assets.Scripts.Managers
                 MakeDefaultMap();
             }
 
-            //SpawnPlayer();
+            SpawnPlayer();
         }
 
         private void MakeDefaultMap()
@@ -377,6 +380,11 @@ namespace Assets.Scripts.Managers
                     player = goPlayer.GetComponent<PlayerController>();
                     player.SetControllable(false);
                     sbCamCtrl.SetTarget(goPlayer.transform);
+
+                    if(playerType == PLAYER_TYPE.Designer)
+                        player.GetComponent<Rigidbody>().useGravity = false;
+                    else
+                        player.GetComponent<Rigidbody>().useGravity = true;
                 }
             }
         }
