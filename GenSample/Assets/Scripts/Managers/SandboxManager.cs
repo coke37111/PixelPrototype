@@ -141,7 +141,15 @@ namespace Assets.Scripts.Managers
                         {
                             bool isPlayerMode = playerType == PLAYER_TYPE.Player;
                             player.SetControllable(isPlayerMode);
-                            player.GetComponent<Rigidbody>().useGravity = isPlayerMode;
+
+                            if (isPlayerMode)
+                            {
+                                player.SetPlayMode();
+                            }
+                            else
+                            {
+                                player.SetEditMode();
+                            }
                         }
                         break;
                     }
@@ -382,9 +390,13 @@ namespace Assets.Scripts.Managers
                     sbCamCtrl.SetTarget(goPlayer.transform);
 
                     if(playerType == PLAYER_TYPE.Designer)
-                        player.GetComponent<Rigidbody>().useGravity = false;
+                    {
+                        player.SetEditMode();
+                    }
                     else
-                        player.GetComponent<Rigidbody>().useGravity = true;
+                    {
+                        player.SetPlayMode();
+                    }
                 }
             }
         }

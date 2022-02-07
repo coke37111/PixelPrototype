@@ -394,5 +394,17 @@ namespace Assets.Scripts.Feature.Main.Player
                 belowCube = null;
             }
         }
+
+        public void SetEditMode()
+        {
+            GetComponent<Rigidbody>().useGravity = false;
+            GetComponent<CapsuleCollider>().enabled = false;
+        }
+
+        public void SetPlayMode()
+        {
+            GetComponent<Rigidbody>().useGravity = true;
+            GetComponent<CapsuleCollider>().enabled = true;
+        }
     }
 }
