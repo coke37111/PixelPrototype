@@ -28,13 +28,14 @@ namespace Assets.Scripts.Managers
             Designer,
             Player,
         }
-        public PLAYER_TYPE playerType;
-        public Vector2 DefaultMapSize;
+        // TODO : Player 위치 로직 수정시까지 Designer모드로 강제
+        private PLAYER_TYPE playerType = PLAYER_TYPE.Designer;
+        public Vector3 DefaultMapSize;
         public GameObject DefaultCube;
         public SandboxMapDataSO LoadMapData;
 
         private CubeSlotController cubeSlotController;
-        private MainCubeContainer cubeContainerNew;
+        private MainCubeContainer cubeContainer;
 
         private SandboxCameraController sbCamCtrl;
         private EditCube objShowCubeNew;
@@ -98,7 +99,7 @@ namespace Assets.Scripts.Managers
                             if (objShowCubeNew != null)
                                 ActiveShowCube(false);
 
-                            if (Input.GetKeyDown(KeyCode.R))
+                            if (Input.GetKeyDown(KeyCode.R) && player != null)
                             {
                                 player.transform.position = Vector3.up;
                             }
@@ -137,7 +138,8 @@ namespace Assets.Scripts.Managers
                             }
                         }
 
-                        player.SetControllable(playerType == PLAYER_TYPE.Player);
+                        if(player != null)
+                            player.SetControllable(playerType == PLAYER_TYPE.Player);
                         break;
                     }
             }            
@@ -287,7 +289,7 @@ namespace Assets.Scripts.Managers
         {
             cubeSlotController = FindObjectOfType<CubeSlotController>();
             cubeSlotController.Build(this);
-            cubeContainerNew = FindObjectOfType<MainCubeContainer>();
+            cubeContainer = FindObjectOfType<MainCubeContainer>();
 
             if (!PlayerSettings.IsConnectNetwork())
             {
@@ -325,23 +327,27 @@ namespace Assets.Scripts.Managers
                 MakeDefaultMap();
             }
 
-            SpawnPlayer();
+            //SpawnPlayer();
         }
 
         private void MakeDefaultMap()
         {            
             Vector3 defaultCubeScale = DefaultCube.transform.localScale;
             float ofsX = DefaultMapSize.x - defaultCubeScale.x;
-            float ofsY = DefaultMapSize.y - defaultCubeScale.z;
+            float ofsY = 0f;// DefaultMapSize.y - defaultCubeScale.y;
+            float ofsZ = DefaultMapSize.z - defaultCubeScale.z;
             for (int col = 0; col < DefaultMapSize.x; col++)
             {
-                for (int row = 0; row < DefaultMapSize.y; row++)
+                for(int height = 0; height < DefaultMapSize.y; height++)
                 {
-                    Vector3 pos = new Vector3(col - ofsX / 2f, 0, row - ofsY / 2f);
-                    GameObject pfCube = ResourceManager.LoadAsset<GameObject>(PrefabPath.EditCubePath);
-                    GameObject goCube = Instantiate(pfCube, pos, Quaternion.identity, cubeContainerNew.transform);
-                    EditCube cube = goCube.GetComponent<EditCube>();
-                    cube.Build(DefaultCube.name);
+                    for (int row = 0; row < DefaultMapSize.z; row++)
+                    {
+                        Vector3 pos = new Vector3(col - ofsX / 2f, height - ofsY / 2f, row - ofsZ / 2f);
+                        GameObject pfCube = ResourceManager.LoadAsset<GameObject>(PrefabPath.EditCubePath);
+                        GameObject goCube = Instantiate(pfCube, pos, Quaternion.identity, cubeContainer.transform);
+                        EditCube cube = goCube.GetComponent<EditCube>();
+                        cube.Build(DefaultCube.name);
+                    }
                 }
             }
         }
@@ -480,6 +486,21 @@ namespace Assets.Scripts.Managers
             container.DestroyAllCubes();
 
             container.GenerateCubes(LoadMapData, true);
+        }
+
+        public void ShowGuardCube(bool flag)
+        {
+            if (cubeContainer == null)
+                return;
+
+            if (flag)
+            {
+                cubeContainer.ShowGuardCube();
+            }
+            else
+            {
+                cubeContainer.HideGuardCube();
+            }
         }
     }
 }

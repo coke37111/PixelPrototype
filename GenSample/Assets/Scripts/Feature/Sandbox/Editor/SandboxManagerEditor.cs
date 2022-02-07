@@ -10,6 +10,8 @@ namespace Assets.Scripts.Feature.Sandbox.Editor
     [CustomEditor(typeof(SandboxManager))]
     public class SandboxManagerEditor : UnityEditor.Editor
     {
+        private bool toggleShowGuard = true;
+
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
@@ -33,7 +35,11 @@ namespace Assets.Scripts.Feature.Sandbox.Editor
                 {
                     manager.LoadMap();
                 }
-            }            
+            }
+
+            GUILayout.Space(10);
+            toggleShowGuard = GUILayout.Toggle(toggleShowGuard, "Show GuardCube");
+            manager.ShowGuardCube(toggleShowGuard);
         }
 
         private void SaveData(List<Main.Cubes.EditCube> cubes)

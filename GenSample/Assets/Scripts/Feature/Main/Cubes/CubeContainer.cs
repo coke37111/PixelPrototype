@@ -58,6 +58,12 @@ namespace Assets.Scripts.Feature.Main.Cubes
                             spawnCube.HideGuide();
                     }
                 }
+
+                if (cubeData.prefabName == "GuardCube")
+                {
+                    GuardCube guardCube = goCube.GetComponentInChildren<GuardCube>();
+                    guardCube.HideCube();
+                }
             }
         }
 
@@ -68,6 +74,32 @@ namespace Assets.Scripts.Feature.Main.Cubes
 
             int idx = Random.Range(0, spawnPosList.Count);
             return spawnPosList[idx];
+        }
+
+        public void ShowGuardCube()
+        {
+            List<EditCube> cubes = GetAllCubes();
+            foreach(EditCube eCube in cubes)
+            {
+                GuardCube guardCube = eCube.GetComponentInChildren<GuardCube>();
+                if (guardCube != null)
+                {
+                    guardCube.ShowCube();
+                }
+            }
+        }
+
+        public void HideGuardCube()
+        {
+            List<EditCube> cubes = GetAllCubes();
+            foreach (EditCube eCube in cubes)
+            {
+                GuardCube guardCube = eCube.GetComponentInChildren<GuardCube>();
+                if (guardCube != null)
+                {
+                    guardCube.HideCube();
+                }
+            }
         }
     }
 }
