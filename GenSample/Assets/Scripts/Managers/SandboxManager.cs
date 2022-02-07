@@ -357,7 +357,7 @@ namespace Assets.Scripts.Managers
 
         private void SpawnPlayer()
         {
-            Vector3 spawnPosTo3 = Vector3.zero;
+            Vector3 spawnPosTo3 = new Vector3(1f, 1f, -1f);
 
             if (PlayerSettings.IsConnectNetwork())
             {
