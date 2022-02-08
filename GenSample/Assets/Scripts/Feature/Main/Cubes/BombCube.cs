@@ -120,8 +120,10 @@ namespace Assets.Scripts.Feature.Main.Cubes
             isInitialized = true;
         }
 
-        public void Explosion()
+        public override void Explosion()
         {
+            base.Explosion();
+
             if (!isInitialized)
                 return;
 

@@ -39,8 +39,6 @@ MonoBehaviour:
     tileName: tile_ice_01
   - cubeName: JumpCube
     tileName: Tile_grass_01
-  - cubeName: BreakCube
-    tileName: tile_ice_01
   - cubeName: GroundCubeNew
     tileName: Tile_grass_01
   - cubeName: IceCubeNew
@@ -58,4 +56,6 @@ MonoBehaviour:
   - cubeName: SpawnCube
     tileName: Tile_grass_01
   - cubeName: GuardCube
+    tileName: Tile_grass_01
+  - cubeName: NormalCube
     tileName: Tile_grass_01

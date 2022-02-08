@@ -17,5 +17,10 @@ namespace Assets.Scripts.Feature.Main.Cubes
         {
             destroyCallback?.Invoke();
         }
+
+        public virtual void Explosion()
+        {
+
+        }
     }
 }

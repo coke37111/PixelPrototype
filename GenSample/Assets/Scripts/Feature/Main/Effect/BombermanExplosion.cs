@@ -23,12 +23,10 @@ namespace Assets.Scripts.Feature.Main
                     player.HitExplosion(damage);
             }
             if(other.tag == "Cube")
-            {                
-                BombCube bombCube = other.GetComponent<BombCube>();
-                if (bombCube != null)
-                {
-                    bombCube.Explosion();
-                }
+            {
+                Cube cube = other.GetComponent<Cube>();
+                if (cube != null)
+                    cube.Explosion();
             }
         }
     }

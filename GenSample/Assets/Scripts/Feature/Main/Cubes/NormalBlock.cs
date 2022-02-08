@@ -1,18 +1,10 @@
-﻿using Assets.Scripts.Feature.GenSample;
-using Assets.Scripts.Managers;
-using Assets.Scripts.Settings;
-using Assets.Scripts.Util;
-using ExitGames.Client.Photon;
-using Photon.Pun;
-using Photon.Realtime;
-using System.Collections;
-using UnityEngine;
-using static Assets.Scripts.Settings.PlayerSettings;
+﻿using UnityEngine;
 
-namespace Assets.Scripts.Feature.Main.Block
+namespace Assets.Scripts.Feature.Main.Cubes
 {
     public class NormalBlock : MonoBehaviour/*, IPunInstantiateMagicCallback, IOnEventCallback*/
     {
+
         //private PhotonView photonView;
         //private Animator anim;
 
