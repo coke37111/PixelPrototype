@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &871259509113758701
 Transform:
@@ -4894,7 +4894,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1759193410418460122
 Transform:
@@ -9708,7 +9708,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &6455806032946782105
 Transform:
@@ -9737,13 +9737,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4030895014887716209}
   - component: {fileID: 833118113074586122}
-  - component: {fileID: 3670418609443763350}
   m_Layer: 8
   m_Name: torch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4030895014887716209
 Transform:
@@ -9810,18 +9809,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3670418609443763350
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6597826726084633546}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8692dcea25a1f244cba03476e198b08a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7492116326712011664
 GameObject:
   m_ObjectHideFlags: 0
@@ -9837,7 +9824,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &7492116326712011665
 Transform:
@@ -9925,13 +9912,12 @@ GameObject:
   m_Component:
   - component: {fileID: 8992987008695477287}
   - component: {fileID: 8992987008695477281}
-  - component: {fileID: 845874834385076868}
   m_Layer: 8
   m_Name: torch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8992987008695477287
 Transform:
@@ -9999,18 +9985,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &845874834385076868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8992987008695477284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8692dcea25a1f244cba03476e198b08a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &9108947953815173387
 GameObject:
   m_ObjectHideFlags: 0
@@ -10027,7 +10001,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &2813906290691394471
 Transform:
