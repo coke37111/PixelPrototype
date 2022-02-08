@@ -137,13 +137,13 @@ MonoBehaviour:
     value: 1
   areaSize:
     overrideState: 1
-    value: 0.2
+    value: 0.5
   areaFalloff:
     overrideState: 1
     value: 0.7
   offset:
     overrideState: 1
-    value: 0.2
+    value: 0.1
   angle:
     overrideState: 0
     value: 0
