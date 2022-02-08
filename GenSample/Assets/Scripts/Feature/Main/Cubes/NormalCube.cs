@@ -53,17 +53,7 @@ namespace Assets.Scripts.Feature.Main.Cubes
 
         public void EndDestroyAnim()
         {
-            if (PlayerSettings.IsConnectNetwork())
-            {
-                //PhotonEventManager.RaiseEvent(PlayerSettings.EventCodeType.DestroyNormalBlock, ReceiverGroup.All, new object[]
-                //{
-                //    photonView.ViewID
-                //});
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            DestroyCube();
         }
     }
 }

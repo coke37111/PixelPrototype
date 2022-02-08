@@ -166,6 +166,8 @@ namespace Assets.Scripts.Feature.BombermanNew
                         if (!startTimeIsSet)
                         {
                             GenCountdownTimer.SetStartTime();
+
+                            cubeContainer.GenerateNormalCube();
                         }
                     }
                 }

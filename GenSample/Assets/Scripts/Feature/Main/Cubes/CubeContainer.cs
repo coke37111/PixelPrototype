@@ -1,14 +1,18 @@
 ﻿using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
+using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Assets.Scripts.Settings.PlayerSettings;
 
 namespace Assets.Scripts.Feature.Main.Cubes
 {
     public class CubeContainer : MonoBehaviour
     {
         private List<Vector3> spawnPosList = new List<Vector3>();
+        private List<CubeData> normalCubeData = new List<CubeData>();
 
         public List<EditCube> GetAllCubes()
         {
@@ -42,6 +46,12 @@ namespace Assets.Scripts.Feature.Main.Cubes
         {
             foreach (CubeData cubeData in mapData.cubeData)
             {
+                if (cubeData.prefabName == "NormalCube")
+                {
+                    normalCubeData.Add(cubeData);
+                    continue;
+                }
+
                 GameObject pfCube = ResourceManager.LoadAsset<GameObject>(PrefabPath.EditCubePath);
                 GameObject goCube = Instantiate(pfCube, cubeData.pos, Quaternion.identity, transform);
                 EditCube cube = goCube.GetComponent<EditCube>();
@@ -63,6 +73,33 @@ namespace Assets.Scripts.Feature.Main.Cubes
                 {
                     GuardCube guardCube = goCube.GetComponentInChildren<GuardCube>();
                     guardCube.HideCube();
+                }
+            }
+        }
+
+        public void GenerateNormalCube()
+        {
+            if (normalCubeData == null)
+                return;
+
+            if (PlayerSettings.IsConnectNetwork())
+            {
+                foreach (CubeData cubeData in normalCubeData)
+                {
+                    var data = new List<object>();
+                    data.Add(cubeData.prefabName);
+
+                    PhotonNetwork.Instantiate(PrefabPath.EditCubePath, cubeData.pos, Quaternion.identity, 0, data.ToArray());
+                }
+            }
+            else
+            {
+                foreach (CubeData cubeData in normalCubeData)
+                {
+                    GameObject pfCube = ResourceManager.LoadAsset<GameObject>(PrefabPath.EditCubePath);
+                    GameObject goCube = Instantiate(pfCube, cubeData.pos, Quaternion.identity, transform);
+                    EditCube cube = goCube.GetComponent<EditCube>();
+                    cube.Build(cubeData.prefabName);
                 }
             }
         }

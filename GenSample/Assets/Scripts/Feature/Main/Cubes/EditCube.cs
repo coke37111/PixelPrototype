@@ -1,14 +1,19 @@
 ﻿using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
+using ExitGames.Client.Photon;
+using Photon.Pun;
+using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
+using static Assets.Scripts.Settings.PlayerSettings;
 
 namespace Assets.Scripts.Feature.Main.Cubes
 {
-    public class EditCube : MonoBehaviour
+    public class EditCube : MonoBehaviour, IPunInstantiateMagicCallback, IOnEventCallback
     {
         private string cubeId;
         private List<Collider> collObjs = new List<Collider>();
+        private PhotonView photonView;
 
         #region UNITY
 
@@ -24,10 +29,57 @@ namespace Assets.Scripts.Feature.Main.Cubes
                 collObjs.Remove(other);
         }
 
+        public void OnEnable()
+        {
+            PhotonNetwork.AddCallbackTarget(this);
+        }
+
+        public void OnDisable()
+        {
+            PhotonNetwork.RemoveCallbackTarget(this);
+        }
+
+        #endregion
+
+        #region PUN_METHOD
+
+        public void OnPhotonInstantiate(PhotonMessageInfo info)
+        {
+            CubeContainer cubeContainer = FindObjectOfType<CubeContainer>();
+            transform.SetParent(cubeContainer.transform);
+
+            string buildCubeId = info.photonView.InstantiationData[0].ToString();
+            Build(buildCubeId);
+        }
+
+        public void OnEvent(EventData photonEvent)
+        {
+            EventCodeType eventCodeType = (EventCodeType)photonEvent.Code;
+            object[] data = (photonEvent.CustomData != null) ? photonEvent.CustomData as object[] : null;
+
+            switch (eventCodeType)
+            {
+                case EventCodeType.DestroyNormalBlock:
+                    {
+                        int senderViewId = (int)data[0];
+                        if (photonView.ViewID != senderViewId)
+                            return;
+
+                        if (!photonView.IsMine)
+                            return;
+
+                        PhotonNetwork.Destroy(photonView);
+                        break;
+                    }
+            }
+        }
+
         #endregion
 
         public void Build(string cubeId)
         {
+            photonView = GetComponent<PhotonView>();
+
             this.cubeId = cubeId;
 
             GameObject pfRealCube = ResourceManager.LoadAsset<GameObject>($"Prefab/Main/Cube/{cubeId}");
@@ -76,7 +128,24 @@ namespace Assets.Scripts.Feature.Main.Cubes
 
         public void DestroyCube()
         {
-            Destroy(gameObject);
+            if (PlayerSettings.IsConnectNetwork())
+            {
+                if(cubeId == "NormalCube")
+                {
+                    PhotonEventManager.RaiseEvent(PlayerSettings.EventCodeType.DestroyNormalBlock, ReceiverGroup.All, new object[]
+                    {
+                    photonView.ViewID
+                    });
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

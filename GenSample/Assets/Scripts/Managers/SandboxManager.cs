@@ -573,6 +573,7 @@ namespace Assets.Scripts.Managers
             container.DestroyAllCubes();
 
             container.GenerateCubes(LoadMapData, true);
+            container.GenerateNormalCube();
         }
 
         public void ShowGuardCube(bool flag)
