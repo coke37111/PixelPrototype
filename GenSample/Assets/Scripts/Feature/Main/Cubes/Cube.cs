@@ -18,6 +18,11 @@ namespace Assets.Scripts.Feature.Main.Cubes
             destroyCallback?.Invoke();
         }
 
+        public virtual void Hit(float damage)
+        {
+
+        }
+
         public virtual void Explosion()
         {
 

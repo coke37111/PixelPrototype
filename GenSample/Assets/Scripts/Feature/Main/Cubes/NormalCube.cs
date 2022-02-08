@@ -6,6 +6,8 @@ namespace Assets.Scripts.Feature.Main.Cubes
 {
     public class NormalCube : Cube
     {
+        public float hp = 10f;
+
         private Animator anim;
         private bool isExplosion;
         private bool isInitialized = false;
@@ -26,10 +28,18 @@ namespace Assets.Scripts.Feature.Main.Cubes
             isInitialized = true;
         }
 
+        public override void Hit(float damage)
+        {
+            hp -= damage;
+            if(hp <= 0f)
+            {
+                hp = 0f;
+                Explosion();
+            }    
+        }
+
         public override void Explosion()
         {
-            base.Explosion();
-
             if (!isInitialized)
                 return;
 

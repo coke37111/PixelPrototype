@@ -26,7 +26,7 @@ namespace Assets.Scripts.Feature.Main
             {
                 Cube cube = other.GetComponent<Cube>();
                 if (cube != null)
-                    cube.Explosion();
+                    cube.Hit(damage);
             }
         }
     }
