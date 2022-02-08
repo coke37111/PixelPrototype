@@ -137,7 +137,7 @@ MonoBehaviour:
     value: 1
   areaSize:
     overrideState: 1
-    value: 0.5
+    value: 0.3
   areaFalloff:
     overrideState: 1
     value: 0.7
