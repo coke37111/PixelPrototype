@@ -128,23 +128,36 @@ namespace Assets.Scripts.Feature.Main.Cubes
 
         public void DestroyCube()
         {
-            if (PlayerSettings.IsConnectNetwork())
+            if(cubeId == "NormalCube")
             {
-                if(cubeId == "NormalCube")
+                MakeItem();
+
+                if (PlayerSettings.IsConnectNetwork())
                 {
                     PhotonEventManager.RaiseEvent(PlayerSettings.EventCodeType.DestroyNormalBlock, ReceiverGroup.All, new object[]
                     {
                     photonView.ViewID
                     });
+
+                    return;
                 }
-                else
-                {
-                    Destroy(gameObject);
-                }
+            }
+
+            Destroy(gameObject);
+        }
+
+        private void MakeItem()
+        {
+            if (PlayerSettings.IsConnectNetwork())
+            {
+                PhotonEventManager.RaiseEvent(EventCodeType.MakeItem, ReceiverGroup.MasterClient, new object[]{
+                    GetPosition()
+                });
             }
             else
             {
-                Destroy(gameObject);
+                GameObject pfItemPower = ResourceManager.LoadAsset<GameObject>(PrefabPath.ItemPowerPath);
+                GameObject goItemPower = Instantiate(pfItemPower, GetPosition(), Quaternion.identity, null);
             }
         }
     }

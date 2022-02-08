@@ -6,11 +6,13 @@ using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
 using Assets.Scripts.Util;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Assets.Scripts.Settings.PlayerSettings;
 using PunHashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Assets.Scripts.Feature.BombermanNew
@@ -174,6 +176,23 @@ namespace Assets.Scripts.Feature.BombermanNew
             }
         }
 
+        public void OnEvent(EventData photonEvent)
+        {
+            EventCodeType eventCodeType = (EventCodeType)photonEvent.Code;
+            object[] data = (photonEvent.CustomData != null) ? photonEvent.CustomData as object[] : null;
+
+            switch (eventCodeType)
+            {
+                case EventCodeType.MakeItem:
+                    {
+                        Log.Print($"B MakeItem");
+                        Vector3 pos = (Vector3)data[0];
+                        PhotonNetwork.Instantiate(PrefabPath.ItemPowerPath, pos, Quaternion.identity);
+                        break;
+                    }
+            }
+        }
+
         #endregion
 
         private void SetState(MANAGER_STATE state, PROC_STATE procState)
@@ -220,6 +239,7 @@ namespace Assets.Scripts.Feature.BombermanNew
             {
                 RoomSettings.roomType = RoomSettings.ROOM_TYPE.Bomberman;
                 SpawnPlayer();
+                cubeContainer.GenerateNormalCube();
 
                 SetState(MANAGER_STATE.Init, PROC_STATE.Complete);
             }

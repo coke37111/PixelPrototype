@@ -12,10 +12,11 @@ using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
 using MainCubeContainer = Assets.Scripts.Feature.Main.Cubes.CubeContainer;
+using static Assets.Scripts.Settings.PlayerSettings;
 
 namespace Assets.Scripts.Managers
 {
-    public class SandboxManager : MonoBehaviourPunCallbacks
+    public class SandboxManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         public enum SANDBOX_STATE
         {
@@ -132,7 +133,6 @@ namespace Assets.Scripts.Managers
                                 {
                                     makeCubeX = makeCubeY = makeCubeZ = false;
                                 }
-                                Log.Print($"{cubePos}-{prevCubePos} {makeCubeX},{makeCubeY},{makeCubeZ}");
                             }
                         }
 
@@ -287,6 +287,23 @@ namespace Assets.Scripts.Managers
 
                     SetState(SANDBOX_STATE.Play);
                 }
+            }
+        }
+
+        public void OnEvent(EventData photonEvent)
+        {
+            EventCodeType eventCodeType = (EventCodeType)photonEvent.Code;
+            object[] data = (photonEvent.CustomData != null) ? photonEvent.CustomData as object[] : null;
+
+            switch (eventCodeType)
+            {
+                case EventCodeType.MakeItem:
+                    {
+                        Log.Print($"S MakeItem");
+                        Vector3 pos = (Vector3)data[0];
+                        PhotonNetwork.Instantiate(PrefabPath.ItemPowerPath, pos, Quaternion.identity);
+                        break;
+                    }
             }
         }
 
