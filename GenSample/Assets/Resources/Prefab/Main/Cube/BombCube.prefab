@@ -60,7 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   expTime: 3
   expRange: {x: 3, y: 0, z: 3}
-  expDamage: 10
+  expDamage: 1000
   expDelayTime: 0.2
   rayCastLayer:
     serializedVersion: 2
@@ -131,6 +131,10 @@ PrefabInstance:
     - target: {fileID: 7562393774674651106, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
       propertyPath: m_Name
       value: bomb
+      objectReference: {fileID: 0}
+    - target: {fileID: 7662871452894902990, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
