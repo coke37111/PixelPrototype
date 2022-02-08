@@ -45,8 +45,9 @@ namespace Assets.Scripts.Managers
         private string nextCubeName = "GroundCube";
         private string curCubeName;
 
-        private float prevCubeHeight;
         private Vector3 prevMousePos;
+        private Vector3 prevCubePos;
+        private bool makeCubeX, makeCubeY, makeCubeZ = false;
 
         #region UNITY
 
@@ -109,8 +110,29 @@ namespace Assets.Scripts.Managers
                             if (!removeCube && objShowCubeNew != null && objShowCubeNew.gameObject.activeSelf)
                             {
                                 objShowCubeNew.MakeRealCube();
-                                prevCubeHeight = objShowCubeNew.GetPosition().y;
-                                prevMousePos = Input.mousePosition;                                
+                                prevMousePos = Input.mousePosition;
+
+                                Vector3 cubePos = objShowCubeNew.GetPosition();
+                                prevCubePos = cubePos;
+                                Vector3 diffPos = cubePos - hitCube.transform.position;
+
+                                if (Mathf.Abs(diffPos.x) > 0f)
+                                {
+                                    makeCubeX = true;
+                                }
+                                else if (Mathf.Abs(diffPos.y) > 0f)
+                                {
+                                    makeCubeY = true;
+                                }
+                                else if (Mathf.Abs(diffPos.z) > 0f)
+                                {
+                                    makeCubeZ = true;
+                                }
+                                else
+                                {
+                                    makeCubeX = makeCubeY = makeCubeZ = false;
+                                }
+                                Log.Print($"{cubePos}-{prevCubePos} {makeCubeX},{makeCubeY},{makeCubeZ}");
                             }
                         }
 
@@ -120,9 +142,8 @@ namespace Assets.Scripts.Managers
                             {
                                 if(hitCube != null)
                                 {
-                                    Log.Print(hitCube.name, hitCube.transform.position);
                                     float distMousePos = Vector3.Distance(Input.mousePosition, prevMousePos);
-                                    if (distMousePos >= .2f)
+                                    if (distMousePos >= .5f)
                                         hitCube.GetComponent<EditCube>().DestroyCube();
                                 }                                    
                             }
@@ -131,10 +152,48 @@ namespace Assets.Scripts.Managers
                                 if (objShowCubeNew != null && objShowCubeNew.gameObject.activeSelf)
                                 {
                                     float distMousePos = Vector3.Distance(Input.mousePosition, prevMousePos);
-                                    if(distMousePos >= .2f && prevCubeHeight == objShowCubeNew.GetPosition().y)
-                                        objShowCubeNew.MakeRealCube();
+                                    if(distMousePos >= .5f)
+                                    {
+                                        prevMousePos = Input.mousePosition;
+
+                                        Vector3 cubePos = objShowCubeNew.GetPosition();
+                                        Vector3 diffPos = cubePos - prevCubePos;
+                                        float diffX = Mathf.Abs(diffPos.x);
+                                        float diffY = Mathf.Abs(diffPos.y);
+                                        float diffZ = Mathf.Abs(diffPos.z);
+
+                                        if (makeCubeX)
+                                        {
+                                            if (diffX > 0f && diffY == 0f && diffZ == 0f)
+                                            {
+                                                objShowCubeNew.MakeRealCube();
+                                                prevCubePos = cubePos;
+                                            }
+                                        }
+                                        else if (makeCubeY)
+                                        {
+                                            if (diffY > 0f && diffX == 0f && diffZ == 0f)
+                                            {
+                                                objShowCubeNew.MakeRealCube();
+                                                prevCubePos = cubePos;
+                                            }
+                                        }
+                                        else if (makeCubeZ)
+                                        {
+                                            if (diffZ > 0f && diffX == 0f && diffY == 0f)
+                                            {
+                                                objShowCubeNew.MakeRealCube();
+                                                prevCubePos = cubePos;
+                                            }
+                                        }
+                                    }
                                 }
                             }
+                        }
+
+                        if (Input.GetMouseButtonUp(0))
+                        {
+                            makeCubeX = makeCubeY = makeCubeZ = false;
                         }
 
                         bool isPlayerMode = playerType == PLAYER_TYPE.Player;
