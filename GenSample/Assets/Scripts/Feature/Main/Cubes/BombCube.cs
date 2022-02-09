@@ -245,20 +245,21 @@ namespace Assets.Scripts.Feature.Main.Cubes
 
                     if (dir == Vector3.forward || dir == Vector3.back)
                     {
-                        newRange = Mathf.Abs(hit.point.z - transform.position.z);
+                        newRange = Mathf.Abs(hit.transform.position.z - transform.position.z);
                     }
                     else if (dir == Vector3.up || dir == Vector3.down)
                     {
-                        newRange = Mathf.Abs(hit.point.y - transform.position.y);
+                        newRange = Mathf.Abs(hit.transform.position.y - transform.position.y);
                     }
                     else if (dir == Vector3.right || dir == Vector3.left)
                     {
-                        newRange = Mathf.Abs(hit.point.x - transform.position.x);
+                        newRange = Mathf.Abs(hit.transform.position.x - transform.position.x);
                     }
                     break;
                 }
             }
-            
+
+            Log.Print(newRange);
             return newRange;
         }
     }
