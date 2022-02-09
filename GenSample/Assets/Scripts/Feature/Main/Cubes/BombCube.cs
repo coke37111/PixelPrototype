@@ -238,10 +238,10 @@ namespace Assets.Scripts.Feature.Main.Cubes
                 newRange = finalExpRange;
                 if (Physics.Raycast(rayOrg, dir, out RaycastHit hit, finalExpRange, rayCastLayer))
                 {
-                    if(hit.collider.GetComponent<BombCube>())
-                    {
-                        continue;
-                    }
+                    //if(hit.collider.GetComponent<BombCube>())
+                    //{
+                    //    continue;
+                    //}
 
                     if (dir == Vector3.forward || dir == Vector3.back)
                     {
