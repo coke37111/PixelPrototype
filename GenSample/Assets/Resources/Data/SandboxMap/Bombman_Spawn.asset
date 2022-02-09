@@ -1257,3 +1257,83 @@ MonoBehaviour:
     pos: {x: 0, y: 1, z: 6}
   - prefabName: SpawnCube
     pos: {x: 0, y: 1, z: -6}
+  - prefabName: NormalCube
+    pos: {x: -6, y: 1, z: 2}
+  - prefabName: NormalCube
+    pos: {x: -5, y: 1, z: 2}
+  - prefabName: NormalCube
+    pos: {x: -4, y: 1, z: 2}
+  - prefabName: NormalCube
+    pos: {x: -3, y: 1, z: 2}
+  - prefabName: NormalCube
+    pos: {x: -2, y: 1, z: 2}
+  - prefabName: NormalCube
+    pos: {x: -1, y: 1, z: 2}
+  - prefabName: NormalCube
+    pos: {x: -2, y: 1, z: 1}
+  - prefabName: NormalCube
+    pos: {x: -2, y: 1, z: 0}
+  - prefabName: NormalCube
+    pos: {x: -2, y: 1, z: -1}
+  - prefabName: NormalCube
+    pos: {x: -2, y: 1, z: -2}
+  - prefabName: NormalCube
+    pos: {x: -2, y: 1, z: -3}
+  - prefabName: NormalCube
+    pos: {x: -3, y: 1, z: -2}
+  - prefabName: NormalCube
+    pos: {x: -4, y: 1, z: -2}
+  - prefabName: NormalCube
+    pos: {x: -5, y: 1, z: -2}
+  - prefabName: NormalCube
+    pos: {x: -6, y: 1, z: -2}
+  - prefabName: NormalCube
+    pos: {x: 2, y: 1, z: 6}
+  - prefabName: NormalCube
+    pos: {x: 2, y: 1, z: 5}
+  - prefabName: NormalCube
+    pos: {x: 2, y: 1, z: 4}
+  - prefabName: NormalCube
+    pos: {x: 2, y: 1, z: 3}
+  - prefabName: NormalCube
+    pos: {x: 2, y: 1, z: 2}
+  - prefabName: NormalCube
+    pos: {x: 2, y: 1, z: 1}
+  - prefabName: NormalCube
+    pos: {x: 2, y: 1, z: 0}
+  - prefabName: NormalCube
+    pos: {x: 1, y: 1, z: 2}
+  - prefabName: NormalCube
+    pos: {x: 1, y: 1, z: 0}
+  - prefabName: NormalCube
+    pos: {x: 0, y: 1, z: -4}
+  - prefabName: NormalCube
+    pos: {x: 1, y: 1, z: -4}
+  - prefabName: NormalCube
+    pos: {x: 2, y: 1, z: -4}
+  - prefabName: NormalCube
+    pos: {x: 3, y: 1, z: -4}
+  - prefabName: NormalCube
+    pos: {x: 4, y: 1, z: -1}
+  - prefabName: NormalCube
+    pos: {x: 4, y: 1, z: -2}
+  - prefabName: NormalCube
+    pos: {x: 4, y: 1, z: -3}
+  - prefabName: NormalCube
+    pos: {x: 4, y: 1, z: -5}
+  - prefabName: NormalCube
+    pos: {x: 4, y: 1, z: -6}
+  - prefabName: NormalCube
+    pos: {x: 4, y: 1, z: -7}
+  - prefabName: NormalCube
+    pos: {x: 2, y: 1, z: -5}
+  - prefabName: NormalCube
+    pos: {x: 2, y: 1, z: -6}
+  - prefabName: NormalCube
+    pos: {x: 3, y: 1, z: -6}
+  - prefabName: NormalCube
+    pos: {x: 4, y: 1, z: 5}
+  - prefabName: NormalCube
+    pos: {x: 6, y: 1, z: 4}
+  - prefabName: NormalCube
+    pos: {x: 6, y: 1, z: 5}
