@@ -259,7 +259,6 @@ namespace Assets.Scripts.Feature.Main.Cubes
                 }
             }
 
-            Log.Print(newRange);
             return newRange;
         }
     }
