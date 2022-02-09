@@ -52,10 +52,18 @@ MonoBehaviour:
   - cubeName: Torch
     tileName: Torch
   - cubeName: Question
-    tileName: Question
+    tileName: Tex_question
   - cubeName: SpawnCube
     tileName: Tile_grass_01
   - cubeName: GuardCube
     tileName: Tile_grass_01
   - cubeName: NormalCube
-    tileName: Tile_grass_01
+    tileName: tile_block_01
+  - cubeName: Cube_grass_05
+    tileName: Tex_grass_04
+  - cubeName: Cube_box
+    tileName: Tex_box_01
+  - cubeName: Cube_ground
+    tileName: Tex_ground
+  - cubeName: Cube_block
+    tileName: Tex_block_02
