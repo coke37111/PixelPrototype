@@ -499,7 +499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dccdbc7b2e8a35a4f98c08ce1696edbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapData: {fileID: 11400000, guid: aa68cd130401fd1468bad1a483c90284, type: 2}
+  mapData: {fileID: 11400000, guid: 59e1713f97b0e3f4d8b2f17d99b05053, type: 2}
   infoText: {fileID: 1570957382}
 --- !u!1 &1089522550
 GameObject:
