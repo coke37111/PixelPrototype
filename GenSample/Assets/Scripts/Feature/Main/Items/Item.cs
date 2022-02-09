@@ -1,14 +1,16 @@
 ﻿using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Util;
 using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using UnityEngine;
 using static Assets.Scripts.Settings.PlayerSettings;
 
 namespace Assets.Scripts.Feature.Main.Items
 {
-    public class Item : MonoBehaviour, IPunInstantiateMagicCallback
+    public class Item : MonoBehaviour, IPunInstantiateMagicCallback, IOnEventCallback
     {
         private PhotonView photonView;
 

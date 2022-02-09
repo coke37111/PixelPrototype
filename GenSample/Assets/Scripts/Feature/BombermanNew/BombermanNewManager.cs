@@ -17,7 +17,7 @@ using PunHashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Assets.Scripts.Feature.BombermanNew
 {
-    public class BombermanNewManager : MonoBehaviourPunCallbacks
+    public class BombermanNewManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         public enum MANAGER_STATE
         {
@@ -185,7 +185,6 @@ namespace Assets.Scripts.Feature.BombermanNew
             {
                 case EventCodeType.MakeItem:
                     {
-                        Log.Print($"B MakeItem");
                         Vector3 pos = (Vector3)data[0];
                         PhotonNetwork.Instantiate(PrefabPath.ItemPowerPath, pos, Quaternion.identity);
                         break;

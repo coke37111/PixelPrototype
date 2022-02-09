@@ -16,7 +16,7 @@ using static Assets.Scripts.Settings.PlayerSettings;
 
 namespace Assets.Scripts.Managers
 {
-    public class SandboxManager : MonoBehaviourPunCallbacks, IOnEventCallback
+    public class SandboxManager : MonoBehaviourPunCallbacks
     {
         public enum SANDBOX_STATE
         {
@@ -287,23 +287,6 @@ namespace Assets.Scripts.Managers
 
                     SetState(SANDBOX_STATE.Play);
                 }
-            }
-        }
-
-        public void OnEvent(EventData photonEvent)
-        {
-            EventCodeType eventCodeType = (EventCodeType)photonEvent.Code;
-            object[] data = (photonEvent.CustomData != null) ? photonEvent.CustomData as object[] : null;
-
-            switch (eventCodeType)
-            {
-                case EventCodeType.MakeItem:
-                    {
-                        Log.Print($"S MakeItem");
-                        Vector3 pos = (Vector3)data[0];
-                        PhotonNetwork.Instantiate(PrefabPath.ItemPowerPath, pos, Quaternion.identity);
-                        break;
-                    }
             }
         }
 
