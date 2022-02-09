@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: a10b45c4802892b458b148912b14d7a4, type: 2}
+  m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -403,7 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dccdbc7b2e8a35a4f98c08ce1696edbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapData: {fileID: 11400000, guid: 59e1713f97b0e3f4d8b2f17d99b05053, type: 2}
+  mapData: {fileID: 11400000, guid: d19b7b864e71b18499671574049aaab7, type: 2}
   infoText: {fileID: 1570957382}
 --- !u!1 &1089522550
 GameObject:
@@ -522,7 +522,7 @@ MonoBehaviour:
     m_Bits: 1024
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
-  antialiasingMode: 0
+  antialiasingMode: 1
   temporalAntialiasing:
     jitterSpread: 0.75
     sharpness: 0.25
@@ -532,7 +532,7 @@ MonoBehaviour:
     quality: 2
   fastApproximateAntialiasing:
     fastMode: 0
-    keepAlpha: 0
+    keepAlpha: 1
   fog:
     enabled: 1
     excludeSkybox: 1
