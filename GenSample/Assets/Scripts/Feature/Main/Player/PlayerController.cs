@@ -177,6 +177,19 @@ namespace Assets.Scripts.Feature.Main.Player
                         bombCube.Init(bombPowerLevel, bombRangeLevel);
                         break;
                     }
+                case EventCodeType.PlayerAttackBy:
+                    {
+                        int senderViewId = (int)data[0];
+                        if (photonView.ViewID != senderViewId)
+                            return;
+
+                        if (!photonView.IsMine)
+                            return;
+
+                        float damage = (float)data[1];
+                        AttackBy(damage);
+                        break;
+                    }
             }
         }
 
@@ -478,7 +491,7 @@ namespace Assets.Scripts.Feature.Main.Player
                     List<Collider> targetList = playerAttackRangeL.GetTargetList();
                     foreach(Collider coll in targetList)
                     {
-                        coll.GetComponent<PlayerController>().AttackBy();
+                        coll.GetComponent<PlayerController>().RaiseAttackBy(playerUnitSetting.atk);
                     }
                 }
                 else
@@ -495,36 +508,46 @@ namespace Assets.Scripts.Feature.Main.Player
                     List<Collider> targetList = playerAttackRangeR.GetTargetList();
                     foreach (Collider coll in targetList)
                     {
-                        coll.GetComponent<PlayerController>().AttackBy();
+                        coll.GetComponent<PlayerController>().RaiseAttackBy(playerUnitSetting.atk);
                     }
                 }
             }
         }
 
-        public void AttackBy()
+        public void RaiseAttackBy(float damage)
         {
-            Log.Print($"AttackBy!");
-            //if (isAttacked)
-            //    return;
-            //isAttacked = true;
+            if (PlayerSettings.IsConnectNetwork())
+            {
+                PhotonEventManager.RaiseEvent(EventCodeType.PlayerAttackBy, ReceiverGroup.All, new object[]
+                {
+                        photonView.ViewID, damage
+                });
+            }
+            else
+            {
+                AttackBy(damage);
+            }
+        }
 
-            //Monster monster = (Monster)param[0];
+        public void AttackBy(float damage)
+        {
+            if (isInvincible)
+                return;
 
-            //float damage = monster.atk;
-            //curHp -= damage;
-            //if (curHp <= 0)
-            //    curHp = hp;
+            curHp -= damage;
+            if (curHp <= 0f)
+            {
+                curHp = 0f;
 
-            //float ratio = curHp / hp;
-            //hpBar.SetGauge(ratio);
+                isControllable = false;
 
-            //rBody.velocity = Vector3.zero;
-            //bool isLeftAttacked = monster.transform.position.x < transform.position.x;
-            //Vector3 knockbackDir = isLeftAttacked ? new Vector3(1, 1, 0) : new Vector3(-1, 1, 0);
-            //rBody.AddForce(knockbackDir * monster.knockbackPower);
-            //skelAnim.SetTrigger("isKnockback");
+                if (PlayerSettings.IsConnectNetwork())
+                    RaiseDie();
+                else
+                    Destroy(gameObject);
+            }
 
-            //StartCoroutine(BlinkPlayer());
+            hpBar.SetGauge(curHp / playerUnitSetting.hp);
         }
     }
 }
