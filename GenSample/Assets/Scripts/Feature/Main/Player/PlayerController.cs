@@ -3,6 +3,7 @@ using Assets.Scripts.Feature.Main.Cubes;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
+using Assets.Scripts.Util;
 using Photon.Pun;
 using Photon.Realtime;
 using Spine.Unity;
@@ -57,6 +58,9 @@ namespace Assets.Scripts.Feature.Main.Player
             }
         }
         private HpBar hpBar;
+
+        private int bombPowerLevel;
+        private int bombRangeLevel;
 
         #region UNITY
 
@@ -149,12 +153,17 @@ namespace Assets.Scripts.Feature.Main.Player
                             return;
 
                         Vector3 bombPos = (Vector3)data[1];
+                        int bombPowerLevel = (int)data[2];
+                        int bombRangeLevel = (int)data[3];
 
                         Transform parent = FindObjectOfType<CubeContainer>().transform;
                         GameObject pfCubeRoot = ResourceManager.LoadAsset<GameObject>(PrefabPath.EditCubePath);
                         GameObject goCubeRoot = Instantiate(pfCubeRoot, bombPos, Quaternion.identity, parent);
                         EditCube cubeRoot = goCubeRoot.GetComponent<EditCube>();
                         cubeRoot.Build("BombCube");
+
+                        BombCube bombCube = cubeRoot.GetComponentInChildren<BombCube>();
+                        bombCube.Init(bombPowerLevel, bombRangeLevel);
                         break;
                     }
             }
@@ -182,6 +191,9 @@ namespace Assets.Scripts.Feature.Main.Player
 
             hpBar = GetComponentInChildren<HpBar>();
             hpBar.SetGauge(curHp / playerUnitSetting.hp);
+
+            bombPowerLevel = 0;
+            bombRangeLevel = 0;
         }
 
         private void Move()
@@ -255,7 +267,7 @@ namespace Assets.Scripts.Feature.Main.Player
                 {
                     PhotonEventManager.RaiseEvent(EventCodeType.MakeBomb, ReceiverGroup.All, new object[]
                     {
-                        photonView.ViewID, bombPos
+                        photonView.ViewID, bombPos, bombPowerLevel, bombRangeLevel
                     });                    
                 }
                 else
@@ -265,6 +277,9 @@ namespace Assets.Scripts.Feature.Main.Player
                     GameObject goCubeRoot = Instantiate(pfCubeRoot, bombPos, Quaternion.identity, parent);
                     EditCube cubeRoot = goCubeRoot.GetComponent<EditCube>();
                     cubeRoot.Build("BombCube");
+
+                    BombCube bombCube = cubeRoot.GetComponentInChildren<BombCube>();
+                    bombCube.Init(bombPowerLevel, bombRangeLevel);
                 }
             }
         }
@@ -405,6 +420,16 @@ namespace Assets.Scripts.Feature.Main.Player
         {
             GetComponent<Rigidbody>().useGravity = true;
             GetComponent<CapsuleCollider>().enabled = true;
+        }
+
+        public void BombPowerLevelup(int level)
+        {
+            bombPowerLevel += level;
+        }
+        
+        public void BombRangeLevelup(int level)
+        {
+            bombRangeLevel += level;
         }
     }
 }

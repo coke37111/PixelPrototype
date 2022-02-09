@@ -21,6 +21,8 @@ namespace Assets.Scripts.Feature.Main.Cubes
 
         private float curExpTime;
         private bool isExplosion;
+        private Vector3 curExpRange;
+        private float curExpDamage;
 
         private BoxCollider coll;
 
@@ -30,11 +32,6 @@ namespace Assets.Scripts.Feature.Main.Cubes
         private bool isInitialized = false;
 
         #region UNITY
-
-        private void Start()
-        {
-            Init();
-        }
 
         private void Update()
         {
@@ -110,7 +107,7 @@ namespace Assets.Scripts.Feature.Main.Cubes
 
         #endregion
 
-        private void Init()
+        public void Init(int powerLevel, int rangeLevel)
         {
             coll = GetComponent<BoxCollider>();
 
@@ -118,6 +115,13 @@ namespace Assets.Scripts.Feature.Main.Cubes
             isExplosion = false;
             coll.isTrigger = true;
             isInitialized = true;
+
+            curExpDamage = expDamage + powerLevel;
+
+            float expRangeX = expRange.x > 0 ? expRange.x + rangeLevel : 0;
+            float expRangeY = expRange.y > 0 ? expRange.y + rangeLevel : 0;
+            float expRangeZ = expRange.z > 0 ? expRange.z + rangeLevel : 0;
+            curExpRange = new Vector3(expRangeX, expRangeY, expRangeZ);
         }
 
         public override void Hit(float damage)
@@ -150,7 +154,6 @@ namespace Assets.Scripts.Feature.Main.Cubes
             if (rayCnt >= 3)
             {
                 float newRange = GetCollisionRange(dir, rayCnt);
-
                 int rangeToInt = (int)newRange;
                 for (int i = 0; i < rangeToInt; i++)
                 {
@@ -172,7 +175,7 @@ namespace Assets.Scripts.Feature.Main.Cubes
             GameObject pfExpEff = ResourceManager.LoadAsset<GameObject>($"Prefab/Effect/Explosion/EffExplosion");
             GameObject goExpEff = Instantiate(pfExpEff, pos, Quaternion.identity, null);
             BombermanExplosion bExp = goExpEff.GetComponent<BombermanExplosion>();
-            bExp.SetDamage(expDamage);
+            bExp.SetDamage(curExpDamage);
 
             Destroy(goExpEff, 1f);
         }
@@ -200,40 +203,40 @@ namespace Assets.Scripts.Feature.Main.Cubes
                 }
 
                 Vector3 rayOrg = Vector3.zero;
-                float curExpRange = 0f;
+                float finalExpRange = 0f;
                 if (dir == Vector3.forward)
                 {
                     rayOrg = new Vector3(rayStart, collCenter.y, collCenter.z + collExtent.z);
-                    curExpRange = expRange.z;
+                    finalExpRange = curExpRange.z;
                 }
                 else if (dir == Vector3.back)
                 {
                     rayOrg = new Vector3(rayStart, collCenter.y, collCenter.z - collExtent.z);
-                    curExpRange = expRange.z;
+                    finalExpRange = curExpRange.z;
                 }
                 else if (dir == Vector3.up)
                 {
                     rayOrg = new Vector3(rayStart, collCenter.y + collExtent.y, collCenter.z);
-                    curExpRange = expRange.y;
+                    finalExpRange = curExpRange.y;
                 }
                 else if (dir == Vector3.down)
                 {
                     rayOrg = new Vector3(rayStart, collCenter.y - collExtent.y, collCenter.z);
-                    curExpRange = expRange.y;
+                    finalExpRange = curExpRange.y;
                 }
                 else if (dir == Vector3.right)
                 {
                     rayOrg = new Vector3(collCenter.x + collExtent.x, collCenter.y, rayStart);
-                    curExpRange = expRange.x;
+                    finalExpRange = curExpRange.x;
                 }
                 else if (dir == Vector3.left)
                 {
                     rayOrg = new Vector3(collCenter.x - collExtent.x, collCenter.y, rayStart);
-                    curExpRange = expRange.x;
+                    finalExpRange = curExpRange.x;
                 }
 
-                newRange = curExpRange;
-                if (Physics.Raycast(rayOrg, dir, out RaycastHit hit, curExpRange, rayCastLayer))
+                newRange = finalExpRange;
+                if (Physics.Raycast(rayOrg, dir, out RaycastHit hit, finalExpRange, rayCastLayer))
                 {
                     if(hit.collider.GetComponent<BombCube>())
                     {
@@ -255,7 +258,7 @@ namespace Assets.Scripts.Feature.Main.Cubes
                     break;
                 }
             }
-
+            
             return newRange;
         }
     }

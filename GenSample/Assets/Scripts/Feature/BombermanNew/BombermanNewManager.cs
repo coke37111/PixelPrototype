@@ -186,7 +186,8 @@ namespace Assets.Scripts.Feature.BombermanNew
                 case EventCodeType.MakeItem:
                     {
                         Vector3 pos = (Vector3)data[0];
-                        PhotonNetwork.Instantiate(PrefabPath.ItemPowerPath, pos, Quaternion.identity);
+                        string itemPath = data[1].ToString();
+                        PhotonNetwork.Instantiate(itemPath, pos, Quaternion.identity);
                         break;
                     }
             }

@@ -148,16 +148,17 @@ namespace Assets.Scripts.Feature.Main.Cubes
 
         private void MakeItem()
         {
+            string itemPath = Random.Range(0f, 1f) > .5f ? PrefabPath.ItemPowerPath : PrefabPath.ItemRangePath;
             if (PlayerSettings.IsConnectNetwork())
             {
                 PhotonEventManager.RaiseEvent(EventCodeType.MakeItem, ReceiverGroup.MasterClient, new object[]{
-                    GetPosition()
+                    GetPosition(), itemPath
                 });
             }
             else
             {
-                GameObject pfItemPower = ResourceManager.LoadAsset<GameObject>(PrefabPath.ItemPowerPath);
-                GameObject goItemPower = Instantiate(pfItemPower, GetPosition(), Quaternion.identity, null);
+                GameObject pfItem = ResourceManager.LoadAsset<GameObject>(itemPath);
+                Instantiate(pfItem, GetPosition(), Quaternion.identity, null);
             }
         }
     }

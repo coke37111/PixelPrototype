@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Managers;
+﻿using Assets.Scripts.Feature.Main.Player;
+using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Util;
 using ExitGames.Client.Photon;
@@ -12,10 +13,17 @@ namespace Assets.Scripts.Feature.Main.Items
 {
     public class Item : MonoBehaviour, IPunInstantiateMagicCallback, IOnEventCallback
     {
+        public enum ITEM_TYPE
+        {
+            power,
+            range
+        }
+        public ITEM_TYPE itemType = ITEM_TYPE.power;
+
         private PhotonView photonView;
 
         private bool isInitialized = false;
-        private bool isDestroying = false;
+        private bool isDestroying = false;        
 
         #region UNITY
 
@@ -41,6 +49,20 @@ namespace Assets.Scripts.Feature.Main.Items
 
             if(other.tag == "Player")
             {
+                switch (itemType)
+                {
+                    case ITEM_TYPE.power:
+                        {
+                            other.GetComponent<PlayerController>().BombPowerLevelup(1);
+                            break;
+                        }
+                    case ITEM_TYPE.range:
+                        {
+                            other.GetComponent<PlayerController>().BombRangeLevelup(1);
+                            break;
+                        }
+                }
+
                 DestroyItem();
             }
         }
