@@ -62,6 +62,8 @@ namespace Assets.Scripts.Feature.Main.Player
         private int bombPowerLevel;
         private int bombRangeLevel;
 
+        private bool isInvincible = false;
+
         #region UNITY
 
         // Use this for initialization
@@ -194,6 +196,8 @@ namespace Assets.Scripts.Feature.Main.Player
 
             bombPowerLevel = 0;
             bombRangeLevel = 0;
+
+            isInvincible = false;
         }
 
         private void Move()
@@ -289,6 +293,9 @@ namespace Assets.Scripts.Feature.Main.Player
             bool isConnectServer = PlayerSettings.IsConnectNetwork();
 
             if (isConnectServer && !photonView.IsMine)
+                return;
+
+            if (isInvincible)
                 return;
 
             float damage = (float)param[0];
@@ -430,6 +437,11 @@ namespace Assets.Scripts.Feature.Main.Player
         public void BombRangeLevelup(int level)
         {
             bombRangeLevel += level;
+        }
+
+        public void ActiveInvincible()
+        {
+            isInvincible = true;
         }
     }
 }

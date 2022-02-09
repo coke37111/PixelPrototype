@@ -116,7 +116,7 @@ namespace Assets.Scripts.Feature.Main.Cubes
             coll.isTrigger = true;
             isInitialized = true;
 
-            curExpDamage = expDamage + powerLevel;
+            curExpDamage = expDamage + powerLevel * 10;
 
             float expRangeX = expRange.x > 0 ? expRange.x + rangeLevel : 0;
             float expRangeY = expRange.y > 0 ? expRange.y + rangeLevel : 0;

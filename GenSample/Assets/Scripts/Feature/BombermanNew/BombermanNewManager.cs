@@ -76,7 +76,13 @@ namespace Assets.Scripts.Feature.BombermanNew
                 case MANAGER_STATE.Play:
                     {
                         if (isEndGame)
+                        {
+                            if(player != null)
+                            {
+                                player.ActiveInvincible();
+                            }
                             SetState(MANAGER_STATE.End, PROC_STATE.Start);
+                        }
 
                         break;
                     }
