@@ -7,6 +7,7 @@ using Assets.Scripts.Util;
 using Photon.Pun;
 using Photon.Realtime;
 using Spine.Unity;
+using System.Collections.Generic;
 using UnityEngine;
 using static Assets.Scripts.Settings.PlayerSettings;
 using PunHashtable = ExitGames.Client.Photon.Hashtable;
@@ -64,6 +65,13 @@ namespace Assets.Scripts.Feature.Main.Player
 
         private bool isInvincible = false;
 
+        private GameObject effL;
+        private GameObject effR;
+        private Transform effectContainerL;
+        private Transform effectContainerR;
+        private PlayerAttackRange playerAttackRangeL;
+        private PlayerAttackRange playerAttackRangeR;
+
         #region UNITY
 
         // Use this for initialization
@@ -92,6 +100,7 @@ namespace Assets.Scripts.Feature.Main.Player
             Jump();
             MakeBomb();
             GetBelowCube();
+            Attack();
         }
         public void OnEnable()
         {
@@ -198,6 +207,11 @@ namespace Assets.Scripts.Feature.Main.Player
             bombRangeLevel = 0;
 
             isInvincible = false;
+
+            effectContainerL = transform.Find("UnitBase/SpineRoot/Effect/L");
+            effectContainerR = transform.Find("UnitBase/SpineRoot/Effect/R");
+            playerAttackRangeL = effectContainerL.GetComponent<PlayerAttackRange>();
+            playerAttackRangeR = effectContainerR.GetComponent<PlayerAttackRange>();
         }
 
         private void Move()
@@ -442,6 +456,75 @@ namespace Assets.Scripts.Feature.Main.Player
         public void ActiveInvincible()
         {
             isInvincible = true;
+        }
+
+        private void Attack()
+        {
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                anim.SetTrigger("isAtk");
+
+                if (isLeftDir)
+                {
+                    if (effL == null)
+                    {
+                        GameObject pfAtkEff =
+                       ResourceManager.LoadAsset<GameObject>($"Prefab/Effect/attack_slash_eff_red_L");
+                        effL = Instantiate(pfAtkEff, effectContainerL);
+                    }
+                    effL.transform.localPosition = Vector3.zero;
+                    effL.GetComponent<ParticleSystem>().Play();
+
+                    List<Collider> targetList = playerAttackRangeL.GetTargetList();
+                    foreach(Collider coll in targetList)
+                    {
+                        coll.GetComponent<PlayerController>().AttackBy();
+                    }
+                }
+                else
+                {
+                    if (effR == null)
+                    {
+                        GameObject pfAtkEff =
+                          ResourceManager.LoadAsset<GameObject>($"Prefab/Effect/attack_slash_eff_red_R");
+                        effR = Instantiate(pfAtkEff, effectContainerR);
+                    }
+                    effR.transform.localPosition = Vector3.zero;
+                    effR.GetComponent<ParticleSystem>().Play();
+
+                    List<Collider> targetList = playerAttackRangeR.GetTargetList();
+                    foreach (Collider coll in targetList)
+                    {
+                        coll.GetComponent<PlayerController>().AttackBy();
+                    }
+                }
+            }
+        }
+
+        public void AttackBy()
+        {
+            Log.Print($"AttackBy!");
+            //if (isAttacked)
+            //    return;
+            //isAttacked = true;
+
+            //Monster monster = (Monster)param[0];
+
+            //float damage = monster.atk;
+            //curHp -= damage;
+            //if (curHp <= 0)
+            //    curHp = hp;
+
+            //float ratio = curHp / hp;
+            //hpBar.SetGauge(ratio);
+
+            //rBody.velocity = Vector3.zero;
+            //bool isLeftAttacked = monster.transform.position.x < transform.position.x;
+            //Vector3 knockbackDir = isLeftAttacked ? new Vector3(1, 1, 0) : new Vector3(-1, 1, 0);
+            //rBody.AddForce(knockbackDir * monster.knockbackPower);
+            //skelAnim.SetTrigger("isKnockback");
+
+            //StartCoroutine(BlinkPlayer());
         }
     }
 }
