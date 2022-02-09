@@ -191,6 +191,9 @@ namespace Assets.Scripts.Feature.BombermanNew
             {
                 case EventCodeType.MakeItem:
                     {
+                        if (!PhotonNetwork.IsMasterClient)
+                            return;
+
                         Vector3 pos = (Vector3)data[0];
                         string itemPath = data[1].ToString();
                         PhotonNetwork.Instantiate(itemPath, pos, Quaternion.identity);
