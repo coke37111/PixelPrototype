@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Cube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 18
   m_IsActive: 1
 --- !u!4 &5416941179563813103
 Transform:
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   expTime: 3
-  expRange: {x: 1, y: 0, z: 1}
+  expRange: {x: 1, y: 1, z: 1}
   expDamage: 10
   expDelayTime: 0.05
   rayCastLayer:
@@ -74,7 +74,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3438387199325743625, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 3573463547395626318, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
       propertyPath: m_RootOrder
@@ -134,15 +134,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3580957817497859362, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 5113002424926620567, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 7376358089718595889, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 7562393774674651106, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
       propertyPath: m_Name
@@ -150,11 +150,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7562393774674651106, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 7662871452894902989, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 7662871452894902990, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
       propertyPath: m_LocalScale.y
@@ -162,7 +162,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8919899917549328462, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d4155ccd8d7e944ea11c2fd35174c25, type: 3}
