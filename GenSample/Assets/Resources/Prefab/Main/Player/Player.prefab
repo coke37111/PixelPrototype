@@ -81,6 +81,7 @@ MonoBehaviour:
   cubeLayer:
     serializedVersion: 2
     m_Bits: 512
+  atkType: 0
 --- !u!114 &8800476152745297945
 MonoBehaviour:
   m_ObjectHideFlags: 0
