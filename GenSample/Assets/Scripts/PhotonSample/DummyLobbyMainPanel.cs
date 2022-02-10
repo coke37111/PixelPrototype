@@ -62,7 +62,7 @@ namespace Photon.Pun.Demo.Asteroids
 
             PhotonNetwork.AutomaticallySyncScene = true;
             
-            PlayerNameInput.text = "Player " + Random.Range(1000, 10000);
+            PlayerNameInput.text = PlayerPrefs.GetString("PlayerName", "Player " + Random.Range(1000, 10000));
 
             Log.Print($"DummyLobbyMainPanel Awake!");
         }
@@ -327,6 +327,7 @@ namespace Photon.Pun.Demo.Asteroids
 
             if (!playerName.Equals(""))
             {
+                PlayerPrefs.SetString("PlayerName", playerName);
                 PhotonNetwork.LocalPlayer.NickName = playerName;
                 PhotonNetwork.ConnectUsingSettings();
             }
