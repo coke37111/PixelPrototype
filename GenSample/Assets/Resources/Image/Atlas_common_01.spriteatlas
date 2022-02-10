@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Atlas_common_01
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 0
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 2
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: e8b0a3a7807434a43971b9b8e7b99997, type: 3}
+    - {fileID: 102900000, guid: ccc3a729b79edcb498d72efc115d960e, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: ae0cff506645e7a4299254ccafc0050c, type: 3}
+  - {fileID: 21300000, guid: 5f7b7090d5597464c80474a7ced5d482, type: 3}
+  - {fileID: 21300000, guid: fcae8ba17e5824b34a4b2ab4f904b681, type: 3}
+  - {fileID: 21300000, guid: 9dddddc10ec55c54fbe86026518d4b8c, type: 3}
+  - {fileID: 21300000, guid: 8e6dc3d129c71a94d99b3d217f8e7f25, type: 3}
+  - {fileID: 21300000, guid: 4a34dbf1a0529d34ebc04f5822f0bcd9, type: 3}
+  - {fileID: 21300000, guid: bdbd8944b72c84fb08e359c03f60518a, type: 3}
+  - {fileID: 21300000, guid: 51666884f30867844b7766e5c7e50770, type: 3}
+  - {fileID: 21300000, guid: 868659d5e863447479aecdbf0d270997, type: 3}
+  - {fileID: 21300000, guid: 62ed953618225496fa7eff376e1cf690, type: 3}
+  - {fileID: -4017722061739503429, guid: a6f2fc762db1b4d479e3c2e31d4e53d9, type: 3}
+  - {fileID: 21300000, guid: a64c5378b8b1daa46a71cf5dec1862a3, type: 3}
+  - {fileID: 21300000, guid: a52d46e97bb06d54d8b2d965490dde9c, type: 3}
+  - {fileID: 21300000, guid: bf3305f9fa3004f4e8f53e63c52c51a6, type: 3}
+  - {fileID: 21300000, guid: 9eeb666ceb74f9246aaa742b92d33e86, type: 3}
+  - {fileID: 21300000, guid: ccda1e9d0a91445b08abb3958530382a, type: 3}
+  - {fileID: 21300000, guid: 1ab3c6cd460f0d64e863efc0f501a567, type: 3}
+  - {fileID: 21300000, guid: 215d9dff07115427c805c2bc477a4e81, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - frame_rounded_100
+  - 3
+  - frame_listframe_01_n
+  - icon_class_01
+  - frame_rounded_16
+  - icon_class_02
+  - frame_basicframe_square_s
+  - Gradient_Topdown
+  - frame_stageframe_05_n
+  - frame_item_reward_daily_s1
+  - equip_frame_empty_0
+  - 1
+  - icon_class_03
+  - frame_rounded_32
+  - frame_rounded_64
+  - frame_stageframe_01_s2
+  - 2
+  - btn_rectangle_01_n_white
+  m_RenderDataMap: {}
+  m_Tag: Atlas_common_01
+  m_IsVariant: 0
