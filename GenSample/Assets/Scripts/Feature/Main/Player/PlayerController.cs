@@ -72,6 +72,8 @@ namespace Assets.Scripts.Feature.Main.Player
         private PlayerAttackRange playerAttackRangeL;
         private PlayerAttackRange playerAttackRangeR;
 
+        private Vector3 fireDir;
+
         public enum ATK_TYPE
         {
             Melee = 0,
@@ -205,6 +207,17 @@ namespace Assets.Scripts.Feature.Main.Player
             }
         }
 
+        [PunRPC]
+        public void MakeMissileRPC(Vector3 position, Vector3 moveDir, PhotonMessageInfo info)
+        {
+            float lag = (float)(PhotonNetwork.Time - info.SentServerTime);
+            Vector3 initPos = position + (moveDir + Vector3.up) * .25f;
+            GameObject pfBullet = ResourceManager.LoadAsset<GameObject>("Prefab/Missile");
+            GameObject goBullet = Instantiate(pfBullet, initPos, Quaternion.identity, transform);
+            Missile bullet = goBullet.GetComponent<Missile>();
+            bullet.InitializeBullet(this, fireDir, Mathf.Abs(lag));
+        }
+
         #endregion
 
         private void Init()
@@ -237,6 +250,9 @@ namespace Assets.Scripts.Feature.Main.Player
             effectContainerR = transform.Find("UnitBase/SpineRoot/Effect/R");
             playerAttackRangeL = effectContainerL.GetComponent<PlayerAttackRange>();
             playerAttackRangeR = effectContainerR.GetComponent<PlayerAttackRange>();
+
+            ChangeDir(isLeftDir);
+            fireDir = isLeftDir ? Vector3.left : Vector3.right;
         }
 
         private void Move()
@@ -283,7 +299,10 @@ namespace Assets.Scripts.Feature.Main.Player
             // TODO : animation
             {
                 isMove = dir != Vector3.zero;
-            }            
+            }
+
+            if (isMove)
+                fireDir = dir;
         }
 
         private void ChangeDir(bool isLeftDir)
@@ -498,6 +517,7 @@ namespace Assets.Scripts.Feature.Main.Player
                         }
                     case ATK_TYPE.Missile:
                         {
+                            MissileAttack();
                             break;
                         }
                 }
@@ -557,6 +577,22 @@ namespace Assets.Scripts.Feature.Main.Player
             }
         }
 
+        private void MissileAttack()
+        {
+            if (PlayerSettings.IsConnectNetwork())
+            {
+                photonView.RPC("MakeMissileRPC", RpcTarget.AllViaServer, rb.position, moveDir);
+            }
+            else
+            {
+                Vector3 initPos = transform.position + (moveDir + Vector3.up) * .25f;
+                GameObject pfBullet = ResourceManager.LoadAsset<GameObject>("Prefab/Missile");
+                GameObject goBullet = Instantiate(pfBullet, initPos, Quaternion.identity, transform);
+                Missile bullet = goBullet.GetComponent<Missile>();
+                bullet.InitializeBullet(this, fireDir, 0f);
+            }
+        }
+
         public void RaiseAttackBy(float damage)
         {
             if (PlayerSettings.IsConnectNetwork())
@@ -607,6 +643,11 @@ namespace Assets.Scripts.Feature.Main.Player
                 RaiseDie();
             else
                 Destroy(gameObject);
+        }
+
+        public float GetAtk()
+        {
+            return playerUnitSetting.atk;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.Settings;
+﻿using Assets.Scripts.Feature.Main.Cubes;
+using Assets.Scripts.Feature.Main.Player;
+using Assets.Scripts.Settings;
 using Assets.Scripts.Util;
 using Photon.Realtime;
 using System.Collections;
@@ -10,6 +12,8 @@ namespace Assets.Scripts.Feature.GenSample
     {
         public float speed = 5f;
 
+        private PlayerController player;
+
         public UnitLocalPlayer Owner {get; private set;}
 
         public void Start()
@@ -19,35 +23,58 @@ namespace Assets.Scripts.Feature.GenSample
 
         private void OnTriggerEnter(Collider other)
         {
-            bool isDestroy = false;
-
-            MobController targetMob = other.GetComponent<MobController>();
-            if(targetMob != null)
+            if(other.tag == "Player")
             {
-                targetMob.AttackBy(Owner);
-                isDestroy = true;
-            }
-
-            if(RoomSettings.roomType == RoomSettings.ROOM_TYPE.Pvp)
-            {
-                UnitBase targetUnit = other.GetComponent<UnitBase>();
-                if (targetUnit != null && !Owner.IsSameTeam(targetUnit.teamNum))
+                PlayerController target = other.GetComponent<PlayerController>();
+                if(target != player)
                 {
-                    targetUnit.AttackBy(Owner);
-                    isDestroy = true;
+                    target.RaiseAttackBy(player.GetAtk());
+                    Destroy(gameObject);
                 }
-            }
-
-            if(isDestroy)
+            }else if(other.tag == "Cube")
             {
+                other.GetComponent<Cube>().Hit(player.GetAtk());
                 Destroy(gameObject);
             }
+            //bool isDestroy = false;
+
+            //MobController targetMob = other.GetComponent<MobController>();
+            //if(targetMob != null)
+            //{
+            //    targetMob.AttackBy(Owner);
+            //    isDestroy = true;
+            //}
+            
+            //if(RoomSettings.roomType == RoomSettings.ROOM_TYPE.Pvp)
+            //{
+            //    UnitBase targetUnit = other.GetComponent<UnitBase>();
+            //    if (targetUnit != null && !Owner.IsSameTeam(targetUnit.teamNum))
+            //    {
+            //        targetUnit.AttackBy(Owner);
+            //        isDestroy = true;
+            //    }
+            //}
+
+            //if(isDestroy)
+            //{
+            //    Destroy(gameObject);
+            //}
         }
 
         public void InitializeBullet(UnitLocalPlayer owner, Vector3 originalDirection, float lag)
         {
             Owner = owner;
 
+            transform.forward = originalDirection;
+
+            Rigidbody rigidbody = GetComponent<Rigidbody>();
+            rigidbody.velocity = originalDirection * speed;
+            rigidbody.position += rigidbody.velocity * lag;
+        }
+
+        public void InitializeBullet(PlayerController player, Vector3 originalDirection, float lag)
+        {
+            this.player = player;
             transform.forward = originalDirection;
 
             Rigidbody rigidbody = GetComponent<Rigidbody>();
