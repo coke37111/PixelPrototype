@@ -24,7 +24,7 @@ namespace Assets.Scripts.Feature.Main.Player
             set {
                 _isMove = value;
                 if (anim != null)
-                    anim.SetBool("isMove", value);
+                    anim.SetBool("isMove", value);                
             }
         }
         private bool _isLeftDir;
@@ -71,7 +71,6 @@ namespace Assets.Scripts.Feature.Main.Player
         private Transform effectContainerR;
         private PlayerAttackRange playerAttackRangeL;
         private PlayerAttackRange playerAttackRangeR;
-
         private Vector3 fireDir;
 
         public enum ATK_TYPE
@@ -154,6 +153,7 @@ namespace Assets.Scripts.Feature.Main.Player
                 stream.SendNext(isLeftDir);
                 stream.SendNext(isMove);
                 stream.SendNext(curHp);
+                stream.SendNext(fireDir);
             }
             else
             {
@@ -161,6 +161,7 @@ namespace Assets.Scripts.Feature.Main.Player
                 this.isLeftDir = (bool)stream.ReceiveNext();
                 this.isMove = (bool)stream.ReceiveNext();
                 this.curHp = (float)stream.ReceiveNext();
+                this.fireDir = (Vector3)stream.ReceiveNext();
             }
         }
 
