@@ -598,5 +598,15 @@ namespace Assets.Scripts.Feature.Main.Player
             this.atkType = (ATK_TYPE)atkType;
             GetComponentInChildren<AtkTypeSlot>().Build(atkType);
         }
+
+        public void FallDie()
+        {
+            isControllable = false;
+
+            if (PlayerSettings.IsConnectNetwork())
+                RaiseDie();
+            else
+                Destroy(gameObject);
+        }
     }
 }

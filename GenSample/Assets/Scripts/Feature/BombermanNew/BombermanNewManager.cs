@@ -83,6 +83,13 @@ namespace Assets.Scripts.Feature.BombermanNew
                             }
                             SetState(MANAGER_STATE.End, PROC_STATE.Start);
                         }
+                        else
+                        {
+                            if (player != null && player.transform.position.y <= -5f)
+                            {
+                                player.FallDie();
+                            }
+                        }
 
                         break;
                     }
