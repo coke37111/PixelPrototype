@@ -442,6 +442,7 @@ namespace Assets.Scripts.Managers
                 PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
                 string spinePath = playerUnitSetting.GetSpinePath();
                 data.Add(spinePath);
+                data.Add(Random.Range(0, 2));
 
                 PhotonNetwork.Instantiate(PrefabPath.PlayerPath, spawnPosTo3, Quaternion.identity, 0, data.ToArray());
             }

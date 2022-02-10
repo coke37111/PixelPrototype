@@ -72,6 +72,14 @@ namespace Assets.Scripts.Feature.Main.Player
         private PlayerAttackRange playerAttackRangeL;
         private PlayerAttackRange playerAttackRangeR;
 
+        public enum ATK_TYPE
+        {
+            Melee = 0,
+            Missile,
+        }
+        [SerializeField]
+        private ATK_TYPE atkType = ATK_TYPE.Melee;
+
         #region UNITY
 
         // Use this for initialization
@@ -85,6 +93,7 @@ namespace Assets.Scripts.Feature.Main.Player
             MakeSpine(spinePath);
 
             Init();
+            SetAtkType(Random.Range(0, 2));
         }
 
         // Update is called once per frame
@@ -128,6 +137,9 @@ namespace Assets.Scripts.Feature.Main.Player
         {
             string spinePath = info.photonView.InstantiationData[0].ToString();
             MakeSpine(spinePath);
+
+            int atkType = (int)info.photonView.InstantiationData[1];
+            SetAtkType(atkType);
 
             Init();
         }
@@ -477,52 +489,69 @@ namespace Assets.Scripts.Feature.Main.Player
             {
                 anim.SetTrigger("isAtk");
 
-                if (isLeftDir)
+                switch (atkType)
                 {
-                    if (effL == null)
-                    {
-                        GameObject pfAtkEff =
-                       ResourceManager.LoadAsset<GameObject>($"Prefab/Effect/attack_slash_eff_red_L");
-                        effL = Instantiate(pfAtkEff, effectContainerL);
-                    }
-                    effL.transform.localPosition = Vector3.zero;
-                    effL.GetComponent<ParticleSystem>().Play();
+                    case ATK_TYPE.Melee:
+                        {
+                            MeleeAttack();
+                            break;
+                        }
+                    case ATK_TYPE.Missile:
+                        {
+                            break;
+                        }
+                }
 
-                    List<Collider> targetList = playerAttackRangeL.GetTargetList();
-                    foreach(Collider coll in targetList)
+            }
+        }
+
+        private void MeleeAttack()
+        {
+            if (isLeftDir)
+            {
+                if (effL == null)
+                {
+                    GameObject pfAtkEff =
+                   ResourceManager.LoadAsset<GameObject>($"Prefab/Effect/attack_slash_eff_red_L");
+                    effL = Instantiate(pfAtkEff, effectContainerL);
+                }
+                effL.transform.localPosition = Vector3.zero;
+                effL.GetComponent<ParticleSystem>().Play();
+
+                List<Collider> targetList = playerAttackRangeL.GetTargetList();
+                foreach (Collider coll in targetList)
+                {
+                    if (coll.GetComponent<PlayerController>())
                     {
-                        if (coll.GetComponent<PlayerController>())
-                        {
-                            coll.GetComponent<PlayerController>().RaiseAttackBy(playerUnitSetting.atk);
-                        }
-                        if (coll.GetComponent<Cube>())
-                        {
-                            coll.GetComponent<Cube>().Hit(playerUnitSetting.atk);
-                        }
+                        coll.GetComponent<PlayerController>().RaiseAttackBy(playerUnitSetting.atk);
+                    }
+                    if (coll.GetComponent<Cube>())
+                    {
+                        coll.GetComponent<Cube>().Hit(playerUnitSetting.atk);
                     }
                 }
-                else
+            }
+            else
+            {
+                if (effR == null)
                 {
-                    if (effR == null)
-                    {
-                        GameObject pfAtkEff =
-                          ResourceManager.LoadAsset<GameObject>($"Prefab/Effect/attack_slash_eff_red_R");
-                        effR = Instantiate(pfAtkEff, effectContainerR);
-                    }
-                    effR.transform.localPosition = Vector3.zero;
-                    effR.GetComponent<ParticleSystem>().Play();
+                    GameObject pfAtkEff =
+                      ResourceManager.LoadAsset<GameObject>($"Prefab/Effect/attack_slash_eff_red_R");
+                    effR = Instantiate(pfAtkEff, effectContainerR);
+                }
+                effR.transform.localPosition = Vector3.zero;
+                effR.GetComponent<ParticleSystem>().Play();
 
-                    List<Collider> targetList = playerAttackRangeR.GetTargetList();
-                    foreach (Collider coll in targetList)
+                List<Collider> targetList = playerAttackRangeR.GetTargetList();
+                foreach (Collider coll in targetList)
+                {
+                    if (coll.GetComponent<PlayerController>())
                     {
-                        if (coll.GetComponent<PlayerController>())
-                        {
-                            coll.GetComponent<PlayerController>().RaiseAttackBy(playerUnitSetting.atk);
-                        }
-                        if (coll.GetComponent<Cube>())
-                        {
-                            coll.GetComponent<Cube>().Hit(playerUnitSetting.atk);
-                        }
+                        coll.GetComponent<PlayerController>().RaiseAttackBy(playerUnitSetting.atk);
+                    }
+                    if (coll.GetComponent<Cube>())
+                    {
+                        coll.GetComponent<Cube>().Hit(playerUnitSetting.atk);
                     }
                 }
             }
@@ -562,6 +591,12 @@ namespace Assets.Scripts.Feature.Main.Player
             }
 
             hpBar.SetGauge(curHp / playerUnitSetting.hp);
+        }
+
+        private void SetAtkType(int atkType)
+        {
+            this.atkType = (ATK_TYPE)atkType;
+            GetComponentInChildren<AtkTypeSlot>().Build(atkType);
         }
     }
 }
