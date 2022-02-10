@@ -491,7 +491,14 @@ namespace Assets.Scripts.Feature.Main.Player
                     List<Collider> targetList = playerAttackRangeL.GetTargetList();
                     foreach(Collider coll in targetList)
                     {
-                        coll.GetComponent<PlayerController>().RaiseAttackBy(playerUnitSetting.atk);
+                        if (coll.GetComponent<PlayerController>())
+                        {
+                            coll.GetComponent<PlayerController>().RaiseAttackBy(playerUnitSetting.atk);
+                        }
+                        if (coll.GetComponent<Cube>())
+                        {
+                            coll.GetComponent<Cube>().Hit(playerUnitSetting.atk);
+                        }
                     }
                 }
                 else
@@ -508,7 +515,14 @@ namespace Assets.Scripts.Feature.Main.Player
                     List<Collider> targetList = playerAttackRangeR.GetTargetList();
                     foreach (Collider coll in targetList)
                     {
-                        coll.GetComponent<PlayerController>().RaiseAttackBy(playerUnitSetting.atk);
+                        if (coll.GetComponent<PlayerController>())
+                        {
+                            coll.GetComponent<PlayerController>().RaiseAttackBy(playerUnitSetting.atk);
+                        }
+                        if (coll.GetComponent<Cube>())
+                        {
+                            coll.GetComponent<Cube>().Hit(playerUnitSetting.atk);
+                        }
                     }
                 }
             }
