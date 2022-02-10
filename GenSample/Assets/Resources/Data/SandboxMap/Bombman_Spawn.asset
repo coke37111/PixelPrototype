@@ -126,8 +126,6 @@ MonoBehaviour:
   - prefabName: Cube_grass_01
     pos: {x: 4, y: 0, z: -6}
   - prefabName: Cube_grass_01
-    pos: {x: -4, y: 0, z: 6}
-  - prefabName: Cube_grass_01
     pos: {x: -6, y: 0, z: 4}
   - prefabName: Cube_grass_01
     pos: {x: 4, y: 0, z: 6}
@@ -385,14 +383,10 @@ MonoBehaviour:
     pos: {x: 0, y: 0, z: -2}
   - prefabName: Cube_grass_01
     pos: {x: 2, y: 0, z: 2}
-  - prefabName: Cube_grass_03
-    pos: {x: 1, y: 0, z: -4}
   - prefabName: Cube_grass_01
     pos: {x: 7, y: 0, z: -5}
   - prefabName: Cube_grass_01
     pos: {x: 6, y: 0, z: -6}
-  - prefabName: Cube_grass_03
-    pos: {x: 3, y: 0, z: -4}
   - prefabName: Cube_unbreakable
     pos: {x: -5, y: 1, z: 3}
   - prefabName: Cube_grass_01
@@ -1017,6 +1011,236 @@ MonoBehaviour:
     pos: {x: 2, y: 0, z: -4}
   - prefabName: Cube_grass_02
     pos: {x: -2, y: 0, z: -2}
+  - prefabName: Cube_grass_01
+    pos: {x: 7, y: 0, z: 5}
+  - prefabName: Cube_unbreakable
+    pos: {x: 3, y: 1, z: 1}
+  - prefabName: Cube_grass_03
+    pos: {x: -4, y: 0, z: 7}
+  - prefabName: Cube_grass_03
+    pos: {x: -2, y: 0, z: 7}
+  - prefabName: Cube_grass_03
+    pos: {x: -3, y: 0, z: 8}
+  - prefabName: Cube_grass_03
+    pos: {x: 0, y: 0, z: 7}
+  - prefabName: Cube_grass_03
+    pos: {x: 2, y: 0, z: 7}
+  - prefabName: Cube_grass_03
+    pos: {x: 3, y: 0, z: 8}
+  - prefabName: Cube_grass_03
+    pos: {x: 4, y: 0, z: 7}
+  - prefabName: Cube_grass_03
+    pos: {x: -5, y: 0, z: 6}
+  - prefabName: Cube_grass_03
+    pos: {x: -3, y: 0, z: 6}
+  - prefabName: Cube_grass_03
+    pos: {x: -1, y: 0, z: 6}
+  - prefabName: Cube_grass_03
+    pos: {x: 1, y: 0, z: 6}
+  - prefabName: Cube_grass_03
+    pos: {x: 3, y: 0, z: 6}
+  - prefabName: Cube_grass_03
+    pos: {x: 5, y: 0, z: 6}
+  - prefabName: Cube_grass_03
+    pos: {x: 6, y: 0, z: 5}
+  - prefabName: Cube_grass_03
+    pos: {x: 4, y: 0, z: 5}
+  - prefabName: Cube_grass_03
+    pos: {x: 2, y: 0, z: 5}
+  - prefabName: Cube_grass_03
+    pos: {x: 0, y: 0, z: 5}
+  - prefabName: Cube_grass_03
+    pos: {x: -2, y: 0, z: 5}
+  - prefabName: Cube_grass_03
+    pos: {x: -4, y: 0, z: 5}
+  - prefabName: Cube_grass_03
+    pos: {x: -6, y: 0, z: 5}
+  - prefabName: Cube_grass_03
+    pos: {x: -7, y: 0, z: 4}
+  - prefabName: Cube_grass_03
+    pos: {x: -5, y: 0, z: 4}
+  - prefabName: Cube_grass_03
+    pos: {x: -3, y: 0, z: 4}
+  - prefabName: Cube_grass_03
+    pos: {x: -1, y: 0, z: 4}
+  - prefabName: Cube_grass_03
+    pos: {x: 1, y: 0, z: 4}
+  - prefabName: Cube_grass_03
+    pos: {x: 3, y: 0, z: 4}
+  - prefabName: Cube_grass_03
+    pos: {x: -8, y: 0, z: 3}
+  - prefabName: Cube_grass_03
+    pos: {x: -6, y: 0, z: 3}
+  - prefabName: Cube_grass_03
+    pos: {x: -4, y: 0, z: 3}
+  - prefabName: Cube_grass_03
+    pos: {x: -2, y: 0, z: 3}
+  - prefabName: Cube_grass_03
+    pos: {x: 0, y: 0, z: 3}
+  - prefabName: Cube_grass_03
+    pos: {x: 2, y: 0, z: 3}
+  - prefabName: Cube_grass_03
+    pos: {x: 4, y: 0, z: 3}
+  - prefabName: Cube_grass_03
+    pos: {x: 6, y: 0, z: 3}
+  - prefabName: Cube_grass_03
+    pos: {x: 5, y: 0, z: 4}
+  - prefabName: Cube_grass_03
+    pos: {x: 7, y: 0, z: 4}
+  - prefabName: Cube_grass_03
+    pos: {x: 8, y: 0, z: 3}
+  - prefabName: Cube_grass_03
+    pos: {x: 7, y: 0, z: 2}
+  - prefabName: Cube_grass_03
+    pos: {x: 5, y: 0, z: 2}
+  - prefabName: Cube_grass_03
+    pos: {x: 3, y: 0, z: 2}
+  - prefabName: Cube_grass_03
+    pos: {x: 1, y: 0, z: 2}
+  - prefabName: Cube_grass_03
+    pos: {x: -1, y: 0, z: 2}
+  - prefabName: Cube_grass_03
+    pos: {x: -3, y: 0, z: 2}
+  - prefabName: Cube_grass_03
+    pos: {x: -5, y: 0, z: 2}
+  - prefabName: Cube_grass_03
+    pos: {x: -7, y: 0, z: 2}
+  - prefabName: Cube_grass_03
+    pos: {x: -6, y: 0, z: 1}
+  - prefabName: Cube_grass_03
+    pos: {x: -4, y: 0, z: 1}
+  - prefabName: Cube_grass_03
+    pos: {x: -2, y: 0, z: 1}
+  - prefabName: Cube_grass_03
+    pos: {x: 0, y: 0, z: 1}
+  - prefabName: Cube_grass_03
+    pos: {x: 2, y: 0, z: 1}
+  - prefabName: Cube_grass_03
+    pos: {x: 4, y: 0, z: 1}
+  - prefabName: Cube_grass_03
+    pos: {x: 6, y: 0, z: 1}
+  - prefabName: Cube_grass_03
+    pos: {x: 7, y: 0, z: 0}
+  - prefabName: Cube_grass_03
+    pos: {x: 5, y: 0, z: 0}
+  - prefabName: Cube_grass_03
+    pos: {x: 3, y: 0, z: 0}
+  - prefabName: Cube_grass_03
+    pos: {x: 1, y: 0, z: 0}
+  - prefabName: Cube_grass_03
+    pos: {x: -1, y: 0, z: 0}
+  - prefabName: Cube_grass_03
+    pos: {x: -3, y: 0, z: 0}
+  - prefabName: Cube_grass_03
+    pos: {x: -5, y: 0, z: 0}
+  - prefabName: Cube_grass_03
+    pos: {x: -7, y: 0, z: 0}
+  - prefabName: Cube_grass_03
+    pos: {x: -6, y: 0, z: -1}
+  - prefabName: Cube_grass_03
+    pos: {x: -4, y: 0, z: -1}
+  - prefabName: Cube_grass_03
+    pos: {x: -2, y: 0, z: -1}
+  - prefabName: Cube_grass_03
+    pos: {x: 0, y: 0, z: -1}
+  - prefabName: Cube_grass_03
+    pos: {x: 2, y: 0, z: -1}
+  - prefabName: Cube_grass_03
+    pos: {x: 4, y: 0, z: -1}
+  - prefabName: Cube_grass_03
+    pos: {x: 6, y: 0, z: -1}
+  - prefabName: Cube_grass_03
+    pos: {x: 7, y: 0, z: -2}
+  - prefabName: Cube_grass_03
+    pos: {x: 5, y: 0, z: -2}
+  - prefabName: Cube_grass_03
+    pos: {x: 3, y: 0, z: -2}
+  - prefabName: Cube_grass_03
+    pos: {x: 1, y: 0, z: -2}
+  - prefabName: Cube_grass_03
+    pos: {x: -1, y: 0, z: -2}
+  - prefabName: Cube_grass_03
+    pos: {x: -3, y: 0, z: -2}
+  - prefabName: Cube_grass_03
+    pos: {x: -5, y: 0, z: -2}
+  - prefabName: Cube_grass_03
+    pos: {x: -7, y: 0, z: -2}
+  - prefabName: Cube_grass_03
+    pos: {x: -8, y: 0, z: -3}
+  - prefabName: Cube_grass_03
+    pos: {x: -6, y: 0, z: -3}
+  - prefabName: Cube_grass_03
+    pos: {x: -4, y: 0, z: -3}
+  - prefabName: Cube_grass_03
+    pos: {x: -2, y: 0, z: -3}
+  - prefabName: Cube_grass_03
+    pos: {x: 0, y: 0, z: -3}
+  - prefabName: Cube_grass_03
+    pos: {x: 2, y: 0, z: -3}
+  - prefabName: Cube_grass_03
+    pos: {x: 4, y: 0, z: -3}
+  - prefabName: Cube_grass_03
+    pos: {x: 6, y: 0, z: -3}
+  - prefabName: Cube_grass_03
+    pos: {x: 8, y: 0, z: -3}
+  - prefabName: Cube_grass_03
+    pos: {x: 7, y: 0, z: -4}
+  - prefabName: Cube_grass_03
+    pos: {x: 5, y: 0, z: -4}
+  - prefabName: Cube_grass_03
+    pos: {x: 3, y: 0, z: -4}
+  - prefabName: Cube_grass_03
+    pos: {x: 1, y: 0, z: -4}
+  - prefabName: Cube_grass_03
+    pos: {x: -1, y: 0, z: -4}
+  - prefabName: Cube_grass_03
+    pos: {x: -3, y: 0, z: -4}
+  - prefabName: Cube_grass_03
+    pos: {x: -5, y: 0, z: -4}
+  - prefabName: Cube_grass_03
+    pos: {x: -7, y: 0, z: -4}
+  - prefabName: Cube_grass_03
+    pos: {x: -6, y: 0, z: -5}
+  - prefabName: Cube_grass_03
+    pos: {x: -4, y: 0, z: -5}
+  - prefabName: Cube_grass_03
+    pos: {x: -2, y: 0, z: -5}
+  - prefabName: Cube_grass_03
+    pos: {x: 0, y: 0, z: -5}
+  - prefabName: Cube_grass_03
+    pos: {x: 2, y: 0, z: -5}
+  - prefabName: Cube_grass_03
+    pos: {x: -5, y: 0, z: -6}
+  - prefabName: Cube_grass_03
+    pos: {x: -3, y: 0, z: -6}
+  - prefabName: Cube_grass_03
+    pos: {x: -1, y: 0, z: -6}
+  - prefabName: Cube_grass_03
+    pos: {x: 1, y: 0, z: -6}
+  - prefabName: Cube_grass_03
+    pos: {x: 3, y: 0, z: -6}
+  - prefabName: Cube_grass_03
+    pos: {x: 4, y: 0, z: -5}
+  - prefabName: Cube_grass_03
+    pos: {x: 6, y: 0, z: -5}
+  - prefabName: Cube_grass_03
+    pos: {x: 5, y: 0, z: -6}
+  - prefabName: Cube_grass_03
+    pos: {x: 4, y: 0, z: -7}
+  - prefabName: Cube_grass_03
+    pos: {x: 2, y: 0, z: -7}
+  - prefabName: Cube_grass_03
+    pos: {x: 0, y: 0, z: -7}
+  - prefabName: Cube_grass_03
+    pos: {x: -2, y: 0, z: -7}
+  - prefabName: Cube_grass_03
+    pos: {x: -4, y: 0, z: -7}
+  - prefabName: Cube_grass_03
+    pos: {x: -3, y: 0, z: -8}
+  - prefabName: Cube_grass_03
+    pos: {x: 3, y: 0, z: -8}
+  - prefabName: Cube_grass_01
+    pos: {x: -4, y: 0, z: 6}
   - prefabName: NormalCube
     pos: {x: -6, y: 1, z: 2}
   - prefabName: NormalCube
@@ -1036,249 +1260,17 @@ MonoBehaviour:
   - prefabName: NormalCube
     pos: {x: 0, y: 1, z: -4}
   - prefabName: NormalCube
-    pos: {x: 1, y: 1, z: -4}
-  - prefabName: NormalCube
-    pos: {x: 3, y: 1, z: -4}
-  - prefabName: NormalCube
     pos: {x: 4, y: 1, z: -6}
   - prefabName: NormalCube
     pos: {x: 2, y: 1, z: -6}
   - prefabName: NormalCube
     pos: {x: 6, y: 1, z: 4}
   - prefabName: NormalCube
-    pos: {x: 6, y: 0, z: 5}
-  - prefabName: NormalCube
-    pos: {x: 4, y: 0, z: 7}
-  - prefabName: NormalCube
-    pos: {x: 5, y: 0, z: 6}
-  - prefabName: NormalCube
-    pos: {x: 7, y: 0, z: 4}
-  - prefabName: Cube_grass_01
-    pos: {x: 7, y: 0, z: 5}
-  - prefabName: NormalCube
-    pos: {x: 4, y: 0, z: 5}
-  - prefabName: NormalCube
-    pos: {x: 5, y: 0, z: 4}
-  - prefabName: NormalCube
-    pos: {x: 4, y: 0, z: 3}
-  - prefabName: NormalCube
-    pos: {x: 5, y: 0, z: 2}
-  - prefabName: NormalCube
-    pos: {x: 4, y: 0, z: 1}
-  - prefabName: Cube_unbreakable
-    pos: {x: 3, y: 1, z: 1}
-  - prefabName: NormalCube
-    pos: {x: 6, y: 0, z: 3}
-  - prefabName: NormalCube
-    pos: {x: 7, y: 0, z: 2}
-  - prefabName: NormalCube
-    pos: {x: 7, y: 0, z: 0}
-  - prefabName: NormalCube
-    pos: {x: 6, y: 0, z: 1}
-  - prefabName: NormalCube
-    pos: {x: 7, y: 0, z: -2}
-  - prefabName: NormalCube
-    pos: {x: 6, y: 0, z: -1}
-  - prefabName: NormalCube
-    pos: {x: 5, y: 0, z: 0}
-  - prefabName: NormalCube
-    pos: {x: 6, y: 0, z: -3}
-  - prefabName: NormalCube
-    pos: {x: 5, y: 0, z: -2}
-  - prefabName: NormalCube
-    pos: {x: 7, y: 0, z: -4}
-  - prefabName: NormalCube
-    pos: {x: 6, y: 0, z: -5}
-  - prefabName: NormalCube
-    pos: {x: 5, y: 0, z: -4}
-  - prefabName: NormalCube
-    pos: {x: 5, y: 0, z: -6}
-  - prefabName: NormalCube
-    pos: {x: 4, y: 0, z: -1}
-  - prefabName: NormalCube
-    pos: {x: 4, y: 0, z: -3}
-  - prefabName: NormalCube
-    pos: {x: 4, y: 0, z: -5}
-  - prefabName: NormalCube
-    pos: {x: 4, y: 0, z: -7}
-  - prefabName: NormalCube
-    pos: {x: 3, y: 0, z: -6}
-  - prefabName: NormalCube
-    pos: {x: 2, y: 0, z: -7}
-  - prefabName: NormalCube
-    pos: {x: 2, y: 0, z: -5}
-  - prefabName: NormalCube
-    pos: {x: 2, y: 0, z: -3}
-  - prefabName: NormalCube
-    pos: {x: 3, y: 0, z: -2}
-  - prefabName: NormalCube
-    pos: {x: 2, y: 0, z: -1}
-  - prefabName: NormalCube
-    pos: {x: 3, y: 0, z: 0}
-  - prefabName: NormalCube
-    pos: {x: 3, y: 0, z: 2}
-  - prefabName: NormalCube
-    pos: {x: 3, y: 0, z: 4}
-  - prefabName: NormalCube
-    pos: {x: 3, y: 0, z: 6}
-  - prefabName: NormalCube
-    pos: {x: 2, y: 0, z: 7}
-  - prefabName: NormalCube
-    pos: {x: 2, y: 0, z: 5}
-  - prefabName: NormalCube
-    pos: {x: 2, y: 0, z: 3}
-  - prefabName: NormalCube
-    pos: {x: 2, y: 0, z: 1}
-  - prefabName: NormalCube
-    pos: {x: 1, y: 0, z: -2}
-  - prefabName: NormalCube
-    pos: {x: 1, y: 0, z: 0}
-  - prefabName: NormalCube
-    pos: {x: 1, y: 0, z: 2}
-  - prefabName: NormalCube
-    pos: {x: 1, y: 0, z: 4}
-  - prefabName: NormalCube
-    pos: {x: 1, y: 0, z: 6}
-  - prefabName: NormalCube
-    pos: {x: 0, y: 0, z: 7}
-  - prefabName: NormalCube
-    pos: {x: 0, y: 0, z: 5}
-  - prefabName: NormalCube
-    pos: {x: 0, y: 0, z: 3}
-  - prefabName: NormalCube
-    pos: {x: 0, y: 0, z: 1}
-  - prefabName: NormalCube
-    pos: {x: 0, y: 0, z: -1}
-  - prefabName: NormalCube
-    pos: {x: 0, y: 0, z: -3}
-  - prefabName: NormalCube
-    pos: {x: 0, y: 0, z: -5}
-  - prefabName: NormalCube
-    pos: {x: 0, y: 0, z: -7}
-  - prefabName: NormalCube
-    pos: {x: 1, y: 0, z: -6}
-  - prefabName: NormalCube
-    pos: {x: -1, y: 0, z: 6}
-  - prefabName: NormalCube
-    pos: {x: -1, y: 0, z: 4}
-  - prefabName: NormalCube
-    pos: {x: -2, y: 0, z: 7}
-  - prefabName: NormalCube
-    pos: {x: -2, y: 0, z: 5}
-  - prefabName: NormalCube
-    pos: {x: -2, y: 0, z: 3}
-  - prefabName: NormalCube
-    pos: {x: -1, y: 0, z: 2}
-  - prefabName: NormalCube
-    pos: {x: -1, y: 0, z: 0}
-  - prefabName: NormalCube
-    pos: {x: -2, y: 0, z: 1}
-  - prefabName: NormalCube
-    pos: {x: -1, y: 0, z: -2}
-  - prefabName: NormalCube
-    pos: {x: -1, y: 0, z: -4}
-  - prefabName: NormalCube
-    pos: {x: -1, y: 0, z: -6}
-  - prefabName: NormalCube
-    pos: {x: -2, y: 0, z: -5}
-  - prefabName: NormalCube
-    pos: {x: -2, y: 0, z: -7}
-  - prefabName: NormalCube
-    pos: {x: -2, y: 0, z: -3}
-  - prefabName: NormalCube
-    pos: {x: -2, y: 0, z: -1}
-  - prefabName: NormalCube
-    pos: {x: -3, y: 0, z: 6}
-  - prefabName: NormalCube
-    pos: {x: -4, y: 0, z: 7}
-  - prefabName: NormalCube
-    pos: {x: -5, y: 0, z: 6}
-  - prefabName: NormalCube
-    pos: {x: -3, y: 0, z: 4}
-  - prefabName: NormalCube
-    pos: {x: -4, y: 0, z: 5}
-  - prefabName: NormalCube
-    pos: {x: -3, y: 0, z: 2}
-  - prefabName: NormalCube
-    pos: {x: -4, y: 0, z: 3}
-  - prefabName: NormalCube
-    pos: {x: -3, y: 0, z: 0}
-  - prefabName: NormalCube
-    pos: {x: -4, y: 0, z: 1}
-  - prefabName: NormalCube
-    pos: {x: -3, y: 0, z: -6}
-  - prefabName: NormalCube
-    pos: {x: -3, y: 0, z: -4}
-  - prefabName: NormalCube
-    pos: {x: -3, y: 0, z: -2}
-  - prefabName: NormalCube
-    pos: {x: -4, y: 0, z: -1}
-  - prefabName: NormalCube
-    pos: {x: -4, y: 0, z: -7}
-  - prefabName: NormalCube
-    pos: {x: -4, y: 0, z: -5}
-  - prefabName: NormalCube
-    pos: {x: -4, y: 0, z: -3}
-  - prefabName: NormalCube
-    pos: {x: -6, y: 0, z: 5}
-  - prefabName: NormalCube
-    pos: {x: -5, y: 0, z: 4}
-  - prefabName: NormalCube
-    pos: {x: -6, y: 0, z: 3}
-  - prefabName: NormalCube
-    pos: {x: -5, y: 0, z: 2}
-  - prefabName: NormalCube
-    pos: {x: -5, y: 0, z: 0}
-  - prefabName: NormalCube
-    pos: {x: -6, y: 0, z: 1}
-  - prefabName: NormalCube
-    pos: {x: -5, y: 0, z: -2}
-  - prefabName: NormalCube
-    pos: {x: -6, y: 0, z: -1}
-  - prefabName: NormalCube
-    pos: {x: -5, y: 0, z: -4}
-  - prefabName: NormalCube
-    pos: {x: -6, y: 0, z: -3}
-  - prefabName: NormalCube
-    pos: {x: -5, y: 0, z: -6}
-  - prefabName: NormalCube
-    pos: {x: -6, y: 0, z: -5}
-  - prefabName: NormalCube
-    pos: {x: -7, y: 0, z: -4}
-  - prefabName: NormalCube
-    pos: {x: -7, y: 0, z: -2}
-  - prefabName: NormalCube
-    pos: {x: -7, y: 0, z: 0}
-  - prefabName: NormalCube
-    pos: {x: -7, y: 0, z: 2}
-  - prefabName: NormalCube
-    pos: {x: -7, y: 0, z: 4}
-  - prefabName: NormalCube
-    pos: {x: -8, y: 0, z: 3}
-  - prefabName: NormalCube
-    pos: {x: -8, y: 0, z: -3}
-  - prefabName: NormalCube
-    pos: {x: -3, y: 0, z: -8}
-  - prefabName: NormalCube
-    pos: {x: 3, y: 0, z: -8}
-  - prefabName: NormalCube
-    pos: {x: 8, y: 0, z: -3}
-  - prefabName: NormalCube
-    pos: {x: 8, y: 0, z: 3}
-  - prefabName: NormalCube
-    pos: {x: 3, y: 0, z: 8}
-  - prefabName: NormalCube
-    pos: {x: -3, y: 0, z: 8}
-  - prefabName: NormalCube
     pos: {x: 6, y: 1, z: 2}
   - prefabName: NormalCube
     pos: {x: 4, y: 1, z: 0}
   - prefabName: NormalCube
-    pos: {x: 3, y: 1, z: 0}
-  - prefabName: NormalCube
     pos: {x: -4, y: 1, z: -2}
-  - prefabName: NormalCube
-    pos: {x: -5, y: 1, z: -2}
   - prefabName: NormalCube
     pos: {x: -4, y: 1, z: 0}
   - prefabName: NormalCube
@@ -1286,26 +1278,102 @@ MonoBehaviour:
   - prefabName: NormalCube
     pos: {x: -6, y: 1, z: -4}
   - prefabName: NormalCube
-    pos: {x: -5, y: 1, z: -4}
-  - prefabName: NormalCube
-    pos: {x: -4, y: 1, z: -5}
-  - prefabName: NormalCube
     pos: {x: -2, y: 1, z: -6}
-  - prefabName: NormalCube
-    pos: {x: -3, y: 1, z: 2}
   - prefabName: NormalCube
     pos: {x: -4, y: 1, z: 2}
   - prefabName: NormalCube
     pos: {x: -2, y: 1, z: 4}
   - prefabName: NormalCube
-    pos: {x: -1, y: 1, z: 4}
+    pos: {x: 4, y: 1, z: 6}
   - prefabName: NormalCube
-    pos: {x: -3, y: 1, z: 6}
+    pos: {x: 0, y: 1, z: 2}
+  - prefabName: NormalCube
+    pos: {x: 0, y: 1, z: 4}
+  - prefabName: NormalCube
+    pos: {x: -6, y: 1, z: 4}
   - prefabName: NormalCube
     pos: {x: -4, y: 1, z: 6}
   - prefabName: NormalCube
-    pos: {x: -4, y: 1, z: 5}
+    pos: {x: -2, y: 1, z: 6}
   - prefabName: NormalCube
-    pos: {x: 4, y: 1, z: 6}
+    pos: {x: -2, y: 1, z: -2}
   - prefabName: NormalCube
-    pos: {x: 4, y: 1, z: 5}
+    pos: {x: 0, y: 1, z: -2}
+  - prefabName: NormalCube
+    pos: {x: 2, y: 1, z: -2}
+  - prefabName: NormalCube
+    pos: {x: 4, y: 1, z: -2}
+  - prefabName: NormalCube
+    pos: {x: 6, y: 1, z: -2}
+  - prefabName: NormalCube
+    pos: {x: 6, y: 1, z: -4}
+  - prefabName: NormalCube
+    pos: {x: 2, y: 1, z: -4}
+  - prefabName: NormalCube
+    pos: {x: -2, y: 1, z: -4}
+  - prefabName: NormalCube
+    pos: {x: 4, y: 1, z: 2}
+  - prefabName: NormalCube
+    pos: {x: -5, y: 1, z: 2}
+  - prefabName: NormalCube
+    pos: {x: -2, y: 1, z: 5}
+  - prefabName: NormalCube
+    pos: {x: -2, y: 1, z: 3}
+  - prefabName: NormalCube
+    pos: {x: -3, y: 1, z: 2}
+  - prefabName: NormalCube
+    pos: {x: 2, y: 1, z: 5}
+  - prefabName: NormalCube
+    pos: {x: 2, y: 1, z: 3}
+  - prefabName: NormalCube
+    pos: {x: 3, y: 1, z: 2}
+  - prefabName: NormalCube
+    pos: {x: 5, y: 1, z: 2}
+  - prefabName: NormalCube
+    pos: {x: -5, y: 1, z: -2}
+  - prefabName: NormalCube
+    pos: {x: -3, y: 1, z: -2}
+  - prefabName: NormalCube
+    pos: {x: -2, y: 1, z: -3}
+  - prefabName: NormalCube
+    pos: {x: -2, y: 1, z: -5}
+  - prefabName: NormalCube
+    pos: {x: 2, y: 1, z: -5}
+  - prefabName: NormalCube
+    pos: {x: 2, y: 1, z: -3}
+  - prefabName: NormalCube
+    pos: {x: 3, y: 1, z: -2}
+  - prefabName: NormalCube
+    pos: {x: 5, y: 1, z: -2}
+  - prefabName: NormalCube
+    pos: {x: -7, y: 1, z: -5}
+  - prefabName: NormalCube
+    pos: {x: -5, y: 1, z: -7}
+  - prefabName: NormalCube
+    pos: {x: 5, y: 1, z: -7}
+  - prefabName: NormalCube
+    pos: {x: 7, y: 1, z: -5}
+  - prefabName: NormalCube
+    pos: {x: 7, y: 1, z: 5}
+  - prefabName: NormalCube
+    pos: {x: 5, y: 1, z: 7}
+  - prefabName: NormalCube
+    pos: {x: -5, y: 1, z: 7}
+  - prefabName: NormalCube
+    pos: {x: -7, y: 1, z: 5}
+  - prefabName: NormalCube
+    pos: {x: -2, y: 1, z: 8}
+  - prefabName: NormalCube
+    pos: {x: 2, y: 1, z: 8}
+  - prefabName: NormalCube
+    pos: {x: 8, y: 1, z: 2}
+  - prefabName: NormalCube
+    pos: {x: 8, y: 1, z: -2}
+  - prefabName: NormalCube
+    pos: {x: -8, y: 1, z: 2}
+  - prefabName: NormalCube
+    pos: {x: -8, y: 1, z: -2}
+  - prefabName: NormalCube
+    pos: {x: -2, y: 1, z: -8}
+  - prefabName: NormalCube
+    pos: {x: 2, y: 1, z: -8}
