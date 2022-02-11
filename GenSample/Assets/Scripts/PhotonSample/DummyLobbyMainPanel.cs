@@ -14,7 +14,7 @@ namespace Photon.Pun.Demo.Asteroids
         [Header("Login Panel")]
         public GameObject LoginPanel;
 
-        public InputField PlayerNameInput;
+        public TMPro.TMP_InputField PlayerNameInput;
 
         [Header("Selection Panel")]
         public GameObject SelectionPanel;
@@ -22,8 +22,8 @@ namespace Photon.Pun.Demo.Asteroids
         [Header("Create Room Panel")]
         public GameObject CreateRoomPanel;
 
-        public InputField RoomNameInputField;
-        public InputField MaxPlayersInputField;
+        public TMPro.TMP_InputField RoomNameInputField;
+        public TMPro.TMP_InputField MaxPlayersInputField;
 
         [Header("Join Random Room Panel")]
         public GameObject JoinRandomRoomPanel;
@@ -39,7 +39,7 @@ namespace Photon.Pun.Demo.Asteroids
 
         public Button StartGameButton;
         public GameObject PlayerListEntryPrefab;
-        public Text RoomTypeText;
+        public TMPro.TextMeshProUGUI RoomTypeText;
 
         private Dictionary<string, RoomInfo> cachedRoomList;
         private Dictionary<string, GameObject> roomListEntries;

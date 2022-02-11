@@ -3500,8 +3500,8 @@ MonoBehaviour:
   PlayerNameInput: {fileID: 0}
   SelectionPanel: {fileID: 1771933899}
   CreateRoomPanel: {fileID: 1406502566}
-  RoomNameInputField: {fileID: 1541721128}
-  MaxPlayersInputField: {fileID: 1856119463}
+  RoomNameInputField: {fileID: 0}
+  MaxPlayersInputField: {fileID: 0}
   JoinRandomRoomPanel: {fileID: 751292280}
   RoomListPanel: {fileID: 953796484}
   RoomListContent: {fileID: 889509550}
@@ -3509,7 +3509,7 @@ MonoBehaviour:
   InsideRoomPanel: {fileID: 1370510199}
   StartGameButton: {fileID: 800069350}
   PlayerListEntryPrefab: {fileID: 195212, guid: fe6e28714e95f884c9c2accc93efffc7, type: 3}
-  RoomTypeText: {fileID: 521352403}
+  RoomTypeText: {fileID: 0}
   GameSceneName: GenSampleScene
 --- !u!222 &1310044698
 CanvasRenderer:
