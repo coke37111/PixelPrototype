@@ -14,6 +14,7 @@ using PunHashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Assets.Scripts.Feature.Main.Player
 {
+    [RequireComponent(typeof(BetterJump))]
     public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback, IPunObservable, IOnEventCallback
     {
         private Transform trSpine;
