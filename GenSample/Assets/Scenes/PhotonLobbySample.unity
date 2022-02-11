@@ -3303,7 +3303,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1165784657}
-  - component: {fileID: 1165784660}
+  - component: {fileID: 1165784658}
   m_Layer: 5
   m_Name: TopPanel
   m_TagString: Untagged
@@ -3332,7 +3332,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &1165784660
+--- !u!114 &1165784658
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3341,10 +3341,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1165784656}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe0a55ef565e3984f8866c5c91e3c2fd, type: 3}
+  m_Script: {fileID: 11500000, guid: 3a825d92e9f97c14fa81da7f123c5c75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConnectionStatusText: {fileID: 0}
+  ConnectionStatusText: {fileID: 1595964183}
 --- !u!1 &1251081872
 GameObject:
   m_ObjectHideFlags: 0
