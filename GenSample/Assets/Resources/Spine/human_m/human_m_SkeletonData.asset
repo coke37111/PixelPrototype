@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f1b3b4b945939a54ea0b23d3396115fb, type: 3}
-  m_Name: test_human_m_3_SkeletonData
+  m_Name: human_m_SkeletonData
   m_EditorClassIdentifier: 
   atlasAssets:
   - {fileID: 11400000, guid: 8f72d2ee8e17a844c833a48fabbcb991, type: 2}
   scale: 0.01
-  skeletonJSON: {fileID: 4900000, guid: 21206212012fdcd469be2d14132b1a77, type: 3}
+  skeletonJSON: {fileID: 4900000, guid: a315d27d1e009b4408bc547a62ee1f6e, type: 3}
   isUpgradingBlendModeMaterials: 0
   blendModeMaterials:
     requiresBlendModeMaterials: 1
@@ -30,4 +30,4 @@ MonoBehaviour:
   toAnimation: []
   duration: []
   defaultMix: 0.2
-  controller: {fileID: 9100000, guid: a5010703be5101243b3cf595db2a20ca, type: 2}
+  controller: {fileID: 9100000, guid: 9369df1cfec92bc439c3944d99bcf078, type: 2}
