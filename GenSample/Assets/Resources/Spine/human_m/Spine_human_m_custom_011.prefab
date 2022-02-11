@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 105757007304747493}
   - component: {fileID: 4154885916332684768}
   - component: {fileID: 705083823124648349}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Spine_human_m_custom_011
   m_TagString: Untagged
   m_Icon: {fileID: 0}

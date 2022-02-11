@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5291278884942794987}
   - component: {fileID: 710272878199559169}
   - component: {fileID: 6968771671722386648}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Spine_human_m_custom_gran_006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
