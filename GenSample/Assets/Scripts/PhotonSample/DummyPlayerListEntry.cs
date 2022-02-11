@@ -20,7 +20,7 @@ namespace Photon.Pun.Demo.Asteroids
     public class DummyPlayerListEntry : MonoBehaviour
     {
         [Header("UI References")]
-        public Text PlayerNameText;
+        public TMPro.TextMeshProUGUI PlayerNameText;
 
         public Image PlayerColorImage;
         public Button PlayerReadyButton;

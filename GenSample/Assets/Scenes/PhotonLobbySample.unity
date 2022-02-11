@@ -4025,7 +4025,7 @@ MonoBehaviour:
   JoinRandomRoomPanel: {fileID: 751292280}
   RoomListPanel: {fileID: 953796484}
   RoomListContent: {fileID: 889509550}
-  RoomListEntryPrefab: {fileID: 114706, guid: 03c5e15309335324fba99d68e38cb08b, type: 3}
+  RoomListEntryPrefab: {fileID: 114706, guid: 07752e66c5a799f46a67c2d533067108, type: 3}
   InsideRoomPanel: {fileID: 1370510199}
   StartGameButton: {fileID: 800069350}
   PlayerListEntryPrefab: {fileID: 195212, guid: fe6e28714e95f884c9c2accc93efffc7, type: 3}
