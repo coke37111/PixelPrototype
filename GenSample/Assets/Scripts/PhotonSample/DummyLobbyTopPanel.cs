@@ -7,7 +7,7 @@ namespace Assets.Scripts.PhotonSample
     public class DummyLobbyTopPanel : MonoBehaviour
     {
 
-        private readonly string connectionStatusMessage = "    Connection Status: ";
+        private readonly string connectionStatusMessage = "Connection Status: ";
 
         [Header("UI References")]
         public TMPro.TextMeshProUGUI ConnectionStatusText;
