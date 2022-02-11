@@ -28,8 +28,24 @@ MonoBehaviour:
   - human_m
   - human_s
   spineTypes:
-  - Spine/test_human_m_2/Spine_test_human_m_2_custom_2
-  - Spine/test_human_m_2/Spine_test_human_m_2_custom_3
-  - Spine/test_human_m_2/Spine_test_human_m_2_custom_4
-  - Spine/test_human_m_2/Spine_test_human_m_2_custom_5
-  - Spine/test_human_m_2/Spine_test_human_m_2_custom_6
+  - Spine/human_m/Spine_human_m_001
+  - Spine/human_m/Spine_human_m_custom_001
+  - Spine/human_m/Spine_human_m_custom_002
+  - Spine/human_m/Spine_human_m_custom_003
+  - Spine/human_m/Spine_human_m_custom_004
+  - Spine/human_m/Spine_human_m_custom_005
+  - Spine/human_m/Spine_human_m_custom_006
+  - Spine/human_m/Spine_human_m_custom_007
+  - Spine/human_m/Spine_human_m_custom_008
+  - Spine/human_m/Spine_human_m_custom_009
+  - Spine/human_m/Spine_human_m_custom_010
+  - Spine/human_m/Spine_human_m_custom_011
+  - Spine/human_m/Spine_human_m_custom_012
+  - Spine/human_m/Spine_human_m_custom_013
+  - Spine/human_m/Spine_human_m_custom_014
+  - Spine/human_m/Spine_human_m_custom_gran_001
+  - Spine/human_m/Spine_human_m_custom_gran_002
+  - Spine/human_m/Spine_human_m_custom_gran_003
+  - Spine/human_m/Spine_human_m_custom_gran_004
+  - Spine/human_m/Spine_human_m_custom_gran_005
+  - Spine/human_m/Spine_human_m_custom_gran_006
