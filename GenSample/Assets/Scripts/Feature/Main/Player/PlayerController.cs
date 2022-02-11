@@ -533,7 +533,7 @@ namespace Assets.Scripts.Feature.Main.Player
                 if (effL == null)
                 {
                     GameObject pfAtkEff =
-                   ResourceManager.LoadAsset<GameObject>($"Prefab/Effect/attack_slash_eff_red_L");
+                   ResourceManager.LoadAsset<GameObject>($"Prefab/Effect/attack_slash_eff_yellow_L");
                     effL = Instantiate(pfAtkEff, effectContainerL);
                 }
                 effL.transform.localPosition = Vector3.zero;
@@ -557,7 +557,7 @@ namespace Assets.Scripts.Feature.Main.Player
                 if (effR == null)
                 {
                     GameObject pfAtkEff =
-                      ResourceManager.LoadAsset<GameObject>($"Prefab/Effect/attack_slash_eff_red_R");
+                      ResourceManager.LoadAsset<GameObject>($"Prefab/Effect/attack_slash_eff_yellow_R");
                     effR = Instantiate(pfAtkEff, effectContainerR);
                 }
                 effR.transform.localPosition = Vector3.zero;
