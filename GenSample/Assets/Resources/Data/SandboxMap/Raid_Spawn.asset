@@ -1,0 +1,499 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa89eb52d698fb348bd1f4abc8245c3c, type: 3}
+  m_Name: Raid_Spawn
+  m_EditorClassIdentifier: 
+  cubeData:
+  - prefabName: Cube_dirt_01
+    pos: {x: -4.5, y: 0, z: -3.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -4.5, y: 0, z: -1.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -4.5, y: 0, z: 0.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -4.5, y: 0, z: 2.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -4.5, y: 0, z: 4.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -3.5, y: 0, z: -4.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -3.5, y: 0, z: -2.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -3.5, y: 0, z: -0.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -3.5, y: 0, z: 1.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -3.5, y: 0, z: 3.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -2.5, y: 0, z: -3.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -2.5, y: 0, z: -1.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -2.5, y: 0, z: 0.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -2.5, y: 0, z: 2.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -2.5, y: 0, z: 4.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -1.5, y: 0, z: -4.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -1.5, y: 0, z: -2.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -1.5, y: 0, z: -0.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -1.5, y: 0, z: 1.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -1.5, y: 0, z: 3.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -0.5, y: 0, z: -3.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -0.5, y: 0, z: -1.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -0.5, y: 0, z: 0.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -0.5, y: 0, z: 2.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -0.5, y: 0, z: 4.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 0.5, y: 0, z: -4.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 0.5, y: 0, z: -2.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 0.5, y: 0, z: -0.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 0.5, y: 0, z: 1.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 0.5, y: 0, z: 3.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 1.5, y: 0, z: -3.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 1.5, y: 0, z: -1.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 1.5, y: 0, z: 0.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 1.5, y: 0, z: 2.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 1.5, y: 0, z: 4.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 2.5, y: 0, z: -4.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 2.5, y: 0, z: -2.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 2.5, y: 0, z: -0.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 2.5, y: 0, z: 1.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 2.5, y: 0, z: 3.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 3.5, y: 0, z: -3.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 3.5, y: 0, z: -1.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 3.5, y: 0, z: 0.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 3.5, y: 0, z: 2.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 3.5, y: 0, z: 4.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 4.5, y: 0, z: -4.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 4.5, y: 0, z: -2.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 4.5, y: 0, z: -0.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 4.5, y: 0, z: 1.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 4.5, y: 0, z: 3.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -3.5, y: 0, z: 4.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -1.5, y: 0, z: 4.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 0.5, y: 0, z: 4.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 2.5, y: 0, z: 4.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 4.5, y: 0, z: 4.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -4.5, y: 0, z: 3.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -2.5, y: 0, z: 3.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -0.5, y: 0, z: 3.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 1.5, y: 0, z: 3.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 3.5, y: 0, z: 3.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -4.5, y: 0, z: 1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -3.5, y: 0, z: 2.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -1.5, y: 0, z: 2.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 0.5, y: 0, z: 2.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 2.5, y: 0, z: 2.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 4.5, y: 0, z: 2.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -4.5, y: 0, z: -0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -3.5, y: 0, z: 0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -2.5, y: 0, z: 1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -0.5, y: 0, z: 1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 1.5, y: 0, z: 1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 3.5, y: 0, z: 1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -4.5, y: 0, z: -2.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -4.5, y: 0, z: -4.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -3.5, y: 0, z: -3.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -3.5, y: 0, z: -1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -2.5, y: 0, z: -0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -1.5, y: 0, z: 0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 0.5, y: 0, z: 0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -0.5, y: 0, z: -0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -1.5, y: 0, z: -1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -2.5, y: 0, z: -2.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -2.5, y: 0, z: -4.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -1.5, y: 0, z: -3.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -0.5, y: 0, z: -2.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 0.5, y: 0, z: -1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 1.5, y: 0, z: -0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 2.5, y: 0, z: 0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 4.5, y: 0, z: 0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 3.5, y: 0, z: -0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 2.5, y: 0, z: -1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 1.5, y: 0, z: -2.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 0.5, y: 0, z: -3.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -0.5, y: 0, z: -4.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 1.5, y: 0, z: -4.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 2.5, y: 0, z: -3.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 3.5, y: 0, z: -2.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 4.5, y: 0, z: -1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 4.5, y: 0, z: -3.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 3.5, y: 0, z: -4.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 5.5, y: 0, z: 3.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 5.5, y: 0, z: 1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 5.5, y: 0, z: -0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 5.5, y: 0, z: -2.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 5.5, y: 0, z: -4.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 4.5, y: 0, z: -5.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 2.5, y: 0, z: -5.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 0.5, y: 0, z: -5.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -1.5, y: 0, z: -5.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -3.5, y: 0, z: -5.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -5.5, y: 0, z: -3.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -5.5, y: 0, z: -1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -5.5, y: 0, z: 0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -5.5, y: 0, z: 2.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -5.5, y: 0, z: 4.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -4.5, y: 0, z: 5.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -2.5, y: 0, z: 5.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -0.5, y: 0, z: 5.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 1.5, y: 0, z: 5.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 3.5, y: 0, z: 5.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -2.5, y: 0, z: -5.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -0.5, y: 0, z: -5.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 1.5, y: 0, z: -5.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 3.5, y: 0, z: -5.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 5.5, y: 0, z: -5.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 5.5, y: 0, z: -3.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 5.5, y: 0, z: -1.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 5.5, y: 0, z: 0.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 5.5, y: 0, z: 2.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 5.5, y: 0, z: 4.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 4.5, y: 0, z: 5.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 2.5, y: 0, z: 5.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: 0.5, y: 0, z: 5.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -1.5, y: 0, z: 5.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -3.5, y: 0, z: 5.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -5.5, y: 0, z: 5.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -5.5, y: 0, z: 3.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -5.5, y: 0, z: 1.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -5.5, y: 0, z: -0.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -5.5, y: 0, z: -2.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -5.5, y: 0, z: -4.5}
+  - prefabName: Cube_dirt_01
+    pos: {x: -4.5, y: 0, z: -5.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -5.5, y: 0, z: -5.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 5.5, y: 0, z: 5.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -4.5, y: 0, z: -6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -2.5, y: 0, z: -6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -0.5, y: 0, z: -6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -3.5, y: 0, z: -6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -1.5, y: 0, z: -6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 0.5, y: 0, z: -6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 1.5, y: 0, z: -6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 2.5, y: 0, z: -6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 3.5, y: 0, z: -6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 4.5, y: 0, z: -6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 6.5, y: 0, z: -4.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 6.5, y: 0, z: -3.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 6.5, y: 0, z: -2.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 6.5, y: 0, z: -1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 6.5, y: 0, z: -0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 6.5, y: 0, z: 0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 6.5, y: 0, z: 1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 6.5, y: 0, z: 2.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 6.5, y: 0, z: 3.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 6.5, y: 0, z: 4.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 4.5, y: 0, z: 6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 3.5, y: 0, z: 6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 2.5, y: 0, z: 6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 1.5, y: 0, z: 6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 0.5, y: 0, z: 6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -0.5, y: 0, z: 6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -1.5, y: 0, z: 6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -2.5, y: 0, z: 6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -3.5, y: 0, z: 6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -4.5, y: 0, z: 6.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -6.5, y: 0, z: 4.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -6.5, y: 0, z: 3.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -6.5, y: 0, z: 2.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -6.5, y: 0, z: 1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -6.5, y: 0, z: 0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -6.5, y: 0, z: -0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -6.5, y: 0, z: -1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -6.5, y: 0, z: -2.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -6.5, y: 0, z: -3.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -6.5, y: 0, z: -4.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -1.5, y: 0, z: -7.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -0.5, y: 0, z: -7.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 0.5, y: 0, z: -7.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 1.5, y: 0, z: -7.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 7.5, y: 0, z: -1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 7.5, y: 0, z: -0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 7.5, y: 0, z: 0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 7.5, y: 0, z: 1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 1.5, y: 0, z: 7.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: 0.5, y: 0, z: 7.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -0.5, y: 0, z: 7.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -1.5, y: 0, z: 7.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -7.5, y: 0, z: 1.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -7.5, y: 0, z: 0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -7.5, y: 0, z: -0.5}
+  - prefabName: Cube_dirt_02
+    pos: {x: -7.5, y: 0, z: -1.5}
+  - prefabName: SpawnCube
+    pos: {x: -7.5, y: 1, z: -1.5}
+  - prefabName: SpawnCube
+    pos: {x: -6.5, y: 1, z: -2.5}
+  - prefabName: SpawnCube
+    pos: {x: -6.5, y: 1, z: -3.5}
+  - prefabName: SpawnCube
+    pos: {x: -6.5, y: 1, z: -4.5}
+  - prefabName: SpawnCube
+    pos: {x: -1.5, y: 1, z: -7.5}
+  - prefabName: SpawnCube
+    pos: {x: -0.5, y: 1, z: -7.5}
+  - prefabName: SpawnCube
+    pos: {x: 0.5, y: 1, z: -7.5}
+  - prefabName: SpawnCube
+    pos: {x: 1.5, y: 1, z: -7.5}
+  - prefabName: SpawnCube
+    pos: {x: 2.5, y: 1, z: -6.5}
+  - prefabName: SpawnCube
+    pos: {x: 3.5, y: 1, z: -6.5}
+  - prefabName: SpawnCube
+    pos: {x: 4.5, y: 1, z: -6.5}
+  - prefabName: SpawnCube
+    pos: {x: 6.5, y: 1, z: -4.5}
+  - prefabName: SpawnCube
+    pos: {x: 6.5, y: 1, z: -3.5}
+  - prefabName: SpawnCube
+    pos: {x: 6.5, y: 1, z: -2.5}
+  - prefabName: SpawnCube
+    pos: {x: 7.5, y: 1, z: -1.5}
+  - prefabName: SpawnCube
+    pos: {x: -6.5, y: 1, z: -1.5}
+  - prefabName: SpawnCube
+    pos: {x: -5.5, y: 1, z: -2.5}
+  - prefabName: SpawnCube
+    pos: {x: -5.5, y: 1, z: -3.5}
+  - prefabName: SpawnCube
+    pos: {x: -5.5, y: 1, z: -4.5}
+  - prefabName: SpawnCube
+    pos: {x: 1.5, y: 1, z: -6.5}
+  - prefabName: SpawnCube
+    pos: {x: -5.5, y: 1, z: -5.5}
+  - prefabName: SpawnCube
+    pos: {x: -4.5, y: 1, z: -5.5}
+  - prefabName: SpawnCube
+    pos: {x: -4.5, y: 1, z: -6.5}
+  - prefabName: SpawnCube
+    pos: {x: -3.5, y: 1, z: -6.5}
+  - prefabName: SpawnCube
+    pos: {x: -2.5, y: 1, z: -6.5}
+  - prefabName: SpawnCube
+    pos: {x: -3.5, y: 1, z: -5.5}
+  - prefabName: SpawnCube
+    pos: {x: -2.5, y: 1, z: -5.5}
+  - prefabName: SpawnCube
+    pos: {x: -1.5, y: 1, z: -6.5}
+  - prefabName: SpawnCube
+    pos: {x: -0.5, y: 1, z: -6.5}
+  - prefabName: SpawnCube
+    pos: {x: 0.5, y: 1, z: -6.5}
+  - prefabName: SpawnCube
+    pos: {x: 2.5, y: 1, z: -5.5}
+  - prefabName: SpawnCube
+    pos: {x: 3.5, y: 1, z: -5.5}
+  - prefabName: SpawnCube
+    pos: {x: 4.5, y: 1, z: -5.5}
+  - prefabName: SpawnCube
+    pos: {x: 5.5, y: 1, z: -5.5}
+  - prefabName: SpawnCube
+    pos: {x: 5.5, y: 1, z: -4.5}
+  - prefabName: SpawnCube
+    pos: {x: 5.5, y: 1, z: -3.5}
+  - prefabName: SpawnCube
+    pos: {x: 5.5, y: 1, z: -2.5}
+  - prefabName: SpawnCube
+    pos: {x: 6.5, y: 1, z: -1.5}
+  - prefabName: SpawnCube
+    pos: {x: -4.5, y: 1, z: -4.5}
+  - prefabName: SpawnCube
+    pos: {x: 4.5, y: 1, z: -4.5}
+  - prefabName: SpawnCube
+    pos: {x: -7.5, y: 1, z: -0.5}
+  - prefabName: SpawnCube
+    pos: {x: 7.5, y: 1, z: -0.5}
