@@ -1,0 +1,367 @@
+fileFormatVersion: 2
+guid: 256bb2ef2b412dc4a897805dd0e6d016
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites: []
+    outline: []
+    physicsShape: []
+    bones:
+    - name: bone_1
+      position: {x: 9.239059, y: 0.21420756, z: 0}
+      rotation: {x: 0, y: 0, z: 0.6887089, w: 0.72503805}
+      length: 4.1022987
+      parentId: -1
+    - name: bone_2
+      position: {x: 4.1022987, y: -0.00000037086585, z: 0}
+      rotation: {x: 0, y: 0, z: 0.0094634015, w: 0.99995524}
+      length: 3.6071577
+      parentId: 0
+    - name: bone_3
+      position: {x: 3.6071582, y: -0.0000009714762, z: 0}
+      rotation: {x: 0, y: 0, z: 0.01883034, w: 0.99982274}
+      length: 4.4949284
+      parentId: 1
+    - name: bone_4
+      position: {x: 3.3161352, y: 1.0569953, z: 0}
+      rotation: {x: 0, y: 0, z: 0.74996287, w: 0.66147995}
+      length: 3.374156
+      parentId: -1
+    - name: bone_5
+      position: {x: 3.3741562, y: 0.0000000059004037, z: 0}
+      rotation: {x: 0, y: 0, z: -0.07641855, w: 0.99707586}
+      length: 3.3724518
+      parentId: 3
+    - name: bone_6
+      position: {x: 3.3724513, y: -0.00000021355311, z: 0}
+      rotation: {x: 0, y: 0, z: -0.03720926, w: 0.9993076}
+      length: 3.6712382
+      parentId: 4
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices:
+    - {x: 13, y: 0}
+    - {x: 13, y: 6.286}
+    - {x: 13, y: 11}
+    - {x: 10.106, y: 13}
+    - {x: 6.717071, y: 13}
+    - {x: 3.1935854, y: 13}
+    - {x: 0, y: 11.305643}
+    - {x: 0, y: 6.3468213}
+    - {x: 0, y: 0}
+    - {x: 3.3704107, y: 0}
+    - {x: 9.329822, y: 0}
+    - {x: 9.302394, y: 4.3557706}
+    - {x: 6.239139, y: 6.516522}
+    - {x: 9.484049, y: 8.088535}
+    - {x: 6.1369467, y: 2.608528}
+    - {x: 6.4786644, y: 9.800888}
+    - {x: 3.059364, y: 8.2810335}
+    - {x: 3.0457256, y: 4.4395547}
+    - {x: 13, y: 3.2859998}
+    - {x: 6.2681785, y: 0}
+    indices: 0700000011000000080000000f000000030000000d000000010000000d0000000200000003000000020000000d000000030000000f0000000400000005000000040000000f0000000d000000010000000b0000000b00000001000000120000000a00000012000000000000000b0000000c0000000d000000120000000a0000000b0000000f0000000d0000000c0000000a000000130000000e0000000600000005000000100000000c000000100000000f0000001100000007000000100000000f00000010000000050000001000000007000000060000000c0000000e00000011000000110000000e000000090000000b0000000e0000000c0000000e0000001300000009000000090000000800000011000000100000000c000000110000000a0000000e0000000b000000
+    edges:
+    - {x: 1, y: 18}
+    - {x: 2, y: 1}
+    - {x: 3, y: 2}
+    - {x: 4, y: 3}
+    - {x: 5, y: 4}
+    - {x: 6, y: 5}
+    - {x: 7, y: 6}
+    - {x: 8, y: 7}
+    - {x: 9, y: 8}
+    - {x: 10, y: 19}
+    - {x: 0, y: 10}
+    - {x: 18, y: 0}
+    - {x: 19, y: 9}
+    weights:
+    - weight[0]: 1
+      weight[1]: 0
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 0
+      boneIndex[1]: 0
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    - weight[0]: 0.86744255
+      weight[1]: 0.08787387
+      weight[2]: 0.044683617
+      weight[3]: 0
+      boneIndex[0]: 1
+      boneIndex[1]: 2
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    - weight[0]: 0.9655681
+      weight[1]: 0.034431882
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 2
+      boneIndex[1]: 1
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    - weight[0]: 1
+      weight[1]: 0
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 2
+      boneIndex[1]: 0
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    - weight[0]: 0.63655967
+      weight[1]: 0.36344033
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 2
+      boneIndex[1]: 5
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    - weight[0]: 0.82731897
+      weight[1]: 0.17268106
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 5
+      boneIndex[1]: 2
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    - weight[0]: 0.9620641
+      weight[1]: 0.037935864
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 5
+      boneIndex[1]: 4
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    - weight[0]: 0.90506333
+      weight[1]: 0.05874507
+      weight[2]: 0.036191653
+      weight[3]: 0
+      boneIndex[0]: 4
+      boneIndex[1]: 5
+      boneIndex[2]: 3
+      boneIndex[3]: 0
+    - weight[0]: 0.9497567
+      weight[1]: 0.050243296
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 3
+      boneIndex[1]: 4
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    - weight[0]: 0.99999994
+      weight[1]: 0
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 3
+      boneIndex[1]: 0
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    - weight[0]: 1
+      weight[1]: 0
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 0
+      boneIndex[1]: 0
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    - weight[0]: 0.5300934
+      weight[1]: 0.46990663
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 0
+      boneIndex[1]: 1
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    - weight[0]: 0.45352444
+      weight[1]: 0.40265468
+      weight[2]: 0.081305996
+      weight[3]: 0.0625149
+      boneIndex[0]: 1
+      boneIndex[1]: 4
+      boneIndex[2]: 5
+      boneIndex[3]: 2
+    - weight[0]: 0.88697314
+      weight[1]: 0.113026835
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 2
+      boneIndex[1]: 1
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    - weight[0]: 0.38860968
+      weight[1]: 0.37140423
+      weight[2]: 0.124116555
+      weight[3]: 0.115869544
+      boneIndex[0]: 0
+      boneIndex[1]: 3
+      boneIndex[2]: 4
+      boneIndex[3]: 1
+    - weight[0]: 0.55673206
+      weight[1]: 0.34807742
+      weight[2]: 0.051673867
+      weight[3]: 0.04351667
+      boneIndex[0]: 2
+      boneIndex[1]: 5
+      boneIndex[2]: 4
+      boneIndex[3]: 1
+    - weight[0]: 0.99999994
+      weight[1]: 0
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 5
+      boneIndex[1]: 0
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    - weight[0]: 0.58490443
+      weight[1]: 0.41509557
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 3
+      boneIndex[1]: 4
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    - weight[0]: 0.7602203
+      weight[1]: 0.23977977
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 0
+      boneIndex[1]: 1
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    - weight[0]: 0.53405833
+      weight[1]: 0.46594173
+      weight[2]: 0
+      weight[3]: 0
+      boneIndex[0]: 0
+      boneIndex[1]: 3
+      boneIndex[2]: 0
+      boneIndex[3]: 0
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
