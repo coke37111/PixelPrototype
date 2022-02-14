@@ -40,6 +40,9 @@ namespace Assets.Scripts.Feature.Main.Cubes
                     Destroy(child.gameObject);
                 }
             }
+
+            spawnPosList.Clear();
+            normalCubeData.Clear();
         }
 
         public void GenerateCubes(SandboxMapDataSO mapData, bool isEdit = false)
