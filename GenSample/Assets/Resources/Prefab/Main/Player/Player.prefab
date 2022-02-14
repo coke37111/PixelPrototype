@@ -49,8 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ad7cae2181a7d5418c6d9e0063b6bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallMultiplier: 2
-  lowJumpMultiplier: 4
+  fallMultiplier: 1.5
+  lowJumpMultiplier: 10
 --- !u!54 &1596266131352889006
 Rigidbody:
   m_ObjectHideFlags: 0
