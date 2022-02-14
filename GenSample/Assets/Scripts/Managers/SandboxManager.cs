@@ -411,16 +411,16 @@ namespace Assets.Scripts.Managers
         private void MakeDefaultMap()
         {            
             Vector3 defaultCubeScale = DefaultCube.transform.localScale;
-            float ofsX = DefaultMapSize.x - defaultCubeScale.x;
-            float ofsY = 0f;// DefaultMapSize.y - defaultCubeScale.y;
-            float ofsZ = DefaultMapSize.z - defaultCubeScale.z;
+            int ofsX = (int)((DefaultMapSize.x - defaultCubeScale.x) * 0.5f);
+            int ofsY = 0;// DefaultMapSize.y - defaultCubeScale.y;
+            int ofsZ = (int)((DefaultMapSize.z - defaultCubeScale.z) * 0.5f);
             for (int col = 0; col < DefaultMapSize.x; col++)
             {
                 for(int height = 0; height < DefaultMapSize.y; height++)
                 {
                     for (int row = 0; row < DefaultMapSize.z; row++)
                     {
-                        Vector3 pos = new Vector3(col - ofsX / 2f, height - ofsY / 2f, row - ofsZ / 2f);
+                        Vector3 pos = new Vector3(col - ofsX, height - ofsY, row - ofsZ);
                         GameObject pfCube = ResourceManager.LoadAsset<GameObject>(PrefabPath.EditCubePath);
                         GameObject goCube = Instantiate(pfCube, pos, Quaternion.identity, cubeContainer.transform);
                         EditCube cube = goCube.GetComponent<EditCube>();
