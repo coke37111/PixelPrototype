@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Feature.GenSample;
+using Assets.Scripts.Feature.Main.Cubes;
 using Assets.Scripts.Feature.Main.Player;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
@@ -39,12 +40,14 @@ namespace Assets.Scripts.Managers
         private Vector2 spawnAreaZ; // min, max
         [Range(0f, 1f)]
         public float spawnRange;
-
-        private readonly Vector3 initSpawnPos = new Vector3(0, 1f, -1f);        
+       
         private float curLimitTime;
 
         private GameSettingSO gameSetting;
         private IndicatorSettingSO indicatorSetting;
+
+        public SandboxMapDataSO mapData;
+        private CubeContainer cubeContainer;
 
         #region UNITY
         // Use this for initialization
@@ -162,7 +165,10 @@ namespace Assets.Scripts.Managers
                             GenCountdownTimer.SetStartTime();
 
                             if(PhotonNetwork.MasterClient.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
+                            {
                                 GenerateMob();
+                                cubeContainer.GenerateNormalCube();
+                            }
                         }
                     }
                 }
@@ -207,11 +213,17 @@ namespace Assets.Scripts.Managers
             gameSetting = ResourceManager.LoadAsset<GameSettingSO>(GameSettingSO.path);
             indicatorSetting = ResourceManager.LoadAsset<IndicatorSettingSO>(IndicatorSettingSO.path);
 
+            cubeContainer = FindObjectOfType<CubeContainer>();
+            GenerateMap();
+
             if (!PlayerSettings.IsConnectNetwork())
             {
                 RoomSettings.roomType = curRoomType;
 
                 SpawnPlayer();
+                cubeContainer.GenerateNormalCube();
+
+                GenerateMob();
 
                 if (curRoomType == ROOM_TYPE.Raid)
                 {
@@ -287,7 +299,7 @@ namespace Assets.Scripts.Managers
         private PlayerController player;
         private void SpawnPlayer()
         {
-            Vector3 spawnPosTo3 = initSpawnPos;
+            Vector3 spawnPosTo3 = cubeContainer.GetRandomSpawnPos();
 
             //// Set SpawnPos
             //Vector3 orgSpawnPos = initSpawnPos;
@@ -523,7 +535,7 @@ namespace Assets.Scripts.Managers
         public void MakeIndicator(Vector3 hitPoint)
         {
             string pfPath = Path.Combine("Prefab", "Indicator");
-            Vector3 initPos = new Vector3(hitPoint.x, 0f, hitPoint.z);
+            Vector3 initPos = new Vector3(hitPoint.x, 0.5f, hitPoint.z);
 
             float limitTime = 2f;
             float scaleX = 3f;
@@ -567,13 +579,38 @@ namespace Assets.Scripts.Managers
             if (curRoomType != ROOM_TYPE.Raid)
                 return;
 
-            Vector3 initPos = new Vector3(0f, 1f, 0f);
+            Vector3 initPos = new Vector3(0f, 1.7f, 0f);
             string pfMobPath = "Prefab/Mob";
 
-            var data = new List<object>();
-            data.Add(PhotonNetwork.PlayerList.Length);
+            if (PlayerSettings.IsConnectNetwork())
+            {
+                var data = new List<object>();
+                data.Add(PhotonNetwork.PlayerList.Length);
 
-            PhotonNetwork.InstantiateRoomObject(pfMobPath, initPos, Quaternion.identity, 0, data.ToArray());
+                PhotonNetwork.InstantiateRoomObject(pfMobPath, initPos, Quaternion.identity, 0, data.ToArray());
+            }
+            else
+            {
+                GameObject pfMob = ResourceManager.LoadAsset<GameObject>(pfMobPath);
+                GameObject goMob = Instantiate(pfMob, initPos, Quaternion.identity);
+                MobController mobCtrl = goMob.GetComponent<MobController>();
+                mobCtrl.Init();
+            }
+        }
+
+        private void GenerateMap()
+        {
+            if (cubeContainer == null)
+            {
+                Log.Error($"CubeContainer가 씬에 존재하지 않습니다");
+            }
+            else
+            {
+                if (mapData != null)
+                    cubeContainer.GenerateCubes(mapData);
+                else
+                    Log.Error($"MapData를 세팅해주세요!");
+            }
         }
     }
 }
