@@ -25,6 +25,9 @@ namespace Assets.Scripts.Feature.GenSample
         {
             if(other.tag == "Player")
             {
+                if (RoomSettings.roomType == RoomSettings.ROOM_TYPE.Raid)
+                    return;
+
                 PlayerController target = other.GetComponent<PlayerController>();
                 if(target != player)
                 {
@@ -35,30 +38,15 @@ namespace Assets.Scripts.Feature.GenSample
             {
                 other.GetComponent<Cube>().Hit(player.GetAtk());
                 Destroy(gameObject);
+            }else if(other.tag == "Mob")
+            {
+                MobController targetMob = other.GetComponent<MobController>();
+                if (targetMob != null)
+                {
+                    targetMob.AttackBy(player.GetAtk());
+                    Destroy(gameObject);
+                }
             }
-            //bool isDestroy = false;
-
-            //MobController targetMob = other.GetComponent<MobController>();
-            //if(targetMob != null)
-            //{
-            //    targetMob.AttackBy(Owner);
-            //    isDestroy = true;
-            //}
-            
-            //if(RoomSettings.roomType == RoomSettings.ROOM_TYPE.Pvp)
-            //{
-            //    UnitBase targetUnit = other.GetComponent<UnitBase>();
-            //    if (targetUnit != null && !Owner.IsSameTeam(targetUnit.teamNum))
-            //    {
-            //        targetUnit.AttackBy(Owner);
-            //        isDestroy = true;
-            //    }
-            //}
-
-            //if(isDestroy)
-            //{
-            //    Destroy(gameObject);
-            //}
         }
 
         public void InitializeBullet(UnitLocalPlayer owner, Vector3 originalDirection, float lag)

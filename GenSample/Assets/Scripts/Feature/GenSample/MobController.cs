@@ -145,31 +145,6 @@ namespace Assets.Scripts.Feature.GenSample
                 GetComponent<Animator>().SetTrigger("mob_hit_01");
             }
         }
-        
-        //public void AttackBy(UnitLocalPlayer unit)
-        //{
-        //    if (curHp <= 0)
-        //        return;
-
-        //    if (PlayerSettings.IsConnectNetwork())
-        //    {
-        //        List<object> content = new List<object>() { unit.GetAtk() };
-        //        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        //        SendOptions sendOptions = new SendOptions { Reliability = true };
-        //        PhotonNetwork.RaiseEvent((byte)EventCodeType.MobAttackBy, content.ToArray(), raiseEventOptions, sendOptions);
-        //    }
-        //    else
-        //    {
-        //        curHp -= unit.GetAtk();
-        //        if (curHp <= 0f)
-        //            curHp = 0f;
-
-        //        SetGauge();
-        //        MakeHitEffect();
-
-        //        GetComponent<Animator>().SetTrigger("mob_hit_01");
-        //    }
-        //}
 
         private void SetGauge()
         {

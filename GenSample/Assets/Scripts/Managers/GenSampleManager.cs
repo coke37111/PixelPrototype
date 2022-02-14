@@ -265,6 +265,11 @@ namespace Assets.Scripts.Managers
                 curLimitTime += Time.deltaTime;
             }
 
+            if (player != null && player.transform.position.y <= -5f)
+            {
+                player.FallDie();
+            }
+
             SetTextLimitTime();
         }
 
