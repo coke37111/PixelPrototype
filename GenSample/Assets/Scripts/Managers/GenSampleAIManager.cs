@@ -153,7 +153,7 @@ namespace Assets.Scripts.Managers
             else
                 unitLocalPlayer.MakeSpine(playerUnitSetting.GetSpinePath());
 
-            CameraController.Instance.SetOwner(unitLocalPlayer);
+            //CameraController.Instance.SetOwner(unitLocalPlayer);
         }
         private void GenerateMob()
         {

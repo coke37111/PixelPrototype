@@ -401,7 +401,7 @@ namespace Assets.Scripts.Feature.GenSample
                     return;
                 }
 
-                targetMob.AttackBy(this);
+                //targetMob.AttackBy(this);
                 showAtkEff = true;
             }
 

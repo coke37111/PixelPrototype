@@ -377,9 +377,6 @@ namespace Photon.Pun.Demo.Asteroids
 
         public void ChangeGameTypeButtonClicked()
         {
-            // TODO : 리팩토링 전까지 막아두기
-            return;
-
             if (!PhotonNetwork.IsMasterClient)
             {
                 return;

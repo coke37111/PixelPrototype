@@ -12,7 +12,7 @@ namespace Assets.Scripts.Feature.Main.Player
 
         private void OnTriggerEnter(Collider other)
         {
-            if(other.tag == "Player" || other.tag == "Cube")
+            if(other.tag == "Player" || other.tag == "Cube" || other.tag == "Mob")
             {
                 if (!targetList.Contains(other))
                     targetList.Add(other);
@@ -21,7 +21,7 @@ namespace Assets.Scripts.Feature.Main.Player
 
         private void OnTriggerExit(Collider other)
         {
-            if(other.tag == "Player" || other.tag == "Cube")
+            if(other.tag == "Player" || other.tag == "Cube" || other.tag == "Mob")
             {
                 if (targetList.Contains(other))
                     targetList.Remove(other);

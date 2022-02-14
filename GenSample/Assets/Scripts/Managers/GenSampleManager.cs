@@ -1,28 +1,22 @@
 ﻿using Assets.Scripts.Feature.GenSample;
+using Assets.Scripts.Feature.Main.Player;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
 using Assets.Scripts.Util;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
-using static Assets.Scripts.Feature.GenSample.UnitBase;
 using static Assets.Scripts.Settings.PlayerSettings;
 using static Assets.Scripts.Settings.RoomSettings;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Assets.Scripts.Managers
 {
-    /// <summary>
-    /// Photon Network 연결된 상태에서의 게임 처리 로직
-    /// GenSampleScene 자체 실행 로직은 GenSampleAIManager에서 처리
-    /// </summary>
     public class GenSampleManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         public ROOM_TYPE curRoomType = ROOM_TYPE.Raid;
@@ -49,7 +43,6 @@ namespace Assets.Scripts.Managers
         private readonly Vector3 initSpawnPos = new Vector3(0, 1f, -1f);        
         private float curLimitTime;
 
-        private GenSampleAIManager aiManager;
         private GameSettingSO gameSetting;
         private IndicatorSettingSO indicatorSetting;
 
@@ -78,7 +71,6 @@ namespace Assets.Scripts.Managers
                     }
                 case GenSampleState.PlayAI:
                     {
-                        aiManager.Proc();
                         break;
                     }
                 case GenSampleState.Clear:
@@ -219,16 +211,12 @@ namespace Assets.Scripts.Managers
             {
                 RoomSettings.roomType = curRoomType;
 
-                GameObject pfAIManager = ResourceManager.LoadAsset<GameObject>("Prefab/Manager/GenSampleAIManager");
-                if (pfAIManager == null)
-                {
-                    SetGenSampleState(GenSampleState.Idle);
-                    return;
-                }
+                SpawnPlayer();
 
-                GameObject goAIManager = Instantiate(pfAIManager, transform);
-                aiManager = goAIManager.GetComponent<GenSampleAIManager>();
-                aiManager.Build(this);
+                if (curRoomType == ROOM_TYPE.Raid)
+                {
+                    StartCoroutine(SpawnIndicator());
+                }
 
                 SetGenSampleState(GenSampleState.PlayAI);
             }
@@ -291,51 +279,59 @@ namespace Assets.Scripts.Managers
                 infoText.text = $"{(limitTime - curLimitTime):f1}";
         }
 
+        private PlayerController player;
         private void SpawnPlayer()
         {
-            var data = new List<object>();
+            Vector3 spawnPosTo3 = initSpawnPos;
 
-            // Set Sprite
-            PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
-            Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
-            data.Add(selectUnitParts);
+            //// Set SpawnPos
+            //Vector3 orgSpawnPos = initSpawnPos;
+            //if (curRoomType == ROOM_TYPE.Pvp)
+            //{
+            //    int teamNum = -1;
+            //    if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(PLAYER_TEAM, out object playerTeam))
+            //    {
+            //        teamNum = (int)playerTeam;
+            //    }
+            //    data.Add(teamNum);
 
-            // Set AtkType
-            int atkTypeIdx = UnityEngine.Random.Range(0, Enum.GetValues(typeof(ATK_TYPE)).Length);
-            data.Add(atkTypeIdx);
+            //    if (teamNum < 0)
+            //    {
+            //        float spawnAreaX = UnityEngine.Random.Range(this.spawnAreaX.x, this.spawnAreaX.y);
+            //        float spawnAreaZ = UnityEngine.Random.Range(this.spawnAreaZ.x, this.spawnAreaZ.y);
 
-            // Set Spine
-            data.Add(playerUnitSetting.GetSpinePath());
-            data.Add(UnitSettings.useSpine());
+            //        Vector3 spawnPoint = new Vector3(spawnAreaX, 0f, spawnAreaZ);
+            //        orgSpawnPos += spawnPoint;
+            //    }
+            //    else
+            //    {
+            //        orgSpawnPos = teamNum == 0 ? orgSpawnPos + Vector3.left : orgSpawnPos + Vector3.right;
+            //    }
+            //}
 
-            // Set SpawnPos
-            Vector3 orgSpawnPos = initSpawnPos;
-            if (curRoomType == ROOM_TYPE.Pvp)
+            if (PlayerSettings.IsConnectNetwork())
             {
-                int teamNum = -1;
-                if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(PLAYER_TEAM, out object playerTeam))
-                {
-                    teamNum = (int)playerTeam;
-                }
-                data.Add(teamNum);
+                var data = new List<object>();
 
-                if (teamNum < 0)
-                {
-                    float spawnAreaX = UnityEngine.Random.Range(this.spawnAreaX.x, this.spawnAreaX.y);
-                    float spawnAreaZ = UnityEngine.Random.Range(this.spawnAreaZ.x, this.spawnAreaZ.y);
+                // Set Spine
+                PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
+                string spinePath = playerUnitSetting.GetSpinePath();
+                data.Add(spinePath);
+                data.Add(UnityEngine.Random.Range(0, 2));
 
-                    Vector3 spawnPoint = new Vector3(spawnAreaX, 0f, spawnAreaZ);
-                    orgSpawnPos += spawnPoint;
-                }
-                else
-                {
-                    orgSpawnPos = teamNum == 0 ? orgSpawnPos + Vector3.left : orgSpawnPos + Vector3.right;
-                }
+                GameObject goPlayer = PhotonNetwork.Instantiate(PrefabPath.PlayerPath, spawnPosTo3, Quaternion.identity, 0, data.ToArray());
+                player = goPlayer.GetComponent<PlayerController>();
+
+                CameraController.Instance.SetOwner(player);
             }
+            else
+            {
+                GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>(PrefabPath.PlayerPath);
+                GameObject goPlayer = Instantiate(pfPlayer, spawnPosTo3, Quaternion.identity, null);
+                player = goPlayer.GetComponent<PlayerController>();
 
-            GameObject netGoPlayer = PhotonNetwork.Instantiate(Path.Combine("Prefab", "Unit/NetworkPlayer"), orgSpawnPos, Quaternion.identity, 0, data.ToArray());
-            UnitNetworkPlayer unit = netGoPlayer.GetComponent<UnitNetworkPlayer>();
-            CameraController.Instance.SetOwner(unit);
+                CameraController.Instance.SetOwner(player);
+            }      
         }
 
         private void CheckEndOfGame(bool isForce = false)
@@ -528,12 +524,23 @@ namespace Assets.Scripts.Managers
             float scaleX = 3f;
             float scaleZ = 3f;
 
-            var data = new List<object>();
-            data.Add(limitTime);
-            data.Add(scaleX);
-            data.Add(scaleZ);
+            if (PlayerSettings.IsConnectNetwork())
+            {
+                var data = new List<object>();
+                data.Add(limitTime);
+                data.Add(scaleX);
+                data.Add(scaleZ);
 
-            PhotonNetwork.InstantiateRoomObject(pfPath, initPos, Quaternion.identity, 0, data.ToArray());
+                PhotonNetwork.InstantiateRoomObject(pfPath, initPos, Quaternion.identity, 0, data.ToArray());
+            }
+            else
+            {
+                GameObject pfIndicator = ResourceManager.LoadAsset<GameObject>(pfPath);
+                GameObject goIndicator = Instantiate(pfIndicator, initPos, Quaternion.identity, null);
+                Indicator indicator = goIndicator.GetComponent<Indicator>();
+                indicator.Init(limitTime, scaleX, scaleZ);
+                indicator.RegisterKnockbackListener(player.Knockback);
+            }
         }
 
         private IEnumerator SpawnIndicator()

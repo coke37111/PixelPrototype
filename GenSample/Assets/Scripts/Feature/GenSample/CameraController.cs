@@ -1,3 +1,4 @@
+using Assets.Scripts.Feature.Main.Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace Assets.Scripts.Feature.GenSample
     public class CameraController : MonoBehaviour
     {
         private static CameraController _instance;
-        private UnitLocalPlayer _unitLocalPlayer;
+        private PlayerController _playerContoller;
 
         private void Start()
         {
@@ -21,14 +22,14 @@ namespace Assets.Scripts.Feature.GenSample
 
         }
 
-        public void SetOwner(UnitLocalPlayer unitLocalPlayer)
+        public void SetOwner(PlayerController player)
         {
-            if (_unitLocalPlayer != null)
-                _unitLocalPlayer.OnChnagePosition -= UnitController_OnChnagePosition;
+            if (_playerContoller != null)
+                _playerContoller.OnChangePosition -= UnitController_OnChnagePosition;
 
-            _unitLocalPlayer = unitLocalPlayer;
+            _playerContoller = player;
 
-            _unitLocalPlayer.OnChnagePosition += UnitController_OnChnagePosition;
+            _playerContoller.OnChangePosition += UnitController_OnChnagePosition;
         }
 
         private void UnitController_OnChnagePosition(Vector3 position)

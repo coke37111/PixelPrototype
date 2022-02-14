@@ -7,6 +7,7 @@ using Assets.Scripts.Util;
 using Photon.Pun;
 using Photon.Realtime;
 using Spine.Unity;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static Assets.Scripts.Settings.PlayerSettings;
@@ -74,6 +75,8 @@ namespace Assets.Scripts.Feature.Main.Player
         private PlayerAttackRange playerAttackRangeR;
         private Vector3 fireDir;
 
+        public event Action<Vector3> OnChangePosition;
+
         public enum ATK_TYPE
         {
             Melee = 0,
@@ -95,7 +98,7 @@ namespace Assets.Scripts.Feature.Main.Player
             MakeSpine(spinePath);
 
             Init();
-            SetAtkType(Random.Range(0, 2));
+            SetAtkType(UnityEngine.Random.Range(0, 2));
         }
 
         // Update is called once per frame
@@ -125,7 +128,7 @@ namespace Assets.Scripts.Feature.Main.Player
 
         private void OnCollisionEnter(Collision coll)
         {
-            if (coll.gameObject.tag == "Cube")
+            if (coll.gameObject.tag == "Cube" || coll.gameObject.tag == "Ground")
             {
                 canJump = true;
             }
@@ -183,7 +186,8 @@ namespace Assets.Scripts.Feature.Main.Player
                         int bombPowerLevel = (int)data[2];
                         int bombRangeLevel = (int)data[3];
 
-                        Transform parent = FindObjectOfType<CubeContainer>().transform;
+                        Transform parent = FindObjectOfType<CubeContainer>()?
+                            FindObjectOfType<CubeContainer>().transform : null;
                         GameObject pfCubeRoot = ResourceManager.LoadAsset<GameObject>(PrefabPath.EditCubePath);
                         GameObject goCubeRoot = Instantiate(pfCubeRoot, bombPos, Quaternion.identity, parent);
                         EditCube cubeRoot = goCubeRoot.GetComponent<EditCube>();
@@ -204,6 +208,20 @@ namespace Assets.Scripts.Feature.Main.Player
 
                         float damage = (float)data[1];
                         AttackBy(damage);
+                        break;
+                    }
+                case EventCodeType.Knockback:
+                    {
+                        float centerX = (float)data[0];
+                        float centerZ = (float)data[1];
+
+                        Knockback(centerX, centerZ);
+                        break;
+                    }
+                case EventCodeType.MobDie:
+                case EventCodeType.Fail:
+                    {
+                        SetControllable(false);
                         break;
                     }
             }
@@ -305,6 +323,8 @@ namespace Assets.Scripts.Feature.Main.Player
 
             if (isMove)
                 fireDir = dir;
+
+            OnChangePosition?.Invoke(transform.position);
         }
 
         private void ChangeDir(bool isLeftDir)
@@ -336,7 +356,8 @@ namespace Assets.Scripts.Feature.Main.Player
                 }
                 else
                 {
-                    Transform parent = FindObjectOfType<CubeContainer>().transform;
+                    Transform parent = FindObjectOfType<CubeContainer>() ?
+                        FindObjectOfType<CubeContainer>().transform : null;
                     GameObject pfCubeRoot = ResourceManager.LoadAsset<GameObject>(PrefabPath.EditCubePath);
                     GameObject goCubeRoot = Instantiate(pfCubeRoot, bombPos, Quaternion.identity, parent);
                     EditCube cubeRoot = goCubeRoot.GetComponent<EditCube>();
@@ -539,19 +560,7 @@ namespace Assets.Scripts.Feature.Main.Player
                 }
                 effL.transform.localPosition = Vector3.zero;
                 effL.GetComponent<ParticleSystem>().Play();
-
-                List<Collider> targetList = playerAttackRangeL.GetTargetList();
-                foreach (Collider coll in targetList)
-                {
-                    if (coll.GetComponent<PlayerController>())
-                    {
-                        coll.GetComponent<PlayerController>().RaiseAttackBy(playerUnitSetting.atk);
-                    }
-                    if (coll.GetComponent<Cube>())
-                    {
-                        coll.GetComponent<Cube>().Hit(playerUnitSetting.atk);
-                    }
-                }
+                AttackToTarget();
             }
             else
             {
@@ -563,18 +572,29 @@ namespace Assets.Scripts.Feature.Main.Player
                 }
                 effR.transform.localPosition = Vector3.zero;
                 effR.GetComponent<ParticleSystem>().Play();
+                AttackToTarget();
+            }
+        }
 
-                List<Collider> targetList = playerAttackRangeR.GetTargetList();
-                foreach (Collider coll in targetList)
+        private void AttackToTarget()
+        {
+            List<Collider> targetList = playerAttackRangeL.GetTargetList();
+            foreach (Collider coll in targetList)
+            {
+                if(RoomSettings.roomType != RoomSettings.ROOM_TYPE.Raid)
                 {
                     if (coll.GetComponent<PlayerController>())
                     {
                         coll.GetComponent<PlayerController>().RaiseAttackBy(playerUnitSetting.atk);
                     }
-                    if (coll.GetComponent<Cube>())
-                    {
-                        coll.GetComponent<Cube>().Hit(playerUnitSetting.atk);
-                    }
+                }
+                if (coll.GetComponent<Cube>())
+                {
+                    coll.GetComponent<Cube>().Hit(playerUnitSetting.atk);
+                }
+                if (coll.GetComponent<MobController>())
+                {
+                    coll.GetComponent<MobController>().AttackBy(playerUnitSetting.atk);
                 }
             }
         }
@@ -650,6 +670,23 @@ namespace Assets.Scripts.Feature.Main.Player
         public float GetAtk()
         {
             return playerUnitSetting.atk;
+        }
+
+        public void Knockback(Vector3 pos)
+        {
+            Knockback(pos.x, pos.z);
+        }
+
+        public void Knockback(float centerX, float centerZ)
+        {
+            var distance = Vector3.Distance(new Vector3(centerX, transform.position.y, centerZ), transform.position);
+
+            if (canJump && distance <= 1.3f)
+            {
+                Vector3 diffPos = transform.position - new Vector3(centerX, transform.position.y, centerZ);
+                Vector3 dir = diffPos.normalized;
+                rb.AddForce(dir * 300f + Vector3.up * 150f);
+            }
         }
     }
 }
