@@ -361,12 +361,12 @@ namespace Photon.Pun.Demo.Asteroids
                         PhotonNetwork.LoadLevel(GameSceneName);
                         break;
                     }
-                case RoomSettings.ROOM_TYPE.Sandbox:
-                    {
-                        string SandBoxSceneName = "SandboxScene";
-                        PhotonNetwork.LoadLevel(SandBoxSceneName);
-                        break;
-                    }
+                //case RoomSettings.ROOM_TYPE.Sandbox:
+                //    {
+                //        string SandBoxSceneName = "SandboxScene";
+                //        PhotonNetwork.LoadLevel(SandBoxSceneName);
+                //        break;
+                //    }
                 case RoomSettings.ROOM_TYPE.Bomberman:
                     {
                         PhotonNetwork.LoadLevel("BombermanSceneNew");

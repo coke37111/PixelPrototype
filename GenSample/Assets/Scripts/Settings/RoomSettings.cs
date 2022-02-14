@@ -11,7 +11,7 @@ namespace Assets.Scripts.Settings
             Bomberman,
             Raid,
             Pvp,
-            Sandbox,
+            //Sandbox,
         }
 
         public static ROOM_TYPE roomType;
