@@ -594,6 +594,7 @@ namespace Assets.Scripts.Feature.Main.Player
                             return;
 
                         targetPlayer.RaiseAttackBy(playerUnitSetting.atk);
+                        targetPlayer.Knockback(transform.position, playerUnitSetting.meleeKnockbackPower);
                     }
                 }
                 if (coll.GetComponent<Cube>())
@@ -701,6 +702,13 @@ namespace Assets.Scripts.Feature.Main.Player
             }
         }
 
+        public void Knockback(Vector3 pos, Vector2 power)
+        {
+            Vector3 diffPos = transform.position - pos;
+            Vector3 dir = diffPos.normalized;
+            rb.AddForce(dir * power.x + Vector3.up * power.y);
+        }
+
         private void SetTeamNum()
         {
             teamNum = -1;
@@ -717,6 +725,11 @@ namespace Assets.Scripts.Feature.Main.Player
         public int GetTeamNum()
         {
             return teamNum;
+        }
+
+        public Vector2 GetMissileKnockbackPower()
+        {
+            return playerUnitSetting.missileKnockbackPower;
         }
     }
 }

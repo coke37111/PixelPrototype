@@ -243,10 +243,6 @@ namespace Assets.Scripts.Managers
                 props.Add(PLAYER_DIE, false);
                 props.Add(FAIL_GAME, false);
 
-                // TODO : FreeForAll 일때 -1
-                //props.Add(PLAYER_TEAM, Random.Range(0, 2));
-                props.Add(PLAYER_TEAM, -1);
-
                 PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
                 SetGenSampleState(GenSampleState.Idle);

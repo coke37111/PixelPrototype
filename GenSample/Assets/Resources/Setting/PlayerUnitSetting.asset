@@ -19,6 +19,8 @@ MonoBehaviour:
   hp: 100
   fireDelay: 0.5
   jumpPower: 500
+  meleeKnockbackPower: {x: 300, y: 150}
+  missileKnockbackPower: {x: 300, y: 150}
   unitTypes:
   - char_st_01
   - char_st_01_human_l

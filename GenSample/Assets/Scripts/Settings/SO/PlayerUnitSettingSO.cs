@@ -19,6 +19,10 @@ namespace Assets.Scripts.Settings.SO
         public float fireDelay;
         [Header("- 점프 파워")]
         public float jumpPower;
+        [Header("- 근거리 넉백 파워")]
+        public Vector2 meleeKnockbackPower;
+        [Header("- 미사일 넉백 파워")]
+        public Vector2 missileKnockbackPower;
         [Header("- 스킨목록")]
         public string[] unitTypes;
         [Header("- 스파인목록")]
