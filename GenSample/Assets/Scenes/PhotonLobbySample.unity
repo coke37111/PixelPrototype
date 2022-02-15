@@ -5201,7 +5201,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1310044697}
         m_TargetAssemblyTypeName: Photon.Pun.Demo.Asteroids.DummyLobbyMainPanel,
           Assembly-CSharp
-        m_MethodName: ChangeGameTypeButtonClicked
+        m_MethodName: ChangeTeamButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
