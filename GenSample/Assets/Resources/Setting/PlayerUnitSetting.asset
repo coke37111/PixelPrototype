@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: PlayerUnitSetting
   m_EditorClassIdentifier: 
   speed: 3
-  atk: 5
+  atk: 10
   atkDelay: 0.2
   def: 5
-  hp: 100
+  hp: 200
   fireDelay: 0.5
   jumpPower: 500
   meleeKnockbackPower: {x: 200, y: 700}
