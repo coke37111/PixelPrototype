@@ -14,6 +14,41 @@ namespace Assets.Scripts.Feature.Main.Cubes
         private List<Vector3> spawnPosList = new List<Vector3>();
         private List<CubeData> normalCubeData = new List<CubeData>();
 
+        private void Update()
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                if (Input.GetKeyDown(KeyCode.LeftBracket))
+                {
+                    ModifyPosCubes(new Vector3(0f, 0f, -0.5f));
+                }
+                else if (Input.GetKeyDown(KeyCode.RightBracket))
+                {
+                    ModifyPosCubes(new Vector3(0f, 0f, 0.5f));
+                }
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.LeftBracket))
+                {
+                    ModifyPosCubes(new Vector3(-0.5f, 0f, 0f));
+
+                }
+                else if (Input.GetKeyDown(KeyCode.RightBracket))
+                {
+                    ModifyPosCubes(new Vector3(0.5f, 0f, 0f));
+                }
+            }
+        }
+
+        private void ModifyPosCubes(Vector3 pos)
+        {
+            foreach (EditCube cube in GetAllCubes())
+            {
+                cube.transform.position += pos;
+            }
+        }
+
         public List<EditCube> GetAllCubes()
         {
             List<EditCube> results = new List<EditCube>();
