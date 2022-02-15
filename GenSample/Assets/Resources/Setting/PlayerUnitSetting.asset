@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: PlayerUnitSetting
   m_EditorClassIdentifier: 
   speed: 3
-  atk: 10
+  atk: 5
   atkDelay: 0.2
   def: 5
   hp: 100
   fireDelay: 0.5
   jumpPower: 500
-  meleeKnockbackPower: {x: 300, y: 150}
-  missileKnockbackPower: {x: 300, y: 150}
+  meleeKnockbackPower: {x: 200, y: 700}
+  missileKnockbackPower: {x: 100, y: 500}
   unitTypes:
   - char_st_01
   - char_st_01_human_l
