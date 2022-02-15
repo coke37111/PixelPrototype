@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 4759897212440306231}
   - component: {fileID: 38804636071109251}
   - component: {fileID: 7589663338302890782}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GuardCube
-  m_TagString: Untagged
+  m_TagString: Cube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 18

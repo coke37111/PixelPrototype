@@ -266,8 +266,8 @@ namespace Assets.Scripts.Feature.Main.Player
 
             isInvincible = false;
 
-            effectContainerL = transform.Find("UnitBase/SpineRoot/Effect/L");
-            effectContainerR = transform.Find("UnitBase/SpineRoot/Effect/R");
+            effectContainerL = transform.Find("Effect/L");
+            effectContainerR = transform.Find("Effect/R");
             playerAttackRangeL = effectContainerL.GetComponent<PlayerAttackRange>();
             playerAttackRangeR = effectContainerR.GetComponent<PlayerAttackRange>();
 
@@ -414,9 +414,8 @@ namespace Assets.Scripts.Feature.Main.Player
 
         public void MakeSpine(string spinePath)
         {
-            Transform root = transform.Find("UnitBase/SpineRoot");
             GameObject spineBase = ResourceManager.LoadAsset<GameObject>(spinePath);
-            Instantiate(spineBase, root);
+            Instantiate(spineBase, transform);
         }
 
         private void Jump()
