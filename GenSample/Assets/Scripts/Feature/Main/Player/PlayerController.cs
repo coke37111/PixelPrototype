@@ -77,6 +77,8 @@ namespace Assets.Scripts.Feature.Main.Player
 
         public event Action<Vector3> OnChangePosition;
 
+        private int teamNum;
+
         public enum ATK_TYPE
         {
             Melee = 0,
@@ -273,6 +275,8 @@ namespace Assets.Scripts.Feature.Main.Player
 
             ChangeDir(isLeftDir);
             fireDir = isLeftDir ? Vector3.left : Vector3.right;
+
+            SetTeamNum();
         }
 
         private void Move()
@@ -581,9 +585,14 @@ namespace Assets.Scripts.Feature.Main.Player
             {
                 if(RoomSettings.roomType != RoomSettings.ROOM_TYPE.Raid)
                 {
-                    if (coll.GetComponent<PlayerController>())
+                    PlayerController targetPlayer = coll.GetComponent<PlayerController>();
+                    if (targetPlayer)
                     {
-                        coll.GetComponent<PlayerController>().RaiseAttackBy(playerUnitSetting.atk);
+                        if (targetPlayer.GetTeamNum() >= 0 &&
+                            targetPlayer.GetTeamNum() == GetTeamNum())
+                            return;
+
+                        targetPlayer.RaiseAttackBy(playerUnitSetting.atk);
                     }
                 }
                 if (coll.GetComponent<Cube>())
@@ -685,6 +694,24 @@ namespace Assets.Scripts.Feature.Main.Player
                 Vector3 dir = diffPos.normalized;
                 rb.AddForce(dir * 300f + Vector3.up * 150f);
             }
+        }
+
+        private void SetTeamNum()
+        {
+            teamNum = -1;
+            if (PlayerSettings.IsConnectNetwork())
+            {
+                object curTeamNum;
+                if (photonView.Owner.CustomProperties.TryGetValue(PlayerSettings.PLAYER_TEAM, out curTeamNum))
+                {
+                    teamNum = (int)curTeamNum;
+                }
+            }
+        }
+
+        public int GetTeamNum()
+        {
+            return teamNum;
         }
     }
 }

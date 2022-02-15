@@ -31,6 +31,10 @@ namespace Assets.Scripts.Feature.GenSample
                 PlayerController target = other.GetComponent<PlayerController>();
                 if(target != player)
                 {
+                    if (target.GetTeamNum() >= 0 &&
+                        target.GetTeamNum() == player.GetTeamNum())
+                        return;
+
                     target.RaiseAttackBy(player.GetAtk());
                     Destroy(gameObject);
                 }
