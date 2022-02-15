@@ -41,6 +41,10 @@ namespace Photon.Pun.Demo.Asteroids
         public Button StartGameButton;
         public GameObject PlayerListEntryPrefab;
         public TMPro.TextMeshProUGUI RoomTypeText;
+        
+        private int curTeamNum;
+        public TMPro.TextMeshProUGUI teamNumText;
+
 
         private Dictionary<string, RoomInfo> cachedRoomList;
         private Dictionary<string, GameObject> roomListEntries;
@@ -188,10 +192,14 @@ namespace Photon.Pun.Demo.Asteroids
 
             StartGameButton.gameObject.SetActive(CheckPlayersReady());
 
+            curTeamNum = 0;
+            SetTextTeamNum(curTeamNum);
+
             Hashtable props = new Hashtable
             {
                 {PlayerSettings.PLAYER_LOADED_LEVEL, false },
                 {PlayerSettings.PLAYER_DIE, false },
+                {PlayerSettings.PLAYER_TEAM, curTeamNum },
             };
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
@@ -266,6 +274,12 @@ namespace Photon.Pun.Demo.Asteroids
                 if (changedProps.TryGetValue(AsteroidsGame.PLAYER_READY, out isPlayerReady))
                 {
                     entry.GetComponent<DummyPlayerListEntry>().SetPlayerReady((bool) isPlayerReady);
+                }
+
+                object teamNum;
+                if(changedProps.TryGetValue(PlayerSettings.PLAYER_TEAM, out teamNum))
+                {
+                    entry.GetComponent<DummyPlayerListEntry>().SetPlayerTeam((int)teamNum);
                 }
             }
 
@@ -395,6 +409,21 @@ namespace Photon.Pun.Demo.Asteroids
             PhotonNetwork.CurrentRoom.SetCustomProperties(props);
         }
 
+        public void ChangeTeamButtonClicked()
+        {
+            curTeamNum++;
+            if (curTeamNum > 1)
+                curTeamNum = 0;
+
+            SetTextTeamNum(curTeamNum);
+
+            Hashtable props = new Hashtable
+            {
+                {PlayerSettings.PLAYER_TEAM, curTeamNum },
+            };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+        }
+
         #endregion
 
         private bool CheckPlayersReady()
@@ -487,6 +516,11 @@ namespace Photon.Pun.Demo.Asteroids
 
                 roomListEntries.Add(info.Name, entry);
             }
+        }
+
+        private void SetTextTeamNum(int teamNum)
+        {
+            teamNumText.text = $"Team {teamNum}";
         }
     }
 }

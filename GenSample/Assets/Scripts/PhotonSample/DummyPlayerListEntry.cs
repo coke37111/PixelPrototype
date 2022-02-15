@@ -14,6 +14,7 @@ using UnityEngine.UI;
 using ExitGames.Client.Photon;
 using Photon.Realtime;
 using Photon.Pun.UtilityScripts;
+using Assets.Scripts.Util;
 
 namespace Photon.Pun.Demo.Asteroids
 {
@@ -21,6 +22,7 @@ namespace Photon.Pun.Demo.Asteroids
     {
         [Header("UI References")]
         public TMPro.TextMeshProUGUI PlayerNameText;
+        public TMPro.TextMeshProUGUI PlayerTeamText;
 
         public Image PlayerColorImage;
         public Button PlayerReadyButton;
@@ -92,6 +94,11 @@ namespace Photon.Pun.Demo.Asteroids
         {
             PlayerReadyButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = playerReady ? "Ready!" : "Ready?";
             PlayerReadyImage.enabled = playerReady;
+        }
+
+        public void SetPlayerTeam(int team)
+        {
+            PlayerTeamText.text = $"Team {team}";
         }
     }
 }
