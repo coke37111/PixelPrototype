@@ -516,7 +516,7 @@ namespace Assets.Scripts.Managers
             Vector3 groundCenter = collGround.transform.localPosition;
             Vector3 groundScale = collGround.transform.localScale;
 
-            Vector3 spawnRadius = groundScale * .5f * spawnRange;
+            Vector3 spawnRadius = groundScale * 0.5f * spawnRange;
 
             spawnAreaX = new Vector2(-spawnRadius.x, spawnRadius.x) + Vector2.one * groundCenter.x;
             spawnAreaZ = new Vector2(-spawnRadius.z, spawnRadius.z) + Vector2.one * groundCenter.z;
