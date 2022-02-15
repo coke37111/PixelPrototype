@@ -416,6 +416,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textAlert: {fileID: 7724326773484394542}
   trArea: {fileID: 7724326773252163935}
+  knockbackPower: {x: 300, y: 150}
 --- !u!95 &7724326773613461883
 Animator:
   serializedVersion: 3

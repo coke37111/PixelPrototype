@@ -187,7 +187,7 @@ namespace Assets.Scripts.Managers
             GameObject goIndicator = Instantiate(pfIndicator, initPos, Quaternion.identity, unitContainer);
             Indicator indicator = goIndicator.GetComponent<Indicator>();
             indicator.Init(limitTime, scaleX, scaleZ);
-            indicator.RegisterKnockbackListener(Knockback);
+            //indicator.RegisterKnockbackListener(Knockback);
         }
         public void Knockback(Vector3 center)
         {

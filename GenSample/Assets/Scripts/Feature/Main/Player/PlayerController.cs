@@ -214,10 +214,11 @@ namespace Assets.Scripts.Feature.Main.Player
                     }
                 case EventCodeType.Knockback:
                     {
-                        float centerX = (float)data[0];
-                        float centerZ = (float)data[1];
+                        Vector3 pos = (Vector3)data[0];
+                        float radius = (float)data[1];
+                        Vector2 power = (Vector2)data[2];
 
-                        Knockback(centerX, centerZ);
+                        Knockback(pos, radius, power);
                         break;
                     }
                 case EventCodeType.MobDie:
@@ -679,20 +680,24 @@ namespace Assets.Scripts.Feature.Main.Player
             return playerUnitSetting.atk;
         }
 
-        public void Knockback(Vector3 pos)
+        public void Knockback(object[] param)
         {
-            Knockback(pos.x, pos.z);
+            Vector3 pos = (Vector3)param[0];
+            float radius = (float)param[1];
+            Vector2 power = (Vector2)param[2];
+
+            Knockback(pos, radius, power);
         }
 
-        public void Knockback(float centerX, float centerZ)
+        public void Knockback(Vector3 pos, float radius, Vector2 power)
         {
-            var distance = Vector3.Distance(new Vector3(centerX, transform.position.y, centerZ), transform.position);
+            var distance = Vector3.Distance(pos, transform.position);
 
-            if (canJump && distance <= 1.3f)
+            if (canJump && distance <= radius)
             {
-                Vector3 diffPos = transform.position - new Vector3(centerX, transform.position.y, centerZ);
+                Vector3 diffPos = transform.position - new Vector3(pos.x, transform.position.y, pos.z);
                 Vector3 dir = diffPos.normalized;
-                rb.AddForce(dir * 300f + Vector3.up * 150f);
+                rb.AddForce(dir * power.x + Vector3.up * power.y);
             }
         }
 

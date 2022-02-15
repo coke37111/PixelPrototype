@@ -1,5 +1,7 @@
-﻿using Assets.Scripts.Managers;
+﻿using Assets.Scripts.Feature.Main.Player;
+using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Util;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
@@ -14,6 +16,8 @@ namespace Assets.Scripts.Feature.GenSample
     {
         public Text textAlert;
         public Transform trArea;
+        [Header("x=밀어내는power/y=띄우는power")]
+        public Vector2 knockbackPower = new Vector2(300f, 150f);
 
         private float timeLimit;
 
@@ -21,7 +25,7 @@ namespace Assets.Scripts.Feature.GenSample
 
         private bool isConnected;
 
-        private UnityAction<Vector3> knockbackCB;
+        private UnityAction<object[]> knockbackCB;
         private bool _tryDestroyed;
 
         #region UNITY
@@ -65,7 +69,7 @@ namespace Assets.Scripts.Feature.GenSample
             trArea.localScale = new Vector3(scaleX, trArea.localScale.y, scaleZ);
         }
 
-        public void RegisterKnockbackListener(UnityAction<Vector3> knockbackCB)
+        public void RegisterKnockbackListener(UnityAction<object[]> knockbackCB)
         {
             this.knockbackCB = knockbackCB;
         }
@@ -77,6 +81,9 @@ namespace Assets.Scripts.Feature.GenSample
 
         private void DestroyIndicator()
         {
+            Vector3 trPos = transform.position;
+            float radius = trArea.localScale.x * 0.5f;
+
             if (isConnected)
             {
                 if (_tryDestroyed == false)
@@ -85,24 +92,19 @@ namespace Assets.Scripts.Feature.GenSample
 
                     if (PhotonNetwork.IsMasterClient)
                     {
-                        Vector3 trPos = transform.position;
-
-                        List<object> content = new List<object>() { trPos.x, trPos.z };
+                        List<object> content = new List<object>() { trPos, radius, knockbackPower };
                         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
                         SendOptions sendOptions = new SendOptions { Reliability = true };
                         PhotonNetwork.RaiseEvent((byte)PlayerSettings.EventCodeType.Knockback, content.ToArray(), raiseEventOptions, sendOptions);
 
-                        if (PhotonNetwork.IsMasterClient)
-                        {
-                            PhotonView photonView = GetComponent<PhotonView>();
-                            PhotonNetwork.Destroy(photonView);
-                        }
+                        PhotonView photonView = GetComponent<PhotonView>();
+                        PhotonNetwork.Destroy(photonView);
                     }
                 }
             }
             else
             {
-                knockbackCB?.Invoke(transform.position);
+                knockbackCB?.Invoke(new object[] { trPos, radius, knockbackPower });
                 Destroy(gameObject);
             }
         }
