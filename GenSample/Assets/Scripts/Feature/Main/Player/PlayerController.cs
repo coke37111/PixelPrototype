@@ -559,7 +559,7 @@ namespace Assets.Scripts.Feature.Main.Player
                 }
                 effL.transform.localPosition = Vector3.zero;
                 effL.GetComponent<ParticleSystem>().Play();
-                AttackToTarget();
+                AttackToTarget(playerAttackRangeL.GetTargetList());
             }
             else
             {
@@ -571,13 +571,12 @@ namespace Assets.Scripts.Feature.Main.Player
                 }
                 effR.transform.localPosition = Vector3.zero;
                 effR.GetComponent<ParticleSystem>().Play();
-                AttackToTarget();
+                AttackToTarget(playerAttackRangeR.GetTargetList());
             }
         }
 
-        private void AttackToTarget()
+        private void AttackToTarget(List<Collider> targetList)
         {
-            List<Collider> targetList = playerAttackRangeL.GetTargetList();
             foreach (Collider coll in targetList)
             {
                 if(RoomSettings.roomType != RoomSettings.ROOM_TYPE.Raid)
