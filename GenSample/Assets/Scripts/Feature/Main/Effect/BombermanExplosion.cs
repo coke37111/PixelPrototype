@@ -2,6 +2,7 @@
 using Assets.Scripts.Feature.Main.Cubes;
 using Assets.Scripts.Util;
 using UnityEngine;
+using Assets.Scripts.Feature.GenSample;
 
 namespace Assets.Scripts.Feature.Main
 {
@@ -27,6 +28,14 @@ namespace Assets.Scripts.Feature.Main
                 Cube cube = other.GetComponent<Cube>();
                 if (cube != null)
                     cube.Hit(damage);
+            }
+            if(other.tag == "Mob")
+            {
+                MobController mob = other.GetComponent<MobController>();
+                if (mob)
+                {
+                    mob.AttackBy(damage);
+                }
             }
         }
     }
