@@ -20,7 +20,7 @@
 
 	SubShader
 	{
-		Tags { "RenderType"="TransparentCutout" "Queue"="AlphaTest" "IgnoreProjector"="True" }
+		Tags { "RenderType"="Transparent" "Queue"="AlphaTest" "IgnoreProjector"="True" }
 		
 		Cull [_Cull]
 
