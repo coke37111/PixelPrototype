@@ -16,29 +16,29 @@ namespace Assets.Scripts.Feature.Main.Cubes
 
         private void Update()
         {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                if (Input.GetKeyDown(KeyCode.LeftBracket))
-                {
-                    ModifyPosCubes(new Vector3(0f, 0f, -0.5f));
-                }
-                else if (Input.GetKeyDown(KeyCode.RightBracket))
-                {
-                    ModifyPosCubes(new Vector3(0f, 0f, 0.5f));
-                }
-            }
-            else
-            {
-                if (Input.GetKeyDown(KeyCode.LeftBracket))
-                {
-                    ModifyPosCubes(new Vector3(-0.5f, 0f, 0f));
+            //if (Input.GetKey(KeyCode.LeftShift))
+            //{
+            //    if (Input.GetKeyDown(KeyCode.LeftBracket))
+            //    {
+            //        ModifyPosCubes(new Vector3(0f, 0f, -0.5f));
+            //    }
+            //    else if (Input.GetKeyDown(KeyCode.RightBracket))
+            //    {
+            //        ModifyPosCubes(new Vector3(0f, 0f, 0.5f));
+            //    }
+            //}
+            //else
+            //{
+            //    if (Input.GetKeyDown(KeyCode.LeftBracket))
+            //    {
+            //        ModifyPosCubes(new Vector3(-0.5f, 0f, 0f));
 
-                }
-                else if (Input.GetKeyDown(KeyCode.RightBracket))
-                {
-                    ModifyPosCubes(new Vector3(0.5f, 0f, 0f));
-                }
-            }
+            //    }
+            //    else if (Input.GetKeyDown(KeyCode.RightBracket))
+            //    {
+            //        ModifyPosCubes(new Vector3(0.5f, 0f, 0f));
+            //    }
+            //}
         }
 
         private void ModifyPosCubes(Vector3 pos)
