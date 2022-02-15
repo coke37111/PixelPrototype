@@ -19,7 +19,7 @@
 		_Metallic ("Metallic", Range(0,1)) = 0.0
 	}
 	SubShader {
-		Tags { "RenderType"="TransparentCutout" }
+		Tags { "RenderType"="Transparent" }
 		Cull [_Cull]
 		
 		CGPROGRAM

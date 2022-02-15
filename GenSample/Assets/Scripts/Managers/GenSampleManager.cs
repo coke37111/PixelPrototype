@@ -538,8 +538,8 @@ namespace Assets.Scripts.Managers
             Vector3 initPos = new Vector3(hitPoint.x, 0.5f, hitPoint.z);
 
             float limitTime = 2f;
-            float scaleX = 3f;
-            float scaleZ = 3f;
+            float scaleX = 5f;
+            float scaleZ = 5f;
 
             if (PlayerSettings.IsConnectNetwork())
             {

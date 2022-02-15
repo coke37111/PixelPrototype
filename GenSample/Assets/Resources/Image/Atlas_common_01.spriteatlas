@@ -67,6 +67,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 9eeb666ceb74f9246aaa742b92d33e86, type: 3}
   - {fileID: 21300000, guid: ccda1e9d0a91445b08abb3958530382a, type: 3}
   - {fileID: 21300000, guid: 1ab3c6cd460f0d64e863efc0f501a567, type: 3}
+  - {fileID: 21300000, guid: 8058280f557b3b0468200adb380125a0, type: 3}
   - {fileID: 21300000, guid: 215d9dff07115427c805c2bc477a4e81, type: 3}
   m_PackedSpriteNamesToIndex:
   - frame_rounded_100
@@ -86,6 +87,7 @@ SpriteAtlas:
   - frame_rounded_64
   - frame_stageframe_01_s2
   - 2
+  - common_circle_01
   - btn_rectangle_01_n_white
   m_RenderDataMap: {}
   m_Tag: Atlas_common_01

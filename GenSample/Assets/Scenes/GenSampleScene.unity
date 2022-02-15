@@ -301,8 +301,8 @@ MonoBehaviour:
   curRoomType: 1
   infoText: {fileID: 1236455606}
   collGround: {fileID: 1596229681}
-  spawnRange: 0.5
-  mapData: {fileID: 11400000, guid: b96aa1ccf0e0b3749a1ce6d907d7409a, type: 2}
+  spawnRange: 1
+  mapData: {fileID: 11400000, guid: cccd3bafb17928d47848e45905a6e8fd, type: 2}
 --- !u!4 &229339700
 Transform:
   m_ObjectHideFlags: 0
@@ -342,7 +342,7 @@ Transform:
   m_GameObject: {fileID: 354998726}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1596229682}
   - {fileID: 2119197861}
@@ -1436,8 +1436,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1596229681}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.01, z: -0.04}
-  m_LocalScale: {x: 7.13, y: 0.01, z: 7.13}
+  m_LocalPosition: {x: 0, y: -0.01, z: 0.5}
+  m_LocalScale: {x: 21, y: 0.01, z: 21}
   m_Children: []
   m_Father: {fileID: 354998727}
   m_RootOrder: 0
@@ -1453,7 +1453,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1596229684

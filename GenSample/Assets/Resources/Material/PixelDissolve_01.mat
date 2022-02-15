@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PixelDissolve_01
-  m_Shader: {fileID: 4800000, guid: f74946136bf9243449cf2f162bbf97ec, type: 3}
+  m_Shader: {fileID: 4800000, guid: 119dbff301af2442a88e75dfea55cabe, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -71,10 +71,15 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DirectionEnum: 1
+    - _DissolveIntensity: 0.5
+    - _DissolvePixelLevel: 80
+    - _DissolveThickness: 0.5
+    - _DissolveThickness2: 0.5
+    - _DistortionLevel: 0.01
     - _DstBlend: 0
     - _End: 1
     - _GlossMapScale: 1
-    - _Glossiness: 0.5
+    - _Glossiness: 1
     - _GlossyReflections: 1
     - _GlowCutoff: 0.6
     - _Metallic: 0
