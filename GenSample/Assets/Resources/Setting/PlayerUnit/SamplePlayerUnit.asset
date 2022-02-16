@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b405b50632984c345b98287212a52a5a, type: 3}
+  m_Name: SamplePlayerUnit
+  m_EditorClassIdentifier: 
+  speed: 3
+  atk: 10
+  atkDelay: 0.2
+  def: 5
+  hp: 200
+  fireDelay: 0.5
+  jumpPower: 500
+  meleeKnockbackPower: {x: 200, y: 700}
+  missileKnockbackPower: {x: 100, y: 500}
+  unitTypes:
+  - char_st_01
+  - char_st_01_human_l
+  - char_st_01_human_m
+  - char_st_01_human_s
+  - human_l
+  - human_m
+  - human_s
+  spineTypes:
+  - Spine/human_m/Spine_human_m_001
+  - Spine/human_m/Spine_human_m_custom_001
+  - Spine/human_m/Spine_human_m_custom_002
+  - Spine/human_m/Spine_human_m_custom_003
+  - Spine/human_m/Spine_human_m_custom_004
+  - Spine/human_m/Spine_human_m_custom_005
+  - Spine/human_m/Spine_human_m_custom_006
+  - Spine/human_m/Spine_human_m_custom_007
+  - Spine/human_m/Spine_human_m_custom_008
+  - Spine/human_m/Spine_human_m_custom_009
+  - Spine/human_m/Spine_human_m_custom_010
+  - Spine/human_m/Spine_human_m_custom_011
+  - Spine/human_m/Spine_human_m_custom_012
+  - Spine/human_m/Spine_human_m_custom_013
+  - Spine/human_m/Spine_human_m_custom_014
+  - Spine/human_m/Spine_human_m_custom_gran_001
+  - Spine/human_m/Spine_human_m_custom_gran_002
+  - Spine/human_m/Spine_human_m_custom_gran_003
+  - Spine/human_m/Spine_human_m_custom_gran_004
+  - Spine/human_m/Spine_human_m_custom_gran_005
+  - Spine/human_m/Spine_human_m_custom_gran_006
