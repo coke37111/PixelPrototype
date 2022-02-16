@@ -294,17 +294,23 @@ namespace Assets.Scripts.Feature.BombermanNew
 
         private void CheckEndOfGame()
         {
-            int livePlayerCnt = 0;
+            int livePlayerCntA = 0;
+            int livePlayerCntB = 0;
 
             foreach (Player p in PhotonNetwork.PlayerList)
             {
                 if (!IsPlayerDie(p))
                 {
-                    livePlayerCnt++;
+                    object teamNum;
+                    if (p.CustomProperties.TryGetValue(PLAYER_TEAM, out teamNum))
+                    {
+                        if ((int)teamNum == 0) livePlayerCntA++;
+                        else if ((int)teamNum == 1) livePlayerCntB++;
+                    }
                 }
             }
 
-            if (livePlayerCnt <= 1)
+            if (livePlayerCntA <= 0 || livePlayerCntB <= 0)
             {
                 if (PhotonNetwork.IsMasterClient)
                 {
