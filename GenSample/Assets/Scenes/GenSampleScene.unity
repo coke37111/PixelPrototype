@@ -303,7 +303,7 @@ MonoBehaviour:
   collGround: {fileID: 1596229681}
   spawnRange: 0.8
   mapData: {fileID: 11400000, guid: cccd3bafb17928d47848e45905a6e8fd, type: 2}
-  playerScale: {x: 2, y: 2.5, z: 2}
+  playerScale: {x: 2, y: 2.2, z: 2}
 --- !u!4 &229339700
 Transform:
   m_ObjectHideFlags: 0
