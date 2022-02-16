@@ -4,6 +4,7 @@ using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
 using Assets.Scripts.Util;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using Spine.Unity;
@@ -212,13 +213,25 @@ namespace Assets.Scripts.Feature.Main.Player
                         AttackBy(damage);
                         break;
                     }
-                case EventCodeType.Knockback:
+                case EventCodeType.IndicatorKnockback:
                     {
                         Vector3 pos = (Vector3)data[0];
                         float radius = (float)data[1];
                         Vector2 power = (Vector2)data[2];
 
                         Knockback(pos, radius, power);
+                        break;
+                    }
+                case EventCodeType.HitKnockback:
+                    {
+                        int senderViewId = (int)data[0];
+                        if (photonView.ViewID != senderViewId)
+                            return;
+
+                        Vector3 pos = (Vector3)data[1];
+                        Vector2 power = (Vector2)data[2];
+
+                        Knockback(pos, power);
                         break;
                     }
                 case EventCodeType.MobDie:
@@ -594,7 +607,7 @@ namespace Assets.Scripts.Feature.Main.Player
                             return;
 
                         targetPlayer.RaiseAttackBy(playerUnitSetting.atk);
-                        targetPlayer.Knockback(transform.position, playerUnitSetting.meleeKnockbackPower);
+                        targetPlayer.RaiseKnockback(transform.position, playerUnitSetting.meleeKnockbackPower);
                     }
                 }
                 if (coll.GetComponent<Cube>())
@@ -703,10 +716,19 @@ namespace Assets.Scripts.Feature.Main.Player
         }
 
         public void Knockback(Vector3 pos, Vector2 power)
-        {
+        {            
             Vector3 diffPos = transform.position - pos;
             Vector3 dir = diffPos.normalized;
             rb.AddForce(dir * power.x + Vector3.up * power.y);
+            Log.Print($"Knockback {pos} {transform.position} {dir}");
+        }
+
+        public void RaiseKnockback(Vector3 pos, Vector2 power)
+        {
+            List<object> content = new List<object>() { photonView.ViewID, pos, power};
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            SendOptions sendOptions = new SendOptions { Reliability = true };
+            PhotonNetwork.RaiseEvent((byte)PlayerSettings.EventCodeType.HitKnockback, content.ToArray(), raiseEventOptions, sendOptions);
         }
 
         private void SetTeamNum()

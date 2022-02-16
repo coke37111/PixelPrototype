@@ -36,7 +36,7 @@ namespace Assets.Scripts.Feature.GenSample
                         return;
 
                     target.RaiseAttackBy(player.GetAtk());
-                    target.Knockback(player.transform.position, player.GetMissileKnockbackPower());
+                    target.RaiseKnockback(player.transform.position, player.GetMissileKnockbackPower());
                     Destroy(gameObject);
                 }
             }else if(other.tag == "Cube")

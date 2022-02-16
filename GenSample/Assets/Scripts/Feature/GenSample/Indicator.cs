@@ -95,7 +95,7 @@ namespace Assets.Scripts.Feature.GenSample
                         List<object> content = new List<object>() { trPos, radius, knockbackPower };
                         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
                         SendOptions sendOptions = new SendOptions { Reliability = true };
-                        PhotonNetwork.RaiseEvent((byte)PlayerSettings.EventCodeType.Knockback, content.ToArray(), raiseEventOptions, sendOptions);
+                        PhotonNetwork.RaiseEvent((byte)PlayerSettings.EventCodeType.IndicatorKnockback, content.ToArray(), raiseEventOptions, sendOptions);
 
                         PhotonView photonView = GetComponent<PhotonView>();
                         PhotonNetwork.Destroy(photonView);

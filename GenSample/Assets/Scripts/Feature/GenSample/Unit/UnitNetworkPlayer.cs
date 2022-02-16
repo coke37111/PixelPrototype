@@ -165,7 +165,7 @@ namespace Assets.Scripts.Feature.GenSample
                         MakeAtkEffect();
                         break;
                     }
-                case EventCodeType.Knockback:
+                case EventCodeType.IndicatorKnockback:
                     {
                         float centerX = (float)data[0];
                         float centerZ = (float)data[1];
