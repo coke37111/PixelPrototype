@@ -1008,6 +1008,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2108468484}
     m_Modifications:
+    - target: {fileID: 2284114504487887693, guid: 9813da23ca473524da21287730eb78af, type: 3}
+      propertyPath: pmaVertexColors
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3574127002380439294, guid: 9813da23ca473524da21287730eb78af, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -1015,6 +1019,10 @@ PrefabInstance:
     - target: {fileID: 6660955374466441941, guid: 9813da23ca473524da21287730eb78af, type: 3}
       propertyPath: m_Name
       value: Spine_human_m_custom_002
+      objectReference: {fileID: 0}
+    - target: {fileID: 6660955374466441941, guid: 9813da23ca473524da21287730eb78af, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7229839809798903619, guid: 9813da23ca473524da21287730eb78af, type: 3}
       propertyPath: m_RootOrder
@@ -1078,6 +1086,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spine_human_m_custom_gran_002
       objectReference: {fileID: 0}
+    - target: {fileID: 840845674397446839, guid: fff07ff5438540f4b8293f1589384ceb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3866891750187846773, guid: fff07ff5438540f4b8293f1589384ceb, type: 3}
       propertyPath: m_RootOrder
       value: 16
@@ -1138,6 +1150,10 @@ PrefabInstance:
     - target: {fileID: 291473902905556058, guid: 7e79d0fbd44b60f459c139c7ec1f223a, type: 3}
       propertyPath: m_Name
       value: Spine_human_s_custom_gran_007
+      objectReference: {fileID: 0}
+    - target: {fileID: 291473902905556058, guid: 7e79d0fbd44b60f459c139c7ec1f223a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 291473902905556062, guid: 7e79d0fbd44b60f459c139c7ec1f223a, type: 3}
       propertyPath: m_Mesh
@@ -1204,6 +1220,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spine_human_m_custom_gran_003
       objectReference: {fileID: 0}
+    - target: {fileID: 5773839133972474657, guid: ac20ff8b2553a964cb3dd7d7560ac399, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7936029984569316835, guid: ac20ff8b2553a964cb3dd7d7560ac399, type: 3}
       propertyPath: m_RootOrder
       value: 17
@@ -1260,6 +1280,10 @@ PrefabInstance:
     - target: {fileID: 2073307146481814976, guid: 8d849795cb84b024593b68488a170d37, type: 3}
       propertyPath: m_Name
       value: Spine_human_m_custom_gran_001
+      objectReference: {fileID: 0}
+    - target: {fileID: 2073307146481814976, guid: 8d849795cb84b024593b68488a170d37, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2506078361154237186, guid: 8d849795cb84b024593b68488a170d37, type: 3}
       propertyPath: m_RootOrder
@@ -1321,6 +1345,10 @@ PrefabInstance:
     - target: {fileID: 4102171744323986739, guid: b4aab69424e79764db07a754632aff81, type: 3}
       propertyPath: m_Name
       value: Spine_human_m_custom_006
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102171744323986739, guid: b4aab69424e79764db07a754632aff81, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5579587449751385774, guid: b4aab69424e79764db07a754632aff81, type: 3}
       propertyPath: m_RootOrder
@@ -1396,6 +1424,10 @@ PrefabInstance:
     - target: {fileID: 1352301123149703311, guid: f61eabff64dc03841b393d19695d747c, type: 3}
       propertyPath: m_Name
       value: Spine_human_m_custom_010
+      objectReference: {fileID: 0}
+    - target: {fileID: 1352301123149703311, guid: f61eabff64dc03841b393d19695d747c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8315755833714633617, guid: f61eabff64dc03841b393d19695d747c, type: 3}
       propertyPath: m_RootOrder
@@ -1502,6 +1534,10 @@ PrefabInstance:
     - target: {fileID: 3447864821452808210, guid: 099f21670caf57b42b556df39d50ac25, type: 3}
       propertyPath: m_Name
       value: Spine_human_l_custom_gran_008
+      objectReference: {fileID: 0}
+    - target: {fileID: 3447864821452808210, guid: 099f21670caf57b42b556df39d50ac25, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6162240596188579262, guid: 099f21670caf57b42b556df39d50ac25, type: 3}
       propertyPath: m_Mesh
@@ -16220,6 +16256,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spine_human_m_custom_014
       objectReference: {fileID: 0}
+    - target: {fileID: 1331347023961120104, guid: bd6c9567de229a4498a4f3f643da8b73, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4716053287985307297, guid: bd6c9567de229a4498a4f3f643da8b73, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -16330,6 +16370,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spine_human_m_custom_005
       objectReference: {fileID: 0}
+    - target: {fileID: 4157228108583758535, guid: 0e4b18d07dbaa3f439f09a4531cfc698, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6351924570579728687, guid: 0e4b18d07dbaa3f439f09a4531cfc698, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -16399,6 +16443,10 @@ PrefabInstance:
     - target: {fileID: 8512866731286470437, guid: 1defdc06569589f44984b1b02b44b57f, type: 3}
       propertyPath: m_Name
       value: Spine_human_m_custom_gran_005
+      objectReference: {fileID: 0}
+    - target: {fileID: 8512866731286470437, guid: 1defdc06569589f44984b1b02b44b57f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1defdc06569589f44984b1b02b44b57f, type: 3}
@@ -16537,6 +16585,10 @@ PrefabInstance:
     - target: {fileID: 8707603874777782517, guid: 8b1245a3d233526438f22017b6bf228e, type: 3}
       propertyPath: m_Name
       value: Spine_human_m_custom_007
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707603874777782517, guid: 8b1245a3d233526438f22017b6bf228e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b1245a3d233526438f22017b6bf228e, type: 3}
@@ -16736,6 +16788,10 @@ PrefabInstance:
     - target: {fileID: 4356997439324984715, guid: f53a9402f323f1645acc82bcc5b06a01, type: 3}
       propertyPath: m_Name
       value: Spine_human_m_001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4356997439324984715, guid: f53a9402f323f1645acc82bcc5b06a01, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4356997439324984718, guid: f53a9402f323f1645acc82bcc5b06a01, type: 3}
       propertyPath: m_Mesh
@@ -16963,6 +17019,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spine_human_m_custom_008
       objectReference: {fileID: 0}
+    - target: {fileID: 1094208222454976374, guid: 3c511223450135b4fa1f5ae18a4fa5dc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1669911713493896837, guid: 3c511223450135b4fa1f5ae18a4fa5dc, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -17028,6 +17088,10 @@ PrefabInstance:
     - target: {fileID: 53241673321065432, guid: 31be7f4a37efc9b43b1941170bcccfed, type: 3}
       propertyPath: m_Name
       value: Spine_human_m_custom_009
+      objectReference: {fileID: 0}
+    - target: {fileID: 53241673321065432, guid: 31be7f4a37efc9b43b1941170bcccfed, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1107520058088233927, guid: 31be7f4a37efc9b43b1941170bcccfed, type: 3}
       propertyPath: m_Mesh
@@ -17142,6 +17206,10 @@ PrefabInstance:
     - target: {fileID: 4239313571010481916, guid: 31ddd300fa204a64ba3e2da5ab626bf7, type: 3}
       propertyPath: m_Name
       value: Spine_human_m_custom_013
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239313571010481916, guid: 31ddd300fa204a64ba3e2da5ab626bf7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31ddd300fa204a64ba3e2da5ab626bf7, type: 3}
@@ -17271,6 +17339,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spine_human_m_custom_gran_006
       objectReference: {fileID: 0}
+    - target: {fileID: 3011546446835237616, guid: 7d3b2343309718246ac491b03ac1ecdf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7461148525890817802, guid: 7d3b2343309718246ac491b03ac1ecdf, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -17287,6 +17359,10 @@ PrefabInstance:
     - target: {fileID: 637052066839041608, guid: 4e7bfa8377b3e914cb58f657de593c98, type: 3}
       propertyPath: m_Name
       value: Spine_human_m_custom_001
+      objectReference: {fileID: 0}
+    - target: {fileID: 637052066839041608, guid: 4e7bfa8377b3e914cb58f657de593c98, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3951343912549443722, guid: 4e7bfa8377b3e914cb58f657de593c98, type: 3}
       propertyPath: m_RootOrder
@@ -17357,6 +17433,10 @@ PrefabInstance:
     - target: {fileID: 5044251480544667598, guid: 909ec877deb9733408a82518608f849a, type: 3}
       propertyPath: m_Name
       value: Spine_human_m_custom_011
+      objectReference: {fileID: 0}
+    - target: {fileID: 5044251480544667598, guid: 909ec877deb9733408a82518608f849a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6956746435745890929, guid: 909ec877deb9733408a82518608f849a, type: 3}
       propertyPath: m_RootOrder
@@ -17495,6 +17575,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spine_human_m_custom_gran_004
       objectReference: {fileID: 0}
+    - target: {fileID: 5701653205476956806, guid: 43382216d2826f545907dc8ec6522807, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8152335840645489732, guid: 43382216d2826f545907dc8ec6522807, type: 3}
       propertyPath: m_RootOrder
       value: 18
@@ -17555,6 +17639,10 @@ PrefabInstance:
     - target: {fileID: 4933667986591413268, guid: 94e5813be647e934ab1e90b2ff261ba1, type: 3}
       propertyPath: m_Name
       value: Spine_human_m_custom_015
+      objectReference: {fileID: 0}
+    - target: {fileID: 4933667986591413268, guid: 94e5813be647e934ab1e90b2ff261ba1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5570662252303060716, guid: 94e5813be647e934ab1e90b2ff261ba1, type: 3}
       propertyPath: m_RootOrder
@@ -17661,6 +17749,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spine_human_m_custom_004
       objectReference: {fileID: 0}
+    - target: {fileID: 8352939683626018651, guid: 0e098b7fbde8bc64bb63116f9e823e17, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e098b7fbde8bc64bb63116f9e823e17, type: 3}
 --- !u!4 &8068191478915590962 stripped
@@ -17675,6 +17767,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2108468484}
     m_Modifications:
+    - target: {fileID: 611573722330488290, guid: 52150fe2e2b386541a857a3f1157f9fe, type: 3}
+      propertyPath: pmaVertexColors
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5314479790733643577, guid: 52150fe2e2b386541a857a3f1157f9fe, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -17727,6 +17823,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spine_human_m_custom_003
       objectReference: {fileID: 0}
+    - target: {fileID: 6011310483995659100, guid: 52150fe2e2b386541a857a3f1157f9fe, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52150fe2e2b386541a857a3f1157f9fe, type: 3}
 --- !u!4 &8527487624080438107 stripped
@@ -17753,6 +17853,10 @@ PrefabInstance:
     - target: {fileID: 1194120189054468191, guid: 68cec3426709dc747b9503d782995227, type: 3}
       propertyPath: m_Name
       value: Spine_human_m_custom_012
+      objectReference: {fileID: 0}
+    - target: {fileID: 1194120189054468191, guid: 68cec3426709dc747b9503d782995227, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3626764466194419576, guid: 68cec3426709dc747b9503d782995227, type: 3}
       propertyPath: m_RootOrder
