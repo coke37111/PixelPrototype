@@ -301,7 +301,7 @@ MonoBehaviour:
   curRoomType: 1
   infoText: {fileID: 1236455606}
   collGround: {fileID: 1596229681}
-  spawnRange: 1
+  spawnRange: 0.8
   mapData: {fileID: 11400000, guid: cccd3bafb17928d47848e45905a6e8fd, type: 2}
 --- !u!4 &229339700
 Transform:
