@@ -989,6 +989,7 @@ Transform:
   - {fileID: 9222202725506551218}
   - {fileID: 6130342263408925703}
   - {fileID: 3515853454126106684}
+  - {fileID: 2485566696000339551}
   - {fileID: 2849271401373584138}
   - {fileID: 3953671061118244790}
   - {fileID: 7690082096025975981}
@@ -997,7 +998,6 @@ Transform:
   - {fileID: 5573520933408949209}
   - {fileID: 1517111573}
   - {fileID: 2385300215374883408}
-  - {fileID: 2485566696000339551}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1092,7 +1092,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3866891750187846773, guid: fff07ff5438540f4b8293f1589384ceb, type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 3866891750187846773, guid: fff07ff5438540f4b8293f1589384ceb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1155,13 +1155,17 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 291473902905556059, guid: 7e79d0fbd44b60f459c139c7ec1f223a, type: 3}
+      propertyPath: pmaVertexColors
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 291473902905556062, guid: 7e79d0fbd44b60f459c139c7ec1f223a, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 291473902905556063, guid: 7e79d0fbd44b60f459c139c7ec1f223a, type: 3}
       propertyPath: m_RootOrder
-      value: 21
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 291473902905556063, guid: 7e79d0fbd44b60f459c139c7ec1f223a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1226,7 +1230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7936029984569316835, guid: ac20ff8b2553a964cb3dd7d7560ac399, type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 7936029984569316835, guid: ac20ff8b2553a964cb3dd7d7560ac399, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1287,7 +1291,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2506078361154237186, guid: 8d849795cb84b024593b68488a170d37, type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 2506078361154237186, guid: 8d849795cb84b024593b68488a170d37, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1489,7 +1493,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2801337789785725674, guid: 099f21670caf57b42b556df39d50ac25, type: 3}
       propertyPath: m_RootOrder
-      value: 22
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 2801337789785725674, guid: 099f21670caf57b42b556df39d50ac25, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1538,6 +1542,10 @@ PrefabInstance:
     - target: {fileID: 3447864821452808210, guid: 099f21670caf57b42b556df39d50ac25, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3881900884147463872, guid: 099f21670caf57b42b556df39d50ac25, type: 3}
+      propertyPath: pmaVertexColors
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6162240596188579262, guid: 099f21670caf57b42b556df39d50ac25, type: 3}
       propertyPath: m_Mesh
@@ -16398,7 +16406,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5197569657676358119, guid: 1defdc06569589f44984b1b02b44b57f, type: 3}
       propertyPath: m_RootOrder
-      value: 19
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5197569657676358119, guid: 1defdc06569589f44984b1b02b44b57f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -16741,6 +16749,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2108468484}
     m_Modifications:
+    - target: {fileID: 4356997439324984713, guid: f53a9402f323f1645acc82bcc5b06a01, type: 3}
+      propertyPath: pmaVertexColors
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4356997439324984714, guid: f53a9402f323f1645acc82bcc5b06a01, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -17293,7 +17305,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1714064587491621938, guid: 7d3b2343309718246ac491b03ac1ecdf, type: 3}
       propertyPath: m_RootOrder
-      value: 20
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 1714064587491621938, guid: 7d3b2343309718246ac491b03ac1ecdf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17581,7 +17593,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8152335840645489732, guid: 43382216d2826f545907dc8ec6522807, type: 3}
       propertyPath: m_RootOrder
-      value: 18
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 8152335840645489732, guid: 43382216d2826f545907dc8ec6522807, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17646,7 +17658,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5570662252303060716, guid: 94e5813be647e934ab1e90b2ff261ba1, type: 3}
       propertyPath: m_RootOrder
-      value: 23
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5570662252303060716, guid: 94e5813be647e934ab1e90b2ff261ba1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17687,6 +17699,10 @@ PrefabInstance:
     - target: {fileID: 5570662252303060716, guid: 94e5813be647e934ab1e90b2ff261ba1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6805473829320635078, guid: 94e5813be647e934ab1e90b2ff261ba1, type: 3}
+      propertyPath: pmaVertexColors
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94e5813be647e934ab1e90b2ff261ba1, type: 3}
@@ -17825,7 +17841,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6011310483995659100, guid: 52150fe2e2b386541a857a3f1157f9fe, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52150fe2e2b386541a857a3f1157f9fe, type: 3}
