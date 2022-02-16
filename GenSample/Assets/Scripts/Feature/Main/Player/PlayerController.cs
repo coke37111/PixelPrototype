@@ -149,6 +149,12 @@ namespace Assets.Scripts.Feature.Main.Player
             int atkType = (int)info.photonView.InstantiationData[1];
             SetAtkType(atkType);
 
+            if(info.photonView.InstantiationData.Length >= 3)
+            {
+                Vector3 scale = (Vector3)info.photonView.InstantiationData[2];
+                SetScale(scale);
+            }
+
             Init();
         }
 
@@ -770,6 +776,11 @@ namespace Assets.Scripts.Feature.Main.Player
         public Vector2 GetMissileKnockbackPower()
         {
             return playerUnitSetting.missileKnockbackPower;
+        }
+
+        public void SetScale(Vector3 scale)
+        {
+            transform.localScale = scale;
         }
     }
 }

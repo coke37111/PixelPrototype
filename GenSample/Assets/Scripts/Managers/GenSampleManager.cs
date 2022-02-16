@@ -49,6 +49,8 @@ namespace Assets.Scripts.Managers
         public SandboxMapDataSO mapData;
         private CubeContainer cubeContainer;
 
+        public Vector3 playerScale = new Vector3(1, 1, 1);
+
         #region UNITY
         // Use this for initialization
         void Start()
@@ -331,6 +333,7 @@ namespace Assets.Scripts.Managers
                 string spinePath = playerUnitSetting.GetSpinePath();
                 data.Add(spinePath);
                 data.Add(UnityEngine.Random.Range(0, 2));
+                data.Add(playerScale);
 
                 GameObject goPlayer = PhotonNetwork.Instantiate(PrefabPath.PlayerPath, spawnPosTo3, Quaternion.identity, 0, data.ToArray());
                 player = goPlayer.GetComponent<PlayerController>();
@@ -342,6 +345,7 @@ namespace Assets.Scripts.Managers
                 GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>(PrefabPath.PlayerPath);
                 GameObject goPlayer = Instantiate(pfPlayer, spawnPosTo3, Quaternion.identity, null);
                 player = goPlayer.GetComponent<PlayerController>();
+                player.SetScale(playerScale);
 
                 CameraController.Instance.SetOwner(player);
             }      

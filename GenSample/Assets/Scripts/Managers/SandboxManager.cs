@@ -50,6 +50,8 @@ namespace Assets.Scripts.Managers
         private Vector3 prevCubePos;
         private bool makeCubeX, makeCubeY, makeCubeZ = false;
 
+        public Vector3 playerScale = new Vector3(1, 1, 1);
+
         #region UNITY
 
         // Use this for initialization
@@ -443,6 +445,7 @@ namespace Assets.Scripts.Managers
                 string spinePath = playerUnitSetting.GetSpinePath();
                 data.Add(spinePath);
                 data.Add(Random.Range(0, 2));
+                data.Add(playerScale);
 
                 PhotonNetwork.Instantiate(PrefabPath.PlayerPath, spawnPosTo3, Quaternion.identity, 0, data.ToArray());
             }
@@ -455,6 +458,7 @@ namespace Assets.Scripts.Managers
                     GameObject goPlayer = Instantiate(pfPlayer, spawnPosTo3, Quaternion.identity, unitContainer);
                     player = goPlayer.GetComponent<PlayerController>();
                     player.SetControllable(false);
+                    player.SetScale(playerScale);
                     sbCamCtrl.SetTarget(goPlayer.transform);
 
                     if(playerType == PLAYER_TYPE.Designer)
