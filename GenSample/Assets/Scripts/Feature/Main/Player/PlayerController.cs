@@ -234,6 +234,20 @@ namespace Assets.Scripts.Feature.Main.Player
                         Knockback(pos, power);
                         break;
                     }
+                case EventCodeType.TriggerAnim:
+                    {
+                        int senderViewId = (int)data[0];
+                        if (photonView.ViewID != senderViewId)
+                            return;
+
+                        if (photonView.AmOwner)
+                            return;
+
+                        string param = data[1].ToString();
+                        anim.SetTrigger(param);
+                        
+                        break;
+                    }
                 case EventCodeType.MobDie:
                 case EventCodeType.Fail:
                     {
@@ -547,6 +561,10 @@ namespace Assets.Scripts.Feature.Main.Player
             if (Input.GetKeyDown(KeyCode.X))
             {
                 anim.SetTrigger("isAtk");
+                PhotonEventManager.RaiseEvent(EventCodeType.TriggerAnim, ReceiverGroup.All, new object[]
+                {
+                    photonView.ViewID, "isAtk"
+                });
 
                 switch (atkType)
                 {

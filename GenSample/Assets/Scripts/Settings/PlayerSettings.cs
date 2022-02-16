@@ -15,6 +15,7 @@
             Clear,
             Fail,
             Hit,
+            TriggerAnim,
 
             // Bomberman
             MakeBomb,
