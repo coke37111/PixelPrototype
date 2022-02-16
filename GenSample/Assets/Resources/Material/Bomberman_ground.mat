@@ -80,7 +80,7 @@ Material:
     - _Image01_Y_Speed: 0
     - _Image02_X_Speed: 0
     - _Image02_Y_Speed: 0
-    - _Metallic: 0.5
+    - _Metallic: 1
     - _Mode: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
