@@ -2153,6 +2153,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Environment_sandbox
       objectReference: {fileID: 0}
+    - target: {fileID: 4332938963516573039, guid: 32ba2407f3076e449b9fb6c940dba917, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.84292525
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332938963516573039, guid: 32ba2407f3076e449b9fb6c940dba917, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.4387991
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332938963516573039, guid: 32ba2407f3076e449b9fb6c940dba917, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.27616182
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332938963516573039, guid: 32ba2407f3076e449b9fb6c940dba917, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.14376074
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332938963516573039, guid: 32ba2407f3076e449b9fb6c940dba917, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 55
+      objectReference: {fileID: 0}
     - target: {fileID: 4625690808386249985, guid: 32ba2407f3076e449b9fb6c940dba917, type: 3}
       propertyPath: m_RootOrder
       value: 0
