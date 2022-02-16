@@ -44,6 +44,8 @@ namespace Assets.Scripts.Feature.BombermanNew
         private PlayerController player;
         private bool isEndGame;
 
+        public Vector3 playerScale = new Vector3(1, 1, 1);
+
         #region UNITY
 
         // Use this for initialization
@@ -274,6 +276,7 @@ namespace Assets.Scripts.Feature.BombermanNew
                 string spinePath = playerUnitSetting.GetSpinePath();
                 data.Add(spinePath);
                 data.Add(Random.Range(0, 2));
+                data.Add(playerScale);
 
                 GameObject goPlayer = PhotonNetwork.Instantiate(PrefabPath.PlayerPath, spawnPosTo3, Quaternion.identity, 0, data.ToArray());
                 player = goPlayer.GetComponent<PlayerController>();
@@ -287,6 +290,7 @@ namespace Assets.Scripts.Feature.BombermanNew
                 GameObject goPlayer = Instantiate(pfPlayer, spawnPosTo3, Quaternion.identity, null);
                 player = goPlayer.GetComponent<PlayerController>();
                 player.SetControllable(false);
+                player.SetScale(playerScale);
 
                 camCtrl.SetTarget(goPlayer.transform);
             }
