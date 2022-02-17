@@ -776,13 +776,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spine_human_l_custom_015
       objectReference: {fileID: 0}
+    - target: {fileID: 4933667986591413268, guid: 94e5813be647e934ab1e90b2ff261ba1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5570662252303060716, guid: 94e5813be647e934ab1e90b2ff261ba1, type: 3}
       propertyPath: m_RootOrder
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5570662252303060716, guid: 94e5813be647e934ab1e90b2ff261ba1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5570662252303060716, guid: 94e5813be647e934ab1e90b2ff261ba1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1070,6 +1074,7 @@ Transform:
   - {fileID: 1517111573}
   - {fileID: 2385300215374883408}
   - {fileID: 1961864875}
+  - {fileID: 4291200151989566488}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1223,14 +1228,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spine_human_s_custom_gran_007
       objectReference: {fileID: 0}
-    - target: {fileID: 291473902905556058, guid: 7e79d0fbd44b60f459c139c7ec1f223a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 291473902905556059, guid: 7e79d0fbd44b60f459c139c7ec1f223a, type: 3}
-      propertyPath: pmaVertexColors
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 291473902905556062, guid: 7e79d0fbd44b60f459c139c7ec1f223a, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -1241,7 +1238,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 291473902905556063, guid: 7e79d0fbd44b60f459c139c7ec1f223a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 291473902905556063, guid: 7e79d0fbd44b60f459c139c7ec1f223a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1346,6 +1343,71 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac20ff8b2553a964cb3dd7d7560ac399, type: 3}
+--- !u!1001 &368959369771968766
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2108468484}
+    m_Modifications:
+    - target: {fileID: 4509133859777926374, guid: 47fc280a44871584ab98a375e69ef97b, type: 3}
+      propertyPath: m_RootOrder
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4509133859777926374, guid: 47fc280a44871584ab98a375e69ef97b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4509133859777926374, guid: 47fc280a44871584ab98a375e69ef97b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4509133859777926374, guid: 47fc280a44871584ab98a375e69ef97b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4509133859777926374, guid: 47fc280a44871584ab98a375e69ef97b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4509133859777926374, guid: 47fc280a44871584ab98a375e69ef97b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4509133859777926374, guid: 47fc280a44871584ab98a375e69ef97b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4509133859777926374, guid: 47fc280a44871584ab98a375e69ef97b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4509133859777926374, guid: 47fc280a44871584ab98a375e69ef97b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4509133859777926374, guid: 47fc280a44871584ab98a375e69ef97b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4509133859777926374, guid: 47fc280a44871584ab98a375e69ef97b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4509133859777926375, guid: 47fc280a44871584ab98a375e69ef97b, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4509133859777926379, guid: 47fc280a44871584ab98a375e69ef97b, type: 3}
+      propertyPath: m_Name
+      value: Spine_one_pix_m_002
+      objectReference: {fileID: 0}
+    - target: {fileID: 4509133859777926379, guid: 47fc280a44871584ab98a375e69ef97b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 47fc280a44871584ab98a375e69ef97b, type: 3}
 --- !u!1001 &382178987061377032
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1614,10 +1676,6 @@ PrefabInstance:
     - target: {fileID: 3447864821452808210, guid: 099f21670caf57b42b556df39d50ac25, type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3881900884147463872, guid: 099f21670caf57b42b556df39d50ac25, type: 3}
-      propertyPath: pmaVertexColors
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6162240596188579262, guid: 099f21670caf57b42b556df39d50ac25, type: 3}
       propertyPath: m_Mesh
@@ -16809,6 +16867,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4353560220001373494, guid: 344d32ea5f8c02d4ba4c1ccada4a08ce, type: 3}
   m_PrefabInstance: {fileID: 4127489569804676893}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &4291200151989566488 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4509133859777926374, guid: 47fc280a44871584ab98a375e69ef97b, type: 3}
+  m_PrefabInstance: {fileID: 368959369771968766}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4356997438590405483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16946,9 +17009,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spine_one_pix_m_001
       objectReference: {fileID: 0}
-    - target: {fileID: 5220640773125805857, guid: a220f7c7f05f35b4187103394ae08246, type: 3}
-      propertyPath: pmaVertexColors
-      value: 1
+    - target: {fileID: 5220640773125805856, guid: a220f7c7f05f35b4187103394ae08246, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5220640773125805868, guid: a220f7c7f05f35b4187103394ae08246, type: 3}
       propertyPath: m_Mesh
