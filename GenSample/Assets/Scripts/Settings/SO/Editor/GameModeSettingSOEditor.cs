@@ -57,8 +57,7 @@ namespace Assets.Scripts.Settings.SO.Editor
                 EditorGUILayout.PropertyField(dieHeight);
             }
 
-            settingSO.cameraView = (CameraView)EditorGUILayout.EnumPopup("CameraView", settingSO.cameraView);
-
+            settingSO.cameraViewSetting = (CameraViewSettingSO)EditorGUILayout.ObjectField("CameraViewSetting", settingSO.cameraViewSetting, typeof(CameraViewSettingSO), false);
             settingSO.playerUnitSetting = (PlayerUnitSettingSO)EditorGUILayout.ObjectField("PlayerUnitSetting", settingSO.playerUnitSetting, typeof(PlayerUnitSettingSO), false);
             settingSO.mapData = (SandboxMapDataSO)EditorGUILayout.ObjectField("MapData", settingSO.mapData, typeof(SandboxMapDataSO), false);
 

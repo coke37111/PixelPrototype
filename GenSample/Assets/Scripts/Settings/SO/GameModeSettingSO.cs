@@ -16,12 +16,6 @@ public enum MatchType
     Team,
 }
 
-public enum CameraView
-{
-    TopDown,
-    Side,
-}
-
 #endregion
 
 namespace Assets.Scripts.Settings.SO
@@ -42,7 +36,7 @@ namespace Assets.Scripts.Settings.SO
         [HideInInspector]
         public float dieHeight;
         [HideInInspector]
-        public CameraView cameraView;
+        public CameraViewSettingSO cameraViewSetting;
         [HideInInspector]
         public PlayerUnitSettingSO playerUnitSetting;
         [HideInInspector]
