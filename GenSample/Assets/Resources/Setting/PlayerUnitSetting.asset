@@ -29,6 +29,7 @@ MonoBehaviour:
   - human_l
   - human_m
   - human_s
+  - one_pix_m
   spineTypes:
   - Spine/human_m/Spine_human_m_001
   - Spine/human_m/Spine_human_m_custom_001
@@ -45,9 +46,14 @@ MonoBehaviour:
   - Spine/human_m/Spine_human_m_custom_012
   - Spine/human_m/Spine_human_m_custom_013
   - Spine/human_m/Spine_human_m_custom_014
+  - Spine/human_l/Spine_human_l_custom_015
   - Spine/human_m/Spine_human_m_custom_gran_001
   - Spine/human_m/Spine_human_m_custom_gran_002
   - Spine/human_m/Spine_human_m_custom_gran_003
   - Spine/human_m/Spine_human_m_custom_gran_004
   - Spine/human_m/Spine_human_m_custom_gran_005
   - Spine/human_m/Spine_human_m_custom_gran_006
+  - Spine/human_s/Spine_human_s_custom_gran_007
+  - Spine/human_l/Spine_human_l_custom_gran_008
+  - Spine/one_pix_m/Spine_one_pix_m_001
+  - Spine/one_pix_m/Spine_one_pix_m_002
