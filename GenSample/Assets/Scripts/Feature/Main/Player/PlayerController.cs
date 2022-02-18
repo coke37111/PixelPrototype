@@ -93,15 +93,7 @@ namespace Assets.Scripts.Feature.Main.Player
         // Use this for initialization
         void Start()
         {
-            //if (PlayerSettings.IsConnectNetwork())
-            //    return;
 
-            //PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
-            //string spinePath = playerUnitSetting.GetSpinePath();
-            //MakeSpine(spinePath);
-
-            //Init();
-            //SetAtkType(UnityEngine.Random.Range(0, 2));
         }
 
         // Update is called once per frame
@@ -140,23 +132,6 @@ namespace Assets.Scripts.Feature.Main.Player
         #endregion
 
         #region PUN_METHOD
-
-        //public void OnPhotonInstantiate(PhotonMessageInfo info)
-        //{
-        //    string spinePath = info.photonView.InstantiationData[0].ToString();
-        //    MakeSpine(spinePath);
-
-        //    int atkType = (int)info.photonView.InstantiationData[1];
-        //    SetAtkType(atkType);
-
-        //    if(info.photonView.InstantiationData.Length >= 3)
-        //    {
-        //        Vector3 scale = (Vector3)info.photonView.InstantiationData[2];
-        //        SetScale(scale);
-        //    }
-
-        //    Init();
-        //}
 
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {

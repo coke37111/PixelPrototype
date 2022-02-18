@@ -37,6 +37,7 @@ namespace Assets.Scripts.Feature.GenSample
         public void Start()
         {
             if (this.Text == null) Debug.LogError("Reference to 'Text' is not set. Please set a valid reference.", this);
+            else this.Text.text = "";
         }
 
         public override void OnEnable()

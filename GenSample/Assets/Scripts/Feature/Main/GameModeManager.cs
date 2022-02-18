@@ -40,9 +40,15 @@ namespace Assets.Scripts.Feature.Main
         private ProcState procState;
 
         public GameModeSettingSO setting;
+        private GameSettingSO gameSetting;
+        public TMPro.TextMeshProUGUI textTime;
 
         private CubeContainer cubeContainer;
         private CameraViewController camViewController;
+
+        private PlayerController localPlayer;
+
+        private float curTime;
 
         #region UNITY
 
@@ -62,6 +68,7 @@ namespace Assets.Scripts.Feature.Main
                     {
                         SetProcState(ProcState.Lock);
 
+                        // Setting Camera
                         UnityEngine.Camera mainCam = UnityEngine.Camera.main;
                         if(mainCam == null)
                         {
@@ -78,7 +85,7 @@ namespace Assets.Scripts.Feature.Main
                         }
                         camViewController.Init(setting.cameraViewSetting);
 
-
+                        // Setting Map
                         cubeContainer = FindObjectOfType<CubeContainer>();
                         if(cubeContainer == null)
                         {
@@ -89,6 +96,11 @@ namespace Assets.Scripts.Feature.Main
                         }
                         cubeContainer.GenerateCubes(setting.mapData);
 
+                        // Set Value
+                        textTime.text = "";
+                        curTime = 0f;
+
+                        gameSetting = ResourceManager.LoadAsset<GameSettingSO>(GameSettingSO.path);
 
                         SetGameState(GameState.ConnectNet);
                         SetProcState(ProcState.Proc);
@@ -119,8 +131,50 @@ namespace Assets.Scripts.Feature.Main
                 case GameState.ConnectNet when procState == ProcState.Lock: return;
                 case GameState.Play when procState == ProcState.Proc:
                     {
+                        if(setting.limitTime > 0)
+                        {
+                            if (curTime >= setting.limitTime)
+                            {
+                                curTime = 0f;
+                                FailGame();
+                            }
+                            else
+                            {
+                                curTime += Time.deltaTime;
+                                SetTextTime();
+                            }
+                        }
                         break;
                     }
+                case GameState.Fail when procState == ProcState.Proc:
+                    {
+                        if (PhotonNetwork.IsMasterClient)
+                        {
+                            StopAllCoroutines();
+                        }
+
+                        SetGameState(GameState.End);
+                        SetProcState(ProcState.Proc);
+                        break;
+                    }
+                case GameState.End when procState == ProcState.Proc:
+                    {
+                        if(curTime >= gameSetting.endDelay)
+                        {
+                            LeaveRoom();
+
+                            SetProcState(ProcState.Lock);
+                        }
+                        else
+                        {
+                            curTime += Time.deltaTime;
+
+                            float remain = gameSetting.endDelay - curTime;
+                            textTime.text = string.Format("Leave Room in {0} seconds", remain.ToString("n0"));
+                        }
+                        break;
+                    }
+                case GameState.End when procState == ProcState.Lock: return;
             }
         }
 
@@ -246,6 +300,7 @@ namespace Assets.Scripts.Feature.Main
             player.MakeSpine(setting.playerUnitSetting.GetSpinePath());
             player.SetAtkType(Random.Range(0, 2));
             player.SetControllable(true);
+            localPlayer = player;
 
             camViewController.SetTarget(player.transform);
         }
@@ -262,6 +317,40 @@ namespace Assets.Scripts.Feature.Main
             GameObject goPlayer = PhotonNetwork.Instantiate(PrefabPath.PlayerPath, spawnPos, Quaternion.identity, 0, data.ToArray());
 
             camViewController.SetTarget(goPlayer.transform);
+        }
+
+        private void SetTextTime()
+        {
+            var remain = setting.limitTime - curTime;
+
+            if (remain > 3)
+                textTime.text = $"{(remain):n0}";
+            else
+                textTime.text = $"{(remain):f1}";
+        }
+
+        private void FailGame()
+        {
+            if (PlayerSettings.IsConnectNetwork())
+            {
+                PhotonEventManager.RaiseEvent(PlayerSettings.EventCodeType.Fail, Photon.Realtime.ReceiverGroup.All);
+            }
+            else
+            {
+                if (localPlayer != null)
+                    localPlayer.SetControllable(false);
+            }
+
+            SetGameState(GameState.Fail);
+            SetProcState(ProcState.Proc);
+        }
+
+        private void LeaveRoom()
+        {
+            RoomSettings.roomName = PhotonNetwork.CurrentRoom.Name;
+            RoomSettings.isMaster = PhotonNetwork.IsMasterClient;
+
+            PhotonNetwork.LeaveRoom();
         }
     }
 }
