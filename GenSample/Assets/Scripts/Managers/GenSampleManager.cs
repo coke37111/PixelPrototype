@@ -324,16 +324,14 @@ namespace Assets.Scripts.Managers
             //    }
             //}
 
+            PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
+
             if (PlayerSettings.IsConnectNetwork())
             {
                 var data = new List<object>();
-
-                // Set Spine
-                PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
-                string spinePath = playerUnitSetting.GetSpinePath();
-                data.Add(spinePath);
-                data.Add(UnityEngine.Random.Range(0, 2));
-                data.Add(playerScale);
+                data.Add(playerUnitSetting.name);
+                data.Add(playerUnitSetting.GetSpinePath());
+                data.Add(Random.Range(0, 2));
 
                 GameObject goPlayer = PhotonNetwork.Instantiate(PrefabPath.PlayerPath, spawnPosTo3, Quaternion.identity, 0, data.ToArray());
                 player = goPlayer.GetComponent<PlayerController>();
@@ -344,8 +342,12 @@ namespace Assets.Scripts.Managers
             {
                 GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>(PrefabPath.PlayerPath);
                 GameObject goPlayer = Instantiate(pfPlayer, spawnPosTo3, Quaternion.identity, null);
-                player = goPlayer.GetComponent<PlayerController>();
-                player.SetScale(playerScale);
+                PlayerController player = goPlayer.GetComponent<PlayerController>();
+                player.SetPlayerUnitSetting(playerUnitSetting.name);
+                player.Init();
+                player.MakeSpine(playerUnitSetting.GetSpinePath());
+                player.SetAtkType(Random.Range(0, 2));
+                player.SetControllable(true);
 
                 CameraController.Instance.SetOwner(player);
             }      

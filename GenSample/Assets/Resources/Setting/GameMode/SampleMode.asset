@@ -18,6 +18,6 @@ MonoBehaviour:
   limitTime: 30
   canFallDie: 0
   dieHeight: 0
-  cameraView: 0
+  cameraViewSetting: {fileID: 11400000, guid: 88061a9b2abae664facdc91cbd9e915b, type: 2}
   playerUnitSetting: {fileID: 11400000, guid: 9d3d303be9ec05f49b5ff3ac0830efd8, type: 2}
   mapData: {fileID: 11400000, guid: 1f34aa75f3cd1ee4d9f710d8e652215b, type: 2}

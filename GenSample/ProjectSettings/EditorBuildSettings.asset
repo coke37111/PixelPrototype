@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BombermanSceneNew.unity
     guid: 1f90ebb4cae8a634a97b86526556654c
+  - enabled: 1
+    path: Assets/Scenes/TemplateScene.unity
+    guid: d17f7322d3fddf744814d933d30eb5f0
   m_configObjects: {}

@@ -1,4 +1,5 @@
 ﻿using UnityEditor;
+using UnityEngine;
 
 namespace Assets.Scripts.Settings.SO.Editor
 {
@@ -6,8 +7,6 @@ namespace Assets.Scripts.Settings.SO.Editor
     [CanEditMultipleObjects]
     public class GameModeSettingSOEditor : UnityEditor.Editor
     {
-        //private bool toggle = true;
-
         SerializedProperty survivalCount;
         SerializedProperty limitTime;
         SerializedProperty dieHeight;
@@ -63,17 +62,10 @@ namespace Assets.Scripts.Settings.SO.Editor
 
             serializedObject.ApplyModifiedProperties();
 
-            //var style = new GUIStyle(GUI.skin.button);
-            //style.fontSize = 25;
-
-            //GUILayout.Space(10);
-            //if (GUILayout.Button("Button", style))
-            //{
-
-            //}
-
-            //GUILayout.Space(10);
-            //toggle = GUILayout.Toggle(toggle, "toggle");
+            if (GUI.changed)
+            {
+                EditorUtility.SetDirty(settingSO);
+            }
         }
     }
 }

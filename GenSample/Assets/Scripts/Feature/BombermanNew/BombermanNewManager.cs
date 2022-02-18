@@ -266,21 +266,17 @@ namespace Assets.Scripts.Feature.BombermanNew
         private void SpawnPlayer()
         {
             Vector3 spawnPosTo3 = cubeContainer.GetRandomSpawnPos();
+            PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
 
             if (PlayerSettings.IsConnectNetwork())
             {
                 var data = new List<object>();
-
-                // Set Spine
-                PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
-                string spinePath = playerUnitSetting.GetSpinePath();
-                data.Add(spinePath);
+                data.Add(playerUnitSetting.name);
+                data.Add(playerUnitSetting.GetSpinePath());
                 data.Add(Random.Range(0, 2));
-                data.Add(playerScale);
 
                 GameObject goPlayer = PhotonNetwork.Instantiate(PrefabPath.PlayerPath, spawnPosTo3, Quaternion.identity, 0, data.ToArray());
                 player = goPlayer.GetComponent<PlayerController>();
-                player.SetControllable(false);
 
                 camCtrl.SetTarget(goPlayer.transform);
             }
@@ -288,9 +284,12 @@ namespace Assets.Scripts.Feature.BombermanNew
             {
                 GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>(PrefabPath.PlayerPath);
                 GameObject goPlayer = Instantiate(pfPlayer, spawnPosTo3, Quaternion.identity, null);
-                player = goPlayer.GetComponent<PlayerController>();
-                player.SetControllable(false);
-                player.SetScale(playerScale);
+                PlayerController player = goPlayer.GetComponent<PlayerController>();
+                player.SetPlayerUnitSetting(playerUnitSetting.name);
+                player.Init();
+                player.MakeSpine(playerUnitSetting.GetSpinePath());
+                player.SetAtkType(Random.Range(0, 2));
+                player.SetControllable(true);
 
                 camCtrl.SetTarget(goPlayer.transform);
             }

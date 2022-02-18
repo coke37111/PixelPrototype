@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a5fe1b6fb2d534681d76cf01ab8e14, type: 3}
   m_Name: CameraViewSetting
   m_EditorClassIdentifier: 
-  cameraMoveType: 0
+  cameraMoveType: 1
   rotate: {x: 20, y: 0, z: 0}
   dist: 19
   height: 7

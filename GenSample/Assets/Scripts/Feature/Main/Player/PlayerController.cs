@@ -93,15 +93,15 @@ namespace Assets.Scripts.Feature.Main.Player
         // Use this for initialization
         void Start()
         {
-            if (PlayerSettings.IsConnectNetwork())
-                return;
+            //if (PlayerSettings.IsConnectNetwork())
+            //    return;
 
-            PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
-            string spinePath = playerUnitSetting.GetSpinePath();
-            MakeSpine(spinePath);
+            //PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
+            //string spinePath = playerUnitSetting.GetSpinePath();
+            //MakeSpine(spinePath);
 
-            Init();
-            SetAtkType(UnityEngine.Random.Range(0, 2));
+            //Init();
+            //SetAtkType(UnityEngine.Random.Range(0, 2));
         }
 
         // Update is called once per frame
@@ -141,21 +141,35 @@ namespace Assets.Scripts.Feature.Main.Player
 
         #region PUN_METHOD
 
+        //public void OnPhotonInstantiate(PhotonMessageInfo info)
+        //{
+        //    string spinePath = info.photonView.InstantiationData[0].ToString();
+        //    MakeSpine(spinePath);
+
+        //    int atkType = (int)info.photonView.InstantiationData[1];
+        //    SetAtkType(atkType);
+
+        //    if(info.photonView.InstantiationData.Length >= 3)
+        //    {
+        //        Vector3 scale = (Vector3)info.photonView.InstantiationData[2];
+        //        SetScale(scale);
+        //    }
+
+        //    Init();
+        //}
+
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
-            string spinePath = info.photonView.InstantiationData[0].ToString();
-            MakeSpine(spinePath);
-
-            int atkType = (int)info.photonView.InstantiationData[1];
-            SetAtkType(atkType);
-
-            if(info.photonView.InstantiationData.Length >= 3)
-            {
-                Vector3 scale = (Vector3)info.photonView.InstantiationData[2];
-                SetScale(scale);
-            }
+            string playerUnitSettingName = info.photonView.InstantiationData[0].ToString();
+            SetPlayerUnitSetting(playerUnitSettingName);
 
             Init();
+
+            string spinePath = info.photonView.InstantiationData[1].ToString();
+            MakeSpine(spinePath);
+
+            int atkType = (int)info.photonView.InstantiationData[2];
+            SetAtkType(atkType);
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -185,6 +199,11 @@ namespace Assets.Scripts.Feature.Main.Player
 
             switch (eventCodeType)
             {
+                case EventCodeType.GameStart:
+                    {
+                        SetControllable(true);
+                        break;
+                    }
                 case EventCodeType.MakeBomb:
                     {
                         int senderViewId = (int)data[0];
@@ -276,17 +295,22 @@ namespace Assets.Scripts.Feature.Main.Player
 
         #endregion
 
-        private void Init()
+        public void Init()
         {
-            SkeletonMecanim skelM = GetComponentInChildren<SkeletonMecanim>();
-            trSpine = skelM.transform;
-            anim = skelM.GetComponent<Animator>();
-
             photonView = GetComponent<PhotonView>();
-            isControllable = true;
-
-            playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
             rb = GetComponent<Rigidbody>();
+            hpBar = GetComponentInChildren<HpBar>();
+
+            // TODO : 임시, 리팩토링 후 삭제 예정
+            if (playerUnitSetting == null)
+                playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
+
+            effectContainerL = transform.Find("Effect/L");
+            effectContainerR = transform.Find("Effect/R");
+            playerAttackRangeL = effectContainerL.GetComponent<PlayerAttackRange>();
+            playerAttackRangeR = effectContainerR.GetComponent<PlayerAttackRange>();
+
+            isControllable = true;
             canJump = true;
 
             moveDir = Vector3.zero;
@@ -294,23 +318,20 @@ namespace Assets.Scripts.Feature.Main.Player
 
             curHp = playerUnitSetting.hp;
 
-            hpBar = GetComponentInChildren<HpBar>();
-            hpBar.SetGauge(curHp / playerUnitSetting.hp);
-
             bombPowerLevel = 0;
             bombRangeLevel = 0;
 
             isInvincible = false;
 
-            effectContainerL = transform.Find("Effect/L");
-            effectContainerR = transform.Find("Effect/R");
-            playerAttackRangeL = effectContainerL.GetComponent<PlayerAttackRange>();
-            playerAttackRangeR = effectContainerR.GetComponent<PlayerAttackRange>();
+            hpBar.SetGauge(curHp / playerUnitSetting.hp);
 
-            ChangeDir(isLeftDir);
             fireDir = isLeftDir ? Vector3.left : Vector3.right;
 
             SetTeamNum();
+
+            SetScale(playerUnitSetting.unitScale);
+
+            SetControllable(false);
         }
 
         private void Move()
@@ -453,7 +474,13 @@ namespace Assets.Scripts.Feature.Main.Player
         public void MakeSpine(string spinePath)
         {
             GameObject spineBase = ResourceManager.LoadAsset<GameObject>(spinePath);
-            Instantiate(spineBase, transform);
+            GameObject goSpine = Instantiate(spineBase, transform);
+
+            SkeletonMecanim skelM = goSpine.GetComponent<SkeletonMecanim>();
+            trSpine = skelM.transform;
+            anim = skelM.GetComponent<Animator>();
+
+            ChangeDir(isLeftDir);
         }
 
         private void Jump()
@@ -567,10 +594,13 @@ namespace Assets.Scripts.Feature.Main.Player
             if (Input.GetKeyDown(KeyCode.X))
             {
                 anim.SetTrigger("isAtk");
-                PhotonEventManager.RaiseEvent(EventCodeType.TriggerAnim, ReceiverGroup.All, new object[]
+                if (PlayerSettings.IsConnectNetwork())
                 {
+                    PhotonEventManager.RaiseEvent(EventCodeType.TriggerAnim, ReceiverGroup.All, new object[]
+                    {
                     photonView.ViewID, "isAtk"
-                });
+                    });
+                }
 
                 switch (atkType)
                 {
@@ -697,7 +727,7 @@ namespace Assets.Scripts.Feature.Main.Player
             hpBar.SetGauge(curHp / playerUnitSetting.hp);
         }
 
-        private void SetAtkType(int atkType)
+        public void SetAtkType(int atkType)
         {
             this.atkType = (ATK_TYPE)atkType;
             GetComponentInChildren<AtkTypeSlot>().Build(atkType);
@@ -781,6 +811,11 @@ namespace Assets.Scripts.Feature.Main.Player
         public void SetScale(Vector3 scale)
         {
             transform.localScale = scale;
+        }
+
+        public void SetPlayerUnitSetting(string settingName)
+        {
+            playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>($"Setting/PlayerUnit/{settingName}");
         }
     }
 }

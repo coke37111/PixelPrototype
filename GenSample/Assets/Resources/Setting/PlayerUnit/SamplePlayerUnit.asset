@@ -21,6 +21,7 @@ MonoBehaviour:
   jumpPower: 500
   meleeKnockbackPower: {x: 200, y: 700}
   missileKnockbackPower: {x: 100, y: 500}
+  unitScale: {x: 2, y: 2, z: 1}
   unitTypes:
   - char_st_01
   - char_st_01_human_l

@@ -23,6 +23,7 @@ namespace Assets.Scripts.Settings.SO
         public Vector2 meleeKnockbackPower;
         [Header("- 미사일 넉백 파워")]
         public Vector2 missileKnockbackPower;
+        public Vector3 unitScale;
         [Header("- 스킨목록")]
         public string[] unitTypes;
         [Header("- 스파인목록")]

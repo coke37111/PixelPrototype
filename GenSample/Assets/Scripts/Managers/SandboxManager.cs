@@ -435,17 +435,14 @@ namespace Assets.Scripts.Managers
         private void SpawnPlayer()
         {
             Vector3 spawnPosTo3 = cubeContainer.GetRandomSpawnPosEdit();
+            PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
 
             if (PlayerSettings.IsConnectNetwork())
             {
                 var data = new List<object>();
-
-                // Set Spine
-                PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);
-                string spinePath = playerUnitSetting.GetSpinePath();
-                data.Add(spinePath);
+                data.Add(playerUnitSetting.name);
+                data.Add(playerUnitSetting.GetSpinePath());
                 data.Add(Random.Range(0, 2));
-                data.Add(playerScale);
 
                 PhotonNetwork.Instantiate(PrefabPath.PlayerPath, spawnPosTo3, Quaternion.identity, 0, data.ToArray());
             }
@@ -455,13 +452,18 @@ namespace Assets.Scripts.Managers
                 if (pfPlayer != null)
                 {
                     Transform unitContainer = FindObjectOfType<UnitContainer>().transform;
+
                     GameObject goPlayer = Instantiate(pfPlayer, spawnPosTo3, Quaternion.identity, unitContainer);
                     player = goPlayer.GetComponent<PlayerController>();
+                    player.SetPlayerUnitSetting(playerUnitSetting.name);
+                    player.Init();
+                    player.MakeSpine(playerUnitSetting.GetSpinePath());
+                    player.SetAtkType(Random.Range(0, 2));
                     player.SetControllable(false);
-                    player.SetScale(playerScale);
+
                     sbCamCtrl.SetTarget(goPlayer.transform);
 
-                    if(playerType == PLAYER_TYPE.Designer)
+                    if (playerType == PLAYER_TYPE.Designer)
                     {
                         player.SetEditMode();
                     }
