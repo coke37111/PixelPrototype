@@ -781,7 +781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerType: 0
-  DefaultMapSize: {x: 10, y: 1, z: 10}
+  DefaultMapSize: {x: 100, y: 1, z: 100}
   DefaultCube: {fileID: 5036138562373106267, guid: eef9889416e7ea744a911377d2655660, type: 3}
   LoadMapData: {fileID: 11400000, guid: 59e1713f97b0e3f4d8b2f17d99b05053, type: 2}
   playerScale: {x: 2, y: 2.5, z: 1}
