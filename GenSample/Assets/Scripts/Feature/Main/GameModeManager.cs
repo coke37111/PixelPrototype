@@ -153,6 +153,12 @@ namespace Assets.Scripts.Feature.Main
                             if(localPlayer.transform.position.y <= setting.dieHeight)
                             {
                                 localPlayer.FallDie();
+
+                                if (!PlayerSettings.IsConnectNetwork())
+                                {
+                                    SetGameState(GameState.Fail);
+                                    SetProcState(ProcState.Proc);
+                                }
                             }
                         }
                         break;
