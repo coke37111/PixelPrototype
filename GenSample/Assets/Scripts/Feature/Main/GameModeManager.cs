@@ -157,6 +157,17 @@ namespace Assets.Scripts.Feature.Main
                         }
                         break;
                     }
+                case GameState.Clear when procState == ProcState.Proc:
+                    {
+                        if (PhotonNetwork.IsMasterClient)
+                        {
+                            StopAllCoroutines();
+                        }
+
+                        SetGameState(GameState.End);
+                        SetProcState(ProcState.Proc);
+                        break;
+                    }
                 case GameState.Fail when procState == ProcState.Proc:
                     {
                         if (PhotonNetwork.IsMasterClient)
@@ -215,6 +226,8 @@ namespace Assets.Scripts.Feature.Main
         public override void OnPlayerLeftRoom(PunPlayer otherPlayer)
         {
             Log.Print($"Player {otherPlayer.ActorNumber} Left Room");
+
+            CheckEndOfGame();
         }
 
         public override void OnMasterClientSwitched(PunPlayer newMasterClient)
@@ -253,6 +266,11 @@ namespace Assets.Scripts.Feature.Main
                     }
                 }
             }
+
+            if (changedProps.ContainsKey(PlayerSettings.PLAYER_DIE))
+            {
+                CheckEndOfGame();
+            }
         }
 
         #endregion
@@ -285,6 +303,76 @@ namespace Assets.Scripts.Feature.Main
 
             SetGameState(GameState.Play);
             SetProcState(ProcState.Proc);
+        }
+
+        private void CheckEndOfGame()
+        {
+            int allLivePlayerCnt = 0;
+            Dictionary<int, int> liveTeamPlayerCnt = new Dictionary<int, int>(); // teamNum, cnt
+            foreach (PunPlayer p in PhotonNetwork.PlayerList)
+            {
+                if (IsPlayerDie(p))
+                    continue;
+
+                allLivePlayerCnt++;
+
+                if (p.CustomProperties.TryGetValue(PlayerSettings.PLAYER_TEAM, out object playerTeamNum))
+                {
+                    int teamNum = (int)playerTeamNum;
+                    if (liveTeamPlayerCnt.ContainsKey(teamNum))
+                    {
+                        liveTeamPlayerCnt[teamNum]++;
+                    }
+                    else
+                    {
+                        liveTeamPlayerCnt.Add(teamNum, 1);
+                    }
+                }
+            }
+
+            switch (setting.gameMode)
+            {
+                case GameMode.Survival:
+                    {
+                        if(setting.matchType == MatchType.Free)
+                        {
+                            if (allLivePlayerCnt <= setting.survivalCount)
+                            {
+                                SetGameState(GameState.Clear);
+                                SetProcState(ProcState.Proc);
+                            }
+                        }
+                        else if(setting.matchType == MatchType.Team)
+                        {
+                            int liveTeamCnt = 0;
+                            foreach(int teamNum in liveTeamPlayerCnt.Keys)
+                            {
+                                if(liveTeamPlayerCnt[teamNum] > 0)
+                                {
+                                    liveTeamCnt++;
+                                }
+                            }
+
+                            if(liveTeamCnt <= 1)
+                            {
+                                SetGameState(GameState.Clear);
+                                SetProcState(ProcState.Proc);
+                            }
+                        }
+                        break;
+                    }
+            }
+        }
+
+        private bool IsPlayerDie(PunPlayer player)
+        {
+            object isDie;
+            if (player.CustomProperties.TryGetValue(PlayerSettings.PLAYER_DIE, out isDie))
+            {
+                return (bool)isDie;
+            }
+
+            return false;
         }
 
         #endregion
