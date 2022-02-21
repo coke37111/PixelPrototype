@@ -144,6 +144,17 @@ namespace Assets.Scripts.Feature.Main
                                 SetTextTime();
                             }
                         }
+
+                        if (setting.canFallDie)
+                        {
+                            if (localPlayer == null)
+                                return;
+
+                            if(localPlayer.transform.position.y <= setting.dieHeight)
+                            {
+                                localPlayer.FallDie();
+                            }
+                        }
                         break;
                     }
                 case GameState.Fail when procState == ProcState.Proc:
@@ -315,6 +326,7 @@ namespace Assets.Scripts.Feature.Main
             data.Add(Random.Range(0, 2));
 
             GameObject goPlayer = PhotonNetwork.Instantiate(PrefabPath.PlayerPath, spawnPos, Quaternion.identity, 0, data.ToArray());
+            localPlayer = goPlayer.GetComponent<PlayerController>();
 
             camViewController.SetTarget(goPlayer.transform);
         }
