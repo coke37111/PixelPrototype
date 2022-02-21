@@ -693,7 +693,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 792750309}
   m_HandleRect: {fileID: 792750308}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -784,7 +784,7 @@ MonoBehaviour:
   DefaultMapSize: {x: 10, y: 1, z: 10}
   DefaultCube: {fileID: 5036138562373106267, guid: eef9889416e7ea744a911377d2655660, type: 3}
   LoadMapData: {fileID: 11400000, guid: 59e1713f97b0e3f4d8b2f17d99b05053, type: 2}
-  playerScale: {x: 2, y: 3, z: 1}
+  playerScale: {x: 2, y: 2.5, z: 1}
 --- !u!1 &792750307
 GameObject:
   m_ObjectHideFlags: 0
