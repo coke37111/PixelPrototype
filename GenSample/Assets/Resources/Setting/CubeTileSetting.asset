@@ -69,3 +69,5 @@ MonoBehaviour:
     tileName: Tex_block_02
   - cubeName: Cube_grass_06
     tileName: Tile_grass_06
+  - cubeName: SpawnMonsterCube
+    tileName: Tile_grass_06

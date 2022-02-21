@@ -111,9 +111,7 @@ namespace Assets.Scripts.Feature.GenSample
         #endregion
 
         public void Init()
-        {
-            transform.SetParent(FindObjectOfType<UnitContainer>().transform);
-
+        {            
             mobSetting = ResourceManager.LoadAsset<MobSettingSO>(MobSettingSO.path);
             maxHp = enhanceHpCount * mobSetting.hp;
 

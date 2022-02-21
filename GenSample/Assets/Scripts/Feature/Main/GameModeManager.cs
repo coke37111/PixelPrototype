@@ -6,15 +6,18 @@ using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.SO;
 using Assets.Scripts.Util;
+using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
+using static Assets.Scripts.Settings.PlayerSettings;
 using PunHashtable = ExitGames.Client.Photon.Hashtable;
 using PunPlayer = Photon.Realtime.Player;
 
 namespace Assets.Scripts.Feature.Main
 {
-    public class GameModeManager : MonoBehaviourPunCallbacks
+    public class GameModeManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         #region ENUM
 
@@ -122,7 +125,7 @@ namespace Assets.Scripts.Feature.Main
                         }
                         else
                         {
-                            cubeContainer.GenerateNormalCube();
+                            GenerateObjectByMaster();
                             SpawnLocalPlayer();
 
                             SetGameState(GameState.Play);
@@ -165,6 +168,7 @@ namespace Assets.Scripts.Feature.Main
                         }
                         break;
                     }
+                case GameState.Play when procState == ProcState.Lock: return;
                 case GameState.Clear when procState == ProcState.Proc:
                     {
                         if (PhotonNetwork.IsMasterClient)
@@ -269,7 +273,7 @@ namespace Assets.Scripts.Feature.Main
                         if (!startTimeIsSet)
                         {
                             GenCountdownTimer.SetStartTime();
-                            cubeContainer.GenerateNormalCube();
+                            GenerateObjectByMaster();
                         }
                     }
                 }
@@ -278,6 +282,27 @@ namespace Assets.Scripts.Feature.Main
             if (changedProps.ContainsKey(PlayerSettings.PLAYER_DIE))
             {
                 CheckEndOfGame();
+            }
+        }
+
+        public void OnEvent(EventData photonEvent)
+        {
+            EventCodeType eventCodeType = (EventCodeType)photonEvent.Code;
+
+            object[] data = (photonEvent.CustomData != null) ? photonEvent.CustomData as object[] : null;
+            switch (eventCodeType)
+            {
+                case EventCodeType.MobDie:
+                    {
+                        SetProcState(ProcState.Lock);
+                        break;
+                    }
+                case EventCodeType.Clear:
+                    {
+                        SetGameState(GameState.Clear);
+                        SetProcState(ProcState.Proc);
+                        break;
+                    }
             }
         }
 
@@ -366,6 +391,16 @@ namespace Assets.Scripts.Feature.Main
                                 SetGameState(GameState.Clear);
                                 SetProcState(ProcState.Proc);
                             }
+                        }
+                        break;
+                    }
+                case GameMode.Cooperate:
+                case GameMode.Sandbox:
+                    {
+                        if (allLivePlayerCnt <= 0)
+                        {
+                            SetGameState(GameState.Clear);
+                            SetProcState(ProcState.Proc);
                         }
                         break;
                     }
@@ -459,6 +494,12 @@ namespace Assets.Scripts.Feature.Main
             RoomSettings.isMaster = PhotonNetwork.IsMasterClient;
 
             PhotonNetwork.LeaveRoom();
+        }
+
+        private void GenerateObjectByMaster()
+        {
+            cubeContainer.GenerateNormalCube();
+            cubeContainer.GenerateMonster();
         }
     }
 }

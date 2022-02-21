@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Managers;
+﻿using Assets.Scripts.Feature.GenSample;
+using Assets.Scripts.Managers;
 using Assets.Scripts.Settings;
 using Photon.Pun;
 using Photon.Realtime;
@@ -13,9 +14,11 @@ namespace Assets.Scripts.Feature.Main.Cubes
     {
         private List<Vector3> spawnPosList = new List<Vector3>();
         private List<CubeData> normalCubeData = new List<CubeData>();
+        private List<SpawnMonsterCube> spawnMonsterCubeList = new List<SpawnMonsterCube>();
 
         private void Update()
         {
+            // TODO : 배치된 Cube 위치 일괄 적용 코드
             //if (Input.GetKey(KeyCode.LeftShift))
             //{
             //    if (Input.GetKeyDown(KeyCode.LeftBracket))
@@ -95,23 +98,40 @@ namespace Assets.Scripts.Feature.Main.Cubes
                 EditCube cube = goCube.GetComponent<EditCube>();
                 cube.Build(cubeData.prefabName);
 
-                if(cubeData.prefabName == "SpawnCube")
+                switch (cubeData.prefabName)
                 {
-                    spawnPosList.Add(cubeData.pos);
+                    case "SpawnCube":
+                        {
+                            spawnPosList.Add(cubeData.pos);
 
-                    if (!isEdit)
-                    {
-                        SpawnCube spawnCube = goCube.GetComponentInChildren<SpawnCube>();
-                        if (spawnCube != null)
-                            spawnCube.HideGuide();
-                    }
-                }
+                            if (!isEdit)
+                            {
+                                SpawnCube spawnCube = goCube.GetComponentInChildren<SpawnCube>();
+                                if (spawnCube != null)
+                                    spawnCube.HideGuide();
+                            }
+                            break;
+                        }
+                    case "GuardCube":
+                        {
+                            GuardCube guardCube = goCube.GetComponentInChildren<GuardCube>();
+                            guardCube.HideCube();
+                            break;
+                        }
+                    case "SpawnMonsterCube":
+                        {
+                            SpawnMonsterCube spawnMonsterCube = goCube.GetComponentInChildren<SpawnMonsterCube>();
+                            if (spawnMonsterCube == null)
+                                continue;
 
-                if (cubeData.prefabName == "GuardCube")
-                {
-                    GuardCube guardCube = goCube.GetComponentInChildren<GuardCube>();
-                    guardCube.HideCube();
-                }
+                            spawnMonsterCubeList.Add(spawnMonsterCube);
+                            if (!isEdit)
+                            {
+                                spawnMonsterCube.HideGuide();
+                            }
+                            break;
+                        }
+                }         
             }
         }
 
@@ -193,6 +213,29 @@ namespace Assets.Scripts.Feature.Main.Cubes
                 if (guardCube != null)
                 {
                     guardCube.HideCube();
+                }
+            }
+        }
+
+        public void GenerateMonster()
+        {
+            foreach(SpawnMonsterCube cube in spawnMonsterCubeList)
+            {
+                string prefabPath = cube.monsterPrefabPath;
+
+                if (PlayerSettings.IsConnectNetwork())
+                {
+                    var data = new List<object>();
+                    data.Add(PhotonNetwork.PlayerList.Length);
+
+                    PhotonNetwork.InstantiateRoomObject(prefabPath, cube.transform.position, Quaternion.identity, 0, data.ToArray());
+                }
+                else
+                {
+                    GameObject pfMonster = ResourceManager.LoadAsset<GameObject>(prefabPath);
+                    GameObject goMonster = Instantiate(pfMonster, cube.transform.position, Quaternion.identity);
+                    MobController mobCtrl = goMonster.GetComponent<MobController>();
+                    mobCtrl.Init();
                 }
             }
         }
