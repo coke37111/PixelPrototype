@@ -25,10 +25,21 @@ namespace Assets.Scripts.Feature.GenSample
         private GameObject hitEffect2;
         private GameObject critHitEffect;
 
+        private float nextAtkDelay;
+        private float curAtkDelay = 0f;
+
+        private PhotonView photonView;
+
         #region UNITY
 
         void Update()
         {
+            if (PlayerSettings.IsConnectNetwork() && !photonView.IsMine)
+                return;
+
+            if (mobSetting == null)
+                return;
+
             if(curRegenHpDelay >= mobSetting.regenHpDelay)
             {
                 curRegenHpDelay = 0f;
@@ -41,6 +52,26 @@ namespace Assets.Scripts.Feature.GenSample
             else
             {
                 curRegenHpDelay += Time.deltaTime;
+            }
+
+            if(curAtkDelay >= nextAtkDelay)
+            {
+                curAtkDelay -= nextAtkDelay;
+
+                if (PlayerSettings.IsConnectNetwork())
+                {
+                    photonView.RPC("AttackRPC", RpcTarget.AllViaServer, transform.position);
+                }
+                else
+                {
+                    Attack(transform.position);
+                }
+
+                nextAtkDelay = GetAtkDelay();                
+            }
+            else
+            {
+                curAtkDelay += Time.deltaTime;
             }
         }
 
@@ -108,15 +139,48 @@ namespace Assets.Scripts.Feature.GenSample
             }
         }
 
+        [PunRPC]
+        public void AttackRPC(Vector3 position, PhotonMessageInfo info)
+        {
+            float lag = (float)(PhotonNetwork.Time - info.SentServerTime);
+            Attack(position);
+        }
+
         #endregion
 
         public void Init()
-        {            
+        {
             mobSetting = ResourceManager.LoadAsset<MobSettingSO>(MobSettingSO.path);
             maxHp = enhanceHpCount * mobSetting.hp;
 
             curHp = maxHp;
             SetGauge();
+
+            nextAtkDelay = GetAtkDelay();
+            curAtkDelay = 0f;
+
+            photonView = GetComponent<PhotonView>();
+        }
+
+        private float GetAtkDelay()
+        {
+            if (mobSetting == null)
+                return 1f;
+
+            return Random.Range(mobSetting.minAtkDelay, mobSetting.maxAtkDelay);
+        }
+
+        private void Attack(Vector3 pos)
+        {
+            Vector3 initPos = pos;
+            initPos.x += Random.Range(-mobSetting.atkPos.x, mobSetting.atkPos.x);
+            initPos.y = Random.Range(-mobSetting.atkPos.y, mobSetting.atkPos.y);
+            initPos.z += Random.Range(-mobSetting.atkPos.z, mobSetting.atkPos.z);
+
+            GameObject pfIndicator = ResourceManager.LoadAsset<GameObject>(PrefabPath.IndicatorPath);
+            GameObject goIndicator = Instantiate(pfIndicator, initPos, Quaternion.identity, null);
+            Indicator indicator = goIndicator.GetComponent<Indicator>();
+            indicator.Init(mobSetting.atkLimitTime, mobSetting.atkScale.x, mobSetting.atkScale.y);
         }
 
         public void AttackBy(float damage)

@@ -23,8 +23,6 @@ namespace Assets.Scripts.Feature.GenSample
 
         private float curTime;
 
-        private bool isConnected;
-
         private UnityAction<object[]> knockbackCB;
         private bool _tryDestroyed;
 
@@ -52,15 +50,13 @@ namespace Assets.Scripts.Feature.GenSample
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
             object[] data = info.photonView.InstantiationData;
-            Init((float)data[0], (float)data[1], (float)data[2], true);
+            Init((float)data[0], (float)data[1], (float)data[2]);
         }
 
         #endregion
 
-        public void Init(float timeLimit, float scaleX, float scaleZ, bool isConnected = false)
+        public void Init(float timeLimit, float scaleX, float scaleZ)
         {
-            this.isConnected = isConnected;
-
             this.timeLimit = timeLimit;
             _tryDestroyed = false;
             curTime = 0f;
@@ -84,29 +80,15 @@ namespace Assets.Scripts.Feature.GenSample
             Vector3 trPos = transform.position;
             float radius = trArea.localScale.x * 0.5f;
 
-            if (isConnected)
+            PlayerController[] players = FindObjectsOfType<PlayerController>();
+            if (players != null)
             {
-                if (_tryDestroyed == false)
+                foreach (PlayerController player in players)
                 {
-                    _tryDestroyed = true;
-
-                    if (PhotonNetwork.IsMasterClient)
-                    {
-                        List<object> content = new List<object>() { trPos, radius, knockbackPower };
-                        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                        SendOptions sendOptions = new SendOptions { Reliability = true };
-                        PhotonNetwork.RaiseEvent((byte)PlayerSettings.EventCodeType.IndicatorKnockback, content.ToArray(), raiseEventOptions, sendOptions);
-
-                        PhotonView photonView = GetComponent<PhotonView>();
-                        PhotonNetwork.Destroy(photonView);
-                    }
+                    player.Knockback(trPos, radius, knockbackPower);
                 }
             }
-            else
-            {
-                knockbackCB?.Invoke(new object[] { trPos, radius, knockbackPower });
-                Destroy(gameObject);
-            }
+            Destroy(gameObject);
         }
     }
 }

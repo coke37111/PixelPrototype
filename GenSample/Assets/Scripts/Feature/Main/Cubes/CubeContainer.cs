@@ -222,18 +222,18 @@ namespace Assets.Scripts.Feature.Main.Cubes
             foreach(SpawnMonsterCube cube in spawnMonsterCubeList)
             {
                 string prefabPath = cube.monsterPrefabPath;
-
+                Vector3 initPos = cube.transform.position + Vector3.up;
                 if (PlayerSettings.IsConnectNetwork())
                 {
                     var data = new List<object>();
                     data.Add(PhotonNetwork.PlayerList.Length);
 
-                    PhotonNetwork.InstantiateRoomObject(prefabPath, cube.transform.position, Quaternion.identity, 0, data.ToArray());
+                    PhotonNetwork.InstantiateRoomObject(prefabPath, initPos, Quaternion.identity, 0, data.ToArray());
                 }
                 else
                 {
                     GameObject pfMonster = ResourceManager.LoadAsset<GameObject>(prefabPath);
-                    GameObject goMonster = Instantiate(pfMonster, cube.transform.position, Quaternion.identity);
+                    GameObject goMonster = Instantiate(pfMonster, initPos, Quaternion.identity);
                     MobController mobCtrl = goMonster.GetComponent<MobController>();
                     mobCtrl.Init();
                 }

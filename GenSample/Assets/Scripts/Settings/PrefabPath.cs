@@ -9,5 +9,6 @@ namespace Assets.Scripts.Settings
         public const string PlayerPath = "Prefab/Main/Player/Player";
         public const string ItemPowerPath = "Prefab/Main/Item/ItemPower";
         public const string ItemRangePath = "Prefab/Main/Item/ItemRange";
+        public const string IndicatorPath = "Prefab/Indicator";
     }
 }

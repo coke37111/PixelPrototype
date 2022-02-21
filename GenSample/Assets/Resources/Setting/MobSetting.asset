@@ -15,3 +15,8 @@ MonoBehaviour:
   hp: 10000
   regenHpRatio: 0.01
   regenHpDelay: 0.5
+  minAtkDelay: 1
+  maxAtkDelay: 3
+  atkPos: {x: 5, y: 0, z: 5}
+  atkScale: {x: 5, y: 5}
+  atkLimitTime: 2

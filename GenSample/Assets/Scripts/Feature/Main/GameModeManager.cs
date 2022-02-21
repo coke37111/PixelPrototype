@@ -490,6 +490,9 @@ namespace Assets.Scripts.Feature.Main
 
         private void LeaveRoom()
         {
+            if (!PlayerSettings.IsConnectNetwork())
+                return;
+
             RoomSettings.roomName = PhotonNetwork.CurrentRoom.Name;
             RoomSettings.isMaster = PhotonNetwork.IsMasterClient;
 
