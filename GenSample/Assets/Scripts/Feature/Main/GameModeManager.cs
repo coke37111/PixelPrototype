@@ -49,6 +49,7 @@ namespace Assets.Scripts.Feature.Main
         private PlayerController localPlayer;
 
         private float curTime;
+        private float curLeaveTime;
 
         #region UNITY
 
@@ -99,6 +100,7 @@ namespace Assets.Scripts.Feature.Main
                         // Set Value
                         textTime.text = "";
                         curTime = 0f;
+                        curLeaveTime = 0f;
 
                         gameSetting = ResourceManager.LoadAsset<GameSettingSO>(GameSettingSO.path);
 
@@ -187,7 +189,7 @@ namespace Assets.Scripts.Feature.Main
                     }
                 case GameState.End when procState == ProcState.Proc:
                     {
-                        if(curTime >= gameSetting.endDelay)
+                        if(curLeaveTime >= gameSetting.endDelay)
                         {
                             LeaveRoom();
 
@@ -195,9 +197,9 @@ namespace Assets.Scripts.Feature.Main
                         }
                         else
                         {
-                            curTime += Time.deltaTime;
+                            curLeaveTime += Time.deltaTime;
 
-                            float remain = gameSetting.endDelay - curTime;
+                            float remain = gameSetting.endDelay - curLeaveTime;
                             textTime.text = string.Format("Leave Room in {0} seconds", remain.ToString("n0"));
                         }
                         break;
