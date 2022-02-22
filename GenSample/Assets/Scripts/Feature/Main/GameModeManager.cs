@@ -50,6 +50,7 @@ namespace Assets.Scripts.Feature.Main
         private CameraViewController camViewController;
 
         private PlayerController localPlayer;
+        private List<PlayerController> dummyPlayerList;
 
         private float curTime;
         private float curLeaveTime;
@@ -445,6 +446,57 @@ namespace Assets.Scripts.Feature.Main
             localPlayer = player;
 
             camViewController.SetTarget(player.transform);
+        }
+
+        public void SpawnDummyPlayer()
+        {
+            if (!Application.isPlaying)
+            {
+                Log.Error($"게임을 실행해주세요!");
+                return;
+            }
+
+            if (PlayerSettings.IsConnectNetwork())
+                return;
+
+            Vector3 spawnPos = cubeContainer.GetRandomSpawnPos();
+
+            GameObject pfPlayer = ResourceManager.LoadAsset<GameObject>(PrefabPath.PlayerPath);
+            GameObject goPlayer = Instantiate(pfPlayer, spawnPos, Quaternion.identity, null);
+            PlayerController player = goPlayer.GetComponent<PlayerController>();
+            player.SetPlayerUnitSetting(setting.playerUnitSetting.name);
+            player.Init();
+            player.MakeSpine(setting.playerUnitSetting.GetSpinePath());
+            player.SetAtkType(Random.Range(0, 2));
+            player.SetControllable(true);
+
+            goPlayer.name = "Dummy" + goPlayer.name;
+            player.SetDummy(PlayerController.DummyType.Fix);
+            player.SetTargetPlayer(localPlayer);
+
+            if (dummyPlayerList == null)
+                dummyPlayerList = new List<PlayerController>();
+
+            dummyPlayerList.Add(player);
+        }
+
+        public void DestroyAllDummyPlayer()
+        {
+            if (!Application.isPlaying)
+            {
+                Log.Error($"게임을 실행해주세요!");
+                return;
+            }
+
+            if (dummyPlayerList == null)
+                return;
+
+            int dummyCount = dummyPlayerList.Count;
+            for(int i = 0; i < dummyCount; i++)
+            {
+                Destroy(dummyPlayerList[i].gameObject);
+            }
+            dummyPlayerList.Clear();
         }
 
         private void SpawnPlayerNetwork()

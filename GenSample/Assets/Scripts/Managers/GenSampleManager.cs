@@ -558,7 +558,7 @@ namespace Assets.Scripts.Managers
                 GameObject goIndicator = Instantiate(pfIndicator, initPos, Quaternion.identity, null);
                 Indicator indicator = goIndicator.GetComponent<Indicator>();
                 indicator.Init(limitTime, scaleX, scaleZ);
-                indicator.RegisterKnockbackListener(player.Knockback);
+                //indicator.RegisterKnockbackListener(player.Knockback);
             }
         }
 

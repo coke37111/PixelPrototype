@@ -23,9 +23,6 @@ namespace Assets.Scripts.Feature.GenSample
 
         private float curTime;
 
-        private UnityAction<object[]> knockbackCB;
-        private bool _tryDestroyed;
-
         #region UNITY
 
         void Update()
@@ -58,16 +55,10 @@ namespace Assets.Scripts.Feature.GenSample
         public void Init(float timeLimit, float scaleX, float scaleZ)
         {
             this.timeLimit = timeLimit;
-            _tryDestroyed = false;
             curTime = 0f;
 
             SetTextAlert();
             trArea.localScale = new Vector3(scaleX, trArea.localScale.y, scaleZ);
-        }
-
-        public void RegisterKnockbackListener(UnityAction<object[]> knockbackCB)
-        {
-            this.knockbackCB = knockbackCB;
         }
 
         private void SetTextAlert()

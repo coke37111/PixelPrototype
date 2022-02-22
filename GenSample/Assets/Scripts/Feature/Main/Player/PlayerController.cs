@@ -88,6 +88,17 @@ namespace Assets.Scripts.Feature.Main.Player
         [SerializeField]
         private ATK_TYPE atkType = ATK_TYPE.Melee;
 
+        public enum DummyType
+        {
+            Fix,
+            CopyPlayer,
+            FollowPlayer
+        }
+        private bool isDummyPlayer = false;
+        [SerializeField]
+        private DummyType dummyType = DummyType.Fix;
+        private PlayerController localTargetPlayer;
+
         #region UNITY
 
         // Use this for initialization
@@ -99,6 +110,26 @@ namespace Assets.Scripts.Feature.Main.Player
         // Update is called once per frame
         void Update()
         {
+            if (isDummyPlayer && dummyType != DummyType.CopyPlayer)
+            {
+                switch (dummyType)
+                {
+                    case DummyType.Fix:
+                        return;
+                    case DummyType.CopyPlayer:
+                        break;
+                    case DummyType.FollowPlayer:
+                        {
+                            if (localTargetPlayer == null)
+                                return;
+
+                            Vector3 dir = localTargetPlayer.transform.position - transform.position;
+                            rb.velocity = dir.normalized * playerUnitSetting.speed;
+                            return;
+                        }
+                }
+            }
+
             if (PlayerSettings.IsConnectNetwork() && !photonView.IsMine)
                 return;
 
@@ -307,6 +338,8 @@ namespace Assets.Scripts.Feature.Main.Player
             SetScale(playerUnitSetting.unitScale);
 
             SetControllable(false);
+
+            isDummyPlayer = false;
         }
 
         private void Move()
@@ -754,10 +787,17 @@ namespace Assets.Scripts.Feature.Main.Player
 
         public void RaiseKnockback(Vector3 pos, Vector2 power)
         {
-            List<object> content = new List<object>() { photonView.ViewID, pos, power};
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-            SendOptions sendOptions = new SendOptions { Reliability = true };
-            PhotonNetwork.RaiseEvent((byte)PlayerSettings.EventCodeType.HitKnockback, content.ToArray(), raiseEventOptions, sendOptions);
+            if (PlayerSettings.IsConnectNetwork())
+            {
+                List<object> content = new List<object>() { photonView.ViewID, pos, power };
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+                SendOptions sendOptions = new SendOptions { Reliability = true };
+                PhotonNetwork.RaiseEvent((byte)PlayerSettings.EventCodeType.HitKnockback, content.ToArray(), raiseEventOptions, sendOptions);
+            }
+            else
+            {
+                Knockback(pos, power);
+            }
         }
 
         private void SetTeamNum()
@@ -791,6 +831,25 @@ namespace Assets.Scripts.Feature.Main.Player
         public void SetPlayerUnitSetting(string settingName)
         {
             playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>($"Setting/PlayerUnit/{settingName}");
+        }
+
+        public void SetDummy(DummyType dummyType)
+        {
+            isDummyPlayer = true;
+            this.dummyType = dummyType;
+        }
+
+        public void SetDummyType(DummyType dummyType)
+        {
+            if (!isDummyPlayer)
+                return;
+
+            this.dummyType = dummyType;
+        }
+
+        public void SetTargetPlayer(PlayerController player)
+        {
+            localTargetPlayer = player;
         }
     }
 }
