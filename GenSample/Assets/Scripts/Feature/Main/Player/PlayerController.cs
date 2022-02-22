@@ -410,6 +410,12 @@ namespace Assets.Scripts.Feature.Main.Player
 
         private void MakeBomb()
         {
+            if (playerUnitSetting == null)
+                return;
+
+            if (!playerUnitSetting.canMakeBomb)
+                return;
+
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 Vector3 bombPos = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.CeilToInt(transform.position.y), Mathf.RoundToInt(transform.position.z));                
@@ -599,6 +605,12 @@ namespace Assets.Scripts.Feature.Main.Player
 
         private void Attack()
         {
+            if (playerUnitSetting == null)
+                return;
+
+            if (!playerUnitSetting.canAttack)
+                return;
+
             if (Input.GetKeyDown(KeyCode.X))
             {
                 anim.SetTrigger("isAtk");

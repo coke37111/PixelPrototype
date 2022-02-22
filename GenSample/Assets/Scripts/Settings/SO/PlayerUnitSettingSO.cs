@@ -24,21 +24,25 @@ namespace Assets.Scripts.Settings.SO
         [Header("- 미사일 넉백 파워")]
         public Vector2 missileKnockbackPower;
         public Vector3 unitScale;
-        [Header("- 스킨목록")]
-        public string[] unitTypes;
+
+        public bool canMakeBomb;
+        public bool canAttack;
+
+        //[Header("- 스킨목록")]
+        //public string[] unitTypes;
         [Header("- 스파인목록")]
         public string[] spineTypes;
 
         public static string path = "Setting/PlayerUnitSetting";
 
-        public string GetUnitType()
-        {
-            if (unitTypes.Length <= 0)
-                return null;
+        //public string GetUnitType()
+        //{
+        //    if (unitTypes.Length <= 0)
+        //        return null;
 
-            int selectIdx = Random.Range(0, unitTypes.Length);
-            return unitTypes[selectIdx];
-        }
+        //    int selectIdx = Random.Range(0, unitTypes.Length);
+        //    return unitTypes[selectIdx];
+        //}
 
         public string GetSpinePath()
         {

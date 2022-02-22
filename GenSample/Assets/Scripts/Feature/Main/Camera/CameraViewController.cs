@@ -44,6 +44,7 @@ namespace Assets.Scripts.Feature.Main.Camera
             this.setting = setting;
 
             transform.localRotation = Quaternion.Euler(setting.rotate);
+            GetComponent<UnityEngine.Camera>().fieldOfView = setting.fieldOfView;
         }
 
         public void SetTarget(Transform target)

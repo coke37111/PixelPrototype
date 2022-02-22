@@ -99,8 +99,8 @@ namespace Assets.Scripts.Managers
                 PlayerUnitSettingSO playerUnitSetting = ResourceManager.LoadAsset<PlayerUnitSettingSO>(PlayerUnitSettingSO.path);                
                 if(!UnitSettings.useSpine())
                 {
-                    Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
-                    unitComp.SetSprite(selectUnitParts);
+                    //Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
+                    //unitComp.SetSprite(selectUnitParts);
                 }
                 else
                     unitComp.MakeSpine(playerUnitSetting.GetSpinePath());
@@ -147,8 +147,8 @@ namespace Assets.Scripts.Managers
             unitLocalPlayer.Init();
             if (!UnitSettings.useSpine())
             {
-                Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
-                unitLocalPlayer.SetSprite(selectUnitParts);
+                //Dictionary<string, string> selectUnitParts = UnitSettings.GetSelectUnitPartDict(playerUnitSetting.GetUnitType());
+                //unitLocalPlayer.SetSprite(selectUnitParts);
             }
             else
                 unitLocalPlayer.MakeSpine(playerUnitSetting.GetSpinePath());

@@ -20,5 +20,7 @@ namespace Assets.Scripts.Settings.SO
         public Vector3 rotate;
         public float dist;
         public float height;
+        [Range(1f, 150f)]
+        public float fieldOfView;
     }
 }
