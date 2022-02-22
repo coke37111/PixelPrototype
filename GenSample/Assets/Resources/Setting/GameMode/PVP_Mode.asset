@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c07b014666099e4a89084f31484c941, type: 3}
+  m_Name: PVP_Mode
+  m_EditorClassIdentifier: 
+  gameMode: 0
+  matchType: 0
+  survivalCount: 1
+  limitTime: 0
+  canFallDie: 1
+  dieHeight: 0
+  cameraViewSetting: {fileID: 11400000, guid: 7fc08a33fc1cb1a4f9d0679f3604076a, type: 2}
+  playerUnitSetting: {fileID: 11400000, guid: d686adf897e7b3141b3c5b7dd239f97d, type: 2}
+  mapData: {fileID: 11400000, guid: 0f6ed6b6ad6d6044c8a6da1c6e516210, type: 2}

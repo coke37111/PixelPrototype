@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b405b50632984c345b98287212a52a5a, type: 3}
-  m_Name: Bomberman_Player
+  m_Name: Raid_Player
   m_EditorClassIdentifier: 
   speed: 3
-  atk: 10
-  atkDelay: 0.2
+  atk: 100
+  atkDelay: 0.5
   def: 5
   hp: 200
-  fireDelay: 0.5
-  jumpPower: 150
-  meleeKnockbackPower: {x: 200, y: 700}
-  missileKnockbackPower: {x: 100, y: 500}
-  unitScale: {x: 2, y: 2.8, z: 1}
-  canMakeBomb: 1
-  canAttack: 0
+  fireDelay: 1
+  jumpPower: 250
+  meleeKnockbackPower: {x: 200, y: 500}
+  missileKnockbackPower: {x: 100, y: 300}
+  unitScale: {x: 2, y: 2.2, z: 1}
+  canMakeBomb: 0
+  canAttack: 1
   spineTypes:
   - Spine/human_m/Spine_human_m_001
   - Spine/human_m/Spine_human_m_custom_001

@@ -79,10 +79,10 @@ Material:
     - _DstBlend: 0
     - _End: 1
     - _GlossMapScale: 1
-    - _Glossiness: 1
+    - _Glossiness: 0
     - _GlossyReflections: 1
     - _GlowCutoff: 0.6
-    - _Metallic: 0.5
+    - _Metallic: 0.8
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
