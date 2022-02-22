@@ -52,7 +52,7 @@ MonoBehaviour:
   - cubeName: Torch
     tileName: Torch
   - cubeName: Question
-    tileName: Tex_question
+    tileName: tile_question
   - cubeName: SpawnCube
     tileName: Tile_grass_01
   - cubeName: GuardCube
@@ -60,14 +60,32 @@ MonoBehaviour:
   - cubeName: NormalCube
     tileName: tile_block_01
   - cubeName: Cube_grass_05
-    tileName: Tex_grass_04
-  - cubeName: Cube_box
-    tileName: Tex_box_01
+    tileName: tile_grass_05
+  - cubeName: BoxCube_01
+    tileName: tile_box_01
   - cubeName: Cube_ground
-    tileName: Tex_ground
-  - cubeName: Cube_block
-    tileName: Tex_block_02
+    tileName: tile_ground
+  - cubeName: BlockCube_01
+    tileName: tile_block_02
   - cubeName: Cube_grass_06
     tileName: Tile_grass_06
   - cubeName: SpawnMonsterCube
     tileName: Tile_grass_06
+  - cubeName: LavaCube_01
+    tileName: tile_lava
+  - cubeName: BoxCube_01
+    tileName: tile_box
+  - cubeName: ColumnCube_01
+    tileName: tile_column_01
+  - cubeName: ColumnCube_02
+    tileName: tile_column_02
+  - cubeName: GravelCube_01
+    tileName: tile_gravel_01
+  - cubeName: GravelCube_02
+    tileName: tile_gravel_02
+  - cubeName: GravelCube_03
+    tileName: tile_gravel_03
+  - cubeName: SteelCube
+    tileName: tile_steel_01
+  - cubeName: TrapCube
+    tileName: tile_trap_01
