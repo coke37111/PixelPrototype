@@ -5,9 +5,10 @@ using UnityEngine;
 namespace Assets.Scripts.Feature.Main.Camera
 {
     public class CameraViewController : MonoBehaviour
-    {
+    {        
         private CameraViewSettingSO setting;
         private Transform target;
+        private UnityEngine.Camera camera;
 
         #region UNITY
 
@@ -35,6 +36,9 @@ namespace Assets.Scripts.Feature.Main.Camera
             newPos.y += setting.height;
             newPos.z -= setting.dist;
             transform.position = newPos;
+
+            transform.localRotation = Quaternion.Euler(setting.rotate);
+            camera.fieldOfView = setting.fieldOfView;
         }
 
         #endregion
@@ -42,9 +46,7 @@ namespace Assets.Scripts.Feature.Main.Camera
         public void Init(CameraViewSettingSO setting)
         {
             this.setting = setting;
-
-            transform.localRotation = Quaternion.Euler(setting.rotate);
-            GetComponent<UnityEngine.Camera>().fieldOfView = setting.fieldOfView;
+            camera = GetComponent<UnityEngine.Camera>();
         }
 
         public void SetTarget(Transform target)
