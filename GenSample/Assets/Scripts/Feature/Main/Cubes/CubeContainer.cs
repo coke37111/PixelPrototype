@@ -98,40 +98,69 @@ namespace Assets.Scripts.Feature.Main.Cubes
                 EditCube cube = goCube.GetComponent<EditCube>();
                 cube.Build(cubeData.prefabName);
 
-                switch (cubeData.prefabName)
+                if (goCube.GetComponentInChildren<SpawnCube>())
                 {
-                    case "SpawnCube":
-                        {
-                            spawnPosList.Add(cubeData.pos);
+                    spawnPosList.Add(cubeData.pos);
 
-                            if (!isEdit)
-                            {
-                                SpawnCube spawnCube = goCube.GetComponentInChildren<SpawnCube>();
-                                if (spawnCube != null)
-                                    spawnCube.HideGuide();
-                            }
-                            break;
-                        }
-                    case "GuardCube":
-                        {
-                            GuardCube guardCube = goCube.GetComponentInChildren<GuardCube>();
-                            guardCube.HideCube();
-                            break;
-                        }
-                    case "SpawnMonsterCube":
-                        {
-                            SpawnMonsterCube spawnMonsterCube = goCube.GetComponentInChildren<SpawnMonsterCube>();
-                            if (spawnMonsterCube == null)
-                                continue;
+                    if (!isEdit)
+                    {
+                        SpawnCube spawnCube = goCube.GetComponentInChildren<SpawnCube>();
+                        if (spawnCube != null)
+                            spawnCube.HideGuide();
+                    }
+                }
+                if (goCube.GetComponentInChildren<GuardCube>())
+                {
+                    GuardCube guardCube = goCube.GetComponentInChildren<GuardCube>();
+                    guardCube.HideCube();
+                }
+                if (goCube.GetComponentInChildren<SpawnMonsterCube>())
+                {
+                    SpawnMonsterCube spawnMonsterCube = goCube.GetComponentInChildren<SpawnMonsterCube>();
+                    if (spawnMonsterCube == null)
+                        continue;
 
-                            spawnMonsterCubeList.Add(spawnMonsterCube);
-                            if (!isEdit)
-                            {
-                                spawnMonsterCube.HideGuide();
-                            }
-                            break;
-                        }
-                }         
+                    spawnMonsterCubeList.Add(spawnMonsterCube);
+                    if (!isEdit)
+                    {
+                        spawnMonsterCube.HideGuide();
+                    }
+                }
+
+                //switch (cubeData.prefabName)
+                //{
+                //    case "SpawnCube":
+                //        {
+                //            spawnPosList.Add(cubeData.pos);
+
+                //            if (!isEdit)
+                //            {
+                //                SpawnCube spawnCube = goCube.GetComponentInChildren<SpawnCube>();
+                //                if (spawnCube != null)
+                //                    spawnCube.HideGuide();
+                //            }
+                //            break;
+                //        }
+                //    case "GuardCube":
+                //        {
+                //            GuardCube guardCube = goCube.GetComponentInChildren<GuardCube>();
+                //            guardCube.HideCube();
+                //            break;
+                //        }
+                //    case "SpawnMonsterCube":
+                //        {
+                //            SpawnMonsterCube spawnMonsterCube = goCube.GetComponentInChildren<SpawnMonsterCube>();
+                //            if (spawnMonsterCube == null)
+                //                continue;
+
+                //            spawnMonsterCubeList.Add(spawnMonsterCube);
+                //            if (!isEdit)
+                //            {
+                //                spawnMonsterCube.HideGuide();
+                //            }
+                //            break;
+                //        }
+                //}         
             }
         }
 

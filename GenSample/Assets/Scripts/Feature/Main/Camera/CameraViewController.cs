@@ -8,7 +8,7 @@ namespace Assets.Scripts.Feature.Main.Camera
     {        
         private CameraViewSettingSO setting;
         private Transform target;
-        private UnityEngine.Camera camera;
+        private UnityEngine.Camera viewCamera;
 
         #region UNITY
 
@@ -38,7 +38,7 @@ namespace Assets.Scripts.Feature.Main.Camera
             transform.position = newPos;
 
             transform.localRotation = Quaternion.Euler(setting.rotate);
-            camera.fieldOfView = setting.fieldOfView;
+            viewCamera.fieldOfView = setting.fieldOfView;
         }
 
         #endregion
@@ -46,7 +46,7 @@ namespace Assets.Scripts.Feature.Main.Camera
         public void Init(CameraViewSettingSO setting)
         {
             this.setting = setting;
-            camera = GetComponent<UnityEngine.Camera>();
+            viewCamera = GetComponent<UnityEngine.Camera>();
         }
 
         public void SetTarget(Transform target)
