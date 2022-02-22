@@ -59,9 +59,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   expTime: 3
-  expRange: {x: 1, y: 1, z: 1}
+  expRange: {x: 1, y: 0, z: 1}
   expDamage: 10
-  expDelayTime: 0.05
+  expDelayTime: 0.01
   rayCastLayer:
     serializedVersion: 2
     m_Bits: 512
