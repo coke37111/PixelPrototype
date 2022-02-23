@@ -295,13 +295,33 @@ namespace Assets.Scripts.Feature.Main
             {
                 case EventCodeType.MobDie:
                     {
-                        SetProcState(ProcState.Lock);
+                        PhotonEventManager.RaiseEvent(PlayerSettings.EventCodeType.CheckCoopEvent, Photon.Realtime.ReceiverGroup.All, CooperateClearEvent.MobDie, false);
+                        break;
+                    }
+                case EventCodeType.CheckCoopEvent:
+                    {
+                        CooperateClearEvent coopClearEvent = (CooperateClearEvent)data[0];
+                        bool goToClear = (bool)data[1];
+
+                        if (setting.IsClear(coopClearEvent))
+                        {
+                            PhotonEventManager.RaiseEvent(PlayerSettings.EventCodeType.PlayerControllable, Photon.Realtime.ReceiverGroup.All, false);
+                            SetProcState(ProcState.Lock);
+
+                            if (goToClear)
+                            {
+                                PhotonEventManager.RaiseEvent(PlayerSettings.EventCodeType.Clear, Photon.Realtime.ReceiverGroup.All);
+                            }
+                        }
                         break;
                     }
                 case EventCodeType.Clear:
                     {
-                        SetGameState(GameState.Clear);
-                        SetProcState(ProcState.Proc);
+                        if (setting.IsAllClear())
+                        {
+                            SetGameState(GameState.Clear);
+                            SetProcState(ProcState.Proc);
+                        }
                         break;
                     }
             }

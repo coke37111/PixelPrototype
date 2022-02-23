@@ -279,7 +279,15 @@ namespace Assets.Scripts.Feature.Main.Player
                         
                         break;
                     }
-                case EventCodeType.MobDie:
+                case EventCodeType.PlayerControllable:
+                    {
+                        if (!photonView.IsMine)
+                            return;
+                        bool controllable = (bool)data[0];
+
+                        SetControllable(controllable);
+                        break;
+                    }
                 case EventCodeType.Fail:
                     {
                         SetControllable(false);

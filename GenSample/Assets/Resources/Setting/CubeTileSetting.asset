@@ -89,3 +89,5 @@ MonoBehaviour:
     tileName: tile_steel_01
   - cubeName: TrapCube
     tileName: tile_trap_01
+  - cubeName: GoalCube
+    tileName: tile_trap_01

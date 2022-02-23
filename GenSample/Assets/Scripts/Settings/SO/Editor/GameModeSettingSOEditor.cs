@@ -40,6 +40,7 @@ namespace Assets.Scripts.Settings.SO.Editor
                     }
                 case GameMode.Cooperate:
                     {
+                        settingSO.coopClearEvent = (CooperateClearEvent)EditorGUILayout.EnumPopup("CoopClearEvent", settingSO.coopClearEvent);
                         break;
                     }
                 case GameMode.Sandbox:
