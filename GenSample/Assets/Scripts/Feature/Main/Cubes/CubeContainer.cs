@@ -126,6 +126,15 @@ namespace Assets.Scripts.Feature.Main.Cubes
                         spawnMonsterCube.HideGuide();
                     }
                 }
+                if (goCube.GetComponentInChildren<GoalCube>())
+                {
+                    if (!isEdit)
+                    {
+                        GoalCube goalCube = goCube.GetComponentInChildren<GoalCube>();
+                        if (goalCube != null)
+                            goalCube.HideGuide();
+                    }
+                }
 
                 //switch (cubeData.prefabName)
                 //{
