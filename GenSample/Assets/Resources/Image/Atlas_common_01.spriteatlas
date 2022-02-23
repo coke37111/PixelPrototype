@@ -19,7 +19,7 @@ SpriteAtlas:
       generateMipMaps: 0
       readable: 0
       crunchedCompression: 0
-      sRGB: 0
+      sRGB: 1
     platformSettings:
     - serializedVersion: 3
       m_BuildTarget: DefaultTexturePlatform
@@ -43,7 +43,6 @@ SpriteAtlas:
     secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
-    - {fileID: 102900000, guid: e8b0a3a7807434a43971b9b8e7b99997, type: 3}
     - {fileID: 102900000, guid: ccc3a729b79edcb498d72efc115d960e, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
