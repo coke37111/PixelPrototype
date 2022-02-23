@@ -77,7 +77,9 @@ namespace Assets.Scripts.Settings.SO
             if (curClearEvent == null)
                 return false;
 
-            return curClearEvent.Contains(coopClearEvent);
+            bool isAllClear = curClearEvent.Contains(coopClearEvent);
+            curClearEvent.Clear();
+            return isAllClear;
         }
     }
 }
